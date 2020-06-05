@@ -34,6 +34,7 @@ import { EditorStyle } from './editor-components/editor-style';
 import { ChangeTranslator } from './util/change-translator';
 import { StyleChanger } from './util/style-changer';
 import { GraphicalEditorService } from '../services/graphical-editor.service';
+import { Process } from 'src/app/model/Process';
 
 declare var require: any;
 
@@ -61,7 +62,7 @@ export class GraphicalEditor {
 
     private isInGraphTransition = false;
 
-    private _model: IContainer;
+    private _model: CEGModel | Process;
     private _contents: IContainer[];
 
     private graphMouseMove: (evt: any) => void;
@@ -104,6 +105,53 @@ export class GraphicalEditor {
             await this.init();
             validationService.validateCurrent();
         });
+
+
+    }
+    private async loadImage() {
+        /*         let xmlDoc = mx.mxUtils.createXmlDocument();
+                let root = xmlDoc.createElement('output');
+                xmlDoc.appendChild(root);
+
+                let xmlCanvas = new mx.mxXmlCanvas2D(root);
+                let imgExport = new mx.mxImageExport();
+                imgExport.drawState(this.graph.getView().getState(this.graph.model.root), xmlCanvas);
+
+                let bounds = this.graph.getGraphBounds();
+                let w = Math.ceil(bounds.x + bounds.width);
+                let h = Math.ceil(bounds.y + bounds.height);
+
+                let xml = mx.mxUtils.getXml(root);
+                console.log(xml); */
+
+
+
+
+
+        let script = await this.dataService.performQuery(this.model.url, 'image', { 'width': '200' });
+
+        let domElement = document.getElementById('image');
+        let img = document.createElement('img');
+        img.src = script.image;
+        domElement.appendChild(img);
+        /* let width = 250;
+
+        domElement.innerHTML = atob(script.image);
+        let maxWidthSVG = (domElement.children[0] as HTMLDivElement).style['min-width'];
+        maxWidthSVG = maxWidthSVG.substring(0, maxWidthSVG.length - 2);
+        let factor = 0.0 + width / maxWidthSVG;
+        (domElement.children[0] as HTMLDivElement).style['transform'] = 'scale(' + factor + ')';
+        (domElement.children[0] as HTMLDivElement).style['width'] = width + 'px'; */
+        /*         let newdiv = document.createElement('div');
+                newdiv.setAttribute('id', '255');
+                document.getElementById('image').appendChild(newdiv);
+                let newScript = document.createElement('script');
+                let text = script.image;
+                let inlineScript = document.createTextNode(text);
+                newScript.appendChild(inlineScript);
+                document.getElementById('image').appendChild(newScript);*/
+        console.log('ddcsdc');
+
     }
 
     /*********************** MX Graph ***********************/
@@ -146,11 +194,13 @@ export class GraphicalEditor {
         this.isInGraphTransition = false;
         this.updateValidities();
         this.undoManager.clear();
+        this.loadImage();
     }
 
     private async createGraph(): Promise<void> {
         mx.mxConnectionHandler.prototype.connectImage = new mx.mxImage('/assets/img/editor-tools/connector.png', 16, 16);
         mx.mxGraph.prototype.warningImage = new mx.mxImage('/assets/img/editor-tools/error_red.png', 19, 19);
+        mx.mxGraph.prototype.foldingEnabled = false;
         mx.mxGraphHandler.prototype['guidesEnabled'] = true;
         mx.mxGraph.prototype.centerZoom = false;
         mx.mxGraph.prototype.allowNegativeCoordinates = false;
@@ -519,7 +569,7 @@ export class GraphicalEditor {
     }
 
     /*********************** Editor Options ***********************/
-    public get model(): IContainer {
+    public get model(): CEGModel | Process {
         return this._model;
     }
 
@@ -552,7 +602,7 @@ export class GraphicalEditor {
         return EditorStyle.CAUSE_STYLE_NAME;
     }
 
-    private resetProviders(model: IContainer): void {
+    private resetProviders(model: CEGModel | Process): void {
         this.shapeProvider = new ShapeProvider(model);
         this.nameProvider = new NameProvider(model, this.translate);
         this.editorToolsService.init(model);
@@ -560,9 +610,10 @@ export class GraphicalEditor {
     }
 
     @Input()
-    public set model(model: IContainer) {
+    public set model(model: CEGModel | Process) {
         this.resetProviders(model);
         this._model = model;
+
         this.dataService.readContents(model.url, true).then((contents) => {
             this._contents = contents;
             this.elementProvider = new ElementProvider(this.model, this._contents);

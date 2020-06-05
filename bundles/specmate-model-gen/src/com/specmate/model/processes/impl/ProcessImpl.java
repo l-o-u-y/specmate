@@ -5,6 +5,7 @@ package com.specmate.model.processes.impl;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IDescribed;
+import com.specmate.model.base.IModel;
 import com.specmate.model.base.INamed;
 
 import com.specmate.model.base.IRecycled;
@@ -37,6 +38,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.processes.impl.ProcessImpl#isRecycled <em>Recycled</em>}</li>
  *   <li>{@link com.specmate.model.processes.impl.ProcessImpl#isHasRecycledChildren <em>Has Recycled Children</em>}</li>
  *   <li>{@link com.specmate.model.processes.impl.ProcessImpl#getContents <em>Contents</em>}</li>
+ *   <li>{@link com.specmate.model.processes.impl.ProcessImpl#getImage <em>Image</em>}</li>
  * </ul>
  *
  * @generated
@@ -91,6 +93,16 @@ public class ProcessImpl extends CDOObjectImpl implements com.specmate.model.pro
 	 * @ordered
 	 */
 	protected static final boolean HAS_RECYCLED_CHILDREN_EDEFAULT = false;
+
+	/**
+	 * The default value of the '{@link #getImage() <em>Image</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getImage()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String IMAGE_EDEFAULT = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -238,6 +250,26 @@ public class ProcessImpl extends CDOObjectImpl implements com.specmate.model.pro
 	 * @generated
 	 */
 	@Override
+	public String getImage() {
+		return (String)eDynamicGet(ProcessesPackage.PROCESS__IMAGE, BasePackage.Literals.IMODEL__IMAGE, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setImage(String newImage) {
+		eDynamicSet(ProcessesPackage.PROCESS__IMAGE, BasePackage.Literals.IMODEL__IMAGE, newImage);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case ProcessesPackage.PROCESS__CONTENTS:
@@ -266,6 +298,8 @@ public class ProcessImpl extends CDOObjectImpl implements com.specmate.model.pro
 				return isHasRecycledChildren();
 			case ProcessesPackage.PROCESS__CONTENTS:
 				return getContents();
+			case ProcessesPackage.PROCESS__IMAGE:
+				return getImage();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -298,6 +332,9 @@ public class ProcessImpl extends CDOObjectImpl implements com.specmate.model.pro
 				getContents().clear();
 				getContents().addAll((Collection<? extends IContentElement>)newValue);
 				return;
+			case ProcessesPackage.PROCESS__IMAGE:
+				setImage((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -328,6 +365,9 @@ public class ProcessImpl extends CDOObjectImpl implements com.specmate.model.pro
 			case ProcessesPackage.PROCESS__CONTENTS:
 				getContents().clear();
 				return;
+			case ProcessesPackage.PROCESS__IMAGE:
+				setImage(IMAGE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -352,6 +392,8 @@ public class ProcessImpl extends CDOObjectImpl implements com.specmate.model.pro
 				return isHasRecycledChildren() != HAS_RECYCLED_CHILDREN_EDEFAULT;
 			case ProcessesPackage.PROCESS__CONTENTS:
 				return !getContents().isEmpty();
+			case ProcessesPackage.PROCESS__IMAGE:
+				return IMAGE_EDEFAULT == null ? getImage() != null : !IMAGE_EDEFAULT.equals(getImage());
 		}
 		return super.eIsSet(featureID);
 	}
@@ -382,6 +424,12 @@ public class ProcessImpl extends CDOObjectImpl implements com.specmate.model.pro
 				default: return -1;
 			}
 		}
+		if (baseClass == IModel.class) {
+			switch (derivedFeatureID) {
+				case ProcessesPackage.PROCESS__IMAGE: return BasePackage.IMODEL__IMAGE;
+				default: return -1;
+			}
+		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
@@ -408,6 +456,12 @@ public class ProcessImpl extends CDOObjectImpl implements com.specmate.model.pro
 			switch (baseFeatureID) {
 				case BasePackage.IRECYCLED__RECYCLED: return ProcessesPackage.PROCESS__RECYCLED;
 				case BasePackage.IRECYCLED__HAS_RECYCLED_CHILDREN: return ProcessesPackage.PROCESS__HAS_RECYCLED_CHILDREN;
+				default: return -1;
+			}
+		}
+		if (baseClass == IModel.class) {
+			switch (baseFeatureID) {
+				case BasePackage.IMODEL__IMAGE: return ProcessesPackage.PROCESS__IMAGE;
 				default: return -1;
 			}
 		}

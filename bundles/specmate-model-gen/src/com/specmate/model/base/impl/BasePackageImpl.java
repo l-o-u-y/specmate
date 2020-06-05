@@ -13,6 +13,7 @@ import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.IExternal;
+import com.specmate.model.base.IModel;
 import com.specmate.model.base.IModelConnection;
 import com.specmate.model.base.IModelNode;
 import com.specmate.model.base.INamed;
@@ -157,6 +158,13 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * @generated
 	 */
 	private EClass iRecycledEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass iModelEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -615,6 +623,26 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * @generated
 	 */
 	@Override
+	public EClass getIModel() {
+		return iModelEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getIModel_Image() {
+		return (EAttribute)iModelEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public BaseFactory getBaseFactory() {
 		return (BaseFactory)getEFactoryInstance();
 	}
@@ -687,6 +715,9 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		iRecycledEClass = createEClass(IRECYCLED);
 		createEAttribute(iRecycledEClass, IRECYCLED__RECYCLED);
 		createEAttribute(iRecycledEClass, IRECYCLED__HAS_RECYCLED_CHILDREN);
+
+		iModelEClass = createEClass(IMODEL);
+		createEAttribute(iModelEClass, IMODEL__IMAGE);
 	}
 
 	/**
@@ -779,6 +810,9 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		initEClass(iRecycledEClass, IRecycled.class, "IRecycled", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getIRecycled_Recycled(), ecorePackage.getEBoolean(), "recycled", null, 0, 1, IRecycled.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIRecycled_HasRecycledChildren(), ecorePackage.getEBoolean(), "hasRecycledChildren", null, 0, 1, IRecycled.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(iModelEClass, IModel.class, "IModel", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getIModel_Image(), ecorePackage.getEString(), "image", null, 0, 1, IModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

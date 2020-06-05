@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ValidationErrorSeverity } from '../../../../../validation/validation-error-severity';
 import { ServerConnectionService } from '../../../../common/modules/connection/services/server-connection-service';
 import { UISafe } from '../../../../common/modules/ui/ui-safe-decorator';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
@@ -11,6 +10,8 @@ import { ConfirmationModal } from 'src/app/modules/notification/modules/modals/s
 import { CEGModel } from 'src/app/model/CEGModel';
 import { Process } from 'src/app/model/Process';
 import { Type } from 'src/app/util/type';
+import { Id } from 'src/app/util/id';
+import * as saveAsPng from 'save-svg-as-png';
 
 @Component({
     moduleId: module.id.toString(),
@@ -38,12 +39,41 @@ export class CommonControls {
         if (this.isSaveEnabled) {
             await this.validator.validateCurrent();
             if (this.isSaveEnabled && this.validator.isSavingEnabled()) {
+                if (this.isModel()) {
+                    await this.addModelPicture();
+                }
                 this.dataService.commit(this.translate.instant('save'));
             } else {
                 let message = this.translate.instant('saveError.message') + '\n' + this.validator.getValidationResultAsString(true);
                 this.modal.openOk(this.translate.instant('saveError.title'), message);
             }
         }
+    }
+
+    public async addModelPicture(): Promise<void> {
+        let svg: SVGSVGElement = document.getElementById('mxGraphContainer').getElementsByTagName('svg')[0];
+        let width = svg.style.minWidth;
+        let height = svg.style.minHeight;
+        svg.style.width = '0px';
+        svg.style.height = '0px';
+        /*    svg.style['transform-origin'] = 'left top';
+           let s = new XMLSerializer();
+           let svgAsStr = s.serializeToString(svg);
+           svgAsStr = svgAsStr.replace(new RegExp('cursor:.*?(;)', 'g'), '');
+           svgAsStr = svgAsStr.replace(new RegExp('<select>', 'g'), '<select disabled>');
+           let svgAsBase64 = btoa(svgAsStr); */
+
+        let maxWidth = width.substring(0, width.length - 2);
+        let factor = 0.0 + 200 / parseInt(maxWidth) / 1.25;
+        // console.log(width);
+        console.log(factor);
+        let uri: string = await saveAsPng.svgAsPngUri(svg, { 'scale': factor, 'height': maxWidth });
+        if (uri.length > 32000) {
+            uri = uri.substring(0, 31999);
+        }
+        (this.navigator.currentElement as CEGModel | Process).image = uri;
+        this.dataService.updateElement(this.navigator.currentElement, true, Id.uuid);
+        console.log(uri);
     }
 
     public close(): void {

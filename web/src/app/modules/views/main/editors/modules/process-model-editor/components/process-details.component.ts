@@ -34,7 +34,7 @@ export class ProcessDetails extends SpecmateViewBase {
     }
 
     protected onElementResolved(element: IContainer): void {
-        this.model = element;
+        this.model = element as Process;
         this.dataService.readContents(this.model.url).then((contents: IContainer[]) => this.contents = contents);
     }
 
