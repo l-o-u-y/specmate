@@ -10,6 +10,7 @@ import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.base.Folder;
 import com.specmate.model.processes.Process;
 import com.specmate.model.requirements.CEGModel;
+import com.specmate.model.requirements.RGModel;
 import com.specmate.model.testspecification.TestSpecification;
 import com.specmate.rest.RestResult;
 
@@ -22,7 +23,7 @@ public class CopyService extends RestServiceBase {
 
 	@Override
 	public boolean canPost(Object target, Object object) {
-		return target instanceof CEGModel || target instanceof Process || target instanceof TestSpecification;
+		return target instanceof CEGModel || target instanceof RGModel || target instanceof Process || target instanceof TestSpecification;
 	}
 
 	@Override

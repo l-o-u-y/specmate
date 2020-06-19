@@ -40,7 +40,7 @@ public abstract class CEGFromRequirementGenerator implements ICEGFromRequirement
 
 	private LogService logService;
 	protected INLPService tagger;
-	private ICauseEffectPatternMatcher patternMatcher;
+	private IPatternMatcher patternMatcher;
 	private IAndOrSplitter andOrSplitter;
 	private CEGCreation cegCreation;
 	private int levelOneX = 100;
@@ -61,7 +61,7 @@ public abstract class CEGFromRequirementGenerator implements ICEGFromRequirement
 
 	protected abstract IAndOrSplitter getAndOrSplitter();
 
-	protected abstract ICauseEffectPatternMatcher getPatternMatcher();
+	protected abstract IPatternMatcher getPatternMatcher();
 
 	protected abstract ELanguage getLanguage();
 

@@ -8,6 +8,7 @@ import org.junit.runners.MethodSorters;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.NodeType;
+import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RequirementsFactory;
 
 /**

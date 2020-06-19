@@ -212,6 +212,32 @@ export class MetaInfo {
 			rows: '5',
 			position: '110'		
 		}	];
+	public static RGModel: FieldMetaItem[] = [
+			{
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: '',
+			required: true,
+			type: 'text',
+			position: '0',
+			allowedPattern: '^[^,;|]*$'		
+		},			{
+			name: "description",
+			shortDesc: 'Description',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '5',
+			position: '100'		
+		},			{
+			name: "modelRequirements",
+			shortDesc: 'Model Requirements',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '5',
+			position: '110'		
+		}	];
 	public static CEGNode: FieldMetaItem[] = [
 			{
 			name: "type",
@@ -233,6 +259,31 @@ export class MetaInfo {
 			name: "condition",
 			shortDesc: 'Condition',
 			longDesc: 'The condition the variable has to fulfil',
+			required: true,
+			type: 'text',
+			position: '2'		
+		}	];
+	public static RGNode: FieldMetaItem[] = [
+			{
+			name: "type",
+			shortDesc: 'Type',
+			longDesc: 'The type of a node',
+			required: true,
+			type: 'singleSelection',
+			values: '["AND", "OR"]',
+			position: '3'		
+		},			{
+			name: "component",
+			shortDesc: 'Component',
+			longDesc: 'The component of a node',
+			required: true,
+			type: 'text',
+			position: '1',
+			allowedPattern: '^[^,;|]*$'		
+		},			{
+			name: "modifier",
+			shortDesc: 'Modifiers',
+			longDesc: 'The modifiers to the variable',
 			required: true,
 			type: 'text',
 			position: '2'		
@@ -260,6 +311,38 @@ export class MetaInfo {
 			longDesc: 'Negation of this connection',
 			type: 'checkbox',
 			position: '1'		
+		}	];
+	public static RGConnection: FieldMetaItem[] = [
+			{
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: '',
+			required: true,
+			type: 'text',
+			position: '0',
+			allowedPattern: '^[^,;|]*$'		
+		},			{
+			name: "description",
+			shortDesc: 'Description',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '5',
+			position: '100'		
+		},			{
+			name: "negate",
+			shortDesc: 'Negate',
+			longDesc: 'Negation of this connection',
+			type: 'checkbox',
+			position: '1'		
+		},			{
+			name: "type",
+			shortDesc: 'Type',
+			longDesc: 'The type of a connection',
+			required: true,
+			type: 'singleSelection',
+			values: '["Inheritance", "Composition"]',
+			position: '3'		
 		}	];
 	public static TestSpecification: FieldMetaItem[] = [
 			{

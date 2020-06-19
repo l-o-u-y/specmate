@@ -1,7 +1,18 @@
 import EN.DEP.STANFORD.*
 import EN.POS.PTB.*
 
-def subtrees Limit, Conditional
+def subtrees Limit, Conditional, Source, Action, Target, Parent, Child, TMP
+
+def rule Inheritance_1 {
+	'be':[TMP] - nsubj -> [Parent]
+	[TMP] - dobj -> [Child]
+}
+
+def rule Composition_1 {
+	'have':[TMP] - nsubj -> [Parent]
+	[TMP] - dobj -> [Child]
+}
+
 
 def rule LimitedCondition_1 {
 	[Limit] - nsubjpass -> [Conditional] - prep -> IN:'until'
@@ -12,7 +23,7 @@ def rule LimitedCondition_2 {
 }
 
 
-def subtrees Cause, Effect, TMP, Effect_SubA, Cause_SubA
+def subtrees Cause, Effect, Effect_SubA, Cause_SubA
 
 //  If the tool detects an error then the tool beeps.
 def rule Condition1_1 {

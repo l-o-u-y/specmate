@@ -59,8 +59,11 @@ public class RequirementsFactoryImpl extends EFactoryImpl implements Requirement
 		switch (eClass.getClassifierID()) {
 			case RequirementsPackage.REQUIREMENT: return (EObject)createRequirement();
 			case RequirementsPackage.CEG_MODEL: return (EObject)createCEGModel();
+			case RequirementsPackage.RG_MODEL: return (EObject)createRGModel();
 			case RequirementsPackage.CEG_NODE: return (EObject)createCEGNode();
+			case RequirementsPackage.RG_NODE: return (EObject)createRGNode();
 			case RequirementsPackage.CEG_CONNECTION: return (EObject)createCEGConnection();
+			case RequirementsPackage.RG_CONNECTION: return (EObject)createRGConnection();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -76,6 +79,8 @@ public class RequirementsFactoryImpl extends EFactoryImpl implements Requirement
 		switch (eDataType.getClassifierID()) {
 			case RequirementsPackage.NODE_TYPE:
 				return createNodeTypeFromString(eDataType, initialValue);
+			case RequirementsPackage.RG_CONNECTION_TYPE:
+				return createRGConnectionTypeFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -91,6 +96,8 @@ public class RequirementsFactoryImpl extends EFactoryImpl implements Requirement
 		switch (eDataType.getClassifierID()) {
 			case RequirementsPackage.NODE_TYPE:
 				return convertNodeTypeToString(eDataType, instanceValue);
+			case RequirementsPackage.RG_CONNECTION_TYPE:
+				return convertRGConnectionTypeToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -140,6 +147,40 @@ public class RequirementsFactoryImpl extends EFactoryImpl implements Requirement
 		return cegConnection;
 	}
 
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public RGModel createRGModel() {
+		RGModelImpl rgModel = new RGModelImpl();
+		return rgModel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public RGNode createRGNode() {
+		RGNodeImpl rgNode = new RGNodeImpl();
+		return rgNode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public RGConnection createRGConnection() {
+		RGConnectionImpl rgConnection = new RGConnectionImpl();
+		return rgConnection;
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -157,6 +198,26 @@ public class RequirementsFactoryImpl extends EFactoryImpl implements Requirement
 	 * @generated
 	 */
 	public String convertNodeTypeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RGConnectionType createRGConnectionTypeFromString(EDataType eDataType, String initialValue) {
+		RGConnectionType result = RGConnectionType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertRGConnectionTypeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

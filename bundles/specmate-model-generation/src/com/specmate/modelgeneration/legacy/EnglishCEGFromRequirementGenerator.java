@@ -12,7 +12,7 @@ public class EnglishCEGFromRequirementGenerator extends CEGFromRequirementGenera
 	}
 
 	@Override
-	protected ICauseEffectPatternMatcher getPatternMatcher() {
+	protected IPatternMatcher getPatternMatcher() {
 		return new EnglishPatternMatcher();
 	}
 

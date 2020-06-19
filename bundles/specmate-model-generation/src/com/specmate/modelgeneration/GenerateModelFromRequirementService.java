@@ -16,7 +16,9 @@ import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.metrics.ICounter;
 import com.specmate.metrics.IMetricsService;
+import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.requirements.CEGModel;
+import com.specmate.model.requirements.RGModel;
 import com.specmate.modelgeneration.legacy.EnglishCEGFromRequirementGenerator;
 import com.specmate.modelgeneration.legacy.GermanCEGFromRequirementGenerator;
 import com.specmate.nlp.api.ELanguage;
@@ -52,14 +54,21 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 
 	@Override
 	public boolean canPost(Object object2, Object object) {
-		return object2 instanceof CEGModel;
+		return object2 instanceof CEGModel || object2 instanceof RGModel;
 	}
 
 	@Override
 	public RestResult<?> post(Object parent, Object child, String token) {
-		CEGModel model = (CEGModel) parent;
-		model.getContents().clear(); // Delete Contents
+		// TODO make CEG and RG Model inherit from Model then polymorph
+		ISpecmateModelObject model;
+		if (parent instanceof CEGModel) {
+			model = (CEGModel) parent;
+		}
+		else { // if (parent instanceof RGModel) {
+			model = (RGModel) parent;
+		}
 
+		model.getContents().clear(); // Delete Contents
 		try {
 			this.logService.log(LogService.LOG_INFO, "Model Generation STARTED");
 			model = generateModelFromDescription(model);
@@ -70,6 +79,23 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 					"Model Generation failed with following error:\n" + e.getMessage());
 			return new RestResult<>(Response.Status.INTERNAL_SERVER_ERROR);
 		}
+
+		if (parent instanceof RGModel) {
+			model = (RGModel) parent;
+			model.getContents().clear(); // Delete Contents
+			try {
+				this.logService.log(LogService.LOG_INFO, "Model Generation STARTED");
+				model = generateModelFromDescription(model);
+				this.logService.log(LogService.LOG_INFO, "Model Generation FINISHED");
+				this.modelGenCounter.inc();
+			} catch (SpecmateException e) {
+				this.logService.log(LogService.LOG_ERROR,
+						"Model Generation failed with following error:\n" + e.getMessage());
+				return new RestResult<>(Response.Status.INTERNAL_SERVER_ERROR);
+			}
+		}
+		
+
 		return new RestResult<>(Response.Status.OK);
 	}
 
@@ -81,34 +107,61 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 	 * @throws XTextException
 	 * @throws URISyntaxException
 	 */
-	private CEGModel generateModelFromDescription(CEGModel model) throws SpecmateException {
-		String text = model.getModelRequirements();
+	private ISpecmateModelObject generateModelFromDescription(ISpecmateModelObject model) throws SpecmateException {
+		String text;
+
+		if (model instanceof CEGModel) {
+			text = ((CEGModel) model).getModelRequirements();
+		}
+		else { // if (parent instanceof RGModel) {
+			text = ((RGModel) model).getModelRequirements();
+		}
+		
 		if (text == null || StringUtils.isEmpty(text)) {
 			return model;
 		}
 		text = new PersonalPronounsReplacer(tagger).replacePronouns(text);
 		ELanguage lang = NLPUtil.detectLanguage(text);
-		ICEGFromRequirementGenerator generator;
-		if (lang == ELanguage.PSEUDO) {
-			generator = new GenerateModelFromPseudoCode();
-		} else {
-			generator = new PatternbasedCEGGenerator(lang, tagger, this.configService);
-		}
-
-		try {
-			generator.createModel(model, text);
-		} catch (SpecmateException e) {
-			// Generation Backof
-			this.logService.log(LogService.LOG_INFO,
-					"NLP model generation failed with the following error: \"" + e.getMessage() + "\"");
-			this.logService.log(LogService.LOG_INFO, "Backing off to rule based generation...");
-			if (lang == ELanguage.DE) {
-				generator = new GermanCEGFromRequirementGenerator(logService, tagger);
+		if (model instanceof CEGModel) {
+			ICEGFromRequirementGenerator generator;
+			
+			if (lang == ELanguage.PSEUDO) {
+				generator = new GenerateCEGModelFromPseudoCode();
 			} else {
-				generator = new EnglishCEGFromRequirementGenerator(logService, tagger);
+				generator = new PatternbasedCEGGenerator(lang, tagger, this.configService);
 			}
-			generator.createModel(model, text);
+
+			try {
+				generator.createModel((CEGModel)model, text);
+			} catch (SpecmateException e) {
+				// Generation Backof
+				this.logService.log(LogService.LOG_INFO,
+						"NLP model generation failed with the following error: \"" + e.getMessage() + "\"");
+				this.logService.log(LogService.LOG_INFO, "Backing off to rule based generation...");
+				if (lang == ELanguage.DE) {
+					generator = new GermanCEGFromRequirementGenerator(logService, tagger);
+				} else {
+					generator = new EnglishCEGFromRequirementGenerator(logService, tagger);
+				}
+				generator.createModel((CEGModel)model, text);
+			}
 		}
+		else { // if (parent instanceof RGModel) {
+			IRGFromRequirementGenerator generator;
+			if (lang == ELanguage.PSEUDO) {
+				generator = new GenerateRGModelFromPseudoCode();
+			} else {
+				generator = new PatternbasedRGGenerator(lang, tagger, this.configService);
+			}
+
+			try {
+				generator.createModel((RGModel)model, text);
+			} catch (SpecmateException e) {
+				this.logService.log(LogService.LOG_INFO,
+						"NLP model generation failed with the following error: \"" + e.getMessage() + "\"");
+			}
+		}
+		
 		return model;
 	}
 

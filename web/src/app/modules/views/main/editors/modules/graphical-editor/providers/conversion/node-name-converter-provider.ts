@@ -8,6 +8,8 @@ export class NodeNameConverterProvider extends ProviderBase {
     public get nodeNameConverter(): ConverterBase<any, string|CEGmxModelNode> {
         if (this.isCEGModel) {
             return new VariableConditionToNameConverter();
+        } if (this.isRGModel) {
+            return new ProcessNodeToNameConverter();
         } else if (this.isProcessModel) {
             return new ProcessNodeToNameConverter();
         }

@@ -1,15 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { mxgraph } from 'mxgraph'; // Typings only - no code!
-import { CEGModel } from 'src/app/model/CEGModel';
-import { CEGNode } from 'src/app/model/CEGNode';
-import { ProcessConnection } from 'src/app/model/ProcessConnection';
-import { ProcessDecision } from 'src/app/model/ProcessDecision';
-import { ProcessEnd } from 'src/app/model/ProcessEnd';
-import { ProcessStart } from 'src/app/model/ProcessStart';
-import { ProcessStep } from 'src/app/model/ProcessStep';
-import { UndoService } from 'src/app/modules/actions/modules/common-controls/services/undo.service';
-import { NavigatorService } from 'src/app/modules/navigation/modules/navigator/services/navigator.service';
 import { IContainer } from '../../../../../../../model/IContainer';
 import { IModelConnection } from '../../../../../../../model/IModelConnection';
 import { IModelNode } from '../../../../../../../model/IModelNode';
@@ -34,6 +25,15 @@ import { EditorStyle } from './editor-components/editor-style';
 import { ChangeTranslator } from './util/change-translator';
 import { StyleChanger } from './util/style-changer';
 import { GraphicalEditorService } from '../services/graphical-editor.service';
+import {NavigatorService} from '../../../../../../navigation/modules/navigator/services/navigator.service';
+import {UndoService} from '../../../../../../actions/modules/common-controls/services/undo.service';
+import {CEGModel} from '../../../../../../../model/CEGModel';
+import {ProcessConnection} from '../../../../../../../model/ProcessConnection';
+import {CEGNode} from '../../../../../../../model/CEGNode';
+import {ProcessStart} from '../../../../../../../model/ProcessStart';
+import {ProcessStep} from '../../../../../../../model/ProcessStep';
+import {ProcessEnd} from '../../../../../../../model/ProcessEnd';
+import {ProcessDecision} from '../../../../../../../model/ProcessDecision';
 
 declare var require: any;
 

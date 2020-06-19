@@ -1,7 +1,6 @@
 import { CEGConnection } from 'src/app/model/CEGConnection';
 import { Type } from 'src/app/util/type';
 import { Config } from '../../../../../../../../config/config';
-import { CEGNode } from '../../../../../../../../model/CEGNode';
 import { ProcessDecision } from '../../../../../../../../model/ProcessDecision';
 import { ProcessEnd } from '../../../../../../../../model/ProcessEnd';
 import { ProcessStart } from '../../../../../../../../model/ProcessStart';
@@ -10,6 +9,7 @@ import { EditorStyle } from '../../components/editor-components/editor-style';
 import { NodeNameConverterProvider } from '../conversion/node-name-converter-provider';
 import { CEGmxModelNode } from './ceg-mx-model-node';
 import { ProviderBase } from './provider-base';
+import {RGNode} from '../../../../../../../../model/RGNode';
 
 export type ShapeData = {
     style: string,
@@ -25,6 +25,16 @@ export class ShapeProvider extends ProviderBase {
     constructor(type: { className: string }) {
         super(type);
 
+        this.shapeMap[RGNode.className] = {
+            style: EditorStyle.BASE_RG_NODE_STYLE,
+            size: {
+                width: Config.RG_NODE_WIDTH,
+                height: Config.RG_NODE_HEIGHT
+            },
+            text: new NodeNameConverterProvider(type).nodeNameConverter.convertTo({
+                name: Config.RG_NEW_NODE_NAME
+            })
+        };
         this.shapeMap[CEGNode.className] = {
             style: EditorStyle.BASE_CEG_NODE_STYLE,
             size: {

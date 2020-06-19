@@ -53,6 +53,9 @@ export class EditorStyle {
     public static readonly BASE_CEG_NODE_STYLE = 'BASE_CEG_NODE';
     private static readonly BASE_CEG_NODE_STYLE_STR = 'shape=rectangle;rounded=1;arcSize=10;align=center;perimeter=rectanglePerimeter;dashed=0';
     private static readonly BASE_CEG_NODE_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.BASE_CEG_NODE_STYLE_STR);
+    public static readonly BASE_RG_NODE_STYLE = 'BASE_RG_NODE';
+    private static readonly BASE_RG_NODE_STYLE_STR = 'shape=rectangle;rounded=1;arcSize=10;align=center;perimeter=rectanglePerimeter;dashed=0';
+    private static readonly BASE_RG_NODE_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.BASE_RG_NODE_STYLE_STR);
     public static readonly BASE_PROCESS_START_STYLE = 'BASE_PROCESS_START_STYLE';
     private static readonly BASE_PROCESS_START_STYLE_STR = 'shape=ellipse;whiteSpace=wrap;html=1;aspect=fixed;align=center;perimeter=ellipsePerimeter;editable=0;dashed=0;fontColor=#000000';
     private static readonly BASE_PROCESS_START_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.BASE_PROCESS_START_STYLE_STR);
@@ -69,6 +72,9 @@ export class EditorStyle {
     public static readonly ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE = 'ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE';
     private static readonly ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE_STR = 'dashed=1';
     private static readonly ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE_STR);
+    public static readonly ADDITIONAL_RG_CONNECTION_NEGATED_STYLE = 'ADDITIONAL_RG_CONNECTION_NEGATED_STYLE';
+    private static readonly ADDITIONAL_RG_CONNECTION_NEGATED_STYLE_STR = 'dashed=1';
+    private static readonly ADDITIONAL_RG_CONNECTION_NEGATED_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE_STR);
 
 
 
