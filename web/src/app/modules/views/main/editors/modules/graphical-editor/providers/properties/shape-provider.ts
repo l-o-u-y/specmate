@@ -11,11 +11,13 @@ import { CEGmxModelNode } from './ceg-mx-model-node';
 import { ProviderBase } from './provider-base';
 import {RGNode} from '../../../../../../../../model/RGNode';
 import {CEGNode} from '../../../../../../../../model/CEGNode';
+import {RGmxModelNode} from './rg-mx-model-node';
+import {RGConnection} from '../../../../../../../../model/RGConnection';
 
 export type ShapeData = {
     style: string,
     size: { width: number, height: number },
-    text: string | CEGmxModelNode
+    text: string | CEGmxModelNode | RGmxModelNode
 };
 
 export class ShapeProvider extends ProviderBase {
@@ -98,7 +100,13 @@ export class ShapeProvider extends ProviderBase {
             if (Type.is(element, CEGConnection) && (element as CEGConnection).negate === true) {
                 return {
                     size: undefined,
-                    style: EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE,
+                    style: EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE,
+                    text: undefined
+                };
+            } else if (Type.is(element, RGConnection) && (element as RGConnection).negate === true) {
+                return {
+                    size: undefined,
+                    style: EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE,
                     text: undefined
                 };
             }
@@ -117,7 +125,7 @@ export class ShapeProvider extends ProviderBase {
         return this.getShapeData(element).find(shapeData => shapeData.size !== undefined).size;
     }
 
-    public getInitialText(element: { className: string }): string | CEGmxModelNode {
+    public getInitialText(element: { className: string }): string | CEGmxModelNode | RGmxModelNode {
         return this.getShapeData(element).find(shapeData => shapeData.text !== undefined).text;
     }
 

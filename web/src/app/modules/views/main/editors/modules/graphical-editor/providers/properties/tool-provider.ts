@@ -3,6 +3,8 @@ import { SpecmateDataService } from '../../../../../../../data/modules/data-serv
 import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
 import { CEGLayoutTool } from '../../../tool-pallette/tools/ceg/ceg-layout-tool';
 import { CEGNodeTool } from '../../../tool-pallette/tools/ceg/ceg-node-tool';
+import { RGLayoutTool } from '../../../tool-pallette/tools/rg/rg-layout-tool';
+import { RGNodeTool } from '../../../tool-pallette/tools/rg/rg-node-tool';
 import { DecisionTool } from '../../../tool-pallette/tools/process/decision-tool';
 import { EndTool } from '../../../tool-pallette/tools/process/end-tool';
 import { ProcessConnectionTool } from '../../../tool-pallette/tools/process/process-connection-tool';
@@ -14,7 +16,9 @@ import { ProviderBase } from './provider-base';
 import { mxgraph } from 'mxgraph';
 import { CEGConnectionTool } from '../../../tool-pallette/tools/ceg/ceg-connection-tool';
 import { CEGDeleteTool } from '../../../tool-pallette/tools/ceg/ceg-delete-tool';
-import { ConfirmationModal } from 'src/app/modules/notification/modules/modals/services/confirmation-modal.service';
+import { RGConnectionTool } from '../../../tool-pallette/tools/rg/rg-connection-tool';
+import { RGDeleteTool } from '../../../tool-pallette/tools/rg/rg-delete-tool';
+import { ConfirmationModal } from '../../../../../../../../../app/modules/notification/modules/modals/services/confirmation-modal.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ProcessLayoutTool } from '../../../tool-pallette/tools/process/process-layout-tool';
 
@@ -41,6 +45,8 @@ export class ToolProvider extends ProviderBase {
         }
         if (this.isCEGModel) {
             this.createToolsForCEGModel();
+        } else if (this.isRGModel) {
+            this.createToolsForRGModel();
         } else if (this.isProcessModel) {
             this.createToolsForProcess();
         } else {
@@ -60,6 +66,15 @@ export class ToolProvider extends ProviderBase {
             new CEGLayoutTool(this.dataService, this.selectedElementService, this.model, this.modal, this.translate),
             new CEGConnectionTool(this.dataService, this.selectedElementService, this.model),
             new CEGDeleteTool(this.model, this.dataService, this.selectedElementService)
+        ];
+    }
+
+    private createToolsForRGModel(): void {
+        this._tools = [
+            new RGNodeTool(this.dataService, this.selectedElementService, this.model),
+            new RGLayoutTool(this.dataService, this.selectedElementService, this.model, this.modal, this.translate),
+            new RGConnectionTool(this.dataService, this.selectedElementService, this.model),
+            new RGDeleteTool(this.model, this.dataService, this.selectedElementService)
         ];
     }
 

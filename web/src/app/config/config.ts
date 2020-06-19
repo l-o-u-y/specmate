@@ -147,6 +147,8 @@ export class Config {
 
     public static readonly CEG_LAYOUT_CLEARANCE_X = 90;
     public static readonly CEG_LAYOUT_CLEARANCE_Y = 45;
+    public static readonly RG_LAYOUT_CLEARANCE_X = 90;
+    public static readonly RG_LAYOUT_CLEARANCE_Y = 45;
 
     public static readonly SUPPORTED_BROWSERS = [
       { browser: 'ie', minVersion: 12 },

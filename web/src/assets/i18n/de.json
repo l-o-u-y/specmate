@@ -244,6 +244,7 @@
 		"addDecision": "Entscheidung",
 		"addEnd": "Ende",
 		"addProcessConnection": "Verbindung",
+		"addRgNode": "Knoten",
 		"addStart": "Start",
 		"addStep": "Schritt",
 		"autoLayout": "Auto-Layout",

@@ -12,7 +12,7 @@ class Dimension {
     constructor(public width: number, public height: number) {}
 }
 
-export class CEGLayoutTool extends ToolBase {
+export class RGLayoutTool extends ToolBase {
     public isVertexTool: boolean = undefined;
     public color = 'primary';
     public icon = 'sitemap';
@@ -21,7 +21,7 @@ export class CEGLayoutTool extends ToolBase {
     public isHidden = false;
 
     constructor(dataService: SpecmateDataService, selectedElementService: SelectedElementService,
-            parent: IContainer, private modalService: ConfirmationModal, private translate: TranslateService) {
+                parent: IContainer, private modalService: ConfirmationModal, private translate: TranslateService) {
         super(dataService, selectedElementService, parent);
     }
 
@@ -183,13 +183,13 @@ export class CEGLayoutTool extends ToolBase {
                 let nodeClearanceX = 0.5 * (layerDimensions.width - node.getGeometry().width);
                 let nodeX = layerPositionX + nodeClearanceX;
                 let nodeY = layerPositionY + yOffset;
-                yOffset += node.getGeometry().height + Config.CEG_LAYOUT_CLEARANCE_Y + dynamicYOffset - (dynamicYOffset % gridSpace);
+                yOffset += node.getGeometry().height + Config.RG_LAYOUT_CLEARANCE_Y + dynamicYOffset - (dynamicYOffset % gridSpace);
                 let geometry = node.getGeometry().clone() as mxgraph.mxGeometry;
                 geometry.x = nodeX;
                 geometry.y = nodeY;
                 this.graph.getModel().setGeometry(node, geometry);
             }
-            layerPositionX += Config.CEG_LAYOUT_CLEARANCE_X + layerDimensions.width;
+            layerPositionX += Config.RG_LAYOUT_CLEARANCE_X + layerDimensions.width;
         }
     }
 }
