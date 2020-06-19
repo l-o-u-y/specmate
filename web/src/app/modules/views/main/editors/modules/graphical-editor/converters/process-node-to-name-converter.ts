@@ -1,7 +1,7 @@
 import { IContainer } from '../../../../../../../model/IContainer';
 import { ConverterBase } from './converter-base';
-import { Type } from 'src/app/util/type';
-import { ProcessConnection } from 'src/app/model/ProcessConnection';
+import { Type } from '../../../../../../../util/type';
+import { ProcessConnection } from '../../../../../../../model/ProcessConnection';
 
 
 type ProcessNodeOrConnection = { name: string } | { condition: string };

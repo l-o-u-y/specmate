@@ -1,5 +1,5 @@
-import { CEGConnection } from 'src/app/model/CEGConnection';
-import { Type } from 'src/app/util/type';
+import { CEGConnection } from '../../../../../../../../../app/model/CEGConnection';
+import { Type } from '../../../../../../../../../app/util/type';
 import { Config } from '../../../../../../../../config/config';
 import { ProcessDecision } from '../../../../../../../../model/ProcessDecision';
 import { ProcessEnd } from '../../../../../../../../model/ProcessEnd';
@@ -10,6 +10,7 @@ import { NodeNameConverterProvider } from '../conversion/node-name-converter-pro
 import { CEGmxModelNode } from './ceg-mx-model-node';
 import { ProviderBase } from './provider-base';
 import {RGNode} from '../../../../../../../../model/RGNode';
+import {CEGNode} from '../../../../../../../../model/CEGNode';
 
 export type ShapeData = {
     style: string,

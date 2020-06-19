@@ -8,7 +8,7 @@ import { ConfirmationModal } from '../../../../notification/modules/modals/servi
 import { ElementProvider } from '../../../../views/main/editors/modules/graphical-editor/providers/properties/element-provider';
 import { SelectedElementService } from '../../../../views/side/modules/selected-element/services/selected-element.service';
 import { ErrorNotificationModalService } from '../../../../notification/modules/modals/services/error-notification-modal.service';
-import { GraphicalEditorService } from 'src/app/modules/views/main/editors/modules/graphical-editor/services/graphical-editor.service';
+import { GraphicalEditorService } from '../../../../views/main/editors/modules/graphical-editor/services/graphical-editor.service';
 
 @Component({
     moduleId: module.id.toString(),
