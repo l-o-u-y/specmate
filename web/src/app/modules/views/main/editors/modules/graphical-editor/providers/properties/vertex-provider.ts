@@ -9,8 +9,8 @@ import { ConverterBase } from '../../converters/converter-base';
 import { CEGmxModelNode } from './ceg-mx-model-node';
 import { ProviderBase } from './provider-base';
 import { ShapeProvider } from './shape-provider';
-import {RGmxModelNode} from './rg-mx-model-node';
-import {RGNode} from '../../../../../../../../model/RGNode';
+import { RGmxModelNode } from './rg-mx-model-node';
+import { RGNode } from '../../../../../../../../model/RGNode';
 
 declare var require: any;
 

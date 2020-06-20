@@ -19,13 +19,20 @@
 	"-show-process-button": "",
 	"-textfield": "",
 	"Action": "Aktion",
-	"CEGGenerator": {
-		"confirm": "Ursache-Wirkungs-Modell erstellen",
-		"confirmationTitle": "Ursache-Wirkungs-Modell erstellen und vorhandenes Modell überschreiben?",
-		"couldNotGenerate": "Für die angegebene Anforderung konnte kein Modell erstellt werden.",
-		"couldNotGenerateTitle": "Ein Fehler ist aufgetreten",
-		"generate": "Modell generieren (experimentell)"
-	},
+    "CEGGenerator": {
+        "confirm": "Ursache-Wirkungs-Modell erstellen",
+        "confirmationTitle": "Ursache-Wirkungs-Modell erstellen und vorhandenes Modell überschreiben?",
+        "couldNotGenerate": "Für die angegebene Anforderung konnte kein Modell erstellt werden.",
+        "couldNotGenerateTitle": "Ein Fehler ist aufgetreten",
+        "generate": "Modell generieren (experimentell)"
+    },
+    "RGGenerator": {
+        "confirm": "Relationen-Modell erstellen",
+        "confirmationTitle": "Relationen-Modell erstellen und vorhandenes Modell überschreiben?",
+        "couldNotGenerate": "Für die angegebene Anforderung konnte kein Modell erstellt werden.",
+        "couldNotGenerateTitle": "Ein Fehler ist aufgetreten",
+        "generate": "Modell generieren (experimentell)"
+    },
 	"Cause-EffectModels": "Ursache-Wirkungs-Modelle",
 	"Changed": "Verändert",
 	"ChangedTo": "geändert nach",
@@ -239,8 +246,10 @@
 	},
 	"toggleLog": "Log ein/ausblenden",
 	"tools": {
-		"addCegConnection": "Verbindung",
-		"addCegNode": "Knoten",
+        "addCegConnection": "Verbindung",
+        "addCegNode": "Knoten",
+        "addRgConnection": "Verbindung",
+        "addRgNode": "Knoten",
 		"addDecision": "Entscheidung",
 		"addEnd": "Ende",
 		"addProcessConnection": "Verbindung",

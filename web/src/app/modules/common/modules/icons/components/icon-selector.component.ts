@@ -9,6 +9,7 @@ import { TestSpecification } from '../../../../../model/TestSpecification';
 import { Type } from '../../../../../util/type';
 import { Url } from '../../../../../util/url';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
+import {RGModel} from '../../../../../model/RGModel';
 
 @Component({
     selector: 'icon-selector',
@@ -31,6 +32,10 @@ export class IconSelector implements OnInit {
 
     get isCEGModel() {
         return Type.is(this.model, CEGModel);
+    }
+
+    get isRGModel() {
+        return Type.is(this.model, RGModel);
     }
 
     get isNonRegressionRequirement() {
@@ -66,7 +71,7 @@ export class IconSelector implements OnInit {
     }
 
     private isElementChildOfModel(): boolean {
-         return this.parent && (Type.is(this.parent, CEGModel) || Type.is(this.parent, Process));
+         return this.parent && (Type.is(this.parent, CEGModel) || Type.is(this.parent, RGModel) || Type.is(this.parent, Process));
     }
 
     constructor(private dataService: SpecmateDataService) { }

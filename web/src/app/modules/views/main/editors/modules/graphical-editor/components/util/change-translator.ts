@@ -1,9 +1,12 @@
 import { mxgraph } from 'mxgraph';
-import { CEGConnection } from 'src/app/model/CEGConnection';
-import { CEGNode } from 'src/app/model/CEGNode';
-import { ProcessConnection } from 'src/app/model/ProcessConnection';
-import { Type } from 'src/app/util/type';
+import { CEGConnection } from '../../../../../../../../../app/model/CEGConnection';
+import { CEGNode } from '../../../../../../../../../app/model/CEGNode';
+import { ProcessConnection } from '../../../../../../../../../app/model/ProcessConnection';
+import { Type } from '../../../../../../../../../app/util/type';
 import { CEGModel } from '../../../../../../../../model/CEGModel';
+import { RGConnection } from '../../../../../../../../../app/model/RGConnection';
+import { RGNode } from '../../../../../../../../../app/model/RGNode';
+import { RGModel } from '../../../../../../../../model/RGModel';
 import { IContainer } from '../../../../../../../../model/IContainer';
 import { IModelConnection } from '../../../../../../../../model/IModelConnection';
 import { IModelNode } from '../../../../../../../../model/IModelNode';
@@ -18,6 +21,7 @@ import { ToolBase } from '../../../tool-pallette/tools/tool-base';
 import { ConverterBase } from '../../converters/converter-base';
 import { NodeNameConverterProvider } from '../../providers/conversion/node-name-converter-provider';
 import { CEGmxModelNode } from '../../providers/properties/ceg-mx-model-node';
+import { RGmxModelNode } from '../../providers/properties/rg-mx-model-node';
 import { ShapeProvider } from '../../providers/properties/shape-provider';
 import { ToolProvider } from '../../providers/properties/tool-provider';
 import { VertexProvider } from '../../providers/properties/vertex-provider';
@@ -37,10 +41,10 @@ export class ChangeTranslator {
 
     private contents: IContainer[];
     private parentComponents: { [key: string]: IContainer };
-    private nodeNameConverter: ConverterBase<IContainer, string | CEGmxModelNode>;
+    private nodeNameConverter: ConverterBase<IContainer, string | CEGmxModelNode | RGmxModelNode>;
     public preventDataUpdates = false;
 
-    constructor(private model: CEGModel | Process,
+    constructor(private model: CEGModel | RGModel | Process,
         private dataService: SpecmateDataService,
         private toolProvider: ToolProvider,
         private shapeProvider: ShapeProvider) {
@@ -116,6 +120,22 @@ export class ChangeTranslator {
                 connection.negate = true;
                 changeMade = true;
             } else if (Arrays.contains(removedStyles, EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE)) {
+                connection.negate = false;
+                changeMade = true;
+            }
+
+            if (changeMade) {
+                await this.dataService.updateElement(connection, true, Id.uuid);
+            }
+        }
+
+        if (Type.is(element, RGConnection)) {
+            const connection = (element as RGConnection);
+            let changeMade = false;
+            if (Arrays.contains(newStyles, EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE)) {
+                connection.negate = true;
+                changeMade = true;
+            } else if (Arrays.contains(removedStyles, EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE)) {
                 connection.negate = false;
                 changeMade = true;
             }

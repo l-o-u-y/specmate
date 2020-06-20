@@ -9,10 +9,10 @@ import { EditorStyle } from '../../components/editor-components/editor-style';
 import { NodeNameConverterProvider } from '../conversion/node-name-converter-provider';
 import { CEGmxModelNode } from './ceg-mx-model-node';
 import { ProviderBase } from './provider-base';
-import {RGNode} from '../../../../../../../../model/RGNode';
-import {CEGNode} from '../../../../../../../../model/CEGNode';
-import {RGmxModelNode} from './rg-mx-model-node';
-import {RGConnection} from '../../../../../../../../model/RGConnection';
+import { RGNode } from '../../../../../../../../model/RGNode';
+import { CEGNode } from '../../../../../../../../model/CEGNode';
+import { RGmxModelNode } from './rg-mx-model-node';
+import { RGConnection } from '../../../../../../../../model/RGConnection';
 
 export type ShapeData = {
     style: string,
