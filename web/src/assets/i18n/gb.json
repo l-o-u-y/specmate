@@ -19,20 +19,13 @@
 	"-show-process-button": "",
 	"-textfield": "",
 	"Action": "Action",
-    "CEGGenerator": {
-        "confirm": "Generate Cause-Effect-Model",
-        "confirmationTitle": "Generate Cause-Effect-Model and overwrite existing model?",
-        "couldNotGenerate": "Could not generate a model for the provided requirement.",
-        "couldNotGenerateTitle": "An Error Occured",
-        "generate": "Generate Model (experimental)"
-    },
-    "RGGenerator": {
-        "confirm": "Generate Relationship-Model",
-        "confirmationTitle": "Generate Relationship-Model and overwrite existing model?",
-        "couldNotGenerate": "Could not generate a model for the provided requirement.",
-        "couldNotGenerateTitle": "An Error Occured",
-        "generate": "Generate Model (experimental)"
-    },
+	"CEGGenerator": {
+		"confirm": "Generate Cause-Effect-Model",
+		"confirmationTitle": "Generate Cause-Effect-Model and overwrite existing model?",
+		"couldNotGenerate": "Could not generate a model for the provided requirement.",
+		"couldNotGenerateTitle": "An Error Occured",
+		"generate": "Generate Model (experimental)"
+	},
 	"Cause-EffectModels": "Cause-Effect Models",
 	"Changed": "Changed",
 	"ChangedTo": "changed to",
@@ -65,6 +58,13 @@
 	"Platform": "Platform",
 	"ProcessModels": "Process Models",
 	"Properties": "Properties",
+	"RGGenerator": {
+		"confirm": "Generate Relationship-Model",
+		"confirmationTitle": "Generate Relationship-Model and overwrite existing model?",
+		"couldNotGenerate": "Could not generate a model for the provided requirement.",
+		"couldNotGenerateTitle": "An Error Occured",
+		"generate": "Generate Model (experimental)"
+	},
 	"Referenced": "Referenced",
 	"ReferencedParameters": "Referenced Parameters",
 	"RelatedRequirements": "Related Requirements",
@@ -246,13 +246,13 @@
 	},
 	"toggleLog": "Toggle log",
 	"tools": {
-        "addCegConnection": "Connection",
-        "addCegNode": "Node",
-        "addRgConnection": "Connection",
-        "addRgNode": "Node",
+		"addCegConnection": "Connection",
+		"addCegNode": "Node",
 		"addDecision": "Decision",
 		"addEnd": "End",
 		"addProcessConnection": "Connection",
+		"addRgConnection": "Connection",
+		"addRgNode": "Node",
 		"addStart": "Start",
 		"addStep": "Step",
 		"autoLayout": "Auto-Layout",
