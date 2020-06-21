@@ -27,6 +27,7 @@ import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.requirements.RGModel;
 import com.specmate.model.requirements.RGNode;
 import com.specmate.model.requirements.NodeType;
+import com.specmate.model.requirements.RGConnectionType;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RGModel;
@@ -156,17 +157,32 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			MatchResultWrapper res = new MatchResultWrapper(result);
 
 			if(res.isInheritance()) {
+				System.out.println(var);
 				generatedSomething = true;
 				i++;
-				nodes.add(this.creation.createNode(model, var+" "+(i), "", 100 * (i), 100 * (i), NodeType.OR));
+				RGNode from = this.creation.createNodeIfNotExist(nodes, model, var+" "+(i), "", 100 * (i), 100 * (i), NodeType.OR);
 				i++;
-				nodes.add(this.creation.createNode(model, var+" "+(i), "", 100 * (i), 100 * (i), NodeType.OR));
+				RGNode to = this.creation.createNodeIfNotExist(nodes, model, var+" "+(i), "", 100 * (i), 100 * (i), NodeType.OR);
+				this.creation.createConnection(model, from, to, RGConnectionType.INHERITANCE, false);
+			} else if(res.isComposition()) {
+				System.out.println(var);
+				generatedSomething = true;
+				i++;
+				RGNode parent = this.creation.createNodeIfNotExist(nodes, model, var+" "+(i), "", 100 * (i), 100 * (i), NodeType.OR);
+				i++;
+				RGNode child = this.creation.createNodeIfNotExist(nodes, model, var+" "+(i), "", 100 * (i), 100 * (i), NodeType.OR);
+				this.creation.createConnection(model, parent, child, RGConnectionType.COMPOSITION, false);
+			} else if(res.isAction()) {
+				System.out.println(var);
+				/*
+				generatedSomething = true;
+				i++;
+				RGNode parent = this.creation.createNodeIfNotExist(nodes, model, var+" "+(i), "", 100 * (i), 100 * (i), NodeType.OR);
+				i++;
+				RGNode child = this.creation.createNodeIfNotExist(nodes, model, var+" "+(i), "", 100 * (i), 100 * (i), NodeType.OR);
+				this.creation.createConnection(model, parent, child, RGConnectionType.COMPOSITION, false);
+				*/
 			}
-			if(res.isComposition()) {
-				// parent.add(res.getFirstArgument());
-				// child.add(res.getSecondArgument());
-			}
-			// isAction
 			i++;
 			
 			

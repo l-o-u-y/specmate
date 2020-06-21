@@ -444,11 +444,17 @@ export class GraphicalEditor {
                 }
             }
 
-            if (Type.is(this.model, CEGModel) || Type.is(this.model, RGModel)) {
+            if (Type.is(this.model, CEGModel)) {
                 for (const url in vertexCache) {
                     const vertex = vertexCache[url];
                     const type = this.getNodeType(vertex);
                     StyleChanger.addStyle(vertex, this.graph, type);
+                }
+            }
+            if (Type.is(this.model, RGModel)) {
+                for (const url in vertexCache) {
+                    const vertex = vertexCache[url];
+                    StyleChanger.addStyle(vertex, this.graph, EditorStyle.COMPONENT_STYLE_NAME);
                 }
             }
         } finally {
@@ -546,12 +552,19 @@ export class GraphicalEditor {
         }
         this.graph.getView().revalidate();
 
-        if (Type.is(this.model, CEGModel) || Type.is(this.model, RGModel)) {
+        if (Type.is(this.model, CEGModel)) {
             for (const vertex of vertices) {
                 StyleChanger.removeStyle(vertex, this.graph, EditorStyle.CAUSE_STYLE_NAME);
                 StyleChanger.removeStyle(vertex, this.graph, EditorStyle.EFFECT_STYLE_NAME);
                 StyleChanger.removeStyle(vertex, this.graph, EditorStyle.INNER_STYLE_NAME);
                 StyleChanger.addStyle(vertex, this.graph, this.getNodeType(vertex));
+            }
+        } else if (Type.is(this.model, RGModel)) {
+            for (const vertex of vertices) {
+                StyleChanger.removeStyle(vertex, this.graph, EditorStyle.CAUSE_STYLE_NAME);
+                StyleChanger.removeStyle(vertex, this.graph, EditorStyle.EFFECT_STYLE_NAME);
+                StyleChanger.removeStyle(vertex, this.graph, EditorStyle.INNER_STYLE_NAME);
+                StyleChanger.addStyle(vertex, this.graph, EditorStyle.COMPONENT_STYLE_NAME);
             }
         }
     }

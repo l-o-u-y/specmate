@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import com.specmate.model.base.IModelConnection;
 import com.specmate.model.requirements.RGConnection;
+import com.specmate.model.requirements.RGConnectionType;
 import com.specmate.model.requirements.RGModel;
 import com.specmate.model.requirements.RGNode;
 import com.specmate.model.requirements.NodeType;
@@ -57,7 +58,7 @@ public class RGCreation {
 	 * @param negate
 	 * @return
 	 */
-	public RGConnection createConnection(RGModel model, RGNode nodeFrom, RGNode nodeTo, boolean negate) {
+	public RGConnection createConnection(RGModel model, RGNode nodeFrom, RGNode nodeTo, RGConnectionType type, boolean negate) {
 		Optional<IModelConnection> optCon = nodeFrom.getOutgoingConnections().stream()
 				.filter(conn -> conn.getTarget() == nodeTo).findFirst();
 		if (optCon.isPresent()) {
@@ -69,6 +70,7 @@ public class RGCreation {
 		con.setTarget(nodeTo);
 		con.setNegate(negate);
 		con.setName("New Connection " + dateFormat.format(new Date()));
+		con.setType(type);
 		model.getContents().add(con);
 		return con;
 	}

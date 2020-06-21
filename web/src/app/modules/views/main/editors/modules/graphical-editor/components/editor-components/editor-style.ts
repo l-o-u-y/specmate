@@ -36,9 +36,11 @@ export class EditorStyle {
     public static readonly EDGE_HIGHLIGHT_STYLE: Style = {};
     public static readonly EDGE_DIM_STYLE: Style = {};
 
+    public static readonly COMPONENT_STYLE_NAME = 'COMPONENT';
     public static readonly CAUSE_STYLE_NAME = 'CAUSE';
     public static readonly INNER_STYLE_NAME = 'INNER';
     public static readonly EFFECT_STYLE_NAME = 'EFFECT';
+    public static readonly COMPONENT_STYLE: Style = {};
     public static readonly CAUSE_STYLE: Style = {};
     public static readonly INNER_STYLE: Style = {};
     public static readonly EFFECT_STYLE: Style = {};
@@ -88,6 +90,8 @@ export class EditorStyle {
         EditorStyle.INVALID_STYLE[mx.mxConstants.STYLE_STROKE_OPACITY] = '100';
         EditorStyle.INVALID_STYLE[mx.mxConstants.STYLE_STROKECOLOR] = '#ff0000';
 
+        EditorStyle.COMPONENT_STYLE[mx.mxConstants.STYLE_FILLCOLOR] = '#f0a029';
+
         EditorStyle.CAUSE_STYLE[mx.mxConstants.STYLE_FILLCOLOR] = '#c3d9ff';
         EditorStyle.EFFECT_STYLE[mx.mxConstants.STYLE_FILLCOLOR] = '#f0a029';
         EditorStyle.INNER_STYLE[mx.mxConstants.STYLE_FILLCOLOR] = '#d8d8d8';
@@ -108,15 +112,18 @@ export class EditorStyle {
         stylesheet.putCellStyle(EditorStyle.VARIABLE_NAME_STYLE, EditorStyle.VARIABLE_NAME_STYLE_OBJ);
 
         stylesheet.putCellStyle(EditorStyle.BASE_CEG_NODE_STYLE, EditorStyle.BASE_CEG_NODE_STYLE_OBJ);
+        stylesheet.putCellStyle(EditorStyle.BASE_RG_NODE_STYLE, EditorStyle.BASE_RG_NODE_STYLE_OBJ);
         stylesheet.putCellStyle(EditorStyle.BASE_PROCESS_START_STYLE, EditorStyle.BASE_PROCESS_START_STYLE_OBJ);
         stylesheet.putCellStyle(EditorStyle.BASE_PROCESS_END_STYLE, EditorStyle.BASE_PROCESS_END_STYLE_OBJ);
         stylesheet.putCellStyle(EditorStyle.BASE_PROCESS_STEP_STYLE, EditorStyle.BASE_PROCESS_STEP_STYLE_OBJ);
         stylesheet.putCellStyle(EditorStyle.BASE_PROCESS_DECISION_STYLE, EditorStyle.BASE_PROCESS_DECISION_STYLE_OBJ);
 
         stylesheet.putCellStyle(EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE, EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE_OBJ);
+        stylesheet.putCellStyle(EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE, EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE_OBJ);
 
         stylesheet.putCellStyle(EditorStyle.VALID_STYLE_NAME, EditorStyle.VALID_STYLE);
         stylesheet.putCellStyle(EditorStyle.INVALID_STYLE_NAME, EditorStyle.INVALID_STYLE);
+        stylesheet.putCellStyle(EditorStyle.COMPONENT_STYLE_NAME, EditorStyle.COMPONENT_STYLE);
         stylesheet.putCellStyle(EditorStyle.CAUSE_STYLE_NAME, EditorStyle.CAUSE_STYLE);
         stylesheet.putCellStyle(EditorStyle.EFFECT_STYLE_NAME, EditorStyle.EFFECT_STYLE);
         stylesheet.putCellStyle(EditorStyle.INNER_STYLE_NAME, EditorStyle.INNER_STYLE);
