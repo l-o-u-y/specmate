@@ -19,6 +19,7 @@ import com.specmate.cause_effect_patterns.parse.matcher.MatchRule;
 import com.specmate.cause_effect_patterns.parse.matcher.MatchUtil;
 import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultWrapper;
 import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultWrapper.RuleType;
+import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultWrapper.SubtreeNames;
 import com.specmate.cause_effect_patterns.resolve.GenerateMatcherUtil;
 import com.specmate.common.exception.SpecmateException;
 import com.specmate.common.exception.SpecmateInternalException;
@@ -147,7 +148,6 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 
 		// TODO make var = name
 		// TODO i dont understand this yet
-		String var  = innerVariableString();
 		int i = 0;
 		for(MatchResult result: results) {
 			if(!result.isSuccessfulMatch()) {
@@ -157,23 +157,25 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			MatchResultWrapper res = new MatchResultWrapper(result);
 
 			if(res.isInheritance()) {
-				System.out.println(var);
 				generatedSomething = true;
-				i++;
-				RGNode from = this.creation.createNodeIfNotExist(nodes, model, var+" "+(i), "", 100 * (i), 100 * (i), NodeType.OR);
-				i++;
-				RGNode to = this.creation.createNodeIfNotExist(nodes, model, var+" "+(i), "", 100 * (i), 100 * (i), NodeType.OR);
-				this.creation.createConnection(model, from, to, RGConnectionType.INHERITANCE, false);
+				
+				RGNode parent = this.creation.createNodeIfNotExist(nodes, model, 
+						res.result.getSubmatch(SubtreeNames.PARENT).getMatchTree().getRepresentationString(true)
+						, "", 100 * (i), 100 * (i), NodeType.AND);
+				RGNode child = this.creation.createNodeIfNotExist(nodes, model, 
+						res.result.getSubmatch(SubtreeNames.CHILD).getMatchTree().getRepresentationString(true)
+						, "", 100 * (i), 100 * (i), NodeType.AND);
+				this.creation.createConnection(model, parent, child, RGConnectionType.INHERITANCE, false);
 			} else if(res.isComposition()) {
-				System.out.println(var);
 				generatedSomething = true;
-				i++;
-				RGNode parent = this.creation.createNodeIfNotExist(nodes, model, var+" "+(i), "", 100 * (i), 100 * (i), NodeType.OR);
-				i++;
-				RGNode child = this.creation.createNodeIfNotExist(nodes, model, var+" "+(i), "", 100 * (i), 100 * (i), NodeType.OR);
+				RGNode parent = this.creation.createNodeIfNotExist(nodes, model, 
+						res.result.getSubmatch(SubtreeNames.PARENT).getMatchTree().getRepresentationString(true)
+						, "", 100 * (i), 100 * (i), NodeType.AND);
+				RGNode child = this.creation.createNodeIfNotExist(nodes, model, 
+						res.result.getSubmatch(SubtreeNames.CHILD).getMatchTree().getRepresentationString(true)
+						, "", 100 * (i), 100 * (i), NodeType.AND);
 				this.creation.createConnection(model, parent, child, RGConnectionType.COMPOSITION, false);
 			} else if(res.isAction()) {
-				System.out.println(var);
 				/*
 				generatedSomething = true;
 				i++;
@@ -194,13 +196,6 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		return model;
 	}
 
-	private String innerVariableString() {
-		if(this.lang == ELanguage.DE) {
-			return "Innerer Knoten";
-		}
-		return "Inner Node";
-	}
-	
 	private RGNode addNode(RGModel model, LinkedList<RGNode> nodes, String component, String modifier, int[] posTable, int offset, NodeType type) {
 		int posX = XSTART + offset * XOFFSET;
 		int posY = YSTART + posTable[offset] * YOFFSET;
