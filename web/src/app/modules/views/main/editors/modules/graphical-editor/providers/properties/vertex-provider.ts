@@ -25,8 +25,8 @@ export class VertexProvider extends ProviderBase {
 
     public static ID_SUFFIX_VARIABLE = '/variable';
     public static ID_SUFFIX_CONDITION = '/condition';
-    public static ID_SUFFIX_COMPONENT = '/variable';
-    public static ID_SUFFIX_MODIFIER = '/condition';
+    public static ID_SUFFIX_COMPONENT = '/component';
+    public static ID_SUFFIX_MODIFIER = '/modifier';
     public static ID_SUFFIX_TYPE = '/type';
 
     private static INITIAL_CHILD_NODE_X = 0.5;
