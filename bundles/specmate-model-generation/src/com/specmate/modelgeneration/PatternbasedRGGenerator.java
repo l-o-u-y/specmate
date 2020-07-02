@@ -140,13 +140,14 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 	}
 	
 	private String preprocessData(String text) throws SpecmateException {
-		SentenceUnfolderBase unfolder;
-		if(this.lang == ELanguage.DE) {
-			unfolder = new GermanSentenceUnfolder(this.tagger);
-		} else {
-			unfolder = new EnglishSentenceUnfolder(this.tagger);
-		}
-		return unfolder.unfold(text).stream().collect(Collectors.joining(" "));
+		return text;
+//		SentenceUnfolderBase unfolder;
+//		if(this.lang == ELanguage.DE) {
+//			unfolder = new GermanSentenceUnfolder(this.tagger);
+//		} else {
+//			unfolder = new EnglishSentenceUnfolder(this.tagger);
+//		}
+//		return unfolder.unfold(text).stream().collect(Collectors.joining(" "));
 	}
 	
 	public RGModel createModel(RGModel model, String text) throws SpecmateException {		

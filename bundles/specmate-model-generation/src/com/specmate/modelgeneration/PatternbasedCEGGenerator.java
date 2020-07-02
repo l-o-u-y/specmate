@@ -24,9 +24,6 @@ import com.specmate.modelgeneration.stages.MatcherPostProcesser;
 import com.specmate.modelgeneration.stages.RuleMatcher;
 import com.specmate.modelgeneration.stages.TextPreProcessor;
 import com.specmate.modelgeneration.stages.graph.Graph;
-import com.specmate.model.requirements.CEGNode;
-import com.specmate.model.requirements.NodeType;
-import com.specmate.model.requirements.NodeType;
 import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
 
