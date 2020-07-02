@@ -10,6 +10,7 @@ import { TruncateModule } from '../../../../../common/modules/truncate/truncate.
 import { NavigatorModule } from '../../../../../navigation/modules/navigator/navigator.module';
 import { SpecmateSharedModule } from '../../../../../specmate/specmate.shared.module';
 import { CEGModelContainer } from './components/ceg-model-container.component';
+import { RGModelContainer } from './components/rg-model-container.component';
 import { FolderContainer } from './components/folder-container.component';
 import { ProcessModelContainer } from './components/process-model-container.component';
 import { RelatedRequirementsContainer } from './components/related-requirements-container.component';
@@ -30,8 +31,10 @@ import { ContentsContainerService } from './services/content-container.service';
         TranslateModule,
         FormsModule
     ],
-    exports: [CEGModelContainer, ProcessModelContainer, TestSpecificationContainer, RelatedRequirementsContainer, FolderContainer],
-    declarations: [CEGModelContainer, ProcessModelContainer, TestSpecificationContainer, RelatedRequirementsContainer, FolderContainer],
+    // tslint:disable-next-line:max-line-length
+    exports: [CEGModelContainer, RGModelContainer, ProcessModelContainer, TestSpecificationContainer, RelatedRequirementsContainer, FolderContainer],
+    // tslint:disable-next-line:max-line-length
+    declarations: [CEGModelContainer, RGModelContainer, ProcessModelContainer, TestSpecificationContainer, RelatedRequirementsContainer, FolderContainer],
     providers: [ContentsContainerService],
 })
 export class ContentsContainerModule { }

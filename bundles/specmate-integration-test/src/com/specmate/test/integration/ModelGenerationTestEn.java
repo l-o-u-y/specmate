@@ -349,24 +349,6 @@ public class ModelGenerationTestEn extends ModelGenerationTestBase {
 //		checkResultingModel(generated, model);
 //	}
 
-<<<<<<< HEAD
-	@Test
-	public void testModelGenerationEN23_passiv_not() {
-		String text = "If an error is detected or the user has no login, a warning window is shown and a sound is emitted.";
-		RequirementsFactory f = RequirementsFactory.eINSTANCE;
-		CEGModel model = f.createCEGModel();
-		CEGNode node1 = createNode(model, "an error", "is detected", NodeType.AND);
-		CEGNode node2 = createNode(model, "the user", "has login", NodeType.AND);
-		CEGNode node3 = createNode(model, "a warning window", "is shown", NodeType.OR);
-		CEGNode node4 = createNode(model, "a sound", "is emitted", NodeType.OR);
-		createConnection(model, node1, node3, false);
-		createConnection(model, node1, node4, false);
-		createConnection(model, node2, node3, true);
-		createConnection(model, node2, node4, true);
-		JSONArray generated = generateCEGWithModelRequirementsText(text);
-		checkResultingModel(generated, model);
-	}
-=======
 // Problem: Cause effect not detected
 //	@Test
 //	public void testModelGenerationEN23_passiv_not() {
@@ -384,7 +366,6 @@ public class ModelGenerationTestEn extends ModelGenerationTestBase {
 //		JSONArray generated = generateCEGWithModelRequirementsText(text);
 //		checkResultingModel(generated, model);
 //	}
->>>>>>> 57ef2e5ae2c1191ec3c48124c825c0268d979cfd
 
 	@Test
 	public void testModelGenerationEN24_passiv_2() {
@@ -796,11 +777,7 @@ public class ModelGenerationTestEn extends ModelGenerationTestBase {
 		String text = "When there is snow on the tree and the wind is blowing and the sun is not shining and the temperature is very low, the branches break.";
 		RequirementsFactory f = RequirementsFactory.eINSTANCE;
 		CEGModel model = f.createCEGModel();
-<<<<<<< HEAD
-		CEGNode node1 = createNode(model, "there", "is snow on the tree", NodeType.AND);
-=======
 		CEGNode node1 = createNode(model, "there is snow on the tree", "*", NodeType.AND);
->>>>>>> 57ef2e5ae2c1191ec3c48124c825c0268d979cfd
 		CEGNode node2 = createNode(model, "the wind", "is blowing", NodeType.AND);
 		CEGNode node3 = createNode(model, "the sun", "is shining", NodeType.AND);
 		CEGNode node4 = createNode(model, "the temperature", "is very low ", NodeType.AND);

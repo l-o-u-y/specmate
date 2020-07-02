@@ -32,7 +32,7 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
  * @author Andreas Wehrle
  *
  */
-public class EnglishPatternMatcher implements ICauseEffectPatternMatcher {
+public class EnglishPatternMatcher implements IPatternMatcher {
 
 	/**
 	 * Method splits the sentences into the cause and the effect if it matches one

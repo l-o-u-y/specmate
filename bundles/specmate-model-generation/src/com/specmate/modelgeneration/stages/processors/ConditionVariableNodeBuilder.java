@@ -44,22 +44,15 @@ public class ConditionVariableNodeBuilder {
 						verb = ((LeafTreeNode) verbNode).getContent();
 						cond = verb + " " + object;
 					}
-<<<<<<< HEAD
-=======
 				} else if (condition.getType() != null && condition.getType().equals(RuleType.VERB_PREPOSITION)) {
 					BinaryMatchResultTreeNode binCondition = (BinaryMatchResultTreeNode) condition;
 					String prep = ((LeafTreeNode) binCondition.getSecondArgument()).getContent();
 					String vb = ((LeafTreeNode) binCondition.getFirstArgument()).getContent();
 					cond = vb + " " + prep;
->>>>>>> 57ef2e5ae2c1191ec3c48124c825c0268d979cfd
 				} else {
 					cond = ((LeafTreeNode) condition).getContent();
 				}
 				replacementNode = new ConditionVariableNode(cond, var);
-<<<<<<< HEAD
-=======
-
->>>>>>> 57ef2e5ae2c1191ec3c48124c825c0268d979cfd
 			} else if (node.getType().equals(RuleType.VERB_OBJECT)) {
 				String var = ((LeafTreeNode) node.getFirstArgument()).getContent();
 				String cond = ((LeafTreeNode) node.getSecondArgument()).getContent();

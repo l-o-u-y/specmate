@@ -1,9 +1,12 @@
 import { mxgraph } from 'mxgraph';
-import { CEGConnection } from 'src/app/model/CEGConnection';
-import { CEGNode } from 'src/app/model/CEGNode';
-import { ProcessConnection } from 'src/app/model/ProcessConnection';
-import { Type } from 'src/app/util/type';
+import { CEGConnection } from '../../../../../../../../../app/model/CEGConnection';
+import { CEGNode } from '../../../../../../../../../app/model/CEGNode';
+import { ProcessConnection } from '../../../../../../../../../app/model/ProcessConnection';
+import { Type } from '../../../../../../../../../app/util/type';
 import { CEGModel } from '../../../../../../../../model/CEGModel';
+import { RGConnection } from '../../../../../../../../../app/model/RGConnection';
+import { RGNode } from '../../../../../../../../../app/model/RGNode';
+import { RGModel } from '../../../../../../../../model/RGModel';
 import { IContainer } from '../../../../../../../../model/IContainer';
 import { IModelConnection } from '../../../../../../../../model/IModelConnection';
 import { IModelNode } from '../../../../../../../../model/IModelNode';
@@ -18,12 +21,14 @@ import { ToolBase } from '../../../tool-pallette/tools/tool-base';
 import { ConverterBase } from '../../converters/converter-base';
 import { NodeNameConverterProvider } from '../../providers/conversion/node-name-converter-provider';
 import { CEGmxModelNode } from '../../providers/properties/ceg-mx-model-node';
+import { RGmxModelNode } from '../../providers/properties/rg-mx-model-node';
 import { ShapeProvider } from '../../providers/properties/shape-provider';
 import { ToolProvider } from '../../providers/properties/tool-provider';
 import { VertexProvider } from '../../providers/properties/vertex-provider';
 import { EditorStyle } from '../editor-components/editor-style';
 import { StyleChanger } from './style-changer';
 import { CEGConnectionTool } from '../../../tool-pallette/tools/ceg/ceg-connection-tool';
+import {RGConnectionTool} from '../../../tool-pallette/tools/rg/rg-connection-tool';
 
 
 declare var require: any;
@@ -37,10 +42,10 @@ export class ChangeTranslator {
 
     private contents: IContainer[];
     private parentComponents: { [key: string]: IContainer };
-    private nodeNameConverter: ConverterBase<IContainer, string | CEGmxModelNode>;
+    private nodeNameConverter: ConverterBase<IContainer, string | CEGmxModelNode | RGmxModelNode>;
     public preventDataUpdates = false;
 
-    constructor(private model: CEGModel | Process,
+    constructor(private model: CEGModel | RGModel | Process,
         private dataService: SpecmateDataService,
         private toolProvider: ToolProvider,
         private shapeProvider: ShapeProvider) {
@@ -123,6 +128,20 @@ export class ChangeTranslator {
             if (changeMade) {
                 await this.dataService.updateElement(connection, true, Id.uuid);
             }
+        } else if (Type.is(element, RGConnection)) {
+            const connection = (element as RGConnection);
+            let changeMade = false;
+            if (Arrays.contains(newStyles, EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE)) {
+                connection.negate = true;
+                changeMade = true;
+            } else if (Arrays.contains(removedStyles, EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE)) {
+                connection.negate = false;
+                changeMade = true;
+            }
+
+            if (changeMade) {
+                await this.dataService.updateElement(connection, true, Id.uuid);
+            }
         }
     }
 
@@ -177,6 +196,10 @@ export class ChangeTranslator {
         return (cell.style as String).includes(EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE);
     }
 
+    private isNegatedRGNode(cell: mxgraph.mxCell): boolean {
+        return (cell.style as String).includes(EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE);
+    }
+
     private async translateEdgeAdd(change: mxgraph.mxChildChange, graph: mxgraph.mxGraph): Promise<IModelConnection> {
         const tool = this.determineTool(change) as ConnectionToolBase<any>;
 
@@ -208,6 +231,8 @@ export class ChangeTranslator {
 
         if (tool instanceof CEGConnectionTool) {
             (tool as CEGConnectionTool).negated = this.isNegatedCEGNode(change.child);
+        } else if (tool instanceof RGConnectionTool) {
+            (tool as RGConnectionTool).negated = this.isNegatedRGNode(change.child);
         }
 
         const connection = await tool.perform();
@@ -241,6 +266,13 @@ export class ChangeTranslator {
         if (Type.is(node, CEGNode)) {
             const value =
                 new CEGmxModelNode(change.child.children[0].value, change.child.children[1].value, change.child.children[2].value || 'AND');
+            const elementValues = this.nodeNameConverter.convertFrom(value, node);
+            for (const key in elementValues) {
+                node[key] = elementValues[key];
+            }
+        } else if (Type.is(node, RGNode)) {
+            const value =
+                new RGmxModelNode(change.child.children[0].value, change.child.children[1].value, change.child.children[2].value || 'AND');
             const elementValues = this.nodeNameConverter.convertFrom(value, node);
             for (const key in elementValues) {
                 node[key] = elementValues[key];
@@ -288,6 +320,34 @@ export class ChangeTranslator {
             delete this.parentComponents[oldIdVariable];
             delete this.parentComponents[oldIdCondition];
             delete this.parentComponents[oldIdType];
+        } else if (Type.is(node, RGNode)) {
+            let component = cell.children[0];
+            let modifier = cell.children[1];
+            let type = cell.children[2];
+
+            let oldIdVariable = component.id;
+            let oldIdCondition = modifier.id;
+            let oldIdType = type.id;
+
+            component.setId(newId + VertexProvider.ID_SUFFIX_COMPONENT);
+            modifier.setId(newId + VertexProvider.ID_SUFFIX_MODIFIER);
+            type.setId(newId + VertexProvider.ID_SUFFIX_TYPE);
+
+            delete cells[oldIdVariable];
+            delete cells[oldIdCondition];
+            delete cells[oldIdType];
+
+            cells[component.id] = component;
+            cells[modifier.id] = modifier;
+            cells[type.id] = type;
+
+            this.parentComponents[component.id] = node;
+            this.parentComponents[modifier.id] = node;
+            this.parentComponents[type.id] = node;
+
+            delete this.parentComponents[oldIdVariable];
+            delete this.parentComponents[oldIdCondition];
+            delete this.parentComponents[oldIdType];
         }
         return node;
     }
@@ -322,6 +382,8 @@ export class ChangeTranslator {
             let value = cell.value;
             if (Type.is(element, CEGNode)) {
                 value = new CEGmxModelNode(cell.children[0].value, cell.children[1].value, cell.children[2].value);
+            } else if (Type.is(element, RGNode)) {
+                value = new RGmxModelNode(cell.children[0].value, cell.children[1].value, cell.children[2].value);
             }
             const elementValues = this.nodeNameConverter.convertFrom(value, element);
             for (const key in elementValues) {
@@ -461,7 +523,7 @@ export class ChangeTranslator {
     public retranslate(changedElement: IContainer, graph: mxgraph.mxGraph, cell: mxgraph.mxCell) {
         this.preventDataUpdates = true;
         let value = this.nodeNameConverter ? this.nodeNameConverter.convertTo(changedElement) : changedElement.name;
-        if (value instanceof CEGmxModelNode) {
+        if (value instanceof CEGmxModelNode || value instanceof RGmxModelNode) {
             for (const key in value) {
                 if (value.hasOwnProperty(key)) {
                     const val = value[key];

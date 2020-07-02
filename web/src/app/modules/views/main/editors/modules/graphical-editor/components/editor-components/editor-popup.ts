@@ -7,6 +7,7 @@ import { Type } from 'src/app/util/type';
 import { replaceClass } from '../util/css-utils';
 import { TranslateService } from '@ngx-translate/core';
 import { IContainer } from 'src/app/model/IContainer';
+import {RGConnection} from '../../../../../../../../model/RGConnection';
 
 declare var require: any;
 
@@ -63,6 +64,20 @@ export class EditorPopup {
                     StyleChanger.removeStyle(cell, this.graph, EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE);
                 } else {
                     StyleChanger.addStyle(cell, this.graph, EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE);
+                }
+                this.graph.getModel().endUpdate();
+            }, undefined, icon, undefined, undefined);
+        } else if (Type.is(element, RGConnection)) {
+            const connection = element as RGConnection;
+            const icon = connection.negate ? 'fa fa-check' : 'fa fa-circle-o';
+
+            const negateText = this.translate.instant('negated');
+            menu.addItem(negateText, null, async () => {
+                this.graph.getModel().beginUpdate();
+                if (connection.negate) {
+                    StyleChanger.removeStyle(cell, this.graph, EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE);
+                } else {
+                    StyleChanger.addStyle(cell, this.graph, EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE);
                 }
                 this.graph.getModel().endUpdate();
             }, undefined, icon, undefined, undefined);

@@ -1,10 +1,16 @@
 import { NgModule } from '@angular/core';
 import { ContradictoryCondidionValidator } from './ceg/contradictory-condition-validator';
 import { DuplicateIOVariableValidator } from './ceg/duplicate-io-variable-validator';
-import { DuplicateNodeValidator } from './ceg/duplicate-node-validator';
-import { EmptyModelValidator } from './ceg/empty-model-validator';
-import { NodeCycleValidator } from './ceg/node-cycle-validator';
-import { SingleNodesValidator } from './ceg/single-nodes-validator';
+import { DuplicateNodeValidator as CEGDuplicateNodeValidator } from './ceg/duplicate-node-validator';
+import { EmptyModelValidator as CEGEmptyModelValidator } from './ceg/empty-model-validator';
+import { NodeCycleValidator as CEGNodeCycleValidator } from './ceg/node-cycle-validator';
+import { SingleNodesValidator as CEGSingleNodesValidator } from './ceg/single-nodes-validator';
+import { DuplicateComponentValidator } from './rg/duplicate-component-validator';
+import { DuplicateNodeValidator as RGDuplicateNodeValidator } from './rg/duplicate-node-validator';
+import { EmptyModelValidator as RGEmptyModelValidator } from './rg/empty-model-validator';
+import { InvalidNodeComponentValidator } from './rg/invalid-node-component-validator';
+import { NodeCycleValidator as RGNodeCycleValidator } from './rg/node-cycle-validator';
+import { SingleNodesValidator as RGSingleNodesValidator } from './rg/single-nodes-validator';
 import { DecisionMultipleOutgoingConnectionsValidator } from './process/decision-multiple-outgoing-connections-validator';
 import { EndNodeNoOutgoingConnectionValidator } from './process/end-node-no-outgoing-connection-validator';
 import { EndNodeValidator } from './process/end-node-validator';
@@ -30,12 +36,18 @@ import { InvalidConditionTextValidator } from './process/invalid-condition-text'
   ],
   providers: [
     // SERVICES (IN THIS CASE: VALIDATORS)
-    DuplicateNodeValidator,
+    DuplicateComponentValidator,
+    InvalidNodeComponentValidator,
+    CEGDuplicateNodeValidator,
+    RGDuplicateNodeValidator,
     ContradictoryCondidionValidator,
-    NodeCycleValidator,
+    CEGNodeCycleValidator,
+    RGNodeCycleValidator,
     DuplicateIOVariableValidator,
-    EmptyModelValidator,
-    SingleNodesValidator,
+    CEGEmptyModelValidator,
+    CEGSingleNodesValidator,
+    RGEmptyModelValidator,
+    RGSingleNodesValidator,
     EndNodeValidator,
     EndNodeNoOutgoingConnectionValidator,
     HasStepsValidator,

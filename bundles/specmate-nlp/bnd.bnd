@@ -80,13 +80,9 @@
 	specmate-rest;version=latest,\
 	org.apache.servicemix.bundles.junit,\
 	org.json,\
-<<<<<<< HEAD
-	specmate-config-api
-=======
 	specmate-config-api,\
 	osgi.core;version=6.0,\
 	osgi.cmpn;version=6.0
->>>>>>> 57ef2e5ae2c1191ec3c48124c825c0268d979cfd
 
 
 Private-Package: \

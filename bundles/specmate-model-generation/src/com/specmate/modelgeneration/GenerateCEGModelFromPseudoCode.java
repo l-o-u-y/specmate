@@ -21,7 +21,7 @@ import com.specmate.xtext.XTextException;
  * This class transforms pseudo code into a CEG. The pseudo code must conform
  * with the implemented XText grammar.
  */
-public class GenerateModelFromPseudoCode implements ICEGFromRequirementGenerator {
+public class GenerateCEGModelFromPseudoCode implements ICEGFromRequirementGenerator {
 
 	/** Our factory to create the elements of the CEG (nodes and connections). */
 	CEGCreation creation = new CEGCreation();

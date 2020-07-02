@@ -9,6 +9,8 @@ import { ProcessStep } from '../../../../../../../../model/ProcessStep';
 import { Arrays } from '../../../../../../../../util/arrays';
 import { Type } from '../../../../../../../../util/type';
 import { ProviderBase } from './provider-base';
+import {RGNode} from '../../../../../../../../model/RGNode';
+import {RGConnection} from '../../../../../../../../model/RGConnection';
 
 export class ElementProvider extends ProviderBase {
 
@@ -34,6 +36,8 @@ export class ElementProvider extends ProviderBase {
     private get nodeTypes(): {className: string}[] {
         if (this.isCEGModel) {
             return [CEGNode];
+        } else if (this.isRGModel) {
+            return [RGNode];
         } else if (this.isProcessModel) {
             return [ProcessStep, ProcessDecision, ProcessStart, ProcessEnd];
         }
@@ -42,6 +46,8 @@ export class ElementProvider extends ProviderBase {
     private get connectionTypes(): {className: string}[] {
         if (this.isCEGModel) {
             return [CEGConnection];
+        } else if (this.isRGModel) {
+            return [RGConnection];
         } else if (this.isProcessModel) {
             return [ProcessConnection];
         }

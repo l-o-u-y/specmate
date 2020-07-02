@@ -1,15 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { mxgraph } from 'mxgraph'; // Typings only - no code!
-import { CEGModel } from 'src/app/model/CEGModel';
-import { CEGNode } from 'src/app/model/CEGNode';
-import { ProcessConnection } from 'src/app/model/ProcessConnection';
-import { ProcessDecision } from 'src/app/model/ProcessDecision';
-import { ProcessEnd } from 'src/app/model/ProcessEnd';
-import { ProcessStart } from 'src/app/model/ProcessStart';
-import { ProcessStep } from 'src/app/model/ProcessStep';
-import { UndoService } from 'src/app/modules/actions/modules/common-controls/services/undo.service';
-import { NavigatorService } from 'src/app/modules/navigation/modules/navigator/services/navigator.service';
 import { IContainer } from '../../../../../../../model/IContainer';
 import { IModelConnection } from '../../../../../../../model/IModelConnection';
 import { IModelNode } from '../../../../../../../model/IModelNode';
@@ -34,6 +25,18 @@ import { EditorStyle } from './editor-components/editor-style';
 import { ChangeTranslator } from './util/change-translator';
 import { StyleChanger } from './util/style-changer';
 import { GraphicalEditorService } from '../services/graphical-editor.service';
+import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
+import { UndoService } from '../../../../../../actions/modules/common-controls/services/undo.service';
+import { CEGModel } from '../../../../../../../model/CEGModel';
+import { ProcessConnection } from '../../../../../../../model/ProcessConnection';
+import { CEGNode } from '../../../../../../../model/CEGNode';
+import { ProcessStart } from '../../../../../../../model/ProcessStart';
+import { ProcessStep } from '../../../../../../../model/ProcessStep';
+import { ProcessEnd } from '../../../../../../../model/ProcessEnd';
+import { ProcessDecision } from '../../../../../../../model/ProcessDecision';
+import { RGmxModelNode } from '../providers/properties/rg-mx-model-node';
+import { RGModel } from '../../../../../../../model/RGModel';
+import { RGNode } from '../../../../../../../model/RGNode';
 
 declare var require: any;
 
@@ -54,7 +57,7 @@ export class GraphicalEditor {
 
     private nameProvider: NameProvider;
     private elementProvider: ElementProvider;
-    private nodeNameConverter: ConverterBase<any, string | CEGmxModelNode>;
+    private nodeNameConverter: ConverterBase<any, string | CEGmxModelNode | RGmxModelNode>;
     private shapeProvider: ShapeProvider;
     private changeTranslator: ChangeTranslator;
     private vertexProvider: VertexProvider;
@@ -359,6 +362,9 @@ export class GraphicalEditor {
                 if (Type.is(this.model, CEGModel)) {
                     this.vertexProvider.provideCEGNode(vertexUrl, coords.x, coords.y,
                         initialData.size.width, initialData.size.height, initialData.text as CEGmxModelNode);
+                } else if (Type.is(this.model, RGModel)) {
+                    this.vertexProvider.provideRGNode(vertexUrl, coords.x, coords.y,
+                        initialData.size.width, initialData.size.height, initialData.text as RGmxModelNode);
                 } else {
                     this.graph.insertVertex(
                         this.graph.getDefaultParent(),
@@ -391,7 +397,9 @@ export class GraphicalEditor {
             const isNegated = edit.changes.some(function test(s: any): boolean {
                 if (s.constructor.name === 'mxStyleChange' && s.previous !== null) {
                     return (s.style as String).includes(EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE)
-                        !== ((s.previous as String).includes(EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE));
+                        !== ((s.previous as String).includes(EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE)) ||
+                        (s.style as String).includes(EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE)
+                        !== ((s.previous as String).includes(EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE));
                 }
                 return false;
             });
@@ -413,6 +421,9 @@ export class GraphicalEditor {
 
         if (Type.is(this.model, CEGModel)) {
             this.initCEGModel();
+        } else
+        if (Type.is(this.model, RGModel)) {
+            this.initRGModel();
         }
 
         this.graph.getModel().beginUpdate();
@@ -441,6 +452,12 @@ export class GraphicalEditor {
                     StyleChanger.addStyle(vertex, this.graph, type);
                 }
             }
+            if (Type.is(this.model, RGModel)) {
+                for (const url in vertexCache) {
+                    const vertex = vertexCache[url];
+                    StyleChanger.addStyle(vertex, this.graph, EditorStyle.COMPONENT_STYLE_NAME);
+                }
+            }
         } finally {
             this.graph.getModel().endUpdate();
             this.changeTranslator.preventDataUpdates = false;
@@ -449,6 +466,32 @@ export class GraphicalEditor {
     }
 
     private async initCEGModel(): Promise<void> {
+        this.graph.setHtmlLabels(true);
+
+        this.graph.isCellEditable = function (cell) {
+            let c = cell as mxgraph.mxCell;
+            if (c.edge) {
+                return false;
+            }
+            if (c.children !== undefined && c.children !== null && c.children.length > 0) {
+                return false;
+            }
+            return true;
+        };
+
+        this.graph.graphHandler.setRemoveCellsFromParent(false);
+
+        this.graph.isWrapping = function (cell) {
+            return this.model.isCollapsed(cell);
+        };
+
+        this.graph.isCellResizable = function (cell) {
+            let geo = this.model.getGeometry(cell);
+            return geo == null || !geo.relative;
+        };
+    }
+
+    private async initRGModel(): Promise<void> {
         this.graph.setHtmlLabels(true);
 
         this.graph.isCellEditable = function (cell) {
@@ -495,7 +538,8 @@ export class GraphicalEditor {
             }
             StyleChanger.replaceStyle(vertex, this.graph, EditorStyle.VALID_STYLE_NAME, EditorStyle.INVALID_STYLE_NAME);
             const overlay = this.graph.setCellWarning(vertex, invalidNode.message, undefined, true);
-            if (Type.is(invalidNode.element, CEGNode) || Type.is(invalidNode.element, ProcessStep)) {
+            if (Type.is(invalidNode.element, CEGNode) || Type.is(invalidNode.element, RGNode) ||
+                Type.is(invalidNode.element, ProcessStep)) {
                 overlay.offset = new mx.mxPoint(-13, -12);
             }
             if (Type.is(invalidNode.element, ProcessStart) || Type.is(invalidNode.element, ProcessEnd)) {
@@ -515,6 +559,13 @@ export class GraphicalEditor {
                 StyleChanger.removeStyle(vertex, this.graph, EditorStyle.EFFECT_STYLE_NAME);
                 StyleChanger.removeStyle(vertex, this.graph, EditorStyle.INNER_STYLE_NAME);
                 StyleChanger.addStyle(vertex, this.graph, this.getNodeType(vertex));
+            }
+        } else if (Type.is(this.model, RGModel)) {
+            for (const vertex of vertices) {
+                StyleChanger.removeStyle(vertex, this.graph, EditorStyle.CAUSE_STYLE_NAME);
+                StyleChanger.removeStyle(vertex, this.graph, EditorStyle.EFFECT_STYLE_NAME);
+                StyleChanger.removeStyle(vertex, this.graph, EditorStyle.INNER_STYLE_NAME);
+                StyleChanger.addStyle(vertex, this.graph, EditorStyle.COMPONENT_STYLE_NAME);
             }
         }
     }

@@ -1,37 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/specmate-model-gen/src" modelPluginID="specmate-model-gen"
-    runtimeJar="true" modelName="User" rootExtendsInterface="org.eclipse.emf.cdo.CDOObject"
-    rootExtendsClass="org.eclipse.emf.internal.cdo.CDOObjectImpl" runtimeCompatibility="true"
-    importerID="org.eclipse.emf.importer.ecore" bundleManifest="false" featureDelegation="Dynamic"
-    complianceLevel="8.0" copyrightFields="false" providerRootExtendsClass="org.eclipse.emf.cdo.edit.CDOItemProviderAdapter"
-    operationReflection="true" importOrganizing="true" oSGiCompatible="true">
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/specmate-model-gen/src" modelPluginID="specmate-model-gen" runtimeJar="true" modelName="User" rootExtendsInterface="org.eclipse.emf.cdo.CDOObject" rootExtendsClass="org.eclipse.emf.internal.cdo.CDOObjectImpl" runtimeCompatibility="true" importerID="org.eclipse.emf.importer.ecore" bundleManifest="false" featureDelegation="Dynamic" complianceLevel="8.0" copyrightFields="false" providerRootExtendsClass="org.eclipse.emf.cdo.edit.CDOItemProviderAdapter" operationReflection="true" importOrganizing="true" oSGiCompatible="true">
   <foreignModel>user.ecore</foreignModel>
   <modelPluginVariables>CDO=org.eclipse.emf.cdo</modelPluginVariables>
-  <genPackages prefix="Usermodel" basePackage="com.specmate" disposableProviderFactory="true"
-      ecorePackage="user.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="user.ecore#//AccessRights">
-      <genEnumLiterals ecoreEnumLiteral="user.ecore#//AccessRights/NONE"/>
-      <genEnumLiterals ecoreEnumLiteral="user.ecore#//AccessRights/READ"/>
-      <genEnumLiterals ecoreEnumLiteral="user.ecore#//AccessRights/WRITE"/>
-      <genEnumLiterals ecoreEnumLiteral="user.ecore#//AccessRights/ALL"/>
+  <genPackages prefix="Usermodel" basePackage="com.specmate" disposableProviderFactory="true">
+    <ecorePackage href="user.ecore#/"/>
+    <genEnums typeSafeEnumCompatible="false">
+      <ecoreEnum href="user.ecore#//AccessRights"/>
+      <genEnumLiterals>
+        <ecoreEnumLiteral href="user.ecore#//AccessRights/NONE"/>
+      </genEnumLiterals>
+      <genEnumLiterals>
+        <ecoreEnumLiteral href="user.ecore#//AccessRights/READ"/>
+      </genEnumLiterals>
+      <genEnumLiterals>
+        <ecoreEnumLiteral href="user.ecore#//AccessRights/WRITE"/>
+      </genEnumLiterals>
+      <genEnumLiterals>
+        <ecoreEnumLiteral href="user.ecore#//AccessRights/ALL"/>
+      </genEnumLiterals>
     </genEnums>
-    <genClasses ecoreClass="user.ecore#//User">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//User/allowedUrls"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//User/userName"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//User/passWord"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//User/projectName"/>
+    <genClasses>
+      <ecoreClass href="user.ecore#//User"/>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="user.ecore#//User/allowedUrls"/>
+      </genFeatures>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="user.ecore#//User/userName"/>
+      </genFeatures>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="user.ecore#//User/passWord"/>
+      </genFeatures>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="user.ecore#//User/projectName"/>
+      </genFeatures>
     </genClasses>
-    <genClasses ecoreClass="user.ecore#//UserSession">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//UserSession/id"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//UserSession/allowedPathPattern"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//UserSession/userName"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//UserSession/lastActive"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//UserSession/SourceSystem"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//UserSession/TargetSystem"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//UserSession/libraryFolders"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//UserSession/isDeleted"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//UserSession/exporters"/>
+    <genClasses>
+      <ecoreClass href="user.ecore#//UserSession"/>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="user.ecore#//UserSession/id"/>
+      </genFeatures>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="user.ecore#//UserSession/allowedPathPattern"/>
+      </genFeatures>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="user.ecore#//UserSession/userName"/>
+      </genFeatures>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="user.ecore#//UserSession/lastActive"/>
+      </genFeatures>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="user.ecore#//UserSession/SourceSystem"/>
+      </genFeatures>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="user.ecore#//UserSession/TargetSystem"/>
+      </genFeatures>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="user.ecore#//UserSession/libraryFolders"/>
+      </genFeatures>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="user.ecore#//UserSession/isDeleted"/>
+      </genFeatures>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

@@ -18,7 +18,7 @@ import com.specmate.connectors.api.IProjectService;
 import com.specmate.emfjson.EMFJsonSerializer;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.processes.ProcessesPackage;
-import com.specmate.model.requirements.NodeType;
+import com.specmate.model.requirements.CEGNodeType;
 import com.specmate.model.requirements.RequirementsPackage;
 import com.specmate.model.testspecification.TestspecificationPackage;
 import com.specmate.persistency.IView;
@@ -181,7 +181,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 	protected JSONObject createTestCegNode() {
 		String variable = "Variable" + counter++;
 		String condition = "Condition" + counter++;
-		return createTestCegNode(variable, condition, NodeType.OR.getLiteral());
+		return createTestCegNode(variable, condition, CEGNodeType.OR.getLiteral());
 	}
 
 	protected JSONObject createTestCegNode(String variable, String condition, String operation) {

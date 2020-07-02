@@ -108,6 +108,20 @@ public class RequirementsSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case RequirementsPackage.RG_MODEL: {
+				RGModel rgModel = (RGModel)theEObject;
+				T result = caseRGModel(rgModel);
+				if (result == null) result = caseISpecmateModelObject(rgModel);
+				if (result == null) result = caseIContainer(rgModel);
+				if (result == null) result = caseITracingElement(rgModel);
+				if (result == null) result = caseIContentElement(rgModel);
+				if (result == null) result = caseIID(rgModel);
+				if (result == null) result = caseINamed(rgModel);
+				if (result == null) result = caseIDescribed(rgModel);
+				if (result == null) result = caseIRecycled(rgModel);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case RequirementsPackage.CEG_NODE: {
 				CEGNode cegNode = (CEGNode)theEObject;
 				T result = caseCEGNode(cegNode);
@@ -124,6 +138,22 @@ public class RequirementsSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case RequirementsPackage.RG_NODE: {
+				RGNode rgNode = (RGNode)theEObject;
+				T result = caseRGNode(rgNode);
+				if (result == null) result = caseIModelNode(rgNode);
+				if (result == null) result = caseISpecmatePositionableModelObject(rgNode);
+				if (result == null) result = caseISpecmateModelObject(rgNode);
+				if (result == null) result = caseIContainer(rgNode);
+				if (result == null) result = caseITracingElement(rgNode);
+				if (result == null) result = caseIContentElement(rgNode);
+				if (result == null) result = caseIID(rgNode);
+				if (result == null) result = caseINamed(rgNode);
+				if (result == null) result = caseIDescribed(rgNode);
+				if (result == null) result = caseIRecycled(rgNode);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case RequirementsPackage.CEG_CONNECTION: {
 				CEGConnection cegConnection = (CEGConnection)theEObject;
 				T result = caseCEGConnection(cegConnection);
@@ -136,6 +166,21 @@ public class RequirementsSwitch<T> extends Switch<T> {
 				if (result == null) result = caseINamed(cegConnection);
 				if (result == null) result = caseIDescribed(cegConnection);
 				if (result == null) result = caseIRecycled(cegConnection);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RequirementsPackage.RG_CONNECTION: {
+				RGConnection rgConnection = (RGConnection)theEObject;
+				T result = caseRGConnection(rgConnection);
+				if (result == null) result = caseIModelConnection(rgConnection);
+				if (result == null) result = caseISpecmateModelObject(rgConnection);
+				if (result == null) result = caseIContainer(rgConnection);
+				if (result == null) result = caseITracingElement(rgConnection);
+				if (result == null) result = caseIContentElement(rgConnection);
+				if (result == null) result = caseIID(rgConnection);
+				if (result == null) result = caseINamed(rgConnection);
+				if (result == null) result = caseIDescribed(rgConnection);
+				if (result == null) result = caseIRecycled(rgConnection);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -200,6 +245,51 @@ public class RequirementsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseCEGConnection(CEGConnection object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>RG Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>RG Model</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRGModel(RGModel object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>RG Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>RG Node</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRGNode(RGNode object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>RG Connection</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>RG Connection</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRGConnection(RGConnection object) {
 		return null;
 	}
 

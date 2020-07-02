@@ -1,7 +1,6 @@
-import { CEGConnection } from 'src/app/model/CEGConnection';
-import { Type } from 'src/app/util/type';
+import { CEGConnection } from '../../../../../../../../../app/model/CEGConnection';
+import { Type } from '../../../../../../../../../app/util/type';
 import { Config } from '../../../../../../../../config/config';
-import { CEGNode } from '../../../../../../../../model/CEGNode';
 import { ProcessDecision } from '../../../../../../../../model/ProcessDecision';
 import { ProcessEnd } from '../../../../../../../../model/ProcessEnd';
 import { ProcessStart } from '../../../../../../../../model/ProcessStart';
@@ -10,11 +9,15 @@ import { EditorStyle } from '../../components/editor-components/editor-style';
 import { NodeNameConverterProvider } from '../conversion/node-name-converter-provider';
 import { CEGmxModelNode } from './ceg-mx-model-node';
 import { ProviderBase } from './provider-base';
+import { RGNode } from '../../../../../../../../model/RGNode';
+import { CEGNode } from '../../../../../../../../model/CEGNode';
+import { RGmxModelNode } from './rg-mx-model-node';
+import { RGConnection } from '../../../../../../../../model/RGConnection';
 
 export type ShapeData = {
     style: string,
     size: { width: number, height: number },
-    text: string | CEGmxModelNode
+    text: string | CEGmxModelNode | RGmxModelNode
 };
 
 export class ShapeProvider extends ProviderBase {
@@ -25,6 +28,17 @@ export class ShapeProvider extends ProviderBase {
     constructor(type: { className: string }) {
         super(type);
 
+        this.shapeMap[RGNode.className] = {
+            style: EditorStyle.BASE_RG_NODE_STYLE,
+            size: {
+                width: Config.RG_NODE_WIDTH,
+                height: Config.RG_NODE_HEIGHT
+            },
+            text: new NodeNameConverterProvider(type).nodeNameConverter.convertTo({
+            component: Config.RG_NODE_NEW_COMPONENT,
+            modifier: Config.RG_NODE_NEW_MODIFIER
+        })
+        };
         this.shapeMap[CEGNode.className] = {
             style: EditorStyle.BASE_CEG_NODE_STYLE,
             size: {
@@ -87,7 +101,13 @@ export class ShapeProvider extends ProviderBase {
             if (Type.is(element, CEGConnection) && (element as CEGConnection).negate === true) {
                 return {
                     size: undefined,
-                    style: EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE,
+                    style: EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE,
+                    text: undefined
+                };
+            } else if (Type.is(element, RGConnection) && (element as RGConnection).negate === true) {
+                return {
+                    size: undefined,
+                    style: EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE,
                     text: undefined
                 };
             }
@@ -106,7 +126,7 @@ export class ShapeProvider extends ProviderBase {
         return this.getShapeData(element).find(shapeData => shapeData.size !== undefined).size;
     }
 
-    public getInitialText(element: { className: string }): string | CEGmxModelNode {
+    public getInitialText(element: { className: string }): string | CEGmxModelNode | RGmxModelNode {
         return this.getShapeData(element).find(shapeData => shapeData.text !== undefined).text;
     }
 

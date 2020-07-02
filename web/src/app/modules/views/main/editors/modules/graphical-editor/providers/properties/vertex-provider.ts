@@ -9,6 +9,8 @@ import { ConverterBase } from '../../converters/converter-base';
 import { CEGmxModelNode } from './ceg-mx-model-node';
 import { ProviderBase } from './provider-base';
 import { ShapeProvider } from './shape-provider';
+import { RGmxModelNode } from './rg-mx-model-node';
+import { RGNode } from '../../../../../../../../model/RGNode';
 
 declare var require: any;
 
@@ -23,13 +25,15 @@ export class VertexProvider extends ProviderBase {
 
     public static ID_SUFFIX_VARIABLE = '/variable';
     public static ID_SUFFIX_CONDITION = '/condition';
+    public static ID_SUFFIX_COMPONENT = '/component';
+    public static ID_SUFFIX_MODIFIER = '/modifier';
     public static ID_SUFFIX_TYPE = '/type';
 
     private static INITIAL_CHILD_NODE_X = 0.5;
     private static EMPTY_CHILD_NODE_WIDTH = 50;
 
     constructor(element: IContainer, private graph: mxgraph.mxGraph,
-        private shapeProvider: ShapeProvider, private nodeNameConverter: ConverterBase<any, CEGmxModelNode | string>) {
+        private shapeProvider: ShapeProvider, private nodeNameConverter: ConverterBase<any, CEGmxModelNode | RGmxModelNode | string>) {
         super(element);
     }
 
@@ -42,6 +46,29 @@ export class VertexProvider extends ProviderBase {
         const l1 = this.graph.insertVertex(vertex, url + VertexProvider.ID_SUFFIX_VARIABLE, data.variable,
             VertexProvider.INITIAL_CHILD_NODE_X, 0.15, 0, (mx.mxConstants.DEFAULT_FONTSIZE), EditorStyle.VARIABLE_NAME_STYLE, true);
         const l2 = this.graph.insertVertex(vertex, url + VertexProvider.ID_SUFFIX_CONDITION, data.condition,
+            VertexProvider.INITIAL_CHILD_NODE_X, 0.4, 0, (mx.mxConstants.DEFAULT_FONTSIZE), EditorStyle.TEXT_INPUT_STYLE, true);
+        const l3 = this.graph.insertVertex(vertex, url + VertexProvider.ID_SUFFIX_TYPE, data.type,
+            VertexProvider.INITIAL_CHILD_NODE_X, 0.65, 0, (mx.mxConstants.DEFAULT_FONTSIZE), EditorStyle.TEXT_INPUT_STYLE, true);
+
+        VertexProvider.adjustChildCellSize(l1, width);
+        VertexProvider.adjustChildCellSize(l2, width);
+
+        l1.isConnectable = () => false;
+        l2.isConnectable = () => false;
+        l3.isConnectable = () => false;
+        this.graph.getModel().endUpdate();
+        return vertex;
+    }
+
+    public provideRGNode(url: string, x: number, y: number, width: number, height: number, data: RGmxModelNode): mxgraph.mxCell {
+        const value: string = null;
+        const style = this.shapeProvider.getStyle(new RGNode());
+        const parent = this.graph.getDefaultParent();
+        this.graph.getModel().beginUpdate();
+        const vertex = this.graph.insertVertex(parent, url, value, x, y, width, height, style);
+        const l1 = this.graph.insertVertex(vertex, url + VertexProvider.ID_SUFFIX_COMPONENT, data.component,
+            VertexProvider.INITIAL_CHILD_NODE_X, 0.15, 0, (mx.mxConstants.DEFAULT_FONTSIZE), EditorStyle.VARIABLE_NAME_STYLE, true);
+        const l2 = this.graph.insertVertex(vertex, url + VertexProvider.ID_SUFFIX_MODIFIER, data.modifier,
             VertexProvider.INITIAL_CHILD_NODE_X, 0.4, 0, (mx.mxConstants.DEFAULT_FONTSIZE), EditorStyle.TEXT_INPUT_STYLE, true);
         const l3 = this.graph.insertVertex(vertex, url + VertexProvider.ID_SUFFIX_TYPE, data.type,
             VertexProvider.INITIAL_CHILD_NODE_X, 0.65, 0, (mx.mxConstants.DEFAULT_FONTSIZE), EditorStyle.TEXT_INPUT_STYLE, true);
@@ -76,6 +103,10 @@ export class VertexProvider extends ProviderBase {
             let n = node as CEGNode;
             const data = new CEGmxModelNode(n.variable, n.condition, n.type);
             return this.provideCEGNode(node.url, x || node.x, y || node.y, width, height, data);
+        } else if (Type.is(node, RGNode)) {
+            let n = node as RGNode;
+            const data = new RGmxModelNode(n.component, n.modifier, n.type);
+            return this.provideRGNode(node.url, x || node.x, y || node.y, width, height, data);
         }
 
         const value: string = (this.nodeNameConverter ? this.nodeNameConverter.convertTo(node) : node.name) as string;
@@ -133,6 +164,10 @@ export class VertexProvider extends ProviderBase {
                 if (cell.value !== undefined && cell.value !== null) {
                     return he.encode(cell.value);
                 }
+            } else if (VertexProvider.isRGTextInputCell(cell)) {
+                if (cell.value !== undefined && cell.value !== null) {
+                    return he.encode(cell.value);
+                }
             }
             return mx.mxGraph.prototype.getLabel.bind(graph)(cell);
         };
@@ -148,6 +183,10 @@ export class VertexProvider extends ProviderBase {
 
     public static isCEGTextInputCell(cell: mxgraph.mxCell): boolean {
         return [VertexProvider.ID_SUFFIX_VARIABLE, VertexProvider.ID_SUFFIX_CONDITION]
+            .find(suffix => cell.id.endsWith(suffix)) !== undefined;
+    }
+    public static isRGTextInputCell(cell: mxgraph.mxCell): boolean {
+        return [VertexProvider.ID_SUFFIX_COMPONENT, VertexProvider.ID_SUFFIX_MODIFIER]
             .find(suffix => cell.id.endsWith(suffix)) !== undefined;
     }
 }

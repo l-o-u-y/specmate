@@ -30,6 +30,10 @@ import com.specmate.model.requirements.CEGConnection;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.NodeType;
+import com.specmate.model.requirements.RGConnection;
+import com.specmate.model.requirements.RGConnectionType;
+import com.specmate.model.requirements.RGModel;
+import com.specmate.model.requirements.RGNode;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.model.requirements.RequirementsPackage;
@@ -85,7 +89,35 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass rgModelEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass rgNodeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass rgConnectionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum nodeTypeEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum rgConnectionTypeEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -358,6 +390,97 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		return (EAttribute)cegConnectionEClass.getEStructuralFeatures().get(0);
 	}
 
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getRGModel() {
+		return rgModelEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getRGModel_ModelRequirements() {
+		return (EAttribute)rgModelEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getRGNode() {
+		return rgNodeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getRGNode_Type() {
+		return (EAttribute)rgNodeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getRGNode_Component() {
+		return (EAttribute)rgNodeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getRGNode_Modifier() {
+		return (EAttribute)rgNodeEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getRGConnection() {
+		return rgConnectionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getRGConnection_Negate() {
+		return (EAttribute)rgConnectionEClass.getEStructuralFeatures().get(0);
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getRGConnection_Type() {
+		return (EAttribute)rgConnectionEClass.getEStructuralFeatures().get(1);
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -366,6 +489,16 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	@Override
 	public EEnum getNodeType() {
 		return nodeTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EEnum getRGConnectionType() {
+		return rgConnectionTypeEEnum;
 	}
 
 	/**
@@ -411,16 +544,29 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		cegModelEClass = createEClass(CEG_MODEL);
 		createEAttribute(cegModelEClass, CEG_MODEL__MODEL_REQUIREMENTS);
 
+		rgModelEClass = createEClass(RG_MODEL);
+		createEAttribute(rgModelEClass, RG_MODEL__MODEL_REQUIREMENTS);
+
 		cegNodeEClass = createEClass(CEG_NODE);
 		createEAttribute(cegNodeEClass, CEG_NODE__TYPE);
 		createEAttribute(cegNodeEClass, CEG_NODE__VARIABLE);
 		createEAttribute(cegNodeEClass, CEG_NODE__CONDITION);
 
+		rgNodeEClass = createEClass(RG_NODE);
+		createEAttribute(rgNodeEClass, RG_NODE__TYPE);
+		createEAttribute(rgNodeEClass, RG_NODE__COMPONENT);
+		createEAttribute(rgNodeEClass, RG_NODE__MODIFIER);
+
 		cegConnectionEClass = createEClass(CEG_CONNECTION);
 		createEAttribute(cegConnectionEClass, CEG_CONNECTION__NEGATE);
 
+		rgConnectionEClass = createEClass(RG_CONNECTION);
+		createEAttribute(rgConnectionEClass, RG_CONNECTION__NEGATE);
+		createEAttribute(rgConnectionEClass, RG_CONNECTION__TYPE);
+
 		// Create enums
 		nodeTypeEEnum = createEEnum(NODE_TYPE);
+		rgConnectionTypeEEnum = createEEnum(RG_CONNECTION_TYPE);
 	}
 
 	/**
@@ -457,8 +603,11 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		requirementEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
 		requirementEClass.getESuperTypes().add(theBasePackage.getIExternal());
 		cegModelEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
+		rgModelEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
 		cegNodeEClass.getESuperTypes().add(theBasePackage.getIModelNode());
+		rgNodeEClass.getESuperTypes().add(theBasePackage.getIModelNode());
 		cegConnectionEClass.getESuperTypes().add(theBasePackage.getIModelConnection());
+		rgConnectionEClass.getESuperTypes().add(theBasePackage.getIModelConnection());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(requirementEClass, Requirement.class, "Requirement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -475,18 +624,36 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		initEClass(cegModelEClass, CEGModel.class, "CEGModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCEGModel_ModelRequirements(), ecorePackage.getEString(), "modelRequirements", null, 0, 1, CEGModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(rgModelEClass, RGModel.class, "RGModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getRGModel_ModelRequirements(), ecorePackage.getEString(), "modelRequirements", null, 0, 1, RGModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(cegNodeEClass, CEGNode.class, "CEGNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCEGNode_Type(), this.getNodeType(), "type", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCEGNode_Variable(), ecorePackage.getEString(), "variable", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCEGNode_Condition(), ecorePackage.getEString(), "condition", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(rgNodeEClass, RGNode.class, "RGNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getRGNode_Type(), this.getNodeType(), "type", null, 0, 1, RGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRGNode_Component(), ecorePackage.getEString(), "component", null, 0, 1, RGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRGNode_Modifier(), ecorePackage.getEString(), "modifier", null, 0, 1, RGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(cegConnectionEClass, CEGConnection.class, "CEGConnection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCEGConnection_Negate(), ecorePackage.getEBoolean(), "negate", null, 0, 1, CEGConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(rgConnectionEClass, RGConnection.class, "RGConnection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getRGConnection_Negate(), ecorePackage.getEBoolean(), "negate", null, 0, 1, RGConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRGConnection_Type(), this.getRGConnectionType(), "type", null, 0, 1, RGConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(nodeTypeEEnum, NodeType.class, "NodeType");
 		addEEnumLiteral(nodeTypeEEnum, NodeType.AND);
 		addEEnumLiteral(nodeTypeEEnum, NodeType.OR);
+
+		initEEnum(rgConnectionTypeEEnum, RGConnectionType.class, "RGConnectionType");
+		addEEnumLiteral(rgConnectionTypeEEnum, RGConnectionType.INHERITANCE);
+		addEEnumLiteral(rgConnectionTypeEEnum, RGConnectionType.COMPOSITION);
+		addEEnumLiteral(rgConnectionTypeEEnum, RGConnectionType.TARGET);
+		addEEnumLiteral(rgConnectionTypeEEnum, RGConnectionType.SOURCE);
 
 		// Create resource
 		createResource(eNS_URI);
@@ -506,6 +673,17 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		String source = "http://specmate.com/form_meta";
 		addAnnotation
 		  (getCEGModel_ModelRequirements(),
+		   source,
+		   new String[] {
+			   "shortDesc", "Model Requirements",
+			   "longDesc", "",
+			   "required", "false",
+			   "type", "longText",
+			   "rows", "5",
+			   "position", "110"
+		   });
+		addAnnotation
+		  (getRGModel_ModelRequirements(),
 		   source,
 		   new String[] {
 			   "shortDesc", "Model Requirements",
@@ -555,6 +733,45 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 			   "position", "2"
 		   });
 		addAnnotation
+		  (rgNodeEClass,
+		   source,
+		   new String[] {
+			   "disabled1", "name",
+			   "disabled2", "description"
+		   });
+		addAnnotation
+		  (getRGNode_Type(),
+		   source,
+		   new String[] {
+			   "shortDesc", "Type",
+			   "longDesc", "The type of a node",
+			   "required", "true",
+			   "type", "singleSelection",
+			   "values", "[\"AND\", \"OR\"]",
+			   "position", "3"
+		   });
+		addAnnotation
+		  (getRGNode_Component(),
+		   source,
+		   new String[] {
+			   "shortDesc", "Component",
+			   "longDesc", "The component of a node",
+			   "required", "true",
+			   "type", "text",
+			   "position", "1",
+			   "allowedPattern", "^[^,;|]*$"
+		   });
+		addAnnotation
+		  (getRGNode_Modifier(),
+		   source,
+		   new String[] {
+			   "shortDesc", "Modifiers",
+			   "longDesc", "The modifiers to the variable",
+			   "required", "true",
+			   "type", "text",
+			   "position", "2"
+		   });
+		addAnnotation
 		  (getCEGConnection_Negate(),
 		   source,
 		   new String[] {
@@ -562,6 +779,26 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 			   "longDesc", "Negation of this connection",
 			   "type", "checkbox",
 			   "position", "1"
+		   });
+		addAnnotation
+		  (getRGConnection_Negate(),
+		   source,
+		   new String[] {
+			   "shortDesc", "Negate",
+			   "longDesc", "Negation of this connection",
+			   "type", "checkbox",
+			   "position", "1"
+		   });
+		addAnnotation
+		  (getRGConnection_Type(),
+		   source,
+		   new String[] {
+			   "shortDesc", "Type",
+			   "longDesc", "The type of a connection",
+			   "required", "true",
+			   "type", "singleSelection",
+			   "values", "[\"Inheritance\", \"Composition\"]",
+			   "position", "3"
 		   });
 	}
 

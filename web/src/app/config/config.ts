@@ -56,7 +56,7 @@ export class Config {
     public static CEG_NODE_HEIGHT = 60;
     public static CEG_NODE_ARC_DIST: number = 17 +
         Math.sqrt((Config.CEG_NODE_WIDTH / 2.0) * (Config.CEG_NODE_WIDTH / 2.0) +
-        (Config.CEG_NODE_HEIGHT / 2.0) * (Config.CEG_NODE_HEIGHT / 2.0));
+            (Config.CEG_NODE_HEIGHT / 2.0) * (Config.CEG_NODE_HEIGHT / 2.0));
 
     public static CEG_NEW_MODEL_NAME = 'New Model';
     public static CEG_NEW_MODEL_DESCRIPTION = '';
@@ -69,6 +69,28 @@ export class Config {
 
     public static CEG_NEW_CONNECTION_NAME = 'New Connection';
     public static CEG_NEW_CONNECTION_DESCRIPTION = '';
+
+
+
+    public static RG_NODE_WIDTH = 150;
+    public static RG_NODE_HEIGHT = 60;
+    public static RG_NODE_ARC_DIST: number = 17 +
+        Math.sqrt((Config.CEG_NODE_WIDTH / 2.0) * (Config.CEG_NODE_WIDTH / 2.0) +
+            (Config.CEG_NODE_HEIGHT / 2.0) * (Config.CEG_NODE_HEIGHT / 2.0));
+
+
+    public static RG_NODE_NEW_COMPONENT = 'New Component';
+    public static RG_NODE_NEW_MODIFIER = '';
+
+    public static RG_NEW_MODEL_NAME = 'New Model';
+    public static RG_NEW_MODEL_DESCRIPTION = '';
+
+    public static RG_NEW_NODE_NAME = 'New Node';
+    public static RG_NEW_NODE_DESCRIPTION = '';
+    public static RG_NODE_NEW_TYPE = 'Component';
+
+    public static RG_NEW_CONNECTION_NAME = 'New Connection';
+    public static RG_NEW_CONNECTION_DESCRIPTION = '';
 
     public static PROCESS_DECISION_NODE_DIM = 60;
     public static PROCESS_START_END_NODE_RADIUS = 25;
@@ -129,6 +151,8 @@ export class Config {
 
     public static readonly CEG_LAYOUT_CLEARANCE_X = 90;
     public static readonly CEG_LAYOUT_CLEARANCE_Y = 45;
+    public static readonly RG_LAYOUT_CLEARANCE_X = 90;
+    public static readonly RG_LAYOUT_CLEARANCE_Y = 45;
 
     public static readonly SUPPORTED_BROWSERS = [
       { browser: 'ie', minVersion: 12 },

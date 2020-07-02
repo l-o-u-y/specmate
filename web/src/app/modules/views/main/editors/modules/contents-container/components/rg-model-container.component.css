@@ -1,0 +1,11 @@
+.disabled {
+    cursor: not-allowed;
+}
+
+.top-margin {
+    margin-top: 8px;
+}
+
+.monospaced {
+    font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+} 

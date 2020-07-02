@@ -1,7 +1,58 @@
 import EN.DEP.STANFORD.*
 import EN.POS.PTB.*
 
-def subtrees Limit, Conditional
+def subtrees Limit, Conditional, Source, Action, Target, Parent, Child, TMP
+
+def rule Inheritance_1_var1 {
+	'is':[TMP] - nsubj -> [Parent]
+	[TMP] - dobj -> [Child]
+}
+
+def rule Inheritance_1_var2 {
+	/* 'is':[TMP] - cop -> [Parent] */
+	[Child] - nsubj -> [Parent]
+}
+
+def rule Composition_1 {
+	'has':[TMP] - nsubj -> [Parent]
+	[TMP] - obj -> [Child]
+}
+
+/* def rule Composition_2 {
+	'has':[TMP] - nsubj -> [Parent]
+	[TMP] - obj -> 'component' - acl -> 'called' - obj -> [Child]
+} */
+
+def rule Composition_3_var1 {
+	'is':[TMP] - nsubj -> [Child]
+	[TMP] - dobj -> 'component' - prep -> 'of' - pobj -> [Parent]
+}
+
+/* def rule Composition_3_var2 {
+	'component':[TMP] - cop -> 'is'
+	[TMP] - nsubj -> [Child]
+	[TMP] - nmod -> [Parent]
+} */
+
+/* def rule Composition_4 {
+	'has':[TMP] - nsubj -> [Child]
+	[TMP] - obj -> 'parent' - acl -> 'called' - obj -> [Parent]
+	/* 'has':[TMP] - nsubj -> [Child]
+	[TMP] - dobj -> 'parent' - acl -> 'called' - oprd -> [Parent] * /
+}*/
+
+def rule Composition_5_var1 {
+	'is':[TMP] - nsubj -> [Parent]
+	[TMP] - dobj -> 'parent' - prep -> 'of' - pobj -> [Child]
+}
+
+
+/* def rule Composition_5_var2 {
+	'parent':[TMP] - cop -> 'is'
+	[TMP] - nsubj -> [Parent]
+	[TMP] - nmod -> [Child]
+} */
+
 
 def rule LimitedCondition_1 {
 	[Limit] - nsubjpass -> [Conditional] - prep -> IN:'until'
@@ -12,7 +63,7 @@ def rule LimitedCondition_2 {
 }
 
 
-def subtrees Cause, Effect, TMP, Effect_SubA, Cause_SubA, Cause_SubB, Cause_SubC, Cause_SubD
+def subtrees Cause, Effect, Effect_SubA, Cause_SubA, Cause_SubB, Cause_SubC, Cause_SubD
 
 //  If the tool detects an error then the tool beeps.
 def rule Condition1_1 {
@@ -103,11 +154,7 @@ def rule Condition2_10 {
 
 
 
-<<<<<<< HEAD
-// The tool detects an error for this reason the tool beeps .
-=======
 // The tool detects an error and for this reason the tool beeps .
->>>>>>> 57ef2e5ae2c1191ec3c48124c825c0268d979cfd
 def rule Condition3_1 {
 	[Cause] - conj -> [Effect]
 	[Cause] - cc -> 'and'

@@ -1,10 +1,10 @@
 import { ToolBase } from '../tool-base';
 import { mxgraph } from 'mxgraph';
 import { Config } from '../../../../../../../../config/config';
-import { SpecmateDataService } from 'src/app/modules/data/modules/data-service/services/specmate-data.service';
-import { SelectedElementService } from 'src/app/modules/views/side/modules/selected-element/services/selected-element.service';
-import { IContainer } from 'src/app/model/IContainer';
-import { ConfirmationModal } from 'src/app/modules/notification/modules/modals/services/confirmation-modal.service';
+import { SpecmateDataService } from '../../../../../../../../../app/modules/data/modules/data-service/services/specmate-data.service';
+import { SelectedElementService } from '../../../../../../../../../app/modules/views/side/modules/selected-element/services/selected-element.service';
+import { IContainer } from '../../../../../../../../../app/model/IContainer';
+import { ConfirmationModal } from '../../../../../../../../../app/modules/notification/modules/modals/services/confirmation-modal.service';
 import { TranslateService } from '@ngx-translate/core';
 
 

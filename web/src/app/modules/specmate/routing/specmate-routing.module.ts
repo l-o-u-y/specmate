@@ -7,6 +7,8 @@ import { Login } from '../../views/main/authentication/modules/login/components/
 import { LoginModule } from '../../views/main/authentication/modules/login/login.module';
 import { CEGModelEditorModule } from '../../views/main/editors/modules/ceg-model-editor/ceg-model-editor.module';
 import { CEGModelDetails } from '../../views/main/editors/modules/ceg-model-editor/components/ceg-model-details.component';
+import { RGModelEditorModule } from '../../views/main/editors/modules/rg-model-editor/rg-model-editor.module';
+import { RGModelDetails } from '../../views/main/editors/modules/rg-model-editor/components/rg-model-details.component';
 import { FolderDetails } from '../../views/main/editors/modules/folder-details/components/folder-details.component';
 import { FolderDetailsModule } from '../../views/main/editors/modules/folder-details/folder-details.module';
 import { ProcessDetails } from '../../views/main/editors/modules/process-model-editor/components/process-details.component';
@@ -24,12 +26,17 @@ import { WelcomePageModule } from '../../views/main/static/modules/welcome-page/
 import { UnsavedChangesGuard } from '../guards/unsaved-changes-guard';
 
 const routes: Routes = [
-  {
-    path: Config.VIEW_URL_PREFIX + 'CEGModel' + '/:url',
-    component: CEGModelDetails,
-    canDeactivate: [UnsavedChangesGuard],
-    canActivate: [UserPermissionsGuard]
-  }, {
+    {
+        path: Config.VIEW_URL_PREFIX + 'CEGModel' + '/:url',
+        component: CEGModelDetails,
+        canDeactivate: [UnsavedChangesGuard],
+        canActivate: [UserPermissionsGuard]
+    }, {
+        path: Config.VIEW_URL_PREFIX + 'RGModel' + '/:url',
+        component: RGModelDetails,
+        canDeactivate: [UnsavedChangesGuard],
+        canActivate: [UserPermissionsGuard]
+    }, {
     path: Config.VIEW_URL_PREFIX + 'Requirement' + '/:url',
     component: RequirementsDetails,
     canDeactivate: [UnsavedChangesGuard],
@@ -65,6 +72,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes),
     CEGModelEditorModule,
+    RGModelEditorModule,
     ProcessEditorModule,
     RequirementsDetailsModule,
     FolderDetailsModule,

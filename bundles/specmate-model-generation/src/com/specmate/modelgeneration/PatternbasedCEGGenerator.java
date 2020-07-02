@@ -5,11 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-<<<<<<< HEAD
-=======
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
->>>>>>> 57ef2e5ae2c1191ec3c48124c825c0268d979cfd
 import org.osgi.service.log.LogService;
 
 import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
@@ -27,6 +24,9 @@ import com.specmate.modelgeneration.stages.MatcherPostProcesser;
 import com.specmate.modelgeneration.stages.RuleMatcher;
 import com.specmate.modelgeneration.stages.TextPreProcessor;
 import com.specmate.modelgeneration.stages.graph.Graph;
+import com.specmate.model.requirements.CEGNode;
+import com.specmate.model.requirements.NodeType;
+import com.specmate.model.requirements.NodeType;
 import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
 
@@ -52,11 +52,7 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 	public CEGModel createModel(CEGModel originalModel, String input) throws SpecmateException {
 		log.log(LogService.LOG_INFO, "Textinput: " + input);
 		List<String> texts = preProcessor.preProcess(input);
-<<<<<<< HEAD
-		List<CEGModel> candidates = new ArrayList<>();
-=======
 		List<Pair<String, CEGModel>> candidates = new ArrayList<>();
->>>>>>> 57ef2e5ae2c1191ec3c48124c825c0268d979cfd
 
 		for (String text : texts) {
 			log.log(LogService.LOG_INFO, "Text Pre Processing: " + text);
@@ -87,21 +83,6 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 
 					Graph graph = graphBuilder.buildGraph((BinaryMatchResultTreeNode) tree);
 					CEGModel model = graphLayouter.createModel(graph);
-<<<<<<< HEAD
-					candidates.add(model);
-				} catch (Throwable t) {
-					// probably a wrong parse -> continue
-				}
-			}
-
-		}
-		if (candidates.isEmpty()) {
-			throw new SpecmateInternalException(ErrorCode.NLP, "No Cause-Effect Pair Found.");
-		}
-
-		candidates.sort((m1, m2) -> Integer.compare(m2.getContents().size(), m1.getContents().size()));
-		originalModel.getContents().addAll(candidates.get(0).getContents());
-=======
 					candidates.add(Pair.of(text, model));
 				} catch (Throwable t) {
 					log.log(LogService.LOG_DEBUG,
@@ -134,7 +115,6 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 
 		});
 		originalModel.getContents().addAll(candidates.get(0).getRight().getContents());
->>>>>>> 57ef2e5ae2c1191ec3c48124c825c0268d979cfd
 		return originalModel;
 	}
 }

@@ -40,7 +40,7 @@ public interface RequirementsPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20200309/model/requirements";
+	String eNS_URI = "http://specmate.com/20200611/model/requirements";
 
 	/**
 	 * The package namespace name.
@@ -392,7 +392,126 @@ public interface RequirementsPackage extends EPackage {
 	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getCEGNode()
 	 * @generated
 	 */
-	int CEG_NODE = 2;
+	int CEG_NODE = 3;
+
+	/**
+	 * The meta object id for the '{@link com.specmate.model.requirements.impl.CEGConnectionImpl <em>CEG Connection</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.requirements.impl.CEGConnectionImpl
+	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getCEGConnection()
+	 * @generated
+	 */
+	int CEG_CONNECTION = 5;
+
+	/**
+	 * The meta object id for the '{@link com.specmate.model.requirements.impl.RGModelImpl <em>RG Model</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.requirements.impl.RGModelImpl
+	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getRGModel()
+	 * @generated
+	 */
+	int RG_MODEL = 2;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_MODEL__ID = BasePackage.ISPECMATE_MODEL_OBJECT__ID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_MODEL__NAME = BasePackage.ISPECMATE_MODEL_OBJECT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_MODEL__DESCRIPTION = BasePackage.ISPECMATE_MODEL_OBJECT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Recycled</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_MODEL__RECYCLED = BasePackage.ISPECMATE_MODEL_OBJECT__RECYCLED;
+
+	/**
+	 * The feature id for the '<em><b>Has Recycled Children</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_MODEL__HAS_RECYCLED_CHILDREN = BasePackage.ISPECMATE_MODEL_OBJECT__HAS_RECYCLED_CHILDREN;
+
+	/**
+	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_MODEL__CONTENTS = BasePackage.ISPECMATE_MODEL_OBJECT__CONTENTS;
+
+	/**
+	 * The feature id for the '<em><b>Traces To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_MODEL__TRACES_TO = BasePackage.ISPECMATE_MODEL_OBJECT__TRACES_TO;
+
+	/**
+	 * The feature id for the '<em><b>Traces From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_MODEL__TRACES_FROM = BasePackage.ISPECMATE_MODEL_OBJECT__TRACES_FROM;
+
+	/**
+	 * The feature id for the '<em><b>Model Requirements</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_MODEL__MODEL_REQUIREMENTS = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>RG Model</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_MODEL_FEATURE_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>RG Model</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_MODEL_OPERATION_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_OPERATION_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -566,14 +685,185 @@ public interface RequirementsPackage extends EPackage {
 	int CEG_NODE_OPERATION_COUNT = BasePackage.IMODEL_NODE_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link com.specmate.model.requirements.impl.CEGConnectionImpl <em>CEG Connection</em>}' class.
+	 * The meta object id for the '{@link com.specmate.model.requirements.impl.RGNodeImpl <em>RG Node</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see com.specmate.model.requirements.impl.CEGConnectionImpl
-	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getCEGConnection()
+	 * @see com.specmate.model.requirements.impl.RGNodeImpl
+	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getRGNode()
 	 * @generated
 	 */
-	int CEG_CONNECTION = 3;
+	int RG_NODE = 4;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__ID = BasePackage.IMODEL_NODE__ID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__NAME = BasePackage.IMODEL_NODE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__DESCRIPTION = BasePackage.IMODEL_NODE__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Recycled</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__RECYCLED = BasePackage.IMODEL_NODE__RECYCLED;
+
+	/**
+	 * The feature id for the '<em><b>Has Recycled Children</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__HAS_RECYCLED_CHILDREN = BasePackage.IMODEL_NODE__HAS_RECYCLED_CHILDREN;
+
+	/**
+	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__CONTENTS = BasePackage.IMODEL_NODE__CONTENTS;
+
+	/**
+	 * The feature id for the '<em><b>Traces To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__TRACES_TO = BasePackage.IMODEL_NODE__TRACES_TO;
+
+	/**
+	 * The feature id for the '<em><b>Traces From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__TRACES_FROM = BasePackage.IMODEL_NODE__TRACES_FROM;
+
+	/**
+	 * The feature id for the '<em><b>X</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__X = BasePackage.IMODEL_NODE__X;
+
+	/**
+	 * The feature id for the '<em><b>Y</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__Y = BasePackage.IMODEL_NODE__Y;
+
+	/**
+	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__WIDTH = BasePackage.IMODEL_NODE__WIDTH;
+
+	/**
+	 * The feature id for the '<em><b>Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__HEIGHT = BasePackage.IMODEL_NODE__HEIGHT;
+
+	/**
+	 * The feature id for the '<em><b>Outgoing Connections</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__OUTGOING_CONNECTIONS = BasePackage.IMODEL_NODE__OUTGOING_CONNECTIONS;
+
+	/**
+	 * The feature id for the '<em><b>Incoming Connections</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__INCOMING_CONNECTIONS = BasePackage.IMODEL_NODE__INCOMING_CONNECTIONS;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__TYPE = BasePackage.IMODEL_NODE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Component</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__COMPONENT = BasePackage.IMODEL_NODE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Modifier</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__MODIFIER = BasePackage.IMODEL_NODE_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>RG Node</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE_FEATURE_COUNT = BasePackage.IMODEL_NODE_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of operations of the '<em>RG Node</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE_OPERATION_COUNT = BasePackage.IMODEL_NODE_OPERATION_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -693,6 +983,143 @@ public interface RequirementsPackage extends EPackage {
 	int CEG_CONNECTION_OPERATION_COUNT = BasePackage.IMODEL_CONNECTION_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link com.specmate.model.requirements.impl.RGConnectionImpl <em>RG Connection</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.requirements.impl.RGConnectionImpl
+	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getRGConnection()
+	 * @generated
+	 */
+	int RG_CONNECTION = 6;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CONNECTION__ID = BasePackage.IMODEL_CONNECTION__ID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CONNECTION__NAME = BasePackage.IMODEL_CONNECTION__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CONNECTION__DESCRIPTION = BasePackage.IMODEL_CONNECTION__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Recycled</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CONNECTION__RECYCLED = BasePackage.IMODEL_CONNECTION__RECYCLED;
+
+	/**
+	 * The feature id for the '<em><b>Has Recycled Children</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CONNECTION__HAS_RECYCLED_CHILDREN = BasePackage.IMODEL_CONNECTION__HAS_RECYCLED_CHILDREN;
+
+	/**
+	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CONNECTION__CONTENTS = BasePackage.IMODEL_CONNECTION__CONTENTS;
+
+	/**
+	 * The feature id for the '<em><b>Traces To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CONNECTION__TRACES_TO = BasePackage.IMODEL_CONNECTION__TRACES_TO;
+
+	/**
+	 * The feature id for the '<em><b>Traces From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CONNECTION__TRACES_FROM = BasePackage.IMODEL_CONNECTION__TRACES_FROM;
+
+	/**
+	 * The feature id for the '<em><b>Source</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CONNECTION__SOURCE = BasePackage.IMODEL_CONNECTION__SOURCE;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CONNECTION__TARGET = BasePackage.IMODEL_CONNECTION__TARGET;
+
+	/**
+	 * The feature id for the '<em><b>Negate</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CONNECTION__NEGATE = BasePackage.IMODEL_CONNECTION_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CONNECTION__TYPE = BasePackage.IMODEL_CONNECTION_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>RG Connection</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CONNECTION_FEATURE_COUNT = BasePackage.IMODEL_CONNECTION_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>RG Connection</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CONNECTION_OPERATION_COUNT = BasePackage.IMODEL_CONNECTION_OPERATION_COUNT + 0;
+
+	
+	/**
 	 * The meta object id for the '{@link com.specmate.model.requirements.NodeType <em>Node Type</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -700,8 +1127,17 @@ public interface RequirementsPackage extends EPackage {
 	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getNodeType()
 	 * @generated
 	 */
-	int NODE_TYPE = 4;
+	int NODE_TYPE = 7;
 
+	/**
+	 * The meta object id for the '{@link com.specmate.model.requirements.RGConnectionType <em>RG Connection Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.requirements.RGConnectionType
+	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getRGConnectionType()
+	 * @generated
+	 */
+	int RG_CONNECTION_TYPE = 8;
 
 	/**
 	 * Returns the meta object for class '{@link com.specmate.model.requirements.Requirement <em>Requirement</em>}'.
@@ -896,6 +1332,103 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getCEGConnection_Negate();
+	
+
+	/**
+	 * Returns the meta object for class '{@link com.specmate.model.requirements.RGModel <em>RG Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>RG Model</em>'.
+	 * @see com.specmate.model.requirements.RGModel
+	 * @generated
+	 */
+	EClass getRGModel();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGModel#getModelRequirements <em>Model Requirements</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Model Requirements</em>'.
+	 * @see com.specmate.model.requirements.RGModel#getModelRequirements()
+	 * @see #getRGModel()
+	 * @generated
+	 */
+	EAttribute getRGModel_ModelRequirements();
+
+	/**
+	 * Returns the meta object for class '{@link com.specmate.model.requirements.RGNode <em>RG Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>RG Node</em>'.
+	 * @see com.specmate.model.requirements.RGNode
+	 * @generated
+	 */
+	EClass getRGNode();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGNode#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see com.specmate.model.requirements.RGNode#getType()
+	 * @see #getRGNode()
+	 * @generated
+	 */
+	EAttribute getRGNode_Type();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGNode#getComponent <em>Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Component</em>'.
+	 * @see com.specmate.model.requirements.RGNode#getComponent()
+	 * @see #getRGNode()
+	 * @generated
+	 */
+	EAttribute getRGNode_Component();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGNode#getModifier <em>Modifier</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Modifier</em>'.
+	 * @see com.specmate.model.requirements.RGNode#getModifier()
+	 * @see #getRGNode()
+	 * @generated
+	 */
+	EAttribute getRGNode_Modifier();
+
+	/**
+	 * Returns the meta object for class '{@link com.specmate.model.requirements.RGConnection <em>RG Connection</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>RG Connection</em>'.
+	 * @see com.specmate.model.requirements.RGConnection
+	 * @generated
+	 */
+	EClass getRGConnection();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGConnection#isNegate <em>Negate</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Negate</em>'.
+	 * @see com.specmate.model.requirements.RGConnection#isNegate()
+	 * @see #getRGConnection()
+	 * @generated
+	 */
+	EAttribute getRGConnection_Negate();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGConnection#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see com.specmate.model.requirements.RGConnection#getType()
+	 * @see #getRGConnection()
+	 * @generated
+	 */
+	EAttribute getRGConnection_Type();
 
 	/**
 	 * Returns the meta object for enum '{@link com.specmate.model.requirements.NodeType <em>Node Type</em>}'.
@@ -906,6 +1439,16 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 */
 	EEnum getNodeType();
+
+	/**
+	 * Returns the meta object for enum '{@link com.specmate.model.requirements.RGConnectionType <em>RG Connection Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>RG Connection Type</em>'.
+	 * @see com.specmate.model.requirements.RGConnectionType
+	 * @generated
+	 */
+	EEnum getRGConnectionType();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1082,6 +1625,85 @@ public interface RequirementsPackage extends EPackage {
 		 */
 		EAttribute CEG_CONNECTION__NEGATE = eINSTANCE.getCEGConnection_Negate();
 
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.RGModelImpl <em>RG Model</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.requirements.impl.RGModelImpl
+		 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getRGModel()
+		 * @generated
+		 */
+		EClass RG_MODEL = eINSTANCE.getRGModel();
+
+		/**
+		 * The meta object literal for the '<em><b>Model Requirements</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RG_MODEL__MODEL_REQUIREMENTS = eINSTANCE.getRGModel_ModelRequirements();
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.RGNodeImpl <em>RG Node</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.requirements.impl.RGNodeImpl
+		 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getRGNode()
+		 * @generated
+		 */
+		EClass RG_NODE = eINSTANCE.getRGNode();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RG_NODE__TYPE = eINSTANCE.getRGNode_Type();
+
+		/**
+		 * The meta object literal for the '<em><b>Component</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RG_NODE__COMPONENT = eINSTANCE.getRGNode_Component();
+
+		/**
+		 * The meta object literal for the '<em><b>Modifier</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RG_NODE__MODIFIER = eINSTANCE.getRGNode_Modifier();
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.RGConnectionImpl <em>RG Connection</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.requirements.impl.RGConnectionImpl
+		 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getRGConnection()
+		 * @generated
+		 */
+		EClass RG_CONNECTION = eINSTANCE.getRGConnection();
+
+		/**
+		 * The meta object literal for the '<em><b>Negate</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RG_CONNECTION__NEGATE = eINSTANCE.getRGConnection_Negate();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RG_CONNECTION__TYPE = eINSTANCE.getRGConnection_Type();
+
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.requirements.NodeType <em>Node Type</em>}' enum.
 		 * <!-- begin-user-doc -->
@@ -1091,6 +1713,16 @@ public interface RequirementsPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum NODE_TYPE = eINSTANCE.getNodeType();
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.model.requirements.RGConnectionType <em>RG Connection Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.requirements.RGConnectionType
+		 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getRGConnectionType()
+		 * @generated
+		 */
+		EEnum RG_CONNECTION_TYPE = eINSTANCE.getRGConnectionType();
 
 	}
 

@@ -4,6 +4,7 @@ export class ValidationMessage {
     public static ERROR_UNCONNECTED_NODE = 'errorUnconnectedNode';
     public static ERROR_SINGLE_INDEGREE_NODE = 'errorSingleIndegreeNode';
     public static ERROR_DUPLICATE_IO_VARIABLE = 'errorDublicateIOVariable';
+    public static ERROR_DUPLICATE_IO_COMPONENT = 'errorDublicateComponent';
     public static ERROR_DUPLICATE_NODE = 'errorDublicateNode';
     public static ERROR_EMPTY_MODEL = 'errorEmptyModel';
     public static ERROR_CONTRADICTORY_CAUSES = 'errorContradictoryModel';

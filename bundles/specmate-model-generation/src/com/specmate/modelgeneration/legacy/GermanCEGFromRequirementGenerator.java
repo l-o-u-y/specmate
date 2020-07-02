@@ -21,7 +21,7 @@ public class GermanCEGFromRequirementGenerator extends CEGFromRequirementGenerat
 	}
 
 	@Override
-	protected ICauseEffectPatternMatcher getPatternMatcher() {
+	protected IPatternMatcher getPatternMatcher() {
 		return new GermanPatternMatcher();
 	}
 

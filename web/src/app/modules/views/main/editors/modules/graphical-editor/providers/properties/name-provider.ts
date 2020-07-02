@@ -10,6 +10,8 @@ export class NameProvider extends ProviderBase {
     public get name(): string {
         if (this.isCEGModel) {
             return this.translate.instant('causeEffectGraph');
+        } else if (this.isRGModel) {
+            return this.translate.instant('relationshipGraph');
         } else if (this.isProcessModel) {
             return this.translate.instant('processModel');
         }

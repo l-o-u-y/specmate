@@ -18,15 +18,12 @@ import org.apache.uima.fit.descriptor.ConfigurationParameter;
 import org.apache.uima.jcas.JCas;
 import org.json.JSONArray;
 import org.json.JSONObject;
-<<<<<<< HEAD
-=======
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
->>>>>>> 57ef2e5ae2c1191ec3c48124c825c0268d979cfd
 
 import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.model.administration.ErrorCode;
@@ -53,8 +50,6 @@ public class Spacy extends JCasAnnotator_ImplBase {
 
 	private static final int TIMEOUT = 5000;
 
-<<<<<<< HEAD
-=======
 	private LogService logService;
 
 	public Spacy() {
@@ -79,7 +74,6 @@ public class Spacy extends JCasAnnotator_ImplBase {
 		logServiceTracker.open();
 	}
 
->>>>>>> 57ef2e5ae2c1191ec3c48124c825c0268d979cfd
 	@Override
 	public void process(JCas jcas) throws AnalysisEngineProcessException {
 		String text = jcas.getDocumentText();
@@ -106,11 +100,7 @@ public class Spacy extends JCasAnnotator_ImplBase {
 
 	private JSONArray accessSpacyAPI(String requirement) throws SpecmateInternalException {
 
-<<<<<<< HEAD
-		RestClient restClient = new RestClient(SPACY_API_BASE_URL, TIMEOUT, null);
-=======
 		RestClient restClient = new RestClient(SPACY_API_BASE_URL, TIMEOUT, logService);
->>>>>>> 57ef2e5ae2c1191ec3c48124c825c0268d979cfd
 		try (restClient) {
 			// Set model parameters
 			JSONObject request = new JSONObject();

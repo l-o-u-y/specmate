@@ -16,7 +16,7 @@ import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 
-public class GermanPatternMatcher implements ICauseEffectPatternMatcher {
+public class GermanPatternMatcher implements IPatternMatcher {
 
 	private static final String CONSTITUENT_TYPE_SENTENCE = "S";
 	private static final String POS_COMMA = "$,";
@@ -124,7 +124,7 @@ public class GermanPatternMatcher implements ICauseEffectPatternMatcher {
 				positionComma = token.getBegin();
 			}
 		}
-		return positionComma - sentence.getBegin();
+		return positionComma;
 	}
 
 	private boolean hasVerbPhraseBeforeAndAfterPosition(JCas jCas, Sentence sentence, int positionComma) {
@@ -141,4 +141,5 @@ public class GermanPatternMatcher implements ICauseEffectPatternMatcher {
 		}
 		return start && end;
 	}
+
 }

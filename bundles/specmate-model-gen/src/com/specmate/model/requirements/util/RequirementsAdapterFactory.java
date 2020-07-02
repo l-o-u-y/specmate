@@ -89,12 +89,24 @@ public class RequirementsAdapterFactory extends AdapterFactoryImpl {
 				return createCEGModelAdapter();
 			}
 			@Override
+			public Adapter caseRGModel(RGModel object) {
+				return createRGModelAdapter();
+			}
+			@Override
 			public Adapter caseCEGNode(CEGNode object) {
 				return createCEGNodeAdapter();
 			}
 			@Override
+			public Adapter caseRGNode(RGNode object) {
+				return createRGNodeAdapter();
+			}
+			@Override
 			public Adapter caseCEGConnection(CEGConnection object) {
 				return createCEGConnectionAdapter();
+			}
+			@Override
+			public Adapter caseRGConnection(RGConnection object) {
+				return createRGConnectionAdapter();
 			}
 			@Override
 			public Adapter caseIID(IID object) {
@@ -217,6 +229,49 @@ public class RequirementsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCEGConnectionAdapter() {
+		return null;
+	}
+
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.requirements.RGModel <em>RG Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.requirements.RGModel
+	 * @generated
+	 */
+	public Adapter createRGModelAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.requirements.RGNode <em>RG Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.requirements.RGNode
+	 * @generated
+	 */
+	public Adapter createRGNodeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.requirements.RGConnection <em>RG Connection</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.requirements.RGConnection
+	 * @generated
+	 */
+	public Adapter createRGConnectionAdapter() {
 		return null;
 	}
 

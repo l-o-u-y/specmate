@@ -331,24 +331,14 @@ public class GermanSentenceUnfolder extends SentenceUnfolderBase {
 
 	@Override
 	protected Optional<Annotation> getNearestForwardConnective(JCas jcas, Annotation annotation) {
-<<<<<<< HEAD
-		// TODO Auto-generated method stub
-		return null;
-=======
 		// TODO: implement
 		return Optional.empty();
->>>>>>> 57ef2e5ae2c1191ec3c48124c825c0268d979cfd
 	}
 
 	@Override
 	protected List<Annotation> identifyConjunctionsWithoutConnectives(JCas jCas) {
-<<<<<<< HEAD
-		// TODO Auto-generated method stub
-		return null;
-=======
 		// TODO: implement
 		return Collections.emptyList();
->>>>>>> 57ef2e5ae2c1191ec3c48124c825c0268d979cfd
 	}
 
 }
