@@ -523,15 +523,11 @@ export class ChangeTranslator {
     public retranslate(changedElement: IContainer, graph: mxgraph.mxGraph, cell: mxgraph.mxCell) {
         this.preventDataUpdates = true;
         let value = this.nodeNameConverter ? this.nodeNameConverter.convertTo(changedElement) : changedElement.name;
-        console.log(value)
         if (value instanceof CEGmxModelNode || value instanceof RGmxModelNode) {
             for (const key in value) {
                 if (value.hasOwnProperty(key)) {
                     const val = value[key];
                     let child = cell.children.find(s => s.getId().endsWith(key));
-                    console.log(key)
-                    console.log(val)
-                    console.log(child)
                     if (child !== undefined) {
                         if (child.value !== val) {
                             graph.getModel().beginUpdate();

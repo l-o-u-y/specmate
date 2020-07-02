@@ -2,12 +2,15 @@ package com.specmate.modelgeneration;
 
 import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.Vector;
 
+import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.eclipse.emf.common.util.URI;
 import org.osgi.framework.Bundle;
@@ -36,9 +39,18 @@ import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
 import com.specmate.nlp.util.EnglishSentenceUnfolder;
 import com.specmate.nlp.util.GermanSentenceUnfolder;
+import com.specmate.nlp.util.NLPUtil;
 import com.specmate.nlp.util.SentenceUnfolderBase;
 import com.specmate.xtext.XTextException;
 import com.specmate.xtext.XTextUtil;
+
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.NP;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.NN;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.NSUBJ;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.NSUBJPASS;
 
 public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 	private INLPService tagger;
@@ -142,13 +154,46 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		DependencyParsetree data = DependencyParsetree.generateFromJCas(tagResult);
 		List<MatchResult> results = MatchUtil.evaluateRuleset(this.rules, data);
 		LinkedList<RGNode> nodes = new LinkedList<RGNode>();
-		
-		boolean generatedSomething = false;
-		
+		HashSet<String> nouns = new HashSet<String>();
 
-		// TODO make var = name
-		// TODO i dont understand this yet
-		int i = 0;
+		boolean generatedSomething = false;
+
+		JCasUtil.select(tagResult, Token.class).forEach(p -> {
+			if (p.getPosValue().equals("NN") || p.getPosValue().equals("NNP") ) {
+				nouns.add(p.getCoveredText());
+			}
+		});
+
+		System.out.println(NLPUtil.printPOSTags(tagResult));
+		System.out.println(NLPUtil.printChunks(tagResult));
+		System.out.println(NLPUtil.printParse(tagResult));
+		System.out.println(NLPUtil.printDependencies(tagResult));
+
+		/* for (Sentence sentence : JCasUtil.select(tagResult, Sentence.class)) {
+			List<Constituent> nounPhrases = NLPUtil.getNounPhrases(tagResult, sentence);
+		      for (Constituent nounphrase : nounPhrases) {
+	    		  nouns.add(nounphrase.getCoveredText());
+		    	  for (NN nn : JCasUtil.selectCovered(tagResult, NN.class, nounphrase)) {
+		    		  nouns.add(nn.toString());
+		    	  }
+		    	  for (NSUBJ nn : JCasUtil.selectCovered(tagResult, NSUBJ.class, nounphrase)) {
+		    		  nouns.add(nn.toString());
+		    	  }
+		    	  for (NSUBJPASS nn : JCasUtil.selectCovered(tagResult, NSUBJPASS.class, nounphrase)) {
+		    		  nouns.add(nn.toString());
+		    	  }
+		      }
+		}*/
+		
+		if (nouns.size() > 0) {
+			generatedSomething = true;
+			int i = 0;
+			for (String noun : nouns) {
+				this.creation.createNodeIfNotExist(nodes, model, noun, "", 100 * (i), 100 * (i), NodeType.AND);
+				i++;
+			}
+		}
+		
 		for(MatchResult result: results) {
 			if(!result.isSuccessfulMatch()) {
 				continue;
@@ -156,28 +201,25 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			
 			MatchResultWrapper res = new MatchResultWrapper(result);
 
-			if(res.isInheritance()) {
-				generatedSomething = true;
-				
+			if (res.isInheritance()) {
 				RGNode parent = this.creation.createNodeIfNotExist(nodes, model, 
 						res.result.getSubmatch(SubtreeNames.PARENT).getMatchTree().getRepresentationString(true)
-						, "", 100 * (i), 100 * (i), NodeType.AND);
+						, "", 0, 0, NodeType.AND);
 				RGNode child = this.creation.createNodeIfNotExist(nodes, model, 
 						res.result.getSubmatch(SubtreeNames.CHILD).getMatchTree().getRepresentationString(true)
-						, "", 100 * (i), 100 * (i), NodeType.AND);
+						, "", 0, 0, NodeType.AND);
 				this.creation.createConnection(model, parent, child, RGConnectionType.INHERITANCE, false);
 			} else if(res.isComposition()) {
 				generatedSomething = true;
 				RGNode parent = this.creation.createNodeIfNotExist(nodes, model, 
 						res.result.getSubmatch(SubtreeNames.PARENT).getMatchTree().getRepresentationString(true)
-						, "", 100 * (i), 100 * (i), NodeType.AND);
+						, "", 0, 0, NodeType.AND);
 				RGNode child = this.creation.createNodeIfNotExist(nodes, model, 
 						res.result.getSubmatch(SubtreeNames.CHILD).getMatchTree().getRepresentationString(true)
-						, "", 100 * (i), 100 * (i), NodeType.AND);
+						, "", 0, 0, NodeType.AND);
 				this.creation.createConnection(model, parent, child, RGConnectionType.COMPOSITION, false);
 			} else if(res.isAction()) {
 				/*
-				generatedSomething = true;
 				i++;
 				RGNode parent = this.creation.createNodeIfNotExist(nodes, model, var+" "+(i), "", 100 * (i), 100 * (i), NodeType.OR);
 				i++;
@@ -185,7 +227,6 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 				this.creation.createConnection(model, parent, child, RGConnectionType.COMPOSITION, false);
 				*/
 			}
-			i++;
 			
 			
 		}

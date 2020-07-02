@@ -78,6 +78,10 @@ export class Config {
         Math.sqrt((Config.CEG_NODE_WIDTH / 2.0) * (Config.CEG_NODE_WIDTH / 2.0) +
             (Config.CEG_NODE_HEIGHT / 2.0) * (Config.CEG_NODE_HEIGHT / 2.0));
 
+
+    public static RG_NODE_NEW_COMPONENT = 'New Component';
+    public static RG_NODE_NEW_MODIFIER = '';
+
     public static RG_NEW_MODEL_NAME = 'New Model';
     public static RG_NEW_MODEL_DESCRIPTION = '';
 
