@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.StringJoiner;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
@@ -141,11 +142,11 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 	private String preprocessData(String text) throws SpecmateException {
 		SentenceUnfolderBase unfolder;
 		if(this.lang == ELanguage.DE) {
-			unfolder = new GermanSentenceUnfolder();
+			unfolder = new GermanSentenceUnfolder(this.tagger);
 		} else {
-			unfolder = new EnglishSentenceUnfolder();
+			unfolder = new EnglishSentenceUnfolder(this.tagger);
 		}
-		return unfolder.unfold(this.tagger, text, this.lang);
+		return unfolder.unfold(text).stream().collect(Collectors.joining(" "));
 	}
 	
 	public RGModel createModel(RGModel model, String text) throws SpecmateException {		
