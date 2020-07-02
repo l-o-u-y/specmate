@@ -94,6 +94,7 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 			generator = new PatternbasedCEGGenerator(lang, tagger, configService, logService);
 		}
 
+<<<<<<< HEAD
 //		try {
 		generator.createModel(model, text);
 //		} catch (SpecmateException e) {
@@ -108,6 +109,22 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 //			}
 //			generator.createModel(model, text);
 //		}
+=======
+		try {
+			generator.createModel(model, text);
+		} catch (SpecmateException e) {
+			// Generation Backof
+			logService.log(LogService.LOG_INFO,
+					"NLP model generation failed with the following error: \"" + e.getMessage() + "\"");
+			logService.log(LogService.LOG_INFO, "Backing off to rule based generation...");
+			if (lang == ELanguage.DE) {
+				generator = new GermanCEGFromRequirementGenerator(logService, tagger);
+			} else {
+				generator = new EnglishCEGFromRequirementGenerator(logService, tagger);
+			}
+			generator.createModel(model, text);
+		}
+>>>>>>> 57ef2e5ae2c1191ec3c48124c825c0268d979cfd
 		return model;
 	}
 

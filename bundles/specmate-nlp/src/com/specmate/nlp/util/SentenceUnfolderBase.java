@@ -88,7 +88,11 @@ public abstract class SentenceUnfolderBase {
 			unfoldedText2 += " " + result2;
 			unfoldedText3 += " " + result3;
 		}
+<<<<<<< HEAD
 		return Arrays.asList(unfoldedText1, unfoldedText2, unfoldedText3);
+=======
+		return Arrays.asList(unfoldedText1.trim(), unfoldedText2.trim(), unfoldedText3.trim());
+>>>>>>> 57ef2e5ae2c1191ec3c48124c825c0268d979cfd
 	}
 
 	private String insertImplicitConjunctions(String text) throws SpecmateException {

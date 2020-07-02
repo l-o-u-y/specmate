@@ -5,6 +5,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+<<<<<<< HEAD
+=======
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
+>>>>>>> 57ef2e5ae2c1191ec3c48124c825c0268d979cfd
 import org.osgi.service.log.LogService;
 
 import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
@@ -47,7 +52,11 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 	public CEGModel createModel(CEGModel originalModel, String input) throws SpecmateException {
 		log.log(LogService.LOG_INFO, "Textinput: " + input);
 		List<String> texts = preProcessor.preProcess(input);
+<<<<<<< HEAD
 		List<CEGModel> candidates = new ArrayList<>();
+=======
+		List<Pair<String, CEGModel>> candidates = new ArrayList<>();
+>>>>>>> 57ef2e5ae2c1191ec3c48124c825c0268d979cfd
 
 		for (String text : texts) {
 			log.log(LogService.LOG_INFO, "Text Pre Processing: " + text);
@@ -78,6 +87,7 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 
 					Graph graph = graphBuilder.buildGraph((BinaryMatchResultTreeNode) tree);
 					CEGModel model = graphLayouter.createModel(graph);
+<<<<<<< HEAD
 					candidates.add(model);
 				} catch (Throwable t) {
 					// probably a wrong parse -> continue
@@ -91,6 +101,40 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 
 		candidates.sort((m1, m2) -> Integer.compare(m2.getContents().size(), m1.getContents().size()));
 		originalModel.getContents().addAll(candidates.get(0).getContents());
+=======
+					candidates.add(Pair.of(text, model));
+				} catch (Throwable t) {
+					log.log(LogService.LOG_DEBUG,
+							"Error occured processing the dependency parse tree: " + t.getMessage(), t);
+				}
+			}
+
+		}
+		if (candidates.isEmpty()) {
+			throw new SpecmateInternalException(ErrorCode.NLP, "No Cause-Effect Pair Found.");
+		}
+
+		// Sort by model size (bigger models are better) and number of commas (more is
+		// better) and length of the input texts
+		// (shorter texts are better)
+		candidates.sort((p1, p2) -> {
+			CEGModel m1 = p1.getRight();
+			CEGModel m2 = p2.getRight();
+			int c = Integer.compare(m2.getContents().size(), m1.getContents().size());
+			if (c != 0) {
+				return c;
+			}
+			String t1 = p1.getLeft();
+			String t2 = p2.getLeft();
+			c = Integer.compare(StringUtils.countMatches(t2, ","), StringUtils.countMatches(t1, ","));
+			if (c != 0) {
+				return c;
+			}
+			return Integer.compare(t1.length(), t2.length());
+
+		});
+		originalModel.getContents().addAll(candidates.get(0).getRight().getContents());
+>>>>>>> 57ef2e5ae2c1191ec3c48124c825c0268d979cfd
 		return originalModel;
 	}
 }
