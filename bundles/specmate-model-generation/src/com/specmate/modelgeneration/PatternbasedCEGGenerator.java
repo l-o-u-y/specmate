@@ -79,7 +79,7 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 					}
 
 					Graph graph = graphBuilder.buildGraph((BinaryMatchResultTreeNode) tree);
-					CEGModel model = graphLayouter.createModel(graph);
+					CEGModel model = (CEGModel)graphLayouter.createModel(graph);
 					candidates.add(Pair.of(text, model));
 				} catch (Throwable t) {
 					log.log(LogService.LOG_DEBUG,

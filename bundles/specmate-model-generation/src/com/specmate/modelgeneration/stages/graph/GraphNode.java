@@ -8,6 +8,8 @@ import com.specmate.model.requirements.NodeType;
 public class GraphNode {
 	private String condition;
 	private String variable;
+	private String component;
+	private String modifier;
 	private NodeType type;
 	private Graph graph;
 
@@ -19,10 +21,6 @@ public class GraphNode {
 	}
 
 	GraphNode(Graph graph, NodeType type) {
-		this(graph, null, null, type);
-	}
-
-	GraphNode(Graph graph, String condition, String variable, NodeType type) {
 		this.type = type;
 		this.condition = condition;
 		this.variable = variable;
@@ -51,12 +49,28 @@ public class GraphNode {
 		return variable;
 	}
 
+	public String getComponent() {
+		return condition;
+	}
+
+	public String getModifier() {
+		return variable;
+	}
+
 	public void setCondition(String condition) {
 		this.condition = condition;
 	}
 
 	public void setVariable(String variable) {
 		this.variable = variable;
+	}
+
+	public void setComponent(String component) {
+		this.component = component;
+	}
+
+	public void setModifier(String modifier) {
+		this.modifier = modifier;
 	}
 
 	public boolean isRoot() {

@@ -20,7 +20,7 @@ import com.specmate.model.support.util.SpecmateEcoreUtil;
  * @author Andreas Wehrle
  *
  */
-public class CEGCreation {
+public class CEGCreation extends Creation<CEGModel, CEGNode, CEGConnection> {
 
 	private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

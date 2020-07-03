@@ -146,7 +146,7 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 		}
 		else { // if (parent instanceof RGModel) {
 			IRGFromRequirementGenerator generator;
-			generator = new PatternbasedRGGenerator(ELanguage.EN, tagger, this.configService);
+			generator = new PatternbasedRGGenerator(ELanguage.EN, tagger, this.configService, this.logService);
 			
 			try {
 				generator.createModel((RGModel)model, text);

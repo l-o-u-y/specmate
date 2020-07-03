@@ -21,7 +21,7 @@ import com.specmate.model.support.util.SpecmateEcoreUtil;
  * @author Andreas Wehrle
  *
  */
-public class RGCreation {
+public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 
 	private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -71,6 +71,23 @@ public class RGCreation {
 		con.setNegate(negate);
 		con.setName("New Connection " + dateFormat.format(new Date()));
 		con.setType(type);
+		model.getContents().add(con);
+		return con;
+	}
+
+	public RGConnection createConnection(RGModel model, RGNode nodeFrom, RGNode nodeTo, boolean negate) {
+		Optional<IModelConnection> optCon = nodeFrom.getOutgoingConnections().stream()
+				.filter(conn -> conn.getTarget() == nodeTo).findFirst();
+		if (optCon.isPresent()) {
+			return (RGConnection) optCon.get();
+		}
+		RGConnection con = RequirementsFactory.eINSTANCE.createRGConnection();
+		con.setId(SpecmateEcoreUtil.getIdForChild());
+		con.setSource(nodeFrom);
+		con.setTarget(nodeTo);
+		con.setNegate(negate);
+		con.setName("New Connection " + dateFormat.format(new Date()));
+		con.setType(RGConnectionType.COMPOSITION);
 		model.getContents().add(con);
 		return con;
 	}

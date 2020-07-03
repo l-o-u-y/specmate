@@ -20,9 +20,16 @@ public class MatchTreeBuilder {
 		public static final String VERB = "Verb";
 		public static final String OBJECT = "Object";
 		public static final String PREPOSITION = "Preposition";
+		public static final String SOURCE = "Source";
+		public static final String ACTION = "Action";
+		public static final String TARGET = "Target";
+		public static final String PARENT = "Parent";
+		public static final String CHILD = "Child";
 	}
 
 	private static class RuleNames {
+		public static final String INHERITANCE = "Inheritance";
+		public static final String COMPOSITION = "Composition";
 		public static final String LIMITED_CONDITION = "LimitedCondition";
 		public static final String CONDITION = "Condition";
 		public static final String CONJUNCTION = "Conjunction";
@@ -36,6 +43,18 @@ public class MatchTreeBuilder {
 		public static final String AND = "_AND";
 	}
 
+	private boolean isInheritance(MatchResult result) {
+		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.INHERITANCE);
+		boolean subMatches = result.hasSubmatch(SubtreeNames.PARENT) && result.hasSubmatch(SubtreeNames.CHILD);
+		return name && subMatches;
+	}
+	
+	private boolean isComposition(MatchResult result) {
+		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.COMPOSITION);
+		boolean subMatches = result.hasSubmatch(SubtreeNames.PARENT) && result.hasSubmatch(SubtreeNames.CHILD);
+		return name && subMatches;
+	}
+	
 	private boolean isCondition(MatchResult result) {
 		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.CONDITION);
 		boolean subMatches = result.hasSubmatch(SubtreeNames.CAUSE) && result.hasSubmatch(SubtreeNames.EFFECT);
