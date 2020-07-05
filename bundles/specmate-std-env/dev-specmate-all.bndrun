@@ -234,7 +234,7 @@
 	org.eclipse.jetty.servlets;version='[9.4.6,9.4.7)'
 
 -runproperties: \
-	jetty.http.port=8085,\
+	jetty.http.port=8081,\
 	osgi.console=,\
 	jetty.home.bundle=specmate-jettystarter,\
 	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\

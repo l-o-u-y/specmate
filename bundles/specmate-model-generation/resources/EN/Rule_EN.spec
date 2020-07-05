@@ -3,56 +3,35 @@ import EN.POS.PTB.*
 
 def subtrees Limit, Conditional, Source, Action, Target, Parent, Child, TMP
 
-def rule Inheritance_1_var1 {
+def rule Inheritance_1 {
 	'is':[TMP] - nsubj -> [Parent]
-	[TMP] - dobj -> [Child]
-}
-
-def rule Inheritance_1_var2 {
-	/* 'is':[TMP] - cop -> [Parent] */
-	[Child] - nsubj -> [Parent]
+	[TMP] - attr -> [Child]
 }
 
 def rule Composition_1 {
 	'has':[TMP] - nsubj -> [Parent]
-	[TMP] - obj -> [Child]
+	[TMP] - attr -> [Child]
 }
 
-/* def rule Composition_2 {
+def rule Composition_2 {
 	'has':[TMP] - nsubj -> [Parent]
-	[TMP] - obj -> 'component' - acl -> 'called' - obj -> [Child]
-} */
+	[TMP] - attr -> 'component' - acl -> 'called' - oprd -> [Child]
+}
 
-def rule Composition_3_var1 {
+def rule Composition_3 {
 	'is':[TMP] - nsubj -> [Child]
 	[TMP] - dobj -> 'component' - prep -> 'of' - pobj -> [Parent]
 }
 
-/* def rule Composition_3_var2 {
-	'component':[TMP] - cop -> 'is'
-	[TMP] - nsubj -> [Child]
-	[TMP] - nmod -> [Parent]
-} */
-
-/* def rule Composition_4 {
+def rule Composition_4 {
 	'has':[TMP] - nsubj -> [Child]
-	[TMP] - obj -> 'parent' - acl -> 'called' - obj -> [Parent]
-	/* 'has':[TMP] - nsubj -> [Child]
-	[TMP] - dobj -> 'parent' - acl -> 'called' - oprd -> [Parent] * /
-}*/
+	[TMP] - dobj -> 'parent' - acl -> 'called' - oprd -> [Parent]
+}
 
-def rule Composition_5_var1 {
+def rule Composition_5 {
 	'is':[TMP] - nsubj -> [Parent]
 	[TMP] - dobj -> 'parent' - prep -> 'of' - pobj -> [Child]
 }
-
-
-/* def rule Composition_5_var2 {
-	'parent':[TMP] - cop -> 'is'
-	[TMP] - nsubj -> [Parent]
-	[TMP] - nmod -> [Child]
-} */
-
 
 def rule LimitedCondition_1 {
 	[Limit] - nsubjpass -> [Conditional] - prep -> IN:'until'

@@ -234,7 +234,7 @@
 	org.eclipse.equinox.metatype;version='[1.4.0,1.4.1)'
 
 -runproperties: \
-	jetty.http.port=8080,\
+	jetty.http.port=8081,\
 	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
 	osgi.console=,\
 	jetty.home.bundle=specmate-jettystarter,\

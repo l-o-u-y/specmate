@@ -66,6 +66,8 @@ def tagset dependencies EN.DEP.CONLL2008 {
 }
 
 def tagset dependencies EN.DEP.STANFORD {
+	/* Clausal modifier of noun (adjectival clause) */
+	acl
 	/* Abbreviation modifier */
 	abbrev
 	/* Adjectival complement */
@@ -142,6 +144,8 @@ def tagset dependencies EN.DEP.STANFORD {
 	number
 	/* Object */
 	obj
+	/* Object complementuby: gf\=objectcomplement */
+	oprd
 	/* Parataxis */
 	parataxis
 	/* Participial modifier */
