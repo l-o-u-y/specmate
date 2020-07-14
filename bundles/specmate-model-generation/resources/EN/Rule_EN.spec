@@ -3,7 +3,104 @@ import EN.POS.PTB.*
 
 def subtrees Limit, Conditional, Source, Action, Target, Parent, Child, TMP
 
-def rule Inheritance_1 {
+def rule Action_Explicit_1 {
+	VB:[Action] - dobj -> NN:[Target]
+	[Action] - nsubj -> *:[Source]
+}
+
+def rule Action_Explicit_Prep_1 {
+	VB:[Action] - prep -> TO:'to' - dobj -> NN:[Target]
+	[Action] - nsubj -> *:[Source]
+}
+
+// VB conj VB dobj NN conj NN <-- TODO
+def rule Action_1 {
+	VB:[Action] - dobj -> NN:[Target]
+}
+
+def rule Action_Prep_1 {
+	VB:[Action] - prep -> TO:'to' - dobj -> NN:[Target]
+}
+
+def rule Composition_1 {
+	(NN|NNS):[Child] - prep -> IN:('on'|'of') - pobj -> NN:[Parent]
+}
+
+def rule Composition_2 {
+	NN:[Parent] - prep -> IN:'with' - pobj -> (NNS|NN):[Child]
+}
+
+// NNS:[Child] - cc -> 'and'; [Child] - conj -> NNS <-- TODO
+def rule Composition_3 {
+	NN:[Parent] - acl -> 'showing' - pobj -> (NNS|NN):[Child]
+}
+
+
+def rule Composition_4 {
+	(NNS|NN):[Child] - prep -> IN:'inside' - pobj -> NN:[Parent]
+}
+
+
+def rule Update_1 {
+	NN:[New] - cc -> IN:'of' - advmod -> RB:'instead'
+	[New] - conj -> NN:[Old]
+}
+
+def rule Update_2 {
+	(VB|VBZ):'add*|includ*|implement*':[TMP] - dobj -> (NN|NNS):[New]
+}
+
+def rule Update_2.2 {
+	(VB|VBZ):'add*|includ*|implement*':[TMP] - dobj -> (NN|NNS):[New] - prep -> IN:('to'|'in') - pobj -> (NN|NNP)
+}
+
+def rule Update_3 {
+	'chang*':[TMP] - dobj -> NN - prep -> 'from' - pobj -> (NN|NNP):[Old]
+	[TMP] - prep -> IN:'to' - pobj -> (NN|NNP):[New]
+}
+
+def rule Update_4 {
+	(VB|VBZ):'remov*' - dobj -> NN:[Old] - from -> NN:[Parent]
+}
+
+
+
+
+/* def rule Action_Conj_1.1 {
+	vb:[Action] - conj -> vb - dobj -> nn:[Target]
+}
+
+def rule Action_Conj_1.2 {
+	vb:[Action] - conj -> vb - dobj -> nn - conj -> nn:[Target]
+}
+
+def rule Action_Conj_1.3 {
+	vb:[Action] - dobj -> nn - conj -> nn:[Target]
+}
+
+def rule Action_Explicit_1 {
+	vb:[Action] - dobj -> nn:[Target]
+	[Action] - nsubj -> [Source]
+}
+
+def rule Action_Explicit_Conj_1.1 {
+	vb:[Action] - conj -> vb - dobj -> nn:[Target]
+	[Action] - nsubj -> [Source]
+}
+
+def rule Action_Explicit_Conj_1.2 {
+	vb:[Action] - conj -> vb - dobj -> nn - conj -> nn:[Target]
+	[Action] - nsubj -> [Source]
+}
+
+def rule Action_Explicit_Conj_1.3 {
+	vb:[Action] - dobj -> nn - conj -> nn:[Target]
+	[Action] - nsubj -> [Source]
+} */
+
+
+
+/* def rule Inheritance_1 {
 	'is':[TMP] - nsubj -> [Parent]
 	[TMP] - attr -> [Child]
 }
@@ -31,7 +128,7 @@ def rule Composition_4 {
 def rule Composition_5 {
 	'is':[TMP] - nsubj -> [Parent]
 	[TMP] - dobj -> 'parent' - prep -> 'of' - pobj -> [Child]
-}
+} */
 
 def rule LimitedCondition_1 {
 	[Limit] - nsubjpass -> [Conditional] - prep -> IN:'until'

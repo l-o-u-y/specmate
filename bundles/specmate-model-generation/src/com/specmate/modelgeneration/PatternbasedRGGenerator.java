@@ -39,6 +39,7 @@ import com.specmate.nlp.api.INLPService;
 import com.specmate.nlp.util.NLPUtil;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 
 public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 	private INLPService tagger;
@@ -77,8 +78,8 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			JCas tagResult = this.tagger.processText(text, this.lang);
 			
 			HashSet<String> nouns = new HashSet<String>();
-			JCasUtil.select(tagResult, Token.class).forEach(p -> {
-				if (p.getPosValue().equals("NN") || p.getPosValue().equals("NNP") ) {
+			JCasUtil.select(tagResult, Chunk.class).forEach(p -> {
+				if (p.getChunkValue().equals("NP")) {
 					nouns.add(p.getCoveredText());
 				}
 			});

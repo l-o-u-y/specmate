@@ -92,6 +92,17 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		return con;
 	}
 
+
+	private String processNoun(String noun) {
+		String n = noun;
+		if (noun.startsWith("a ")) {
+			n = noun.substring(2);
+		} else if (noun.startsWith("the ")) {
+			n = noun.substring(4);
+		}
+		return n;
+	}
+	
 	/**
 	 * Create a new node if it does not exist in the list. Otherwise return the
 	 * existing node. Nodes are only compared by name and type
@@ -107,6 +118,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 */
 	public RGNode createNodeIfNotExist(LinkedList<RGNode> list, RGModel model, String component, String modifier,
 			int x, int y, NodeType type) {
+		component = this.processNoun(component);
 		for (RGNode rgNode : list) {
 			if (rgNode.getName().equals(component) && rgNode.getType().equals(type)) {
 				return rgNode;

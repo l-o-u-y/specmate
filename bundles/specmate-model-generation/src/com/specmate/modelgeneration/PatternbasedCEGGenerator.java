@@ -50,6 +50,12 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 		log.log(LogService.LOG_INFO, "Textinput: " + input);
 		List<String> texts = preProcessor.preProcess(input);
 		List<Pair<String, CEGModel>> candidates = new ArrayList<>();
+		
+
+
+		for (String text : texts) {
+			System.out.println(text);
+		}		
 
 		for (String text : texts) {
 			log.log(LogService.LOG_INFO, "Text Pre Processing: " + text);
