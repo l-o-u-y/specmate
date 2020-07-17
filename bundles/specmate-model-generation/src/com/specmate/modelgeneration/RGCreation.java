@@ -154,7 +154,8 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		FileInputStream fis;
 		try {
 			// TODO make path relative
-			fis = new FileInputStream(new File("C:\\Users\\Lena\\Desktop\\Masterarbeit\\delta-descriptions\\papers\\Concreteness_ratings_Brysbaert_et_al_BRM.xlsx"));
+			String path = "C:\\Users\\Lena\\Desktop\\Masterarbeit\\delta-descriptions\\papers\\Concreteness_ratings_Brysbaert_et_al_BRM.xls";
+			fis = new FileInputStream(new File(path));
 
 			// creating workbook instance that refers to .xls file
 			HSSFWorkbook wb = new HSSFWorkbook(fis);
