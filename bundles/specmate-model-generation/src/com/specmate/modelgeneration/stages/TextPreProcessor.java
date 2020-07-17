@@ -25,6 +25,7 @@ public class TextPreProcessor {
 		} else {
 			unfolder = new EnglishSentenceUnfolder(nlpService);
 		}
+		// TODO MA
 		text = generalGithubPreprocessing(text);
 		return unfolder.unfold(text);
 	}
@@ -67,7 +68,7 @@ public class TextPreProcessor {
 		text = text.replaceAll("\"", "");
 		text = text.replaceAll("'", "");
 		
-		//TODO replace space with _ in code snippets
+		//TODO MA replace space with _ in code snippets
 		
 		text = text.trim();
 		

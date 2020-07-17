@@ -13,7 +13,7 @@ def rule Action_Explicit_Prep_1 {
 	[Action] - nsubj -> *:[Source]
 }
 
-// VB conj VB dobj NN conj NN <-- TODO
+// VB conj VB dobj NN conj NN <-- TODO MA
 def rule Action_1 {
 	VB:[Action] - dobj -> NN:[Target]
 }
@@ -30,7 +30,7 @@ def rule Composition_2 {
 	NN:[Parent] - prep -> IN:'with' - pobj -> (NNS|NN):[Child]
 }
 
-// NNS:[Child] - cc -> 'and'; [Child] - conj -> NNS <-- TODO
+// NNS:[Child] - cc -> 'and'; [Child] - conj -> NNS <-- TODO MA
 def rule Composition_3 {
 	NN:[Parent] - acl -> 'showing' - pobj -> (NNS|NN):[Child]
 }

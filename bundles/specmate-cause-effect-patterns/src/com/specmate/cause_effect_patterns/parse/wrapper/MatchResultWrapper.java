@@ -95,7 +95,7 @@ public class MatchResultWrapper {
 		return this.result.isSuccessfulMatch();
 	}
 	
-	// TODO add cases for methods below
+	// TODO MA add cases for methods below
 	
 	public boolean isInheritance() {
 		boolean name = this.result.hasRuleName() && this.result.getRuleName().contains(RuleNames.INHERITANCE);

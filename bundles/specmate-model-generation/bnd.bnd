@@ -1,6 +1,11 @@
 -includeresource: \
 	resources = resources
 -buildpath: \
+	jar/commons-collections4-4.1.jar;version=file,\
+	jar/poi-3.17.jar;version=file,\
+	jar/poi-ooxml-3.17.jar;version=file,\
+	jar/poi-ooxml-schemas-3.17.jar;version=file,\
+	jar/xmlbeans-2.6.0.jar;version=file,\
 	osgi.core,\
 	osgi.cmpn,\
 	javax.ws.rs-api,\
@@ -29,3 +34,7 @@ Private-Package: \
 	com.specmate.modelgeneration.stages,\
 	com.specmate.modelgeneration.stages.processors,\
 	com.specmate.modelgeneration.stages.graph
+Import-Package: \
+ 	org.apache.poi.hssf.usermodel.*;resolution:=optional, \
+ 	org.apache.poi.ss.usermodel.*;resolution:=optional, \
+	*\
