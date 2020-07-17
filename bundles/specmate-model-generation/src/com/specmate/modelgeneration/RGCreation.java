@@ -132,7 +132,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 			int y, NodeType type) {
 		component = this.processWord(component);
 		for (RGNode rgNode : list) {
-			if (rgNode.getName().equals(component) && rgNode.getType().equals(type)) {
+			if (rgNode.getComponent().equals(component) && rgNode.getType().equals(type)) {
 				return rgNode;
 			}
 		}
@@ -171,7 +171,9 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 					// get rating
 					Cell rating = row.getCell(3);
 					// we say rating of 3 or higher = concrete
-					return cell.getNumericCellValue() > 3;
+					System.out.println("Found match for noun " + noun);
+					System.out.println("Rating is " + rating.getNumericCellValue());
+					return rating.getNumericCellValue() > 3;
 				}
 			}
 		} catch (Exception e) {
