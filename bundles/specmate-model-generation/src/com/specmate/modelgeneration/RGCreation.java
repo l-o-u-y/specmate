@@ -2,7 +2,6 @@ package com.specmate.modelgeneration;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,7 +11,6 @@ import java.util.Optional;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 
 import com.specmate.model.base.IModelConnection;
@@ -107,6 +105,8 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		// remove a, the
 		if (string.startsWith("a ")) {
 			s = string.substring(2);
+		} else if (string.startsWith("an ")) {
+			s = string.substring(3);
 		} else if (string.startsWith("the ")) {
 			s = string.substring(4);
 		}
@@ -154,7 +154,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		FileInputStream fis;
 		try {
 			// TODO make path relative
-			fis = new FileInputStream(new File("C:\\Users\\Lena\\Desktop\\Masterarbeit\\delta-descriptions\\papers"));
+			fis = new FileInputStream(new File("C:\\Users\\Lena\\Desktop\\Masterarbeit\\delta-descriptions\\papers\\Concreteness_ratings_Brysbaert_et_al_BRM.xlsx"));
 
 			// creating workbook instance that refers to .xls file
 			HSSFWorkbook wb = new HSSFWorkbook(fis);
@@ -170,11 +170,9 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 					// get rating
 					Cell rating = row.getCell(3);
 					// we say rating of 3 or higher = concrete
-					wb.close();
 					return cell.getNumericCellValue() > 3;
 				}
 			}
-			wb.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

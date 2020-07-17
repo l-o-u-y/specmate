@@ -1,7 +1,7 @@
 import EN.DEP.STANFORD.*
 import EN.POS.PTB.*
 
-def subtrees Limit, Conditional, Source, Action, Target, Parent, Child, TMP
+def subtrees Limit, Conditional, Source, Action, Target, Parent, Child, New, Old, TMP
 
 def rule Action_Explicit_1 {
 	VB:[Action] - dobj -> NN:[Target]
@@ -22,10 +22,10 @@ def rule Action_Prep_1 {
 	VB:[Action] - prep -> TO:'to' - dobj -> NN:[Target]
 }
 
+/*
 def rule Composition_1 {
-	(NN|NNS):[Child] - prep -> IN:('on'|'of') - pobj -> NN:[Parent]
+	(NN:*:[Child]|NNS:*:[Child]) - prep -> IN:('on'|'of') - pobj -> NN:[Parent]
 }
-
 def rule Composition_2 {
 	NN:[Parent] - prep -> IN:'with' - pobj -> (NNS|NN):[Child]
 }
@@ -47,11 +47,11 @@ def rule Update_1 {
 }
 
 def rule Update_2 {
-	(VB|VBZ):'add*|includ*|implement*':[TMP] - dobj -> (NN|NNS):[New]
+	(VB|VBZ):('add*'|'includ*'|'implement*'):[TMP] - dobj -> (NN|NNS):[New]
 }
 
 def rule Update_2.2 {
-	(VB|VBZ):'add*|includ*|implement*':[TMP] - dobj -> (NN|NNS):[New] - prep -> IN:('to'|'in') - pobj -> (NN|NNP)
+	(VB|VBZ):('add*'|'includ*'|'implement*'):[TMP] - dobj -> (NN|NNS):[New] - prep -> IN:('to'|'in') - pobj -> (NN|NNP)
 }
 
 def rule Update_3 {
@@ -61,7 +61,7 @@ def rule Update_3 {
 
 def rule Update_4 {
 	(VB|VBZ):'remov*' - dobj -> NN:[Old] - from -> NN:[Parent]
-}
+}*/
 
 
 
