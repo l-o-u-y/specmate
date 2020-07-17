@@ -25,8 +25,42 @@ public class TextPreProcessor {
 		} else {
 			unfolder = new EnglishSentenceUnfolder(nlpService);
 		}
-		text = generalProcessing(text);
+		text = generalGithubPreprocessing(text);
 		return unfolder.unfold(text);
+	}
+	
+	private String generalGithubPreprocessing(String text) {
+		// remove "Describe your problem and - if possible - how to reproduce it"
+		
+		// standard github issue text
+		text = text.replaceAll("Describe your problem and - if possible - how to reproduce it", "");
+		
+		// remove () with content
+		text = text.replaceAll("\\s*\\([^\\)]*\\)\\s*", " ");
+		
+		// replace : with .
+		text = text.replaceAll(":", ".");
+		
+		// TODO add "." after lists.
+		// TODO remove questions. ggf. detect if it starts with verb -> question.
+		
+		// replace multiple/special whitespaces with space
+		text = text.replaceAll("\\s+", " ");
+		
+		// find word that starts with /, remove / and make all letters uppercase
+		text = text.replaceAll("\b/(\\\\S+)", "\\U$1\\E");
+		
+		
+
+		//TODO replace space with _ in code snippets
+		//TODO replace space with _ inside ""
+		//TODO replace space with _ inside ''
+		
+		text = text.trim();
+		
+		text = generalProcessing(text);
+
+		return text;
 	}
 
 	private String generalProcessing(String text) {
