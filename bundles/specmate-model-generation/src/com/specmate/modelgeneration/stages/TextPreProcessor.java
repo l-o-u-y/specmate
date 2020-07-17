@@ -30,31 +30,44 @@ public class TextPreProcessor {
 	}
 	
 	private String generalGithubPreprocessing(String text) {
+		// https://regex101.com/
 		// remove "Describe your problem and - if possible - how to reproduce it"
-		
 		// standard github issue text
 		text = text.replaceAll("Describe your problem and - if possible - how to reproduce it", "");
 		
 		// remove () with content
-		text = text.replaceAll("\\s*\\([^\\)]*\\)\\s*", " ");
+		text = text.replaceAll("\\([^\\)]*\\)", "");
 		
 		// replace : with .
 		text = text.replaceAll(":", ".");
 		
-		// TODO add "." after lists.
-		// TODO remove questions. ggf. detect if it starts with verb -> question.
+		// add "." before new line if not exists (for lists)
+		text = text.replaceAll("(.+[^\\.])(\\r?\\n|\\Z)", "$1.\\n");
+		
+		// remove text that end with question mark
+		// this does not detect questions that falsely end with . (e.g. in list; user error)
+		text = text.replaceAll("([^.?!]*)\\?", "");
 		
 		// replace multiple/special whitespaces with space
 		text = text.replaceAll("\\s+", " ");
 		
-		// find word that starts with /, remove / and make all letters uppercase
-		text = text.replaceAll("\b/(\\\\S+)", "\\U$1\\E");
+		// find word that starts with not alphanumeric or space (special char)
+		// remove special char and make all letters uppercase
+		// remove special char so that it will not be classified as punctuation (e.g. "/learn" =  puncutation)
+		// make all upper case so that it will not be classified as verb (e.g. "learn", "Learn" = verb) 
+		text = text.replaceAll("\\B[^a-zA-Z\\d\\s](\\w+)", "\\U$1\\E");
 		
+		// replace space with _ inside ""
+		text = text.replaceAll("(?<=\")(\\w+)\\s", "$1_");
 		
-
+		// replace space with _ inside ""
+		text = text.replaceAll("(?<=')(\\w+)\\s", "$1_");
+		
+		// remove " and '
+		text = text.replaceAll("\"", "");
+		text = text.replaceAll("'", "");
+		
 		//TODO replace space with _ in code snippets
-		//TODO replace space with _ inside ""
-		//TODO replace space with _ inside ''
 		
 		text = text.trim();
 		
