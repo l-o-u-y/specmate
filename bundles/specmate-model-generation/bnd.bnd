@@ -30,3 +30,10 @@ Private-Package: \
 	com.specmate.modelgeneration.stages,\
 	com.specmate.modelgeneration.stages.processors,\
 	com.specmate.modelgeneration.stages.graph
+Import-Package: \
+	org.apache.poi,\
+	org.apache.poi.hssf,\
+	org.apache.poi.hssf.usermodel,\
+	org.apache.poi.ss,\
+	org.apache.poi.ss.usermodel,\
+	*\
