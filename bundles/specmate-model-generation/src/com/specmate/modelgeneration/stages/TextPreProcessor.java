@@ -34,13 +34,25 @@ public class TextPreProcessor {
 		// https://regex101.com/
 		// remove "Describe your problem and - if possible - how to reproduce it"
 		// standard github issue text
-		text = text.replaceAll("Describe your problem and - if possible - how to reproduce it", "");
-		
+		text = text.replaceAll("#### Describe your problem and - if possible - how to reproduce it", "");
+
 		// remove () with content
 		text = text.replaceAll("\\([^\\)]*\\)", "");
 		
+		// remove <!----> with content
+		text = text.replaceAll("<!--[^\\)]*-->", "");
+		
 		// replace : with .
 		text = text.replaceAll(":", ".");
+		
+		// remove bulletoints (rows starting with - )
+		text = text.replaceAll("\\\\r\\\\n- ", "\\r\\n");
+
+		// replace and/or with or
+		text = text.replaceAll("and/or", "or");
+
+		// replace word1/word2 with word1 or word 2
+		text = text.replaceAll("(\\w+)\\/(\\w+)", "$1 or $2");
 		
 		// add "." before new line if not exists (for lists)
 		text = text.replaceAll("(.+[^\\.])(\\r?\\n|\\Z)", "$1.\\n");
@@ -60,15 +72,17 @@ public class TextPreProcessor {
 		
 		// replace space with _ inside ""
 		text = text.replaceAll("(?<=\")(\\w+)\\s", "$1_");
-		
+
 		// replace space with _ inside ""
 		text = text.replaceAll("(?<=')(\\w+)\\s", "$1_");
 		
-		// remove " and '
+		// replace space with _ inside `` (code snippets)
+		text = text.replaceAll("(?<=`)(\\w+)\\s", "$1_");
+		
+		// remove ", ' and `
 		text = text.replaceAll("\"", "");
 		text = text.replaceAll("'", "");
-		
-		//TODO MA replace space with _ in code snippets
+		text = text.replaceAll("`", "");
 		
 		text = text.trim();
 		
