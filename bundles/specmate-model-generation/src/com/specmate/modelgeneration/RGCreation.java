@@ -169,7 +169,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 				// check if noun found
 				if (cell.getStringCellValue().equals(noun)) {
 					// get rating
-					Cell rating = row.getCell(3);
+					Cell rating = row.getCell(2);
 					// we say rating of 3 or higher = concrete
 					System.out.println("Found match for noun " + noun);
 					System.out.println("Rating is " + rating.getNumericCellValue());

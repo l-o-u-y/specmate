@@ -22,10 +22,11 @@ def rule Action_Prep_1 {
 	VB:[Action] - prep -> TO:'to' - dobj -> NN:[Target]
 }
 
+/*
 def rule Composition_1 {
 	NN|NNS:*:[Child] - prep -> IN:('on'|'of') - pobj -> NN:[Parent]
 }
-/*
+
 def rule Composition_2 {
 	NN:[Parent] - prep -> IN:'with' - pobj -> (NNS|NN):[Child]
 }

@@ -18,6 +18,7 @@
 	specmate-model-support;version=latest,\
 	org.apache.commons.lang3;version=latest,\
 	org.apache.poi;version=latest,\
+	org.json,\
 	specmate-metrics;version=latest,\
 	specmate-cause-effect-patterns,\
 	specmate-config-api;version=latest,\
