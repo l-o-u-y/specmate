@@ -61,7 +61,7 @@ public class MatchTreeBuilder {
 	// TODO MA
 	private boolean isAction(MatchResult result) {
 		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.ACTION);
-		boolean subMatches = true; // result.hasSubmatch(SubtreeNames.SOURCE) && result.hasSubmatch(SubtreeNames.TARGET);
+		boolean subMatches = result.hasSubmatch(SubtreeNames.TARGET); // && result.hasSubmatch(SubtreeNames.TARGET);
 		return name && subMatches;
 	}
 
@@ -168,7 +168,7 @@ public class MatchTreeBuilder {
 
 	public Optional<MatchResultTreeNode> getFirstArgument(MatchResult result) {
 		String name = getFirstArgumentName(result);
-		if (name != null) {
+		if (name != null && result.getSubmatch(name) != null) {
 			return buildTree(result.getSubmatch(name));
 		}
 		return null;
@@ -204,7 +204,7 @@ public class MatchTreeBuilder {
 
 	public Optional<MatchResultTreeNode> getSecondArgument(MatchResult result) {
 		String name = getSecondArgumentName(result);
-		if (name != null) {
+		if (name != null && result.getSubmatch(name) != null) {
 			return buildTree(result.getSubmatch(name));
 		}
 		return null;
