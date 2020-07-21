@@ -51,12 +51,6 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 		List<String> texts = preProcessor.preProcess(input);
 		List<Pair<String, CEGModel>> candidates = new ArrayList<>();
 		
-
-
-		for (String text : texts) {
-			System.out.println(text);
-		}		
-
 		for (String text : texts) {
 			log.log(LogService.LOG_INFO, "Text Pre Processing: " + text);
 			final List<MatchResult> results = matcher.matchText(text);
@@ -84,7 +78,7 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 						continue;
 					}
 
-					Graph graph = graphBuilder.buildGraph((BinaryMatchResultTreeNode) tree);
+					Graph graph = graphBuilder.buildCEGGraph((BinaryMatchResultTreeNode) tree);
 					CEGModel model = (CEGModel)graphLayouter.createModel(graph);
 					candidates.add(Pair.of(text, model));
 				} catch (Throwable t) {

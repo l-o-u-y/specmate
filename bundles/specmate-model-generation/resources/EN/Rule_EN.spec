@@ -15,30 +15,28 @@ def rule Action_Explicit_Prep_1 {
 
 // VB conj VB dobj NN conj NN <-- TODO MA
 def rule Action_1 {
-	VB:[Action] - dobj -> NN:[Target]
+	VBZ:[Action] - dobj -> NN:[Target]
 }
 
 def rule Action_Prep_1 {
 	VB:[Action] - prep -> TO:'to' - dobj -> NN:[Target]
 }
 
-/*
 def rule Composition_1 {
-	NN|NNS:*:[Child] - prep -> IN:('on'|'of') - pobj -> NN:[Parent]
+	NN:[Child] - prep -> IN:'(on)|(of)' - pobj -> NN:[Parent]
 }
-
 def rule Composition_2 {
-	NN:[Parent] - prep -> IN:'with' - pobj -> (NNS|NN):[Child]
+	NN:[Parent] - prep -> IN:'with' - pobj -> NN:[Child]
 }
 
 // NNS:[Child] - cc -> 'and'; [Child] - conj -> NNS <-- TODO MA
 def rule Composition_3 {
-	NN:[Parent] - acl -> 'showing' - pobj -> (NNS|NN):[Child]
+	NN:[Parent] - acl -> 'showing' - pobj -> NN:[Child]
 }
 
 
 def rule Composition_4 {
-	(NNS|NN):[Child] - prep -> IN:'inside' - pobj -> NN:[Parent]
+	NN:[Child] - prep -> IN:'inside' - pobj -> NN:[Parent]
 }
 
 
@@ -47,89 +45,25 @@ def rule Update_1 {
 	[New] - conj -> NN:[Old]
 }
 
+/*
 def rule Update_2 {
-	(VB|VBZ):('add*'|'includ*'|'implement*'):[TMP] - dobj -> (NN|NNS):[New]
+	VB:'(add*)|(includ*)|(implement*)':[TMP] - dobj -> NN:[New]
 }
 
-def rule Update_2.2 {
-	(VB|VBZ):('add*'|'includ*'|'implement*'):[TMP] - dobj -> (NN|NNS):[New] - prep -> IN:('to'|'in') - pobj -> (NN|NNP)
+def rule Update_2_2 {
+	VB:'(add*)|(includ*)|(implement*)':[TMP] - dobj -> NN:[New] - prep -> IN:'(to)|(in)' - pobj -> NN
 }
 
 def rule Update_3 {
-	'chang*':[TMP] - dobj -> NN - prep -> 'from' - pobj -> (NN|NNP):[Old]
-	[TMP] - prep -> IN:'to' - pobj -> (NN|NNP):[New]
+	'chang*':[TMP] - dobj -> NN - prep -> IN:'from' - pobj -> NN:[Old]
+	[TMP] - prep -> IN:'to' - pobj -> NN:[New]
 }
 
 def rule Update_4 {
-	(VB|VBZ):'remov*' - dobj -> NN:[Old] - from -> NN:[Parent]
-}*/
-
-
-
-
-/* def rule Action_Conj_1.1 {
-	vb:[Action] - conj -> vb - dobj -> nn:[Target]
+	VB:'remov*' - dobj -> NN:[Old] - prep -> IN:'from' - pobj -> NN:[Parent]
 }
+*/
 
-def rule Action_Conj_1.2 {
-	vb:[Action] - conj -> vb - dobj -> nn - conj -> nn:[Target]
-}
-
-def rule Action_Conj_1.3 {
-	vb:[Action] - dobj -> nn - conj -> nn:[Target]
-}
-
-def rule Action_Explicit_1 {
-	vb:[Action] - dobj -> nn:[Target]
-	[Action] - nsubj -> [Source]
-}
-
-def rule Action_Explicit_Conj_1.1 {
-	vb:[Action] - conj -> vb - dobj -> nn:[Target]
-	[Action] - nsubj -> [Source]
-}
-
-def rule Action_Explicit_Conj_1.2 {
-	vb:[Action] - conj -> vb - dobj -> nn - conj -> nn:[Target]
-	[Action] - nsubj -> [Source]
-}
-
-def rule Action_Explicit_Conj_1.3 {
-	vb:[Action] - dobj -> nn - conj -> nn:[Target]
-	[Action] - nsubj -> [Source]
-} */
-
-
-
-/* def rule Inheritance_1 {
-	'is':[TMP] - nsubj -> [Parent]
-	[TMP] - attr -> [Child]
-}
-
-def rule Composition_1 {
-	'has':[TMP] - nsubj -> [Parent]
-	[TMP] - attr -> [Child]
-}
-
-def rule Composition_2 {
-	'has':[TMP] - nsubj -> [Parent]
-	[TMP] - attr -> 'component' - acl -> 'called' - oprd -> [Child]
-}
-
-def rule Composition_3 {
-	'is':[TMP] - nsubj -> [Child]
-	[TMP] - dobj -> 'component' - prep -> 'of' - pobj -> [Parent]
-}
-
-def rule Composition_4 {
-	'has':[TMP] - nsubj -> [Child]
-	[TMP] - dobj -> 'parent' - acl -> 'called' - oprd -> [Parent]
-}
-
-def rule Composition_5 {
-	'is':[TMP] - nsubj -> [Parent]
-	[TMP] - dobj -> 'parent' - prep -> 'of' - pobj -> [Child]
-} */
 
 def rule LimitedCondition_1 {
 	[Limit] - nsubjpass -> [Conditional] - prep -> IN:'until'

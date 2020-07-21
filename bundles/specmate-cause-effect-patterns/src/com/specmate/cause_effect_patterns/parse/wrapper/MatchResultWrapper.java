@@ -5,10 +5,6 @@ import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
 @Deprecated
 public class MatchResultWrapper {
 	public static class SubtreeNames {
-		public static final String PARENT = "Parent";
-		public static final String CHILD = "Child";
-		public static final String SOURCE = "Source";
-		public static final String TARGET = "Target";
 		public static final String CONDITIONAL = "Conditional";
 		public static final String LIMIT = "Limit";
 		public static final String CAUSE = "Cause";
@@ -25,9 +21,6 @@ public class MatchResultWrapper {
 	}
 	
 	public static class RuleNames {
-		public static final String INHERITANCE = "Inheritance";
-		public static final String COMPOSITION = "Composition";
-		public static final String ACTION = "Action";
 		public static final String LIMITED_CONDITION = "LimitedCondition";
 		public static final String CONDITION = "Condition";
 		public static final String CONJUNCTION = "Conjunction";
@@ -93,26 +86,6 @@ public class MatchResultWrapper {
 	
 	public boolean isSucessfull() {
 		return this.result.isSuccessfulMatch();
-	}
-	
-	// TODO MA add cases for methods below
-	
-	public boolean isInheritance() {
-		boolean name = this.result.hasRuleName() && this.result.getRuleName().contains(RuleNames.INHERITANCE);
-		boolean subMatches = this.result.hasSubmatch(SubtreeNames.PARENT) && this.result.hasSubmatch(SubtreeNames.CHILD);
-		return name && subMatches && isSucessfull();
-	}
-	
-	public boolean isComposition() {
-		boolean name = this.result.hasRuleName() && this.result.getRuleName().contains(RuleNames.COMPOSITION);
-		boolean subMatches = this.result.hasSubmatch(SubtreeNames.PARENT) && this.result.hasSubmatch(SubtreeNames.CHILD);
-		return name && subMatches && isSucessfull();
-	}
-	
-	public boolean isAction() {
-		boolean name = this.result.hasRuleName() && this.result.getRuleName().contains(RuleNames.ACTION);
-		boolean subMatches = this.result.hasSubmatch(SubtreeNames.SOURCE) && this.result.hasSubmatch(SubtreeNames.TARGET);
-		return name && subMatches && isSucessfull();
 	}
 	
 	public boolean isCondition() {

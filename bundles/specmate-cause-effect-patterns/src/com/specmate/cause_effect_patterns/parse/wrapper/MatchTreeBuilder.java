@@ -21,15 +21,18 @@ public class MatchTreeBuilder {
 		public static final String OBJECT = "Object";
 		public static final String PREPOSITION = "Preposition";
 		public static final String SOURCE = "Source";
-		public static final String ACTION = "Action";
 		public static final String TARGET = "Target";
 		public static final String PARENT = "Parent";
 		public static final String CHILD = "Child";
+		public static final String NEW = "New";
+		public static final String OLD = "Old";
 	}
 
 	private static class RuleNames {
 		public static final String INHERITANCE = "Inheritance";
 		public static final String COMPOSITION = "Composition";
+		public static final String ACTION = "Action";
+		public static final String UPDATE = "Update";
 		public static final String LIMITED_CONDITION = "LimitedCondition";
 		public static final String CONDITION = "Condition";
 		public static final String CONJUNCTION = "Conjunction";
@@ -48,13 +51,28 @@ public class MatchTreeBuilder {
 		boolean subMatches = result.hasSubmatch(SubtreeNames.PARENT) && result.hasSubmatch(SubtreeNames.CHILD);
 		return name && subMatches;
 	}
-	
+
 	private boolean isComposition(MatchResult result) {
 		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.COMPOSITION);
 		boolean subMatches = result.hasSubmatch(SubtreeNames.PARENT) && result.hasSubmatch(SubtreeNames.CHILD);
 		return name && subMatches;
 	}
-	
+
+	// TODO MA
+	private boolean isAction(MatchResult result) {
+		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.ACTION);
+		boolean subMatches = true; // result.hasSubmatch(SubtreeNames.SOURCE) && result.hasSubmatch(SubtreeNames.TARGET);
+		return name && subMatches;
+	}
+
+	// TODO MA
+	private boolean isUpdate(MatchResult result) {
+		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.UPDATE);
+		boolean subMatches = true; // result.hasSubmatch(SubtreeNames.SOURCE) &&
+									// result.hasSubmatch(SubtreeNames.TARGET);
+		return name && subMatches;
+	}
+
 	private boolean isCondition(MatchResult result) {
 		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.CONDITION);
 		boolean subMatches = result.hasSubmatch(SubtreeNames.CAUSE) && result.hasSubmatch(SubtreeNames.EFFECT);
@@ -134,6 +152,17 @@ public class MatchTreeBuilder {
 			return SubtreeNames.VERB;
 		}
 
+		// TODO MA
+		else if (isInheritance(result)) {
+			return SubtreeNames.PARENT;
+		} else if (isComposition(result)) {
+			return SubtreeNames.PARENT;
+		} else if (isAction(result)) {
+			return SubtreeNames.SOURCE;
+		} else if (isUpdate(result)) {
+			return SubtreeNames.OLD;
+		}
+
 		return null;
 	}
 
@@ -158,6 +187,17 @@ public class MatchTreeBuilder {
 			return SubtreeNames.OBJECT;
 		} else if (isVerbPreposition(result)) {
 			return SubtreeNames.PREPOSITION;
+		}
+
+		// TODO MA
+		else if (isInheritance(result)) {
+			return SubtreeNames.CHILD;
+		} else if (isComposition(result)) {
+			return SubtreeNames.CHILD;
+		} else if (isAction(result)) {
+			return SubtreeNames.TARGET;
+		} else if (isUpdate(result)) {
+			return SubtreeNames.NEW;
 		}
 		return null;
 	}
@@ -193,6 +233,18 @@ public class MatchTreeBuilder {
 			return RuleType.VERB_PREPOSITION;
 		}
 
+
+		// TODO MA
+		else if (isInheritance(result)) {
+			return RuleType.INHERITANCE;
+		} else if (isComposition(result)) {
+			return RuleType.COMPOSITION;
+		} else if (isAction(result)) {
+			return RuleType.ACTION;
+		} else if (isUpdate(result)) {
+			return RuleType.UPDATE;
+		}
+
 		return null;
 	}
 
@@ -209,8 +261,20 @@ public class MatchTreeBuilder {
 
 		// Binary
 		if (isConditionVarible(result) || isVerbObject(result) || isVerbPreposition(result) || isConjunction(result)
-				|| isCondition(result) || isLimitedCondition(result)) {
+				|| isCondition(result) || isLimitedCondition(result)
+				|| isComposition(result) || isInheritance(result)
+				|| isUpdate(result)) { //TODO MA
 			MatchResultTreeNode left = getFirstArgument(result).get();
+			MatchResultTreeNode right = getSecondArgument(result).get();
+			return Optional.of(new BinaryMatchResultTreeNode(left, right, getType(result)));
+		}
+		
+		if (isAction(result)) { //TODO MA
+			MatchResultTreeNode left = getSecondArgument(result).get();
+			// no source -> self node
+			if (getFirstArgument(result) != null) {
+				left = getFirstArgument(result).get();
+			}
 			MatchResultTreeNode right = getSecondArgument(result).get();
 			return Optional.of(new BinaryMatchResultTreeNode(left, right, getType(result)));
 		}

@@ -18,7 +18,22 @@ public class GraphBuilder {
 
 	private Graph currentGraph;
 
-	public synchronized Graph buildGraph(BinaryMatchResultTreeNode root) {
+	public synchronized Graph buildCEGGraph(BinaryMatchResultTreeNode root) {
+		List<MatchResultTreeNode> clauses = getClauses(root);
+		MatchResultTreeNode effect = clauses.remove(clauses.size() - 1);
+		List<MatchResultTreeNode> causes = clauses;
+
+		currentGraph = new Graph();
+		DirectCause cause = resolveCauses(causes);
+		resolveEffect(cause, effect);
+
+		Graph result = currentGraph;
+		currentGraph = null;
+		return result;
+	}
+
+	public synchronized Graph buildRGGraph(BinaryMatchResultTreeNode root) {
+		// TODO MA
 		List<MatchResultTreeNode> clauses = getClauses(root);
 		MatchResultTreeNode effect = clauses.remove(clauses.size() - 1);
 		List<MatchResultTreeNode> causes = clauses;
