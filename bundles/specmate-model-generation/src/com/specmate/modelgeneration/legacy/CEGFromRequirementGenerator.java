@@ -146,19 +146,19 @@ public abstract class CEGFromRequirementGenerator implements ICEGFromRequirement
 			String cause, String[] effects) {
 		for (int i = 0; i < effects.length; i++) {
 			String[] splittedVariabelAndConditionEffect = splitNodeInVariableAndCondition(jCas, sentence, effects[i]);
-			CEGNode effectNode = cegCreation.createNodeIfNotExist(nodes, model, splittedVariabelAndConditionEffect[0],
+			CEGNode effectNode = cegCreation.createNodeIfNotExist(model, splittedVariabelAndConditionEffect[0],
 					splittedVariabelAndConditionEffect[1], levelTwoX, levelTwoY, NodeType.AND);
 			levelTwoY += 100;
 			String causeNew = trimWithPunctuation(cause);
 			if (replaceNegation(causeNew) != null) {
 				String[] splittedVariabelAndConditionCause = splitNodeInVariableAndCondition(jCas, sentence,
 						replaceNegation(cause));
-				CEGNode causeNode = cegCreation.createNodeIfNotExist(nodes, model, splittedVariabelAndConditionCause[0],
+				CEGNode causeNode = cegCreation.createNodeIfNotExist(model, splittedVariabelAndConditionCause[0],
 						splittedVariabelAndConditionCause[1], levelOneX, levelOneY, NodeType.AND);
 				cegCreation.createConnection(model, causeNode, effectNode, true);
 			} else {
 				String[] splittedVariabelAndConditionCause = splitNodeInVariableAndCondition(jCas, sentence, cause);
-				CEGNode causeNode = cegCreation.createNodeIfNotExist(nodes, model, splittedVariabelAndConditionCause[0],
+				CEGNode causeNode = cegCreation.createNodeIfNotExist(model, splittedVariabelAndConditionCause[0],
 						splittedVariabelAndConditionCause[1], levelOneX, levelOneY, NodeType.AND);
 				cegCreation.createConnection(model, causeNode, effectNode, false);
 			}
@@ -173,7 +173,7 @@ public abstract class CEGFromRequirementGenerator implements ICEGFromRequirement
 		causes = andOrSplitter.textSplitterOr(cause, sentence, jCas);
 		for (int i = 0; i < effects.length; i++) {
 			String[] splittedVariabelAndConditionEffect = splitNodeInVariableAndCondition(jCas, sentence, effects[i]);
-			CEGNode effectNode = cegCreation.createNodeIfNotExist(nodes, model, splittedVariabelAndConditionEffect[0],
+			CEGNode effectNode = cegCreation.createNodeIfNotExist(model, splittedVariabelAndConditionEffect[0],
 					splittedVariabelAndConditionEffect[1], levelTwoX, levelTwoY, NodeType.OR);
 			levelTwoY += 100;
 			for (int j = 0; j < causes.length; j++) {
@@ -181,14 +181,14 @@ public abstract class CEGFromRequirementGenerator implements ICEGFromRequirement
 				if (replaceNegation(causeNew) != null) {
 					String[] splittedVariabelAndConditionCause = splitNodeInVariableAndCondition(jCas, sentence,
 							replaceNegation(causes[j]));
-					CEGNode causeNode = cegCreation.createNodeIfNotExist(nodes, model,
+					CEGNode causeNode = cegCreation.createNodeIfNotExist(model,
 							splittedVariabelAndConditionCause[0], splittedVariabelAndConditionCause[1], levelOneX,
 							levelOneY, NodeType.AND);
 					cegCreation.createConnection(model, causeNode, effectNode, true);
 				} else {
 					String[] splittedVariabelAndConditionCause = splitNodeInVariableAndCondition(jCas, sentence,
 							causes[j]);
-					CEGNode causeNode = cegCreation.createNodeIfNotExist(nodes, model,
+					CEGNode causeNode = cegCreation.createNodeIfNotExist(model,
 							splittedVariabelAndConditionCause[0], splittedVariabelAndConditionCause[1], levelOneX,
 							levelOneY, NodeType.AND);
 					cegCreation.createConnection(model, causeNode, effectNode, false);
@@ -204,7 +204,7 @@ public abstract class CEGFromRequirementGenerator implements ICEGFromRequirement
 		causes = andOrSplitter.textSplitterAnd(cause, sentence, jCas);
 		for (int i = 0; i < effects.length; i++) {
 			String[] splittedVariabelAndConditionEffect = splitNodeInVariableAndCondition(jCas, sentence, effects[i]);
-			CEGNode effectNode = cegCreation.createNodeIfNotExist(nodes, model, splittedVariabelAndConditionEffect[0],
+			CEGNode effectNode = cegCreation.createNodeIfNotExist(model, splittedVariabelAndConditionEffect[0],
 					splittedVariabelAndConditionEffect[1], levelTwoX, levelTwoY, NodeType.AND);
 			levelTwoY += 100;
 			for (int j = 0; j < causes.length; j++) {
@@ -212,14 +212,14 @@ public abstract class CEGFromRequirementGenerator implements ICEGFromRequirement
 				if (replaceNegation(causeNew) != null) {
 					String[] splittedVariabelAndConditionCause = splitNodeInVariableAndCondition(jCas, sentence,
 							replaceNegation(causes[j]));
-					CEGNode causeNode = cegCreation.createNodeIfNotExist(nodes, model,
+					CEGNode causeNode = cegCreation.createNodeIfNotExist(model,
 							splittedVariabelAndConditionCause[0], splittedVariabelAndConditionCause[1], levelOneX,
 							levelOneY, NodeType.AND);
 					cegCreation.createConnection(model, causeNode, effectNode, true);
 				} else {
 					String[] splittedVariabelAndConditionCause = splitNodeInVariableAndCondition(jCas, sentence,
 							causes[j]);
-					CEGNode causeNode = cegCreation.createNodeIfNotExist(nodes, model,
+					CEGNode causeNode = cegCreation.createNodeIfNotExist(model,
 							splittedVariabelAndConditionCause[0], splittedVariabelAndConditionCause[1], levelOneX,
 							levelOneY, NodeType.AND);
 					cegCreation.createConnection(model, causeNode, effectNode, false);
@@ -236,7 +236,7 @@ public abstract class CEGFromRequirementGenerator implements ICEGFromRequirement
 		String[] causesTemp = causes.clone();
 		for (int i = 0; i < effects.length; i++) {
 			String[] splittedVariabelAndConditionEffect = splitNodeInVariableAndCondition(jCas, sentence, effects[i]);
-			CEGNode effectNode = cegCreation.createNodeIfNotExist(nodes, model, splittedVariabelAndConditionEffect[0],
+			CEGNode effectNode = cegCreation.createNodeIfNotExist(model, splittedVariabelAndConditionEffect[0],
 					splittedVariabelAndConditionEffect[1], levelThreeX, levelThreeY, NodeType.OR);
 			levelThreeY += 100;
 			for (int j = 0; j < causes.length; j++) {
@@ -247,14 +247,14 @@ public abstract class CEGFromRequirementGenerator implements ICEGFromRequirement
 					if (replaceNegation(causeNewOr) != null) {
 						String[] splittedVariabelAndConditionCauseOr = splitNodeInVariableAndCondition(jCas, sentence,
 								replaceNegation(causesOr[0]));
-						CEGNode causeNodeOr = cegCreation.createNodeIfNotExist(nodes, model,
+						CEGNode causeNodeOr = cegCreation.createNodeIfNotExist(model,
 								splittedVariabelAndConditionCauseOr[0], splittedVariabelAndConditionCauseOr[1],
 								levelOneX, levelOneY, NodeType.AND);
 						cegCreation.createConnection(model, causeNodeOr, effectNode, true);
 					} else {
 						String[] splittedVariabelAndConditionCauseOr = splitNodeInVariableAndCondition(jCas, sentence,
 								causesOr[0]);
-						CEGNode causeNodeOr = cegCreation.createNodeIfNotExist(nodes, model,
+						CEGNode causeNodeOr = cegCreation.createNodeIfNotExist(model,
 								splittedVariabelAndConditionCauseOr[0], splittedVariabelAndConditionCauseOr[1],
 								levelOneX, levelOneY, NodeType.AND);
 						cegCreation.createConnection(model, causeNodeOr, effectNode, false);
@@ -264,7 +264,7 @@ public abstract class CEGFromRequirementGenerator implements ICEGFromRequirement
 				} else {
 					String[] splittedVariabelAndConditionCause = splitNodeInVariableAndCondition(jCas, sentence,
 							causes[j]);
-					CEGNode causeNode = cegCreation.createNodeIfNotExist(nodes, model,
+					CEGNode causeNode = cegCreation.createNodeIfNotExist(model,
 							splittedVariabelAndConditionCause[0], splittedVariabelAndConditionCause[1], levelTwoX,
 							levelTwoY, NodeType.AND);
 					for (int k = 0; k < causesOr.length; k++) {
@@ -272,14 +272,14 @@ public abstract class CEGFromRequirementGenerator implements ICEGFromRequirement
 						if (replaceNegation(causeNewOr) != null) {
 							String[] splittedVariabelAndConditionCauseOr = splitNodeInVariableAndCondition(jCas,
 									sentence, replaceNegation(causesOr[k]));
-							CEGNode causeNodeOr = cegCreation.createNodeIfNotExist(nodes, model,
+							CEGNode causeNodeOr = cegCreation.createNodeIfNotExist(model,
 									splittedVariabelAndConditionCauseOr[0], splittedVariabelAndConditionCauseOr[1],
 									levelOneX, levelOneY, NodeType.AND);
 							cegCreation.createConnection(model, causeNodeOr, causeNode, true);
 						} else {
 							String[] splittedVariabelAndConditionCauseOr = splitNodeInVariableAndCondition(jCas,
 									sentence, causesOr[k]);
-							CEGNode causeNodeOr = cegCreation.createNodeIfNotExist(nodes, model,
+							CEGNode causeNodeOr = cegCreation.createNodeIfNotExist(model,
 									splittedVariabelAndConditionCauseOr[0], splittedVariabelAndConditionCauseOr[1],
 									levelOneX, levelOneY, NodeType.AND);
 							cegCreation.createConnection(model, causeNodeOr, causeNode, false);

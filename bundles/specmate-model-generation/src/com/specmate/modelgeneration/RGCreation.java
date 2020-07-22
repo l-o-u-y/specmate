@@ -135,13 +135,18 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 			int y, NodeType type) {
 		component = this.processWord(component);
 		EList<IContentElement> list = model.getContents();
+		
+		System.out.println("---");
+		System.out.println(component);
+		System.out.println(type);
 		for (IContentElement rgNode : list) {
+			System.out.println(((RGNode)rgNode).getComponent());
+			System.out.println(((RGNode)rgNode).getType());
 			if (((RGNode)rgNode).getComponent().equals(component) && ((RGNode)rgNode).getType().equals(type)) {
 				return (RGNode)rgNode;
 			}
 		}
 		RGNode node = createNode(model, component, modifier, x, y, type);
-		list.add(node);
 		return node;
 	}
 
