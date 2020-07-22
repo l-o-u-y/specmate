@@ -58,6 +58,9 @@ public class GraphLayouter {
 		} else {
 			model = RequirementsFactory.eINSTANCE.createRGModel();
 		}
+		return createModel(graph, model);
+	}
+	public ISpecmateModelObject createModel(Graph graph, ISpecmateModelObject model) {
 		
 		int graphDepth = graph.getDepth();
 		int[] positionTable = new int[graphDepth + 1];

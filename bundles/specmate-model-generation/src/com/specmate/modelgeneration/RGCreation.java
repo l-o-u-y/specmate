@@ -114,7 +114,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 			s = string.substring(4);
 		}
 		// insert all words in lowercase
-		s = s.toLowerCase();
+		s = s.toLowerCase().trim();
 		return s;
 	}
 

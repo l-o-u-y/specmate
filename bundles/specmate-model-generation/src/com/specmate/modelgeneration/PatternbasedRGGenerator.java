@@ -113,7 +113,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 					 matchPostProcesser.process(tree);
 					if (tree.getType().isComposition() || tree.getType().isInheritance()) {
 						Graph graph = graphBuilder.buildRGGraph((BinaryMatchResultTreeNode) tree);
-						RGModel model = (RGModel) graphLayouter.createModel(graph);
+						RGModel model = (RGModel) graphLayouter.createModel(graph, originalModel);
 						candidates.add(Pair.of(text, model));
 					}
 				} catch (Throwable t) {
@@ -124,32 +124,32 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 
 		}
 
-		candidates.sort((p1, p2) -> {
-			RGModel m1 = p1.getRight();
-			RGModel m2 = p2.getRight();
-			int c = Integer.compare(m2.getContents().size(), m1.getContents().size());
-			if (c != 0) {
-				return c;
-			}
-			String t1 = p1.getLeft();
-			String t2 = p2.getLeft();
-			c = Integer.compare(StringUtils.countMatches(t2, ","), StringUtils.countMatches(t1, ","));
-			if (c != 0) {
-				return c;
-			}
-			return Integer.compare(t1.length(), t2.length());
-
-		});
+//		candidates.sort((p1, p2) -> {
+//			RGModel m1 = p1.getRight();
+//			RGModel m2 = p2.getRight();
+//			int c = Integer.compare(m2.getContents().size(), m1.getContents().size());
+//			if (c != 0) {
+//				return c;
+//			}
+//			String t1 = p1.getLeft();
+//			String t2 = p2.getLeft();
+//			c = Integer.compare(StringUtils.countMatches(t2, ","), StringUtils.countMatches(t1, ","));
+//			if (c != 0) {
+//				return c;
+//			}
+//			return Integer.compare(t1.length(), t2.length());
+//
+//		});
 
 		if (!generatedSomething) {
 			throw new SpecmateInternalException(ErrorCode.NLP, "No Relationship Pair Found.");
 		}
-		if (candidates.isEmpty()) {
+//		if (candidates.isEmpty()) {
 			return originalModel;
-		}
+//		}
 
-		originalModel.getContents().addAll(candidates.get(0).getRight().getContents());
-		return originalModel;
+//		originalModel.getContents().addAll(candidates.get(0).getRight().getContents());
+//		return originalModel;
 
 	}
 
