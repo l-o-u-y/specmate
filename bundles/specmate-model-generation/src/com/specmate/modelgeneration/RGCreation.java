@@ -12,7 +12,9 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.eclipse.emf.common.util.EList;
 
+import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IModelConnection;
 import com.specmate.model.requirements.RGConnection;
 import com.specmate.model.requirements.RGConnectionType;
@@ -44,6 +46,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 * @return the created node
 	 */
 	public RGNode createNode(RGModel model, String component, String modifier, int x, int y, NodeType type) {
+		component = this.processWord(component);
 		RGNode node = RequirementsFactory.eINSTANCE.createRGNode();
 		node.setId(SpecmateEcoreUtil.getIdForChild());
 		node.setName("New RGNode " + dateFormat.format(new Date()));
@@ -128,12 +131,13 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 * @param type
 	 * @return new or existing node
 	 */
-	public RGNode createNodeIfNotExist(LinkedList<RGNode> list, RGModel model, String component, String modifier, int x,
+	public RGNode createNodeIfNotExist(RGModel model, String component, String modifier, int x,
 			int y, NodeType type) {
 		component = this.processWord(component);
-		for (RGNode rgNode : list) {
-			if (rgNode.getComponent().equals(component) && rgNode.getType().equals(type)) {
-				return rgNode;
+		EList<IContentElement> list = model.getContents();
+		for (IContentElement rgNode : list) {
+			if (((RGNode)rgNode).getComponent().equals(component) && ((RGNode)rgNode).getType().equals(type)) {
+				return (RGNode)rgNode;
 			}
 		}
 		RGNode node = createNode(model, component, modifier, x, y, type);
@@ -171,8 +175,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 					// get rating
 					Cell rating = row.getCell(2);
 					// we say rating of 3 or higher = concrete
-					System.out.println("Found match for noun " + noun);
-					System.out.println("Rating is " + rating.getNumericCellValue());
+					System.out.println("Match found for: " + noun + " - " + rating.getNumericCellValue());
 					return rating.getNumericCellValue() > 3;
 				}
 			}

@@ -9,6 +9,6 @@ public abstract class Creation<T, S, U> {
 
 	public abstract U createConnection(T model, S nodeFrom, S nodeTo, boolean negate);
 
-	public abstract S createNodeIfNotExist(LinkedList<S> list, T model, String variable, String condition,
+	public abstract S createNodeIfNotExist(T model, String variable, String condition,
 			int x, int y, NodeType type);
 }

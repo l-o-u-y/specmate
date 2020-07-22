@@ -50,11 +50,11 @@ public class GraphNode {
 	}
 
 	public String getComponent() {
-		return condition;
+		return component;
 	}
 
 	public String getModifier() {
-		return variable;
+		return modifier;
 	}
 
 	public void setCondition(String condition) {

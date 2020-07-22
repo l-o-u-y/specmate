@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Vector;
 
 import com.specmate.cause_effect_patterns.parse.wrapper.BinaryMatchResultTreeNode;
+import com.specmate.cause_effect_patterns.parse.wrapper.LeafTreeNode;
 import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultTreeNode;
 import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultTreeNode.RuleType;
 import com.specmate.cause_effect_patterns.parse.wrapper.NegationTreeNode;
@@ -34,14 +35,14 @@ public class GraphBuilder {
 
 	public synchronized Graph buildRGGraph(BinaryMatchResultTreeNode root) {
 		// TODO MA
-		List<MatchResultTreeNode> clauses = getClauses(root);
-		MatchResultTreeNode effect = clauses.remove(clauses.size() - 1);
-		List<MatchResultTreeNode> causes = clauses;
-
 		currentGraph = new Graph();
-//		final GraphNode node = currentGraph.createInnerNode(NodeType.AND);
-//		pCause.connectTo(node, false);
-//		fullyConnect(dirCause, node);
+		if (root.getType().equals(RuleType.COMPOSITION)) {
+			final GraphNode parent = currentGraph.createInnerNode(NodeType.AND);
+			parent.setComponent(((LeafTreeNode)((BinaryMatchResultTreeNode)root).getFirstArgument()).getContent());
+			final GraphNode child = currentGraph.createInnerNode(NodeType.AND);
+			child.setComponent(((LeafTreeNode)((BinaryMatchResultTreeNode)root).getSecondArgument()).getContent());
+			parent.connectTo(child, false);
+		}
 		
 		Graph result = currentGraph;
 		return result;

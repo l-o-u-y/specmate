@@ -70,19 +70,24 @@ public class GraphLayouter {
 			int x = XSTART + xIndex * XOFFSET;
 			int y = YSTART + yIndex * YOFFSET;
 
-			String condition = node.getCondition();
-			String variable = node.getVariable();
-
-			if (graph.isInnerNode(node)) {
-				condition = innerConditionString();
-				variable = innerVariableString() + " " + xIndex + " - " + yIndex;
-			}
-
 			IModelNode n;
 			if (creation instanceof CEGCreation) {
+
+				String condition = node.getCondition();
+				String variable = node.getVariable();
+
+				if (graph.isInnerNode(node)) {
+					condition = innerConditionString();
+					variable = innerVariableString() + " " + xIndex + " - " + yIndex;
+				}
+				
 				n = ((CEGCreation)creation).createNode((CEGModel)model, variable, condition, x, y, node.getType());
 			} else {
-				n = ((RGCreation)creation).createNode((RGModel)model, variable, condition, x, y, node.getType());
+
+				String component = node.getComponent();
+				String modifier = node.getModifier();
+				
+				n = ((RGCreation)creation).createNodeIfNotExist((RGModel)model, component, modifier, x, y, node.getType());
 			}
 			nodeMap.put(node, n);
 			positionTable[xIndex]++;

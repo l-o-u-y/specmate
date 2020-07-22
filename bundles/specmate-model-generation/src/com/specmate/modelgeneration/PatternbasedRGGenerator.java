@@ -65,7 +65,6 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		log.log(LogService.LOG_INFO, "Textinput: " + input);
 		boolean generatedSomething = false;
 		List<String> texts = preProcessor.preProcess(input);
-		LinkedList<RGNode> nodes = new LinkedList<RGNode>();
 		List<Pair<String, RGModel>> candidates = new ArrayList<>();
 
 		for (String text : texts) {
@@ -90,7 +89,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 				for (String noun : nouns) {
 					// don't add nouns with abstract rating of 3 or lower "In an effort to..."
 					if (this.creation.isConcrete(noun)) {
-						this.creation.createNodeIfNotExist(nodes, originalModel, noun, "", 100 * (i), 100 * (i),
+						this.creation.createNodeIfNotExist(originalModel, noun, "", 100 * (i), 100 * (i),
 								NodeType.AND);
 						i++;
 					}
@@ -105,26 +104,18 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 					.map(builder::buildTree).filter(Optional::isPresent).map(Optional::get)
 					.collect(Collectors.toList());
 
-			// final MatcherPostProcesser matchPostProcesser = new MatcherPostProcesser(lang);
-			// GraphBuilder graphBuilder = new GraphBuilder();
-			// GraphLayouter graphLayouter = new GraphLayouter(lang, creation);
+			 final MatcherPostProcesser matchPostProcesser = new MatcherPostProcesser(lang);
+			 GraphBuilder graphBuilder = new GraphBuilder();
+			 GraphLayouter graphLayouter = new GraphLayouter(lang, creation);
 
 			for (MatchResultTreeNode tree : trees) {
 				try {
-					// matchPostProcesser.process(tree);
+					 matchPostProcesser.process(tree);
 					if (tree.getType().isComposition() || tree.getType().isInheritance()) {
-						String parent = ((LeafTreeNode)((BinaryMatchResultTreeNode)tree).getFirstArgument()).getContent();
-						String child = ((LeafTreeNode)((BinaryMatchResultTreeNode)tree).getSecondArgument()).getContent();
-						this.creation.createConnection(
-								originalModel, 
-								this.creation.createNodeIfNotExist(nodes, originalModel, parent, "", 0, 0, NodeType.AND),
-								this.creation.createNodeIfNotExist(nodes, originalModel, child, "", 0, 0, NodeType.AND), 
-								false);
-//						Graph graph = graphBuilder.buildRGGraph((BinaryMatchResultTreeNode) tree);
-//						RGModel model = (RGModel) graphLayouter.createModel(graph);
-//						candidates.add(Pair.of(text, model));
+						Graph graph = graphBuilder.buildRGGraph((BinaryMatchResultTreeNode) tree);
+						RGModel model = (RGModel) graphLayouter.createModel(graph);
+						candidates.add(Pair.of(text, model));
 					}
-
 				} catch (Throwable t) {
 					log.log(LogService.LOG_DEBUG,
 							"Error occured processing the dependency parse tree: " + t.getMessage(), t);
@@ -133,22 +124,22 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 
 		}
 
-//		candidates.sort((p1, p2) -> {
-//			RGModel m1 = p1.getRight();
-//			RGModel m2 = p2.getRight();
-//			int c = Integer.compare(m2.getContents().size(), m1.getContents().size());
-//			if (c != 0) {
-//				return c;
-//			}
-//			String t1 = p1.getLeft();
-//			String t2 = p2.getLeft();
-//			c = Integer.compare(StringUtils.countMatches(t2, ","), StringUtils.countMatches(t1, ","));
-//			if (c != 0) {
-//				return c;
-//			}
-//			return Integer.compare(t1.length(), t2.length());
-//
-//		});
+		candidates.sort((p1, p2) -> {
+			RGModel m1 = p1.getRight();
+			RGModel m2 = p2.getRight();
+			int c = Integer.compare(m2.getContents().size(), m1.getContents().size());
+			if (c != 0) {
+				return c;
+			}
+			String t1 = p1.getLeft();
+			String t2 = p2.getLeft();
+			c = Integer.compare(StringUtils.countMatches(t2, ","), StringUtils.countMatches(t1, ","));
+			if (c != 0) {
+				return c;
+			}
+			return Integer.compare(t1.length(), t2.length());
+
+		});
 
 		if (!generatedSomething) {
 			throw new SpecmateInternalException(ErrorCode.NLP, "No Relationship Pair Found.");
