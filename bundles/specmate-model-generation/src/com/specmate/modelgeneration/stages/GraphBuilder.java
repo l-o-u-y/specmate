@@ -39,11 +39,11 @@ public class GraphBuilder {
 		List<MatchResultTreeNode> causes = clauses;
 
 		currentGraph = new Graph();
-		DirectCause cause = resolveCauses(causes);
-		resolveEffect(cause, effect);
-
+//		final GraphNode node = currentGraph.createInnerNode(NodeType.AND);
+//		pCause.connectTo(node, false);
+//		fullyConnect(dirCause, node);
+		
 		Graph result = currentGraph;
-		currentGraph = null;
 		return result;
 	}
 

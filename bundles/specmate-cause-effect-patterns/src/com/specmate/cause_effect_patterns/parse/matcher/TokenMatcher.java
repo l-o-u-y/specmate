@@ -52,10 +52,6 @@ public class TokenMatcher extends MatcherBase{
 		}
 		
 		if(this.posTag.isPresent()) {
-			String nouns[] = {"NN", "NNS", "NNP"};
-			String verbs[] = {"VB", "VBZ"};
-			System.out.println(head.getPosValue());
-			System.out.println(this.posTag.get());
 			/*if(Arrays.stream(nouns).anyMatch(head.getPosValue()::equals)) {
 				// head.setPos(PO);
 			} else if(Arrays.stream(verbs).anyMatch(head.getPosValue()::equals) && 

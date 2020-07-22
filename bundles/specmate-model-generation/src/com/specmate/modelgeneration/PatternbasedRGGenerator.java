@@ -15,6 +15,7 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
 import com.specmate.cause_effect_patterns.parse.wrapper.BinaryMatchResultTreeNode;
+import com.specmate.cause_effect_patterns.parse.wrapper.LeafTreeNode;
 import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultTreeNode;
 import com.specmate.cause_effect_patterns.parse.wrapper.MatchTreeBuilder;
 import com.specmate.common.exception.SpecmateException;
@@ -58,7 +59,6 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		matcher = new RuleMatcher(this.tagger, configService, lang);
 		preProcessor = new TextPreProcessor(lang, tagger);
 		log = logService;
-		// loadRessources();
 	}
 
 	public RGModel createModel(RGModel originalModel, String input) throws SpecmateException {
@@ -105,17 +105,24 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 					.map(builder::buildTree).filter(Optional::isPresent).map(Optional::get)
 					.collect(Collectors.toList());
 
-			final MatcherPostProcesser matchPostProcesser = new MatcherPostProcesser(lang);
-			GraphBuilder graphBuilder = new GraphBuilder();
-			GraphLayouter graphLayouter = new GraphLayouter(lang, creation);
+			// final MatcherPostProcesser matchPostProcesser = new MatcherPostProcesser(lang);
+			// GraphBuilder graphBuilder = new GraphBuilder();
+			// GraphLayouter graphLayouter = new GraphLayouter(lang, creation);
 
 			for (MatchResultTreeNode tree : trees) {
 				try {
-					matchPostProcesser.process(tree);
+					// matchPostProcesser.process(tree);
 					if (tree.getType().isComposition() || tree.getType().isInheritance()) {
-						Graph graph = graphBuilder.buildRGGraph((BinaryMatchResultTreeNode) tree);
-						RGModel model = (RGModel) graphLayouter.createModel(graph);
-						candidates.add(Pair.of(text, model));
+						String parent = ((LeafTreeNode)((BinaryMatchResultTreeNode)tree).getFirstArgument()).getContent();
+						String child = ((LeafTreeNode)((BinaryMatchResultTreeNode)tree).getSecondArgument()).getContent();
+						this.creation.createConnection(
+								originalModel, 
+								this.creation.createNodeIfNotExist(nodes, originalModel, parent, "", 0, 0, NodeType.AND),
+								this.creation.createNodeIfNotExist(nodes, originalModel, child, "", 0, 0, NodeType.AND), 
+								false);
+//						Graph graph = graphBuilder.buildRGGraph((BinaryMatchResultTreeNode) tree);
+//						RGModel model = (RGModel) graphLayouter.createModel(graph);
+//						candidates.add(Pair.of(text, model));
 					}
 
 				} catch (Throwable t) {
@@ -126,22 +133,22 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 
 		}
 
-		candidates.sort((p1, p2) -> {
-			RGModel m1 = p1.getRight();
-			RGModel m2 = p2.getRight();
-			int c = Integer.compare(m2.getContents().size(), m1.getContents().size());
-			if (c != 0) {
-				return c;
-			}
-			String t1 = p1.getLeft();
-			String t2 = p2.getLeft();
-			c = Integer.compare(StringUtils.countMatches(t2, ","), StringUtils.countMatches(t1, ","));
-			if (c != 0) {
-				return c;
-			}
-			return Integer.compare(t1.length(), t2.length());
-
-		});
+//		candidates.sort((p1, p2) -> {
+//			RGModel m1 = p1.getRight();
+//			RGModel m2 = p2.getRight();
+//			int c = Integer.compare(m2.getContents().size(), m1.getContents().size());
+//			if (c != 0) {
+//				return c;
+//			}
+//			String t1 = p1.getLeft();
+//			String t2 = p2.getLeft();
+//			c = Integer.compare(StringUtils.countMatches(t2, ","), StringUtils.countMatches(t1, ","));
+//			if (c != 0) {
+//				return c;
+//			}
+//			return Integer.compare(t1.length(), t2.length());
+//
+//		});
 
 		if (!generatedSomething) {
 			throw new SpecmateInternalException(ErrorCode.NLP, "No Relationship Pair Found.");

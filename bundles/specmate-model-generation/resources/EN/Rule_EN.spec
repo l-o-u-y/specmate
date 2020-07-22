@@ -4,45 +4,45 @@ import EN.POS.PTB.*
 def subtrees Limit, Conditional, Source, Action, Target, Parent, Child, New, Old, TMP
 
 def rule Action_Explicit_1 {
-	VB:[Action] - dobj -> NN:[Target]
-	[Action] - nsubj -> *:[Source]
+	[Action] - dobj -> [Target]
+	[Action] - nsubj -> [Source]
 }
 
 def rule Action_Explicit_Prep_1 {
-	VB:[Action] - prep -> TO:'to' - dobj -> NN:[Target]
-	[Action] - nsubj -> *:[Source]
+	[Action] - prep -> TO:'to' - dobj -> [Target]
+	[Action] - nsubj -> [Source]
 }
 
 // VB conj VB dobj NN conj NN <-- TODO MA
 def rule Action_1 {
-	VBZ:[Action] - dobj -> NN:[Target]
+	[Action] - dobj -> [Target]
 }
 
 def rule Action_Prep_1 {
-	VB:[Action] - prep -> TO:'to' - dobj -> NN:[Target]
+	[Action] - prep -> TO:'to' - dobj -> [Target]
 }
 
 def rule Composition_1 {
-	NN:[Child] - prep -> IN:'(on)|(of)' - pobj -> NN:[Parent]
+	[Child] - prep -> IN:'(on)|(of)' - pobj -> [Parent]
 }
 def rule Composition_2 {
-	NN:[Parent] - prep -> IN:'with' - pobj -> NN:[Child]
+	[Parent] - prep -> IN:'with' - pobj -> [Child]
 }
 
 // NNS:[Child] - cc -> 'and'; [Child] - conj -> NNS <-- TODO MA
 def rule Composition_3 {
-	NN:[Parent] - acl -> 'showing' - pobj -> NN:[Child]
+	[Parent] - acl -> 'showing' - pobj -> [Child]
 }
 
 
 def rule Composition_4 {
-	NN:[Child] - prep -> IN:'inside' - pobj -> NN:[Parent]
+	[Child] - prep -> IN:'inside' - pobj -> [Parent]
 }
 
 
 def rule Update_1 {
-	NN:[New] - cc -> IN:'of' - advmod -> RB:'instead'
-	[New] - conj -> NN:[Old]
+	[New] - cc -> IN:'of' - advmod -> RB:'instead'
+	[New] - conj -> [Old]
 }
 
 /*
