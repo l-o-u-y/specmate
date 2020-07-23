@@ -1,5 +1,6 @@
 package com.specmate.modelgeneration.stages;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,7 +31,9 @@ public class TextPreProcessor {
 			unfolder = new EnglishSentenceUnfolder(nlpService);
 		}
 		text = generalProcessing(text);
-		return unfolder.unfold(text);
+		List<String> t = new ArrayList<String>();
+		t.add(text);
+		return t; // unfolder.unfold(text);
 	}
 
 	private String generalGithubPreprocessing(String text) {
@@ -53,18 +56,6 @@ public class TextPreProcessor {
 
 		// replace and/or with or
 		text = text.replaceAll("and/or", "or");
-		
-		// conjunctions
-		text = text.replaceAll(", and", "and");
-		text = text.replaceAll(", or", "or");
-		String t = text;
-		int i = 0;
-		text = text.replaceAll(",\\s+(\\w+)(\\s+(and|or))", "$2 $1 $2");
-		while (!t.equals(text) && i < 5) {
-			i++;
-			t = text;
-			text = text.replaceAll(",\\s+(\\w+)(\\s+(and|or))", "$2 $1 $2");
-		}
 
 		// replace word1/word2 with word1 or word 2
 		text = text.replaceAll("(\\w+)\\/(\\w+)", "$1 or $2");
@@ -76,9 +67,6 @@ public class TextPreProcessor {
 		// this does not detect questions that falsely end with . (e.g. in list; user
 		// error)
 		text = text.replaceAll("([^\\.\\?!]*)\\?", "");
-
-		// replace multiple/special whitespaces with space
-		text = text.replaceAll("\\s+", " ");
 
 		// find word that starts with not alphanumeric or space (special char)
 		// remove special char and make all letters uppercase
@@ -134,6 +122,21 @@ public class TextPreProcessor {
 		sb.append(text.substring(last));
 		text = sb.toString();
 
+		// conjunctions
+		text = text.replaceAll(", and", "and");
+		text = text.replaceAll(", or", "or");
+		String t = text;
+		int i = 0;
+		text = text.replaceAll(",\\s+([^\\s]+)(\\s+(and|or))", "$2 $1 $2");
+		while (!t.equals(text) && i < 5) {
+			i++;
+			t = text;
+			text = text.replaceAll(",\\s+([^\\s]+)(\\s+(and|or))", "$2 $1 $2");
+		}
+
+		// replace multiple/special whitespaces with space
+		text = text.replaceAll("\\s+", " ");
+		
 		text = text.trim();
 
 		return text;

@@ -1,7 +1,7 @@
 import EN.DEP.STANFORD.*
 import EN.POS.PTB.*
 
-def subtrees Limit, Conditional, Source, Action, Target, Parent, Child, New, Old, TMP
+def subtrees Source, Action, Target, Parent, Child, New, Old, TMP
 
 def rule Action_Explicit_1 {
 	[Action] - dobj -> [Target]
@@ -23,7 +23,7 @@ def rule Action_Prep_1 {
 }
 
 def rule Composition_1 {
-	[Child] - prep -> IN:'(on)|(of)' - pobj -> [Parent]
+	[Child] - prep -> (IN:'on'|IN:'of'|IN:'inside'|IN:'in') - pobj -> [Parent]
 }
 def rule Composition_2 {
 	[Parent] - prep -> IN:'with' - pobj -> [Child]
@@ -34,36 +34,34 @@ def rule Composition_3 {
 	[Parent] - acl -> 'showing' - pobj -> [Child]
 }
 
-
-def rule Composition_4 {
-	[Child] - prep -> IN:'inside' - pobj -> [Parent]
-}
-
-
+/*
 def rule Update_1 {
 	[New] - cc -> IN:'of' - advmod -> RB:'instead'
 	[New] - conj -> [Old]
 }
 
-/*
 def rule Update_2 {
-	VB:'(add*)|(includ*)|(implement*)':[TMP] - dobj -> NN:[New]
+	'(add*)|(includ*)|(implement*)':[TMP] - dobj -> [New]
 }
 
 def rule Update_2_2 {
-	VB:'(add*)|(includ*)|(implement*)':[TMP] - dobj -> NN:[New] - prep -> IN:'(to)|(in)' - pobj -> NN
+	'(add*)|(includ*)|(implement*)':[TMP] - dobj -> [New] - prep -> IN:'(to)|(in)' - pobj -> NN
 }
 
 def rule Update_3 {
-	'chang*':[TMP] - dobj -> NN - prep -> IN:'from' - pobj -> NN:[Old]
-	[TMP] - prep -> IN:'to' - pobj -> NN:[New]
+	'(chang*)':[TMP] - dobj -> NN - prep -> IN:'from' - pobj -> [Old]
+	[TMP] - prep -> IN:'to' - pobj -> [New]
 }
 
+
 def rule Update_4 {
-	VB:'remov*' - dobj -> NN:[Old] - prep -> IN:'from' - pobj -> NN:[Parent]
+	'(remov*)' - dobj -> [Old] - prep -> IN:'from' - pobj -> [Parent]
 }
 */
 
+
+/* 
+def subtrees Limit, Conditional, Cause, Effect, Effect_SubA, Cause_SubA, Cause_SubB, Cause_SubC, Cause_SubD
 
 def rule LimitedCondition_1 {
 	[Limit] - nsubjpass -> [Conditional] - prep -> IN:'until'
@@ -72,9 +70,6 @@ def rule LimitedCondition_1 {
 def rule LimitedCondition_2 {
 	[Limit] - csubjpass -> [Conditional] - prep -> IN:'until'
 }
-
-
-def subtrees Cause, Effect, Effect_SubA, Cause_SubA, Cause_SubB, Cause_SubC, Cause_SubD
 
 //  If the tool detects an error then the tool beeps.
 def rule Condition1_1 {
@@ -422,3 +417,4 @@ def subtrees Preposition
 def rule VerbPreposition {
 	[Verb] - prep -> [Preposition]
 }
+*/

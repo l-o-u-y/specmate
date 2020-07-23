@@ -1,13 +1,11 @@
 package com.specmate.cause_effect_patterns.parse.matcher;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 import com.specmate.cause_effect_patterns.parse.DependencyParsetree;
 import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
 import com.specmate.cause_effect_patterns.parse.matcher.MatcherBase;
 
-import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS_NOUN;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
 /**
@@ -52,12 +50,7 @@ public class TokenMatcher extends MatcherBase{
 		}
 		
 		if(this.posTag.isPresent()) {
-			/*if(Arrays.stream(nouns).anyMatch(head.getPosValue()::equals)) {
-				// head.setPos(PO);
-			} else if(Arrays.stream(verbs).anyMatch(head.getPosValue()::equals) && 
-					Arrays.stream(verbs).anyMatch(this.posTag.get()::equals)) {
-				
-			} else*/ if(!head.getPosValue().equals(this.posTag.get())) {
+			if(!head.getPosValue().equals(this.posTag.get())) {
 				return MatchResult.unsuccessful();
 			}
 		}
