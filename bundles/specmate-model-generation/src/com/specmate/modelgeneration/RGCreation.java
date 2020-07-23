@@ -47,6 +47,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 */
 	public RGNode createNode(RGModel model, String component, String modifier, int x, int y, NodeType type) {
 		component = this.processWord(component);
+		component = component.toLowerCase();
 		RGNode node = RequirementsFactory.eINSTANCE.createRGNode();
 		node.setId(SpecmateEcoreUtil.getIdForChild());
 		node.setName("New RGNode " + dateFormat.format(new Date()));
@@ -113,9 +114,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		} else if (string.startsWith("the ")) {
 			s = string.substring(4);
 		}
-		// insert all words in lowercase
-		s = s.toLowerCase().trim();
-		return s;
+		return s.trim();
 	}
 
 	/**
@@ -134,14 +133,10 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	public RGNode createNodeIfNotExist(RGModel model, String component, String modifier, int x,
 			int y, NodeType type) {
 		component = this.processWord(component);
+		component = component.toLowerCase();
 		EList<IContentElement> list = model.getContents();
 		
-		System.out.println("---");
-		System.out.println(component);
-		System.out.println(type);
 		for (IContentElement rgNode : list) {
-			System.out.println(((RGNode)rgNode).getComponent());
-			System.out.println(((RGNode)rgNode).getType());
 			if (((RGNode)rgNode).getComponent().equals(component) && ((RGNode)rgNode).getType().equals(type)) {
 				return (RGNode)rgNode;
 			}
@@ -180,7 +175,9 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 					// get rating
 					Cell rating = row.getCell(2);
 					// we say rating of 3 or higher = concrete
-					System.out.println("Match found for: " + noun + " - " + rating.getNumericCellValue());
+					if (rating.getNumericCellValue() <= 3) {
+						System.out.println("Abstract noun: " + noun + " - " + rating.getNumericCellValue());
+					}
 					return rating.getNumericCellValue() > 3;
 				}
 			}

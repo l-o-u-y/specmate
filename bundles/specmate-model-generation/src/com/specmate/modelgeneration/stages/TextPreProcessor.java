@@ -53,6 +53,18 @@ public class TextPreProcessor {
 
 		// replace and/or with or
 		text = text.replaceAll("and/or", "or");
+		
+		// conjunctions
+		text = text.replaceAll(", and", "and");
+		text = text.replaceAll(", or", "or");
+		String t = text;
+		int i = 0;
+		text = text.replaceAll(",\\s+(\\w+)(\\s+(and|or))", "$2 $1 $2");
+		while (!t.equals(text) && i < 5) {
+			i++;
+			t = text;
+			text = text.replaceAll(",\\s+(\\w+)(\\s+(and|or))", "$2 $1 $2");
+		}
 
 		// replace word1/word2 with word1 or word 2
 		text = text.replaceAll("(\\w+)\\/(\\w+)", "$1 or $2");
@@ -80,7 +92,7 @@ public class TextPreProcessor {
 		int last = 0;
 		while (m.find()) {
 			sb.append(text.substring(last, m.start()));
-			sb.append(m.group(0).toUpperCase());
+			sb.append(m.group(0).substring(1).toUpperCase());
 			last = m.end();
 		}
 		sb.append(text.substring(last));

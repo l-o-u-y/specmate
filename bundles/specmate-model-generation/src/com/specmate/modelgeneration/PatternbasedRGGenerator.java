@@ -62,6 +62,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 	}
 
 	public RGModel createModel(RGModel originalModel, String input) throws SpecmateException {
+		log.log(LogService.LOG_INFO, "================");
 		log.log(LogService.LOG_INFO, "Textinput: " + input);
 		boolean generatedSomething = false;
 		List<String> texts = preProcessor.preProcess(input);
@@ -99,6 +100,10 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			final List<MatchResult> results = matcher.matchText(text);
 			final MatchTreeBuilder builder = new MatchTreeBuilder();
 
+			System.out.println(results.size());
+			for (MatchResult result : results) {
+				System.out.println(result.getRuleName());
+			}
 			// Convert all successful match results into an intermediate representation
 			final List<MatchResultTreeNode> trees = results.stream().filter(MatchResult::isSuccessfulMatch)
 					.map(builder::buildTree).filter(Optional::isPresent).map(Optional::get)
