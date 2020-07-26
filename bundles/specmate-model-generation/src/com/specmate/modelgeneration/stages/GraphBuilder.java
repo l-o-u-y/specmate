@@ -36,16 +36,61 @@ public class GraphBuilder {
 	public synchronized Graph buildRGGraph(BinaryMatchResultTreeNode root) {
 		// TODO MA
 		currentGraph = new Graph();
-		if (root.getType().equals(RuleType.COMPOSITION)) {
-			final GraphNode parent = currentGraph.createInnerNode(NodeType.AND);
-			parent.setComponent(((LeafTreeNode)((BinaryMatchResultTreeNode)root).getFirstArgument()).getContent());
-			final GraphNode child = currentGraph.createInnerNode(NodeType.AND);
-			child.setComponent(((LeafTreeNode)((BinaryMatchResultTreeNode)root).getSecondArgument()).getContent());
-			parent.connectTo(child, false);
-		}
+		buildRGNode(root, true);
+//		final GraphNode parent = currentGraph.createInnerNode(NodeType.AND);
+//		System.out.println(((LeafTreeNode)((BinaryMatchResultTreeNode)root).getFirstArgument()).getContent());
+//		parent.setComponent(((LeafTreeNode)((BinaryMatchResultTreeNode)root).getFirstArgument()).getContent());
+//		final GraphNode child = currentGraph.createInnerNode(NodeType.AND);
+//		System.out.println(((LeafTreeNode)((BinaryMatchResultTreeNode)root).getSecondArgument()).getContent());
+//		child.setComponent(((LeafTreeNode)((BinaryMatchResultTreeNode)root).getSecondArgument()).getContent());
+//		parent.connectTo(child, false);
 		
 		Graph result = currentGraph;
 		return result;
+	}
+	
+	public synchronized GraphNode buildRGNode(MatchResultTreeNode node, boolean left) {
+		
+		if (node.getType().equals(RuleType.COMPOSITION) || node.getType().equals(RuleType.INHERITANCE)) {
+			// if (node instanceof BinaryMatchResultTreeNode) {
+			final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode)node).getFirstArgument(), true);
+			final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode)node).getSecondArgument(), false);
+			second.connectTo(first, false);
+			// TODO MA edge types
+			if (left) {
+				return second;
+			} else {
+				return first;
+			}
+				
+			// }
+		} else if (node.getType().equals(RuleType.ACTION)) {
+			if (((BinaryMatchResultTreeNode)node).getFirstArgument().equals(
+			((BinaryMatchResultTreeNode)node).getSecondArgument())) {
+				final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode)node).getSecondArgument(), false);
+				return second;
+			} else {
+				final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode)node).getFirstArgument(), true);
+				final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode)node).getSecondArgument(), false);
+				
+				second.connectTo(first, false);
+				// TODO MA edge types
+				if (left) {
+					return second;
+				} else {
+					return first;
+				}
+				
+			}
+			
+		}
+		else {// if (node instanceof LeafTreeNode) { // TODO MA right now Leaf is still ConditionVariableNode 
+			final GraphNode n = currentGraph.createInnerNode(NodeType.AND);
+			n.setComponent(((LeafTreeNode)node).getContent());
+			return n;
+			}
+		// TODO MA NegationTreeNode
+		// TODO MA other Types
 	}
 
 	/**

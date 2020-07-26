@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Optional;
@@ -145,6 +146,12 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		return node;
 	}
 
+	// TODO MA
+	// contains words that deviate from the xsl and should be considered abstract
+	public static final String[] blacklist = {"we"};
+	// contains words that deviate from the xsl and should be considered concrete
+	public static final String[] whitelist = {};
+	
 	/**
 	 * Checks whether the noun is concrete or abstract based on concreteness rating
 	 * from an excel file
@@ -154,6 +161,14 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 */
 	public boolean isConcrete(String noun) {
 		noun = this.processWord(noun);
+		if (Arrays.asList(blacklist).contains(noun)) {
+			return false;
+		}
+		if (Arrays.asList(whitelist).contains(noun)) {
+			return true;
+		}
+		
+		
 		// obtaining input bytes from a file
 		FileInputStream fis;
 		try {

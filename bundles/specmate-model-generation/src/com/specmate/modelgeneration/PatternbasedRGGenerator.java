@@ -24,12 +24,14 @@ import com.specmate.config.api.IConfigService;
 import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.requirements.RGModel;
 import com.specmate.model.requirements.RGNode;
+import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.modelgeneration.stages.GraphBuilder;
 import com.specmate.modelgeneration.stages.GraphLayouter;
 import com.specmate.modelgeneration.stages.MatcherPostProcesser;
 import com.specmate.modelgeneration.stages.RuleMatcher;
 import com.specmate.modelgeneration.stages.TextPreProcessor;
 import com.specmate.modelgeneration.stages.graph.Graph;
+import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.NodeType;
 import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
@@ -60,7 +62,8 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		preProcessor = new TextPreProcessor(lang, tagger);
 		log = logService;
 	}
-
+	
+	// TODO MA multiple texts
 	public RGModel createModel(RGModel originalModel, String input) throws SpecmateException {
 		log.log(LogService.LOG_INFO, "================");
 		log.log(LogService.LOG_INFO, "Textinput: " + input);
@@ -71,6 +74,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		for (String text : texts) {
 			log.log(LogService.LOG_INFO, "Text Pre Processing: " + text);
 			JCas tagResult = this.tagger.processText(text, this.lang);
+			RGModel model = RequirementsFactory.eINSTANCE.createRGModel();
 
 			HashSet<String> nouns = new HashSet<String>();
 			JCasUtil.select(tagResult, Chunk.class).forEach(p -> {
@@ -90,7 +94,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 				for (String noun : nouns) {
 					// don't add nouns with abstract rating of 3 or lower "In an effort to..."
 					if (this.creation.isConcrete(noun)) {
-						this.creation.createNodeIfNotExist(originalModel, noun, "", 100 * (i), 100 * (i),
+						this.creation.createNodeIfNotExist(model, noun, "", 100 * (i), 100 * (i),
 								NodeType.AND);
 						i++;
 					}
@@ -100,7 +104,6 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			final List<MatchResult> results = matcher.matchText(text);
 			final MatchTreeBuilder builder = new MatchTreeBuilder();
 
-			System.out.println(results.size());
 			for (MatchResult result : results) {
 				System.out.println(result.getRuleName());
 			}
@@ -113,12 +116,13 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			 GraphBuilder graphBuilder = new GraphBuilder();
 			 GraphLayouter graphLayouter = new GraphLayouter(lang, creation);
 
+
 			for (MatchResultTreeNode tree : trees) {
 				try {
 					 matchPostProcesser.process(tree);
-					if (tree.getType().isComposition() || tree.getType().isInheritance()) {
+					if (tree.getType().isComposition() || tree.getType().isInheritance() || tree.getType().isAction()) {
 						Graph graph = graphBuilder.buildRGGraph((BinaryMatchResultTreeNode) tree);
-						RGModel model = (RGModel) graphLayouter.createModel(graph, originalModel);
+						model = (RGModel) graphLayouter.createModel(graph, model);
 						candidates.add(Pair.of(text, model));
 					}
 				} catch (Throwable t) {
@@ -129,32 +133,32 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 
 		}
 
-//		candidates.sort((p1, p2) -> {
-//			RGModel m1 = p1.getRight();
-//			RGModel m2 = p2.getRight();
-//			int c = Integer.compare(m2.getContents().size(), m1.getContents().size());
-//			if (c != 0) {
-//				return c;
-//			}
-//			String t1 = p1.getLeft();
-//			String t2 = p2.getLeft();
-//			c = Integer.compare(StringUtils.countMatches(t2, ","), StringUtils.countMatches(t1, ","));
-//			if (c != 0) {
-//				return c;
-//			}
-//			return Integer.compare(t1.length(), t2.length());
-//
-//		});
+		candidates.sort((p1, p2) -> {
+			RGModel m1 = p1.getRight();
+			RGModel m2 = p2.getRight();
+			int c = Integer.compare(m2.getContents().size(), m1.getContents().size());
+			if (c != 0) {
+				return c;
+			}
+			String t1 = p1.getLeft();
+			String t2 = p2.getLeft();
+			c = Integer.compare(StringUtils.countMatches(t2, ","), StringUtils.countMatches(t1, ","));
+			if (c != 0) {
+				return c;
+			}
+			return Integer.compare(t1.length(), t2.length());
+
+		});
 
 		if (!generatedSomething) {
 			throw new SpecmateInternalException(ErrorCode.NLP, "No Relationship Pair Found.");
 		}
-//		if (candidates.isEmpty()) {
+		if (candidates.isEmpty()) {
 			return originalModel;
-//		}
+		}
 
-//		originalModel.getContents().addAll(candidates.get(0).getRight().getContents());
-//		return originalModel;
+		originalModel.getContents().addAll(candidates.get(0).getRight().getContents());
+		return originalModel;
 
 	}
 

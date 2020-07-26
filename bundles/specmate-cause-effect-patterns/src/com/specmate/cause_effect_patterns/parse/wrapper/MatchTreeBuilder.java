@@ -270,12 +270,13 @@ public class MatchTreeBuilder {
 		}
 		
 		if (isAction(result)) { //TODO MA
-			MatchResultTreeNode left = getSecondArgument(result).get();
+			MatchResultTreeNode right = getSecondArgument(result).get();
+			MatchResultTreeNode left = right;
 			// no source -> self node
 			if (getFirstArgument(result) != null) {
 				left = getFirstArgument(result).get();
 			}
-			MatchResultTreeNode right = getSecondArgument(result).get();
+			
 			return Optional.of(new BinaryMatchResultTreeNode(left, right, getType(result)));
 		}
 
