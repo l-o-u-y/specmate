@@ -39,24 +39,14 @@ public enum RGConnectionType implements Enumerator {
 	COMPOSITION(1, "Composition", "Composition"),
 
 	/**
-	 * The '<em><b>Target</b></em>' literal object.
+	 * The '<em><b>Action</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #TARGET_VALUE
+	 * @see #ACTION_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	TARGET(2, "Target", "Target"),
-
-	/**
-	 * The '<em><b>Source</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #SOURCE_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	SOURCE(3, "Source", "Source");
+	ACTION(2, "Action", "Action");
 
 	/**
 	 * The '<em><b>Inheritance</b></em>' literal value.
@@ -81,26 +71,15 @@ public enum RGConnectionType implements Enumerator {
 	public static final int COMPOSITION_VALUE = 1;
 
 	/**
-	 * The '<em><b>Target</b></em>' literal value.
+	 * The '<em><b>Action</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #TARGET
-	 * @model name="Target"
+	 * @see #ACTION
+	 * @model name="Action"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int TARGET_VALUE = 2;
-
-	/**
-	 * The '<em><b>Source</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #SOURCE
-	 * @model name="Source"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int SOURCE_VALUE = 3;
+	public static final int ACTION_VALUE = 2;
 
 	/**
 	 * An array of all the '<em><b>RG Connection Type</b></em>' enumerators.
@@ -112,8 +91,7 @@ public enum RGConnectionType implements Enumerator {
 		new RGConnectionType[] {
 			INHERITANCE,
 			COMPOSITION,
-			TARGET,
-			SOURCE,
+			ACTION,
 		};
 
 	/**
@@ -172,8 +150,7 @@ public enum RGConnectionType implements Enumerator {
 		switch (value) {
 			case INHERITANCE_VALUE: return INHERITANCE;
 			case COMPOSITION_VALUE: return COMPOSITION;
-			case TARGET_VALUE: return TARGET;
-			case SOURCE_VALUE: return SOURCE;
+			case ACTION_VALUE: return ACTION;
 		}
 		return null;
 	}

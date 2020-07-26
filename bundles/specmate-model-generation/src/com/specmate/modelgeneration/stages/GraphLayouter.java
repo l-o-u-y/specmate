@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import com.specmate.model.base.IModelNode;
 import com.specmate.model.base.ISpecmateModelObject;
-import com.specmate.model.requirements.CEGConnection;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.RGModel;
@@ -102,7 +101,12 @@ public class GraphLayouter {
 			if (creation instanceof CEGCreation) {
 				((CEGCreation)creation).createConnection((CEGModel)model, (CEGNode)from, (CEGNode)to, edge.isNegated());
 			} else {
-				((RGCreation)creation).createConnection((RGModel)model, (RGNode)from, (RGNode)to, edge.isNegated());
+				if (edge.getType() != null) {
+					((RGCreation)creation).createConnection((RGModel)model, (RGNode)from, (RGNode)to, edge.getType(), edge.isNegated());
+				} else {
+					((RGCreation)creation).createConnection((RGModel)model, (RGNode)from, (RGNode)to, edge.isNegated());
+				}
+				
 			}
 		}
 		return model;

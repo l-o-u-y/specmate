@@ -11,6 +11,7 @@ import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultTreeNode;
 import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultTreeNode.RuleType;
 import com.specmate.cause_effect_patterns.parse.wrapper.NegationTreeNode;
 import com.specmate.model.requirements.NodeType;
+import com.specmate.model.requirements.RGConnectionType;
 import com.specmate.modelgeneration.stages.graph.Graph;
 import com.specmate.modelgeneration.stages.graph.GraphNode;
 import com.specmate.modelgeneration.stages.processors.ConditionVariableNode;
@@ -37,14 +38,7 @@ public class GraphBuilder {
 		// TODO MA
 		currentGraph = new Graph();
 		buildRGNode(root, true);
-//		final GraphNode parent = currentGraph.createInnerNode(NodeType.AND);
-//		System.out.println(((LeafTreeNode)((BinaryMatchResultTreeNode)root).getFirstArgument()).getContent());
-//		parent.setComponent(((LeafTreeNode)((BinaryMatchResultTreeNode)root).getFirstArgument()).getContent());
-//		final GraphNode child = currentGraph.createInnerNode(NodeType.AND);
-//		System.out.println(((LeafTreeNode)((BinaryMatchResultTreeNode)root).getSecondArgument()).getContent());
-//		child.setComponent(((LeafTreeNode)((BinaryMatchResultTreeNode)root).getSecondArgument()).getContent());
-//		parent.connectTo(child, false);
-		
+
 		Graph result = currentGraph;
 		return result;
 	}
@@ -55,8 +49,9 @@ public class GraphBuilder {
 			// if (node instanceof BinaryMatchResultTreeNode) {
 			final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode)node).getFirstArgument(), true);
 			final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode)node).getSecondArgument(), false);
-			second.connectTo(first, false);
-			// TODO MA edge types
+			RGConnectionType type = node.getType().equals(RuleType.COMPOSITION) 
+					? RGConnectionType.COMPOSITION : RGConnectionType.INHERITANCE; 
+			second.connectTo(first, type, false);
 			if (left) {
 				return second;
 			} else {
@@ -73,8 +68,7 @@ public class GraphBuilder {
 				final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode)node).getFirstArgument(), true);
 				final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode)node).getSecondArgument(), false);
 				
-				second.connectTo(first, false);
-				// TODO MA edge types
+				second.connectTo(first, RGConnectionType.ACTION, false);
 				if (left) {
 					return second;
 				} else {

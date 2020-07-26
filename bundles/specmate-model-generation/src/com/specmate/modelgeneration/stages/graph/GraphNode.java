@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Vector;
 
 import com.specmate.model.requirements.NodeType;
+import com.specmate.model.requirements.RGConnectionType;
 
 public class GraphNode {
 	private String condition;
@@ -37,6 +38,14 @@ public class GraphNode {
 		graph.edges.add(edge);
 	}
 
+	public void connectTo(GraphNode node, RGConnectionType type, boolean negateEdge) {
+		GraphEdge edge = new GraphEdge(this, node, type, negateEdge);
+		childEdges.add(edge);
+		node.parentEdges.add(edge);
+		graph.edges.add(edge);
+	}
+
+	
 	public NodeType getType() {
 		return type;
 	}

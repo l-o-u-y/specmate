@@ -74,4 +74,17 @@ def rule Update_4 {
 	'(remov*)' - dobj -> [Old] - prep -> IN:'from' - pobj -> [Parent]
 }
 */
+
+/* copy pasta from CEG
+def rule Negation {
+	[Head] - neg -> RB:*
+}
+
+def rule Negation_2 {
+	[Head] - dobj -> [Head_tmp] - neg -> DT:*
+}
+
+def rule Negation_3 {
+	[Head] - dobj-> [Head_tmp] - det -> DT:'no'
+}*/
 // TODO MA file handling for CEG/RG

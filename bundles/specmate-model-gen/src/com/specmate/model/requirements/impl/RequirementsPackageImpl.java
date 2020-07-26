@@ -652,8 +652,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		initEEnum(rgConnectionTypeEEnum, RGConnectionType.class, "RGConnectionType");
 		addEEnumLiteral(rgConnectionTypeEEnum, RGConnectionType.INHERITANCE);
 		addEEnumLiteral(rgConnectionTypeEEnum, RGConnectionType.COMPOSITION);
-		addEEnumLiteral(rgConnectionTypeEEnum, RGConnectionType.TARGET);
-		addEEnumLiteral(rgConnectionTypeEEnum, RGConnectionType.SOURCE);
+		addEEnumLiteral(rgConnectionTypeEEnum, RGConnectionType.ACTION);
 
 		// Create resource
 		createResource(eNS_URI);

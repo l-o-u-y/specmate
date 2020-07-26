@@ -212,8 +212,7 @@
     <eClassifiers xsi:type="ecore:EEnum" name="RGConnectionType">
       <eLiterals name="Inheritance"/>
       <eLiterals name="Composition" value="1"/>
-      <eLiterals name="Target" value="2"/>
-      <eLiterals name="Source" value="3"/>
+      <eLiterals name="Action" value="2"/>
     </eClassifiers>
     
 	<eClassifiers xsi:type="ecore:EClass" name="RGConnection" eSuperTypes="#//base/IModelConnection">

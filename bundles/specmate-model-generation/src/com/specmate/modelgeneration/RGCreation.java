@@ -72,22 +72,12 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 */
 	public RGConnection createConnection(RGModel model, RGNode nodeFrom, RGNode nodeTo, RGConnectionType type,
 			boolean negate) {
-		Optional<IModelConnection> optCon = nodeFrom.getOutgoingConnections().stream()
-				.filter(conn -> conn.getTarget() == nodeTo).findFirst();
-		if (optCon.isPresent()) {
-			return (RGConnection) optCon.get();
-		}
-		RGConnection con = RequirementsFactory.eINSTANCE.createRGConnection();
-		con.setId(SpecmateEcoreUtil.getIdForChild());
-		con.setSource(nodeFrom);
-		con.setTarget(nodeTo);
-		con.setNegate(negate);
-		con.setName("New Connection " + dateFormat.format(new Date()));
-		con.setType(type);
-		model.getContents().add(con);
-		return con;
+		RGConnection conn = createConnection(model, nodeFrom, nodeTo, negate);
+		conn.setType(type);
+		return conn;
 	}
 
+	
 	public RGConnection createConnection(RGModel model, RGNode nodeFrom, RGNode nodeTo, boolean negate) {
 		Optional<IModelConnection> optCon = nodeFrom.getOutgoingConnections().stream()
 				.filter(conn -> conn.getTarget() == nodeTo).findFirst();
