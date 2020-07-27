@@ -106,9 +106,13 @@ public class RuleMatcher {
 	}
 
 	public List<MatchResult> matchText(String text) throws SpecmateException {
+		return matchText(text, false);
+	}
+
+	public List<MatchResult> matchText(String text, boolean matchAll) throws SpecmateException {
 		JCas tagResult = tagger.processText(text, lang);
 		DependencyParsetree data = DependencyParsetree.generateFromJCas(tagResult);
-		return MatchUtil.evaluateRuleset(rules, data);
+		return MatchUtil.evaluateRuleset(rules, data, matchAll);
 	}
 
 }

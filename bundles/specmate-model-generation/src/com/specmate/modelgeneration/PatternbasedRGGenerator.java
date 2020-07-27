@@ -101,7 +101,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 				}
 			}
 
-			final List<MatchResult> results = matcher.matchText(text);
+			final List<MatchResult> results = matcher.matchText(text, true);
 			final MatchTreeBuilder builder = new MatchTreeBuilder();
 
 			for (MatchResult result : results) {
