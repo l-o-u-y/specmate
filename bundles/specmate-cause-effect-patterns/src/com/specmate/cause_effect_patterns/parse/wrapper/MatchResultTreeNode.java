@@ -66,6 +66,13 @@ public abstract class MatchResultTreeNode {
 				return 5;
 			case CONDITION_VARIABLE:
 				return 6;
+			// TODO MA order
+//			case COMPOSITION:
+//				return 7;
+//			case INHERITANCE:
+//				return 8;
+//			case ACTION:
+//				return 9;
 			case VERB_OBJECT:
 				return 7;
 			case VERB_PREPOSITION:

@@ -96,6 +96,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	}
 
 	private String processWord(String string) {
+		if (string == null) return "";
 		String s = string;
 		// remove a, the
 		if (string.startsWith("a ")) {

@@ -13,6 +13,7 @@ import com.specmate.cause_effect_patterns.parse.wrapper.NegationTreeNode;
 import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RGConnectionType;
 import com.specmate.modelgeneration.stages.graph.Graph;
+import com.specmate.modelgeneration.stages.graph.GraphEdge;
 import com.specmate.modelgeneration.stages.graph.GraphNode;
 import com.specmate.modelgeneration.stages.processors.ConditionVariableNode;
 
@@ -37,21 +38,49 @@ public class GraphBuilder {
 	public synchronized Graph buildRGGraph(BinaryMatchResultTreeNode root) {
 		// TODO MA
 		currentGraph = new Graph();
-		buildRGNode(root, true);
+		buildRGNode(root, true, null);
 
 		Graph result = currentGraph;
 		return result;
 	}
 	
-	public synchronized GraphNode buildRGNode(MatchResultTreeNode node, boolean left) {
+	public synchronized void connectRGNodes(GraphNode parent, GraphNode child, RGConnectionType type, boolean negated) {
+		if (parent == null) {
+			return;
+		}
+		if (parent.equals(child)) {
+			return;
+		}
+//		if ( ( child.getComponent().equals("CONJUNCTION") && !parent.getComponent().equals("CONJUNCTION") ) ||
+//			( child.getComponent().equals("CONJUNCTION") && parent.getComponent().equals("CONJUNCTION")
+//					&& child.getType() == parent.getType() ) ) {
+//			parent.setType(child.getType());
+//			for (GraphEdge edge : child.getChildEdges()) {
+//				GraphNode n = edge.getTo();
+//				if (type == null) {
+//					parent.connectTo(n, negated != edge.isNegated());
+//				} else {
+//					parent.connectTo(n, type, negated != edge.isNegated());
+//				}
+//			}
+//		} else {
+			if (type == null) {
+				parent.connectTo(child, negated);
+			} else {
+				parent.connectTo(child, type, negated);
+			}
+//		}
+	}
+	
+	public synchronized GraphNode buildRGNode(MatchResultTreeNode node, boolean left, GraphNode parent) {
 		
 		if (node.getType().equals(RuleType.COMPOSITION) || node.getType().equals(RuleType.INHERITANCE)) {
 			// if (node instanceof BinaryMatchResultTreeNode) {
-			final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode)node).getFirstArgument(), true);
-			final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode)node).getSecondArgument(), false);
+			final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode)node).getFirstArgument(), true, parent);
+			final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode)node).getSecondArgument(), false, first);
 			RGConnectionType type = node.getType().equals(RuleType.COMPOSITION) 
 					? RGConnectionType.COMPOSITION : RGConnectionType.INHERITANCE; 
-			second.connectTo(first, type, false);
+			connectRGNodes(first, second, type, false);
 			if (left) {
 				return second;
 			} else {
@@ -62,13 +91,14 @@ public class GraphBuilder {
 		} else if (node.getType().equals(RuleType.ACTION)) {
 			if (((BinaryMatchResultTreeNode)node).getFirstArgument().equals(
 			((BinaryMatchResultTreeNode)node).getSecondArgument())) {
-				final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode)node).getSecondArgument(), false);
+				final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode)node).getSecondArgument(), false, parent);
 				return second;
 			} else {
-				final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode)node).getFirstArgument(), true);
-				final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode)node).getSecondArgument(), false);
+				final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode)node).getFirstArgument(), true, parent);
+				final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode)node).getSecondArgument(), false, first);
 				
-				second.connectTo(first, RGConnectionType.ACTION, false);
+				// TODO action name
+				connectRGNodes(first, second, RGConnectionType.ACTION, false);
 				if (left) {
 					return second;
 				} else {
@@ -78,13 +108,55 @@ public class GraphBuilder {
 			}
 			
 		}
+		// TODO MA check with CEG
+		else if (node.getType().equals(RuleType.CONJUNCTION_AND)) {
+			final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode)node).getFirstArgument(), true, parent);
+			final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode)node).getSecondArgument(), false, parent);
+			
+			connectRGNodes(parent, first, null, false);
+			connectRGNodes(parent, second, null, false);
+			return parent;
+		} else if (node.getType().equals(RuleType.CONJUNCTION_OR)) {
+			final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode)node).getFirstArgument(), true, parent);
+			final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode)node).getSecondArgument(), false, parent);
+			
+			connectRGNodes(parent, first, null, false);
+			connectRGNodes(parent, second, null, false);
+			return parent;
+		} else if (node.getType().equals(RuleType.CONJUNCTION_NOR)) {
+			final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode)node).getFirstArgument(), true, parent);
+			final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode)node).getSecondArgument(), false, parent);
+			
+			connectRGNodes(parent, first, null, true);
+			connectRGNodes(parent, second, null, true);
+			return parent;
+		} else if (node.getType().equals(RuleType.CONJUNCTION_XOR)) {
+			final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode)node).getFirstArgument(), true, parent);
+			final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode)node).getSecondArgument(), false, parent);
+			parent.setType(NodeType.OR);
+			final GraphNode p2 = currentGraph.createInnerNode(NodeType.AND);
+			final GraphNode p3 = currentGraph.createInnerNode(NodeType.AND);
+			p2.setComponent("CONJUNCTION");
+			p3.setComponent("CONJUNCTION");
+			connectRGNodes(parent, p2, null, false);
+			connectRGNodes(parent, p3, null, false);
+			connectRGNodes(p2, first, null, true);
+			connectRGNodes(p2, second, null, false);
+			connectRGNodes(p3, first, null, false);
+			connectRGNodes(p3, second, null, true);
+			return parent;
+		} else if (node.getType().equals(RuleType.NEGATION)) {
+			final GraphNode first = buildRGNode(((NegationTreeNode)node).getClause(), true, parent);
+			
+			connectRGNodes(parent, first, null, true);
+			return parent;
+		}
+		// TODO MA other Types
 		else {// if (node instanceof LeafTreeNode) { // TODO MA right now Leaf is still ConditionVariableNode 
 			final GraphNode n = currentGraph.createInnerNode(NodeType.AND);
 			n.setComponent(((LeafTreeNode)node).getContent());
 			return n;
 			}
-		// TODO MA NegationTreeNode
-		// TODO MA other Types
 	}
 
 	/**

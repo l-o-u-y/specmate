@@ -45,4 +45,9 @@ public class Graph {
 	public boolean isInnerNode(GraphNode node) {
 		return innerNodes.contains(node);
 	}
+	
+	public void removeNode(GraphNode node) {
+		this.nodes.remove(node);
+		this.innerNodes.remove(node);
+	}
 }

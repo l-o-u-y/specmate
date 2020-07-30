@@ -23,11 +23,17 @@ public class GraphNode {
 
 	GraphNode(Graph graph, NodeType type) {
 		this.type = type;
-		this.condition = condition;
-		this.variable = variable;
 		this.graph = graph;
 		childEdges = new Vector<GraphEdge>();
 		parentEdges = new Vector<GraphEdge>();
+	}
+	
+	public List<GraphEdge> getChildEdges() {
+		return childEdges;
+	}
+	public void removeEdge(GraphEdge edge) {
+		parentEdges.remove(edge);
+		childEdges.remove(edge);
 	}
 
 
@@ -80,6 +86,10 @@ public class GraphNode {
 
 	public void setModifier(String modifier) {
 		this.modifier = modifier;
+	}
+
+	public void setType(NodeType type) {
+		this.type = type;
 	}
 
 	public boolean isRoot() {

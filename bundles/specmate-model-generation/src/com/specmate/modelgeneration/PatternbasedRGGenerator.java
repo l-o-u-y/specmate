@@ -126,6 +126,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 						candidates.add(Pair.of(text, model));
 					}
 				} catch (Throwable t) {
+					t.printStackTrace();
 					log.log(LogService.LOG_DEBUG,
 							"Error occured processing the dependency parse tree: " + t.getMessage(), t);
 				}
