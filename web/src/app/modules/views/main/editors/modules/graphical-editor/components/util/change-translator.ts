@@ -117,10 +117,10 @@ export class ChangeTranslator {
         if (Type.is(element, CEGConnection)) {
             const connection = (element as CEGConnection);
             let changeMade = false;
-            if (Arrays.contains(newStyles, EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE)) {
+            if (Arrays.contains(newStyles, EditorStyle.CEG_CONNECTION_NEGATED_STYLE)) {
                 connection.negate = true;
                 changeMade = true;
-            } else if (Arrays.contains(removedStyles, EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE)) {
+            } else if (Arrays.contains(removedStyles, EditorStyle.CEG_CONNECTION_NEGATED_STYLE)) {
                 connection.negate = false;
                 changeMade = true;
             }
@@ -131,10 +131,10 @@ export class ChangeTranslator {
         } else if (Type.is(element, RGConnection)) {
             const connection = (element as RGConnection);
             let changeMade = false;
-            if (Arrays.contains(newStyles, EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE)) {
+            if (Arrays.contains(newStyles, EditorStyle.RG_CONNECTION_NEGATED_STYLE)) {
                 connection.negate = true;
                 changeMade = true;
-            } else if (Arrays.contains(removedStyles, EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE)) {
+            } else if (Arrays.contains(removedStyles, EditorStyle.RG_CONNECTION_NEGATED_STYLE)) {
                 connection.negate = false;
                 changeMade = true;
             }
@@ -193,11 +193,11 @@ export class ChangeTranslator {
     }
 
     private isNegatedCEGNode(cell: mxgraph.mxCell): boolean {
-        return (cell.style as String).includes(EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE);
+        return (cell.style as String).includes(EditorStyle.CEG_CONNECTION_NEGATED_STYLE);
     }
 
     private isNegatedRGNode(cell: mxgraph.mxCell): boolean {
-        return (cell.style as String).includes(EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE);
+        return (cell.style as String).includes(EditorStyle.RG_CONNECTION_NEGATED_STYLE);
     }
 
     private async translateEdgeAdd(change: mxgraph.mxChildChange, graph: mxgraph.mxGraph): Promise<IModelConnection> {

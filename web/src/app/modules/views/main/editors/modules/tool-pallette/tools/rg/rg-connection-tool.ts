@@ -12,7 +12,7 @@ export class RGConnectionTool extends ConnectionToolBase<RGConnection> {
 
     public negated = false;
 
-    public name = 'tools.addCegConnection';
+    public name = 'tools.addRgConnection';
     public icon = 'sitemap';
     public style = '';
 

@@ -396,10 +396,10 @@ export class GraphicalEditor {
             const isNotOnlyStyleChange = edit.changes.some((s: object) => s.constructor.name !== 'mxStyleChange');
             const isNegated = edit.changes.some(function test(s: any): boolean {
                 if (s.constructor.name === 'mxStyleChange' && s.previous !== null) {
-                    return (s.style as String).includes(EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE)
-                        !== ((s.previous as String).includes(EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE)) ||
-                        (s.style as String).includes(EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE)
-                        !== ((s.previous as String).includes(EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE));
+                    return (s.style as String).includes(EditorStyle.CEG_CONNECTION_NEGATED_STYLE)
+                        !== ((s.previous as String).includes(EditorStyle.CEG_CONNECTION_NEGATED_STYLE)) ||
+                        (s.style as String).includes(EditorStyle.RG_CONNECTION_NEGATED_STYLE)
+                        !== ((s.previous as String).includes(EditorStyle.RG_CONNECTION_NEGATED_STYLE));
                 }
                 return false;
             });
@@ -455,7 +455,7 @@ export class GraphicalEditor {
             if (Type.is(this.model, RGModel)) {
                 for (const url in vertexCache) {
                     const vertex = vertexCache[url];
-                    StyleChanger.addStyle(vertex, this.graph, EditorStyle.COMPONENT_STYLE_NAME);
+                    // StyleChanger.addStyle(vertex, this.graph, EditorStyle.COMPONENT_STYLE_NAME);
                 }
             }
         } finally {
@@ -565,7 +565,7 @@ export class GraphicalEditor {
                 StyleChanger.removeStyle(vertex, this.graph, EditorStyle.CAUSE_STYLE_NAME);
                 StyleChanger.removeStyle(vertex, this.graph, EditorStyle.EFFECT_STYLE_NAME);
                 StyleChanger.removeStyle(vertex, this.graph, EditorStyle.INNER_STYLE_NAME);
-                StyleChanger.addStyle(vertex, this.graph, EditorStyle.COMPONENT_STYLE_NAME);
+                // StyleChanger.addStyle(vertex, this.graph, EditorStyle.COMPONENT_STYLE_NAME);
             }
         }
     }
