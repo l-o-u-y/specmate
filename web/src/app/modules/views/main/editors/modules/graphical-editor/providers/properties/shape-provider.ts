@@ -112,6 +112,12 @@ export class ShapeProvider extends ProviderBase {
                         style: EditorStyle.RG_CONNECTION_INHERITANCE_STYLE,
                         text: undefined
                     };
+                } else if ((element as RGConnection).type == 'Action') {
+                    return {
+                        size: undefined,
+                        style: EditorStyle.RG_CONNECTION_ACTION_STYLE,
+                        text: undefined
+                    };
                 }
             }
         });

@@ -83,6 +83,9 @@ export class EditorStyle {
     public static readonly RG_CONNECTION_COMPOSITION_STYLE = 'RG_CONNECTION_COMPOSITION_STYLE';
     private static readonly RG_CONNECTION_COMPOSITION_STYLE_STR = 'endArrow=undefined;startArrow=diamond;';
     private static readonly RG_CONNECTION_COMPOSITION_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.RG_CONNECTION_COMPOSITION_STYLE_STR);
+    public static readonly RG_CONNECTION_ACTION_STYLE = 'RG_CONNECTION_ACTION_STYLE';
+    private static readonly RG_CONNECTION_ACTION_STYLE_STR = 'endArrow=open;startArrow=undefined;';
+    private static readonly RG_CONNECTION_ACTION_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.RG_CONNECTION_ACTION_STYLE_STR);
 
 
 
@@ -128,6 +131,7 @@ export class EditorStyle {
         stylesheet.putCellStyle(EditorStyle.RG_CONNECTION_NEGATED_STYLE, EditorStyle.RG_CONNECTION_NEGATED_STYLE_OBJ);
         stylesheet.putCellStyle(EditorStyle.RG_CONNECTION_INHERITANCE_STYLE, EditorStyle.RG_CONNECTION_INHERITANCE_STYLE_OBJ);
         stylesheet.putCellStyle(EditorStyle.RG_CONNECTION_COMPOSITION_STYLE, EditorStyle.RG_CONNECTION_COMPOSITION_STYLE_OBJ);
+        stylesheet.putCellStyle(EditorStyle.RG_CONNECTION_ACTION_STYLE, EditorStyle.RG_CONNECTION_ACTION_STYLE_OBJ);
 
         stylesheet.putCellStyle(EditorStyle.VALID_STYLE_NAME, EditorStyle.VALID_STYLE);
         stylesheet.putCellStyle(EditorStyle.INVALID_STYLE_NAME, EditorStyle.INVALID_STYLE);
