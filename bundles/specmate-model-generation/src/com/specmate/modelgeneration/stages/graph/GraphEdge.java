@@ -3,10 +3,10 @@ package com.specmate.modelgeneration.stages.graph;
 import com.specmate.model.requirements.RGConnectionType;
 
 public class GraphEdge {
-	private final boolean negated;
+	private boolean negated;
 	private final GraphNode from;
 	private final GraphNode to;
-	private final RGConnectionType type;
+	private RGConnectionType type;
 
 	public GraphEdge(GraphNode from, GraphNode to) {
 		this(from, to, false);
@@ -32,6 +32,14 @@ public class GraphEdge {
 
 	public boolean isNegated() {
 		return negated;
+	}
+
+	public void setNegated(boolean neg) {
+		negated = neg;
+	}
+
+	public void setType(RGConnectionType typ) {
+		type = typ;
 	}
 
 	public GraphNode getFrom() {

@@ -43,7 +43,7 @@ public class GraphBuilder {
 		Graph result = currentGraph;
 		return result;
 	}
-	
+
 	public synchronized void connectRGNodes(GraphNode parent, GraphNode child, RGConnectionType type, boolean negated) {
 		if (parent == null) {
 			return;
@@ -51,52 +51,52 @@ public class GraphBuilder {
 		if (parent.equals(child)) {
 			return;
 		}
-//		if ( ( child.getComponent().equals("CONJUNCTION") && !parent.getComponent().equals("CONJUNCTION") ) ||
-//			( child.getComponent().equals("CONJUNCTION") && parent.getComponent().equals("CONJUNCTION")
-//					&& child.getType() == parent.getType() ) ) {
-//			parent.setType(child.getType());
-//			for (GraphEdge edge : child.getChildEdges()) {
-//				GraphNode n = edge.getTo();
-//				if (type == null) {
-//					parent.connectTo(n, negated != edge.isNegated());
-//				} else {
-//					parent.connectTo(n, type, negated != edge.isNegated());
-//				}
-//			}
-//		} else {
-			if (type == null) {
-				parent.connectTo(child, negated);
-			} else {
-				parent.connectTo(child, type, negated);
+		
+		// for double negations
+		for (GraphEdge e : parent.getChildEdges()) {
+			if (e.getTo().equals(child)) {
+				e.setNegated(e.isNegated() != negated);
+				if (type != null) {
+					e.setType(type);
+				}
 			}
+		}
+		if (type == null) {
+			parent.connectTo(child, negated);
+		} else {
+			parent.connectTo(child, type, negated);
+		}
 //		}
 	}
-	
+
 	public synchronized GraphNode buildRGNode(MatchResultTreeNode node, boolean left, GraphNode parent) {
-		
+
 		if (node.getType().equals(RuleType.COMPOSITION) || node.getType().equals(RuleType.INHERITANCE)) {
 			// if (node instanceof BinaryMatchResultTreeNode) {
-			final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode)node).getFirstArgument(), true, parent);
-			final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode)node).getSecondArgument(), false, first);
-			RGConnectionType type = node.getType().equals(RuleType.COMPOSITION) 
-					? RGConnectionType.COMPOSITION : RGConnectionType.INHERITANCE; 
+			final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), true, parent);
+			final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), false, first);
+			RGConnectionType type = node.getType().equals(RuleType.COMPOSITION) ? RGConnectionType.COMPOSITION
+					: RGConnectionType.INHERITANCE;
 			connectRGNodes(first, second, type, false);
 			if (left) {
 				return second;
 			} else {
 				return first;
 			}
-				
+
 			// }
 		} else if (node.getType().equals(RuleType.ACTION)) {
-			if (((BinaryMatchResultTreeNode)node).getFirstArgument().equals(
-			((BinaryMatchResultTreeNode)node).getSecondArgument())) {
-				final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode)node).getSecondArgument(), false, parent);
+			if (((BinaryMatchResultTreeNode) node).getFirstArgument()
+					.equals(((BinaryMatchResultTreeNode) node).getSecondArgument())) {
+				final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), false,
+						parent);
 				return second;
 			} else {
-				final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode)node).getFirstArgument(), true, parent);
-				final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode)node).getSecondArgument(), false, first);
-				
+				final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), true,
+						parent);
+				final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), false,
+						first);
+
 				// TODO action name
 				connectRGNodes(first, second, RGConnectionType.ACTION, false);
 				if (left) {
@@ -104,35 +104,35 @@ public class GraphBuilder {
 				} else {
 					return first;
 				}
-				
+
 			}
-			
+
 		}
 		// TODO MA check with CEG
 		else if (node.getType().equals(RuleType.CONJUNCTION_AND)) {
-			final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode)node).getFirstArgument(), true, parent);
-			final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode)node).getSecondArgument(), false, parent);
-			
+			final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), true, parent);
+			final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), false, parent);
+
 			connectRGNodes(parent, first, null, false);
 			connectRGNodes(parent, second, null, false);
 			return parent;
 		} else if (node.getType().equals(RuleType.CONJUNCTION_OR)) {
-			final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode)node).getFirstArgument(), true, parent);
-			final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode)node).getSecondArgument(), false, parent);
-			
+			final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), true, parent);
+			final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), false, parent);
+
 			connectRGNodes(parent, first, null, false);
 			connectRGNodes(parent, second, null, false);
 			return parent;
 		} else if (node.getType().equals(RuleType.CONJUNCTION_NOR)) {
-			final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode)node).getFirstArgument(), true, parent);
-			final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode)node).getSecondArgument(), false, parent);
-			
+			final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), true, parent);
+			final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), false, parent);
+
 			connectRGNodes(parent, first, null, true);
 			connectRGNodes(parent, second, null, true);
 			return parent;
 		} else if (node.getType().equals(RuleType.CONJUNCTION_XOR)) {
-			final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode)node).getFirstArgument(), true, parent);
-			final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode)node).getSecondArgument(), false, parent);
+			final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), true, parent);
+			final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), false, parent);
 			parent.setType(NodeType.OR);
 			final GraphNode p2 = currentGraph.createInnerNode(NodeType.AND);
 			final GraphNode p3 = currentGraph.createInnerNode(NodeType.AND);
@@ -146,17 +146,18 @@ public class GraphBuilder {
 			connectRGNodes(p3, second, null, true);
 			return parent;
 		} else if (node.getType().equals(RuleType.NEGATION)) {
-			final GraphNode first = buildRGNode(((NegationTreeNode)node).getClause(), true, parent);
-			
+			final GraphNode first = buildRGNode(((NegationTreeNode) node).getClause(), true, parent);
+
 			connectRGNodes(parent, first, null, true);
 			return parent;
 		}
 		// TODO MA other Types
-		else {// if (node instanceof LeafTreeNode) { // TODO MA right now Leaf is still ConditionVariableNode 
+		else {// if (node instanceof LeafTreeNode) { // TODO MA right now Leaf is still
+				// ConditionVariableNode
 			final GraphNode n = currentGraph.createInnerNode(NodeType.AND);
-			n.setComponent(((LeafTreeNode)node).getContent());
+			n.setComponent(((LeafTreeNode) node).getContent());
 			return n;
-			}
+		}
 	}
 
 	/**
