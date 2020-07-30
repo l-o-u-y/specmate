@@ -80,7 +80,7 @@ export class EditorStyle {
     public static readonly RG_CONNECTION_INHERITANCE_STYLE = 'RG_CONNECTION_INHERITANCE_STYLE';
     private static readonly RG_CONNECTION_INHERITANCE_STYLE_STR = 'endArrow=undefined;startArrow=block;';
     private static readonly RG_CONNECTION_INHERITANCE_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.RG_CONNECTION_INHERITANCE_STYLE_STR);
-    public static readonly RG_CONNECTION_COMPOSITION_STYLE = 'RG_CONNECTION_INHERITANCE_STYLE';
+    public static readonly RG_CONNECTION_COMPOSITION_STYLE = 'RG_CONNECTION_COMPOSITION_STYLE';
     private static readonly RG_CONNECTION_COMPOSITION_STYLE_STR = 'endArrow=undefined;startArrow=diamond;';
     private static readonly RG_CONNECTION_COMPOSITION_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.RG_CONNECTION_COMPOSITION_STYLE_STR);
 
