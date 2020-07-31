@@ -51,6 +51,10 @@ public class GraphBuilder {
 		if (parent.equals(child)) {
 			return;
 		}
+		// TODO MA this case happens because equality check for action doesnt work
+		if (parent.getComponent().equals(child.getComponent())) {
+			return;
+		}
 		
 		// for double negations
 		for (GraphEdge e : parent.getChildEdges()) {
@@ -70,7 +74,7 @@ public class GraphBuilder {
 	}
 
 	public synchronized GraphNode buildRGNode(MatchResultTreeNode node, boolean left, GraphNode parent) {
-
+		
 		if (node.getType().equals(RuleType.COMPOSITION) || node.getType().equals(RuleType.INHERITANCE)) {
 			// if (node instanceof BinaryMatchResultTreeNode) {
 			final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), true, parent);
@@ -86,6 +90,7 @@ public class GraphBuilder {
 
 			// }
 		} else if (node.getType().equals(RuleType.ACTION)) {
+			// TODO this check always fails because MatchPostProcesser creates new ConditionVariableNodes
 			if (((BinaryMatchResultTreeNode) node).getFirstArgument()
 					.equals(((BinaryMatchResultTreeNode) node).getSecondArgument())) {
 				final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), false,
@@ -97,7 +102,7 @@ public class GraphBuilder {
 				final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), false,
 						first);
 
-				// TODO action name
+				// TODO MA action name
 				connectRGNodes(first, second, RGConnectionType.ACTION, false);
 				if (left) {
 					return second;
@@ -108,13 +113,16 @@ public class GraphBuilder {
 			}
 
 		}
-		// TODO MA check with CEG
+
 		else if (node.getType().equals(RuleType.CONJUNCTION_AND)) {
 			final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), true, parent);
 			final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), false, parent);
 
 			connectRGNodes(parent, first, null, false);
 			connectRGNodes(parent, second, null, false);
+			if (parent != null) {
+				parent.setType(NodeType.AND);
+			}
 			return parent;
 		} else if (node.getType().equals(RuleType.CONJUNCTION_OR)) {
 			final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), true, parent);
@@ -122,6 +130,9 @@ public class GraphBuilder {
 
 			connectRGNodes(parent, first, null, false);
 			connectRGNodes(parent, second, null, false);
+			if (parent != null) {
+				parent.setType(NodeType.OR);
+			}
 			return parent;
 		} else if (node.getType().equals(RuleType.CONJUNCTION_NOR)) {
 			final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), true, parent);
@@ -129,11 +140,16 @@ public class GraphBuilder {
 
 			connectRGNodes(parent, first, null, true);
 			connectRGNodes(parent, second, null, true);
+			if (parent != null) {
+				parent.setType(NodeType.AND);
+			}
 			return parent;
 		} else if (node.getType().equals(RuleType.CONJUNCTION_XOR)) {
 			final GraphNode first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), true, parent);
 			final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), false, parent);
-			parent.setType(NodeType.OR);
+			if (parent != null) {
+				parent.setType(NodeType.OR);
+			}
 			final GraphNode p2 = currentGraph.createInnerNode(NodeType.AND);
 			final GraphNode p3 = currentGraph.createInnerNode(NodeType.AND);
 			p2.setComponent("CONJUNCTION");
@@ -152,8 +168,7 @@ public class GraphBuilder {
 			return parent;
 		}
 		// TODO MA other Types
-		else {// if (node instanceof LeafTreeNode) { // TODO MA right now Leaf is still
-				// ConditionVariableNode
+		else {// if (node instanceof LeafTreeNode) { // TODO MA right now Leaf is still ConditionVariableNode
 			final GraphNode n = currentGraph.createInnerNode(NodeType.AND);
 			n.setComponent(((LeafTreeNode) node).getContent());
 			return n;

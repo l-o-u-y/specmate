@@ -47,6 +47,17 @@ public class TextPreProcessor {
 
 		// remove <!----> with content
 		text = text.replaceAll("<[ ]*!--[^\\)]*--[ ]*>", "");
+		
+		// replace need/have/has/etc to with must
+		text = text.replaceAll("don't need to", "needn't");
+		text = text.replaceAll("doesn't need to", "needn't");
+		text = text.replaceAll("don't have to", "needn't");
+		text = text.replaceAll("doesn't to", "needn't");
+		
+		text = text.replaceAll("need to", "must");
+		text = text.replaceAll("needs to", "must");
+		text = text.replaceAll("have to", "must");
+		text = text.replaceAll("has to", "must");
 
 		// replace : with .
 		text = text.replaceAll(":", ".");

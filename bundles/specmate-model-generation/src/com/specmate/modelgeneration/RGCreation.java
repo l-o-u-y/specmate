@@ -129,8 +129,10 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		EList<IContentElement> list = model.getContents();
 		
 		for (IContentElement rgNode : list) {
-			if (((RGNode)rgNode).getComponent().equals(component) && ((RGNode)rgNode).getType().equals(type)) {
-				return (RGNode)rgNode;
+			if (rgNode instanceof RGNode) {
+				if (((RGNode)rgNode).getComponent().equals(component) && ((RGNode)rgNode).getType().equals(type)) {
+					return (RGNode)rgNode;
+				}
 			}
 		}
 		RGNode node = createNode(model, component, modifier, x, y, type);
@@ -163,7 +165,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		// obtaining input bytes from a file
 		FileInputStream fis;
 		try {
-			// TODO make path relative
+			// TODO MA make path relative
 			String path = "C:\\Users\\Lena\\Desktop\\Masterarbeit\\delta-descriptions\\papers\\Concreteness_ratings_Brysbaert_et_al_BRM.xls";
 			fis = new FileInputStream(new File(path));
 

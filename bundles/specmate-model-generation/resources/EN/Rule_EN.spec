@@ -3,18 +3,10 @@ import EN.POS.PTB.*
 
 def subtrees Source, Action, Target, Parent, Child, New, Old, TMP
 
-def rule Action_1 {
-	[Action] - dobj -> [Target]
-}
 
 def rule Action_Explicit_1 {
+	[Action] - nsubj -> [Source]
 	[Action] - dobj -> [Target]
-	[Action] - nsubj -> [Source]
-}
-
-def rule Action_Explicit_Prep_1 {
-	[Action] - prep -> TO:'to' - dobj -> [Target]
-	[Action] - nsubj -> [Source]
 }
 
 // VB conj VB dobj NN conj NN <-- TODO MA
@@ -22,9 +14,15 @@ def rule Action_1 {
 	[Action] - dobj -> [Target]
 }
 
+def rule Action_Explicit_Prep_1 {
+	[Action] - prep -> TO:'to' - dobj -> [Target]
+	[Action] - nsubj -> [Source]
+}
+
 def rule Action_Prep_1 {
 	[Action] - prep -> TO:'to' - dobj -> [Target]
 }
+
 
 // NOTE: (IN:'on'|IN:'of'|IN:'inside'|IN:'in') doesn't do what u think it does
 def rule Composition_1_1 {

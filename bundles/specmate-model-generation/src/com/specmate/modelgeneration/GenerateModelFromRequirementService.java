@@ -71,7 +71,7 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 
 	@Override
 	public RestResult<?> post(Object parent, Object child, String token) {
-		// TODO make CEG and RG Model inherit from Model then polymorph
+		// TODO MA make CEG and RG Model inherit from Model then polymorph
 		ISpecmateModelObject model;
 		if (parent instanceof CEGModel) {
 			model = (CEGModel) parent;

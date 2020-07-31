@@ -262,6 +262,7 @@ public class MatchTreeBuilder {
 		// Binary
 		if (isConditionVarible(result) || isVerbObject(result) || isVerbPreposition(result) || isConjunction(result)
 				|| isCondition(result) || isLimitedCondition(result)
+				
 				|| isComposition(result) || isInheritance(result)
 				|| isUpdate(result)) { //TODO MA
 			MatchResultTreeNode left = getFirstArgument(result).get();

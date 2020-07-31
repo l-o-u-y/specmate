@@ -88,18 +88,19 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			System.out.println(NLPUtil.printParse(tagResult));
 			System.out.println(NLPUtil.printDependencies(tagResult));
 
-			if (nouns.size() > 0) {
+			// TODO MA
+//			if (nouns.size() > 0) {
 				generatedSomething = true;
-				int i = 1;
-				for (String noun : nouns) {
-					// don't add nouns with abstract rating of 3 or lower "In an effort to..."
-					if (this.creation.isConcrete(noun)) {
-						this.creation.createNodeIfNotExist(model, noun, "", 100 * (i), 100 * (i),
-								NodeType.AND);
-						i++;
-					}
-				}
-			}
+//				int i = 1;
+//				for (String noun : nouns) {
+//					// don't add nouns with abstract rating of 3 or lower "In an effort to..."
+//					if (this.creation.isConcrete(noun)) {
+//						this.creation.createNodeIfNotExist(model, noun, "", 100 * (i), 100 * (i),
+//								NodeType.AND);
+//						i++;
+//					}
+//				}
+//			}
 
 			final List<MatchResult> results = matcher.matchText(text, true);
 			final MatchTreeBuilder builder = new MatchTreeBuilder();
