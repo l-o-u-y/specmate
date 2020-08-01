@@ -78,8 +78,12 @@ public class MatchResult {
 	
 	public void addSubtree(MatchResult subtree) {
 		for(String subtreeID: subtree.submatch.keySet()) {
+			if (subtree.matchTree.getTreeFragmentText().contains("child of parent")) {
+				System.out.println(subtree.matchTree.getTreeFragmentText());
+			}
 			this.submatch.put(subtreeID, subtree.submatch.get(subtreeID));
 		}
+		
 		if(subtree.submatch.size() > 0) {
 			this.mergePrefixSubmatches();
 		}
@@ -119,6 +123,9 @@ public class MatchResult {
 
 	public void addSubmatch(String subtreeName, MatchResult submatch) {
 		this.isSuccessfulMatch = this.isSuccessfulMatch && submatch.isSuccessfulMatch;
+		if (submatch.matchTree.getTreeFragmentText().contains("child of parent")) {
+			System.out.println(submatch.matchTree.getTreeFragmentText());
+		}
 		this.submatch.put(subtreeName, submatch);
 		if(this.submatch.size() > 1) {
 			this.mergePrefixSubmatches();

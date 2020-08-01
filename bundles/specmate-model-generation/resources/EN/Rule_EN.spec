@@ -2,14 +2,13 @@ import EN.DEP.STANFORD.*
 import EN.POS.PTB.*
 
 def subtrees Source, Action, Target, Parent, Child, New, Old, TMP
-
+/*
 
 def rule Action_Explicit_1 {
 	[Action] - nsubj -> [Source]
 	[Action] - dobj -> [Target]
 }
 
-// VB conj VB dobj NN conj NN <-- TODO MA
 def rule Action_1 {
 	[Action] - dobj -> [Target]
 }
@@ -21,31 +20,21 @@ def rule Action_Explicit_Prep_1 {
 
 def rule Action_Prep_1 {
 	[Action] - prep -> TO:'to' - dobj -> [Target]
-}
+}*/
 
 
 // NOTE: (IN:'on'|IN:'of'|IN:'inside'|IN:'in') doesn't do what u think it does
 def rule Composition_1_1 {
-	[Child] - prep -> IN:'on' - pobj -> [Parent]
+	[Child] - prep -> (IN:'on'|IN:'of'|IN:'inside'|IN:'in') - pobj -> [Parent]
 }
-def rule Composition_1_2 {
-	[Child] - prep -> IN:'of' - pobj -> [Parent]
-}
-def rule Composition_1_3 {
-	[Child] - prep -> IN:'inside' - pobj -> [Parent]
-}
-def rule Composition_1_4 {
-	[Child] - prep -> IN:'in' - pobj -> [Parent]
-}
-
+/*
 def rule Composition_2 {
 	[Parent] - prep -> IN:'with' - pobj -> [Child]
 }
 
-// NNS:[Child] - cc -> 'and'; [Child] - conj -> NNS <-- TODO MA
 def rule Composition_3 {
 	[Parent] - acl -> 'showing' - pobj -> [Child]
-}
+}*/
 
 /*
 def rule Update_1 {
@@ -74,7 +63,7 @@ def rule Update_4 {
 
 def subtrees  PartA, PartB, Head, Head_tmp
 def subtrees  PartA_SubA, PartB_SubA
-
+/*
 def rule Conjunction_NOR_1 {
 	[PartA] - preconj -> CC:'neither'
 	[PartA] - cc -> CC: 'nor'
@@ -134,5 +123,5 @@ def rule Negation_2 {
 
 def rule Negation_3 {
 	[Head] - dobj-> [Head_tmp] - det -> DT:'no'
-}
+}*/
 // TODO MA file handling for CEG/RG
