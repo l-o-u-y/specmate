@@ -101,12 +101,7 @@ public class GraphLayouter {
 			if (creation instanceof CEGCreation) {
 				((CEGCreation)creation).createConnection((CEGModel)model, (CEGNode)from, (CEGNode)to, edge.isNegated());
 			} else {
-				if (edge.getType() != null) {
-					((RGCreation)creation).createConnection((RGModel)model, (RGNode)from, (RGNode)to, edge.getType(), edge.isNegated());
-				} else {
-					((RGCreation)creation).createConnection((RGModel)model, (RGNode)from, (RGNode)to, edge.isNegated());
-				}
-				
+				((RGCreation)creation).createConnection((RGModel)model, (RGNode)from, (RGNode)to, edge.getType(), edge.isNegated(), edge.getLabel());
 			}
 		}
 		return model;

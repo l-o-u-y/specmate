@@ -3,12 +3,18 @@ package com.specmate.cause_effect_patterns.parse.wrapper;
 public class BinaryMatchResultTreeNode extends MatchResultTreeNode {
 	private MatchResultTreeNode left;
 	private MatchResultTreeNode right;
+	private String label;
 	private RuleType type;
-	
+
 	public BinaryMatchResultTreeNode(MatchResultTreeNode left, MatchResultTreeNode right, RuleType type) {
+		this(left, right, type, "");
+	}
+
+	public BinaryMatchResultTreeNode(MatchResultTreeNode left, MatchResultTreeNode right, RuleType type, String label) {
 		this.left = left;
 		this.right = right;
 		this.type = type;
+		this.label = label;
 	}
 	
 	public MatchResultTreeNode getFirstArgument() {
@@ -69,6 +75,10 @@ public class BinaryMatchResultTreeNode extends MatchResultTreeNode {
 	@Override
 	public RuleType getType() {
 		return type;
+	}
+
+	public String getLabel() {
+		return label;
 	}
 	
 	@Override

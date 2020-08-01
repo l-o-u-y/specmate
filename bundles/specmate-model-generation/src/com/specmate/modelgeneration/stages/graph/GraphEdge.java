@@ -7,19 +7,22 @@ public class GraphEdge {
 	private final GraphNode from;
 	private final GraphNode to;
 	private RGConnectionType type;
+	private final String label;
 
 	public GraphEdge(GraphNode from, GraphNode to) {
 		this(from, to, false);
 	}
 
 	public GraphEdge(GraphNode from, GraphNode to, boolean isNegated) {
-		negated = isNegated;
-		this.type = null;
-		this.from = from;
-		this.to = to;
+		this(from, to, null, isNegated);
 	}
-	
+
 	public GraphEdge(GraphNode from, GraphNode to, RGConnectionType type, boolean isNegated) {
+		this(from, to, type, isNegated, "");
+	}
+
+	public GraphEdge(GraphNode from, GraphNode to, RGConnectionType type, boolean isNegated, String label) {
+		this.label = label;
 		negated = isNegated;
 		this.type = type;
 		this.from = from;
@@ -28,6 +31,9 @@ public class GraphEdge {
 
 	public RGConnectionType getType() {
 		return type;
+	}
+	public String getLabel() {
+		return label;
 	}
 
 	public boolean isNegated() {

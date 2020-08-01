@@ -44,8 +44,8 @@ public class GraphNode {
 		graph.edges.add(edge);
 	}
 
-	public void connectTo(GraphNode node, RGConnectionType type, boolean negateEdge) {
-		GraphEdge edge = new GraphEdge(this, node, type, negateEdge);
+	public void connectTo(GraphNode node, RGConnectionType type, boolean negateEdge, String label) {
+		GraphEdge edge = new GraphEdge(this, node, type, negateEdge, label);
 		childEdges.add(edge);
 		node.parentEdges.add(edge);
 		graph.edges.add(edge);

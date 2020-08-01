@@ -1,9 +1,12 @@
 package com.specmate.cause_effect_patterns.parse.wrapper;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
 import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultTreeNode.RuleType;
+
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
 public class MatchTreeBuilder {
 	private static class SubtreeNames {
@@ -22,6 +25,7 @@ public class MatchTreeBuilder {
 		public static final String PREPOSITION = "Preposition";
 		public static final String SOURCE = "Source";
 		public static final String TARGET = "Target";
+		public static final String ACTION = "Action";
 		public static final String PARENT = "Parent";
 		public static final String CHILD = "Child";
 		public static final String NEW = "New";
@@ -61,7 +65,7 @@ public class MatchTreeBuilder {
 	// TODO MA
 	private boolean isAction(MatchResult result) {
 		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.ACTION);
-		boolean subMatches = result.hasSubmatch(SubtreeNames.TARGET); // && result.hasSubmatch(SubtreeNames.TARGET);
+		boolean subMatches = result.hasSubmatch(SubtreeNames.TARGET) && result.hasSubmatch(SubtreeNames.ACTION);
 		return name && subMatches;
 	}
 
@@ -134,7 +138,7 @@ public class MatchTreeBuilder {
 		boolean subMatches = result.hasSubmatch(SubtreeNames.VERB) && result.hasSubmatch(SubtreeNames.PREPOSITION);
 		return name && subMatches;
 	}
-
+	
 	private String getFirstArgumentName(MatchResult result) {
 		if (isLimitedCondition(result)) {
 			return SubtreeNames.LIMIT;
@@ -210,6 +214,32 @@ public class MatchTreeBuilder {
 		return null;
 	}
 
+	private String getThirdArgumentName(MatchResult result) {
+		if (isAction(result)) {
+			return SubtreeNames.ACTION;
+		}
+
+		return null;
+	}
+
+	public Optional<String> getThirdArgument(MatchResult result) {
+		String name = getThirdArgumentName(result);
+		if (name != null && result.getSubmatch(name) != null) {
+			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
+			for (Token t : tokens) {
+				System.out.println(t.getCoveredText());
+			}
+			if (tokens.size() == 0) {
+				return null;
+			}
+
+			for (Token t: tokens) {
+				return Optional.of(t.getCoveredText());
+			}
+		}
+		return null;
+	}
+	
 	public RuleType getType(MatchResult result) {
 		if (isLimitedCondition(result)) {
 			return RuleType.LIMITED_CONDITION;
@@ -278,7 +308,9 @@ public class MatchTreeBuilder {
 				left = getFirstArgument(result).get();
 			}
 			
-			return Optional.of(new BinaryMatchResultTreeNode(left, right, getType(result)));
+			String label = getThirdArgument(result).get();
+			
+			return Optional.of(new BinaryMatchResultTreeNode(left, right, getType(result), label));
 		}
 
 		// Just Text

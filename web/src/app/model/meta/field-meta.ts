@@ -342,6 +342,13 @@ export class MetaInfo {
 			required: true,
 			type: 'singleSelection',
 			values: '["Inheritance", "Composition"]',
+			position: '2'		
+		},			{
+			name: "label",
+			shortDesc: 'Label',
+			longDesc: 'The label of a connection',
+			required: false,
+			type: 'text',
 			position: '3'		
 		}	];
 	public static TestSpecification: FieldMetaItem[] = [

@@ -487,6 +487,16 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	@Override
+	public EAttribute getRGConnection_Label() {
+		return (EAttribute)rgConnectionEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EEnum getNodeType() {
 		return nodeTypeEEnum;
 	}
@@ -563,6 +573,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		rgConnectionEClass = createEClass(RG_CONNECTION);
 		createEAttribute(rgConnectionEClass, RG_CONNECTION__NEGATE);
 		createEAttribute(rgConnectionEClass, RG_CONNECTION__TYPE);
+		createEAttribute(rgConnectionEClass, RG_CONNECTION__LABEL);
 
 		// Create enums
 		nodeTypeEEnum = createEEnum(NODE_TYPE);
@@ -643,6 +654,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		initEClass(rgConnectionEClass, RGConnection.class, "RGConnection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRGConnection_Negate(), ecorePackage.getEBoolean(), "negate", null, 0, 1, RGConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRGConnection_Type(), this.getRGConnectionType(), "type", null, 0, 1, RGConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRGConnection_Label(), ecorePackage.getEString(), "label", null, 0, 1, RGConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(nodeTypeEEnum, NodeType.class, "NodeType");
@@ -797,6 +809,16 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 			   "required", "true",
 			   "type", "singleSelection",
 			   "values", "[\"Inheritance\", \"Composition\"]",
+			   "position", "2"
+		   });
+		addAnnotation
+		  (getRGConnection_Label(),
+		   source,
+		   new String[] {
+			   "shortDesc", "Label",
+			   "longDesc", "The label of a connection",
+			   "required", "false",
+			   "type", "text",
 			   "position", "3"
 		   });
 	}

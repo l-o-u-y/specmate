@@ -67,6 +67,24 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 * @param model
 	 * @param nodeFrom
 	 * @param nodeTo
+	 * @param type
+	 * @param negate
+	 * @param label
+	 * @return
+	 */
+	public RGConnection createConnection(RGModel model, RGNode nodeFrom, RGNode nodeTo, RGConnectionType type, boolean negate, String label) {
+		RGConnection conn = createConnection(model, nodeFrom, nodeTo, type, negate);
+		conn.setLabel(label);
+		return conn;
+	}
+
+	/**
+	 * Create a new connection to the RGModel
+	 *
+	 * @param model
+	 * @param nodeFrom
+	 * @param nodeTo
+	 * @param type
 	 * @param negate
 	 * @return
 	 */
@@ -77,7 +95,15 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		return conn;
 	}
 
-	
+	/**
+	 * Create a new connection to the RGModel
+	 *
+	 * @param model
+	 * @param nodeFrom
+	 * @param nodeTo
+	 * @param negate
+	 * @return
+	 */
 	public RGConnection createConnection(RGModel model, RGNode nodeFrom, RGNode nodeTo, boolean negate) {
 		Optional<IModelConnection> optCon = nodeFrom.getOutgoingConnections().stream()
 				.filter(conn -> conn.getTarget() == nodeTo).findFirst();

@@ -110,6 +110,7 @@
       <genClasses ecoreClass="specmate.ecore#//requirements/RGConnection">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGConnection/negate"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGConnection/type"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGConnection/label"/>
       </genClasses>
     </nestedGenPackages>
     <nestedGenPackages prefix="Testspecification" disposableProviderFactory="true"

@@ -1101,13 +1101,22 @@ public interface RequirementsPackage extends EPackage {
 	int RG_CONNECTION__TYPE = BasePackage.IMODEL_CONNECTION_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Label</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CONNECTION__LABEL = BasePackage.IMODEL_CONNECTION_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>RG Connection</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RG_CONNECTION_FEATURE_COUNT = BasePackage.IMODEL_CONNECTION_FEATURE_COUNT + 2;
+	int RG_CONNECTION_FEATURE_COUNT = BasePackage.IMODEL_CONNECTION_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>RG Connection</em>' class.
@@ -1431,6 +1440,17 @@ public interface RequirementsPackage extends EPackage {
 	EAttribute getRGConnection_Type();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGConnection#getLabel <em>Label</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Label</em>'.
+	 * @see com.specmate.model.requirements.RGConnection#getLabel()
+	 * @see #getRGConnection()
+	 * @generated
+	 */
+	EAttribute getRGConnection_Label();
+
+	/**
 	 * Returns the meta object for enum '{@link com.specmate.model.requirements.NodeType <em>Node Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1703,6 +1723,14 @@ public interface RequirementsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute RG_CONNECTION__TYPE = eINSTANCE.getRGConnection_Type();
+
+		/**
+		 * The meta object literal for the '<em><b>Label</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RG_CONNECTION__LABEL = eINSTANCE.getRGConnection_Label();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.requirements.NodeType <em>Node Type</em>}' enum.

@@ -43,8 +43,11 @@ public class GraphBuilder {
 		Graph result = currentGraph;
 		return result;
 	}
-
 	public synchronized void connectRGNodes(GraphNode parent, GraphNode child, RGConnectionType type, boolean negated) {
+		connectRGNodes(parent, child, type, negated, null);
+	}
+	
+	public synchronized void connectRGNodes(GraphNode parent, GraphNode child, RGConnectionType type, boolean negated, String label) {
 		if (parent == null) {
 			return;
 		}
@@ -65,11 +68,7 @@ public class GraphBuilder {
 				}
 			}
 		}
-		if (type == null) {
-			parent.connectTo(child, negated);
-		} else {
-			parent.connectTo(child, type, negated);
-		}
+		parent.connectTo(child, type, negated, label);
 //		}
 	}
 
@@ -101,9 +100,8 @@ public class GraphBuilder {
 						parent);
 				final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), false,
 						first);
-
-				// TODO MA action name
-				connectRGNodes(first, second, RGConnectionType.ACTION, false);
+				
+				connectRGNodes(first, second, RGConnectionType.ACTION, false, ((BinaryMatchResultTreeNode) node).getLabel());
 				if (left) {
 					return second;
 				} else {
@@ -169,9 +167,32 @@ public class GraphBuilder {
 		}
 		// TODO MA other Types
 		else {// if (node instanceof LeafTreeNode) { // TODO MA right now Leaf is still ConditionVariableNode
-			final GraphNode n = currentGraph.createInnerNode(NodeType.AND);
-			n.setComponent(((LeafTreeNode) node).getContent());
-			return n;
+			String text = ((LeafTreeNode) node).getContent();
+
+			if (text.matches("no\\s(.*)")) { // ex: no items
+				final GraphNode n = currentGraph.createInnerNode(NodeType.AND);
+				n.setComponent(text.replaceAll("no\\s(.*)", "$1"));
+				connectRGNodes(parent, n, null, true);
+				return parent;
+			} else if (text.matches("(.*)\\sor(.*)\\s(.*)")) { //ex: only one or two items
+				// TODO MA doesnt work
+				final GraphNode first = currentGraph.createInnerNode(NodeType.AND);
+				first.setComponent(text.replaceAll("(.*)\\\\sor(.*)\\\\s(.*)", "$1 $3"));
+				
+				final GraphNode second = currentGraph.createInnerNode(NodeType.AND);
+				second.setComponent(text.replaceAll("(.*)\\\\sor(.*)\\\\s(.*)", "$2 $3"));
+				
+				connectRGNodes(parent, first, null, false);
+				connectRGNodes(parent, second, null, false);
+				if (parent != null) {
+					parent.setType(NodeType.OR);
+				}
+				return parent;
+			} else {
+				final GraphNode n = currentGraph.createInnerNode(NodeType.AND);
+				n.setComponent(text);
+				return n;	
+			}
 		}
 	}
 
