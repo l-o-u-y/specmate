@@ -53,17 +53,17 @@ public abstract class MatcherBase {
 			throw MatcherException.circularRule(this, to);
 		}
 
-		this.children.add(to);
-		this.children.addAll(to.children);
 		
-		this.arcs.put(dependencyTag, to);
-		
-		// TODO MA-- the problem is that the option arcs dont get added here
-//		if (to instanceof OrMatcher) {
-//			for (MatcherBase c : ((OrMatcher) to).getOptions()) {
-//				to.arcTo(c, dependencyTag);
-//			}
-//		}
+		if (this instanceof OrMatcher) {
+			for (MatcherBase from : ((OrMatcher) this).getOptions()) {
+				from.arcTo(to, dependencyTag);
+			}
+		} else {
+			this.children.add(to);
+			this.children.addAll(to.children);
+			
+			this.arcs.put(dependencyTag, to);
+		}
 	}
 	
 	public Collection<MatcherBase> getArcChildren() {
@@ -135,7 +135,6 @@ public abstract class MatcherBase {
 			}
 			result.addSubtree(match);
 		}
-		// TODO MA-- so that the this.arcs here is empty -> doesnt get removed from keys -> gets added as subtree
 		// Add remaining unmatched Subtrees
 		if(dependencies != null) {
 			Set<String> keys = dependencies.getKeySet();

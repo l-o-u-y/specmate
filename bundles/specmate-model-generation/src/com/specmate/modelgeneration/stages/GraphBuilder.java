@@ -89,7 +89,7 @@ public class GraphBuilder {
 
 			// }
 		} else if (node.getType().equals(RuleType.ACTION)) {
-			// TODO this check always fails because MatchPostProcesser creates new ConditionVariableNodes
+			// TODO MA this check always fails because MatchPostProcesser creates new ConditionVariableNodes
 			if (((BinaryMatchResultTreeNode) node).getFirstArgument()
 					.equals(((BinaryMatchResultTreeNode) node).getSecondArgument())) {
 				final GraphNode second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), false,

@@ -79,11 +79,7 @@ public class MatchUtil {
 			Token subHead = subData.getHeads().stream().findFirst().get();
 			
 			MatchResult recursiveCall;
-//			System.out.println(subData.getTreeFragmentText());
-//			System.out.println(data.getTreeFragmentText());
-//			System.out.println(subHead.getCoveredText());
-//			System.out.println(head.getCoveredText());
-			// TODO MA-- and because subtree gets added subData.getTreeFragmentText() = data.getTreeFragmentText()
+
 			if(subData.getTreeFragmentText().equals(data.getTreeFragmentText()) && subHead.equals(head)) {
 				int newOffset = rules.indexOf(currentRule) + 1;
 				recursiveCall = evaluateRuleset(rules, subData, subHead, newOffset);

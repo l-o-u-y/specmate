@@ -19,7 +19,7 @@ public class OrMatcher extends MatcherBase{
 	public OrMatcher(MatcherBase...options) {
 		this.options = options;
 	}
-	// TODO MA--
+
 	public MatcherBase[] getOptions() {
 		return options;
 	}
