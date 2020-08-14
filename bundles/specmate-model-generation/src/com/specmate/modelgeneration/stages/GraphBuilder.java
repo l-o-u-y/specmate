@@ -6,8 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import com.specmate.cause_effect_patterns.parse.wrapper.BinaryMatchResultTreeNode;
 import com.specmate.cause_effect_patterns.parse.wrapper.LeafTreeNode;
 import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultTreeNode;
@@ -16,7 +14,6 @@ import com.specmate.cause_effect_patterns.parse.wrapper.NegationTreeNode;
 import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RGConnectionType;
 import com.specmate.modelgeneration.stages.graph.Graph;
-import com.specmate.modelgeneration.stages.graph.GraphEdge;
 import com.specmate.modelgeneration.stages.graph.GraphNode;
 import com.specmate.modelgeneration.stages.processors.ConditionVariableNode;
 
@@ -64,14 +61,6 @@ public class GraphBuilder {
 				}
 			}
 		}
-		
-//		// for double negations
-//		for (GraphEdge e : parent.getChildEdges()) {
-//			if (e.getTo().equals(child)) {
-//				e.setNegated(e.isNegated() != negated);
-//				e.setType(getConnectionType(node));
-//			}
-//		}
 	}
 
 	public synchronized String getLabel(MatchResultTreeNode node) {
@@ -167,19 +156,18 @@ public class GraphBuilder {
 		else {// if (node instanceof LeafTreeNode) { // TODO MA right now Leaf is still ConditionVariableNode
 			String text = ((LeafTreeNode) node).getContent();
 
-			if (text.matches("no\\s(.*)")) { // ex: no items
+			if (text.startsWith("no") && text.matches("no\\s(.*)")) { // ex: no items
 				final GraphNode n = currentGraph.createInnerNode(NodeType.AND);
 				n.setComponent(text.replaceAll("no\\s(.*)", "$1"));
 				
 				return new RGNodes(n, n.getType(), true);
-			} else if (text.matches("(.*)\\sor(.*)\\s(.*)")) { //ex: only one or two items
-				// TODO MA doesnt work
+			} else if (text.matches("(.*)\\sor\\s([^\\s]*)\\s(.*)")) { //ex: only one or two items
 				final GraphNode f = currentGraph.createInnerNode(NodeType.AND);
-				f.setComponent(text.replaceAll("(.*)\\\\sor(.*)\\\\s(.*)", "$1 $3"));
+				f.setComponent(text.replaceAll("(.*)\\sor\\s([^\\s]*)\\s(.*)", "$1 $3"));
 				RGNodes first = new RGNodes(f, NodeType.AND, false);
 				
 				final GraphNode s = currentGraph.createInnerNode(NodeType.AND);
-				s.setComponent(text.replaceAll("(.*)\\\\sor(.*)\\\\s(.*)", "$2 $3"));
+				s.setComponent(text.replaceAll("(.*)\\sor\\s([^\\s]*)\\s(.*)", "$2 $3"));
 				RGNodes second = new RGNodes(s, NodeType.AND, false);
 				
 				return new RGNodes(first, second, NodeType.OR);
