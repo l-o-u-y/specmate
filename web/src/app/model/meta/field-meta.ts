@@ -341,7 +341,7 @@ export class MetaInfo {
 			longDesc: 'The type of a connection',
 			required: true,
 			type: 'singleSelection',
-			values: '["Inheritance", "Composition"]',
+			values: '["Inheritance", "Composition", "Action"]',
 			position: '2'		
 		},			{
 			name: "label",

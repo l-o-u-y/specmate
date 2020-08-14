@@ -228,14 +228,15 @@ export class ChangeTranslator {
 
         tool.source = source;
         tool.target = target;
+        // const connection = await tool.perform();
 
         if (tool instanceof CEGConnectionTool) {
             (tool as CEGConnectionTool).negated = this.isNegatedCEGNode(change.child);
         } else if (tool instanceof RGConnectionTool) {
             (tool as RGConnectionTool).negated = this.isNegatedRGNode(change.child);
+            // (tool as RGConnectionTool).label = 'blabla';
+            // TODO MA
         }
-
-        const connection = await tool.perform();
 
         let oldId = change.child.id;
         let cell = graph.getModel().getCell(oldId);

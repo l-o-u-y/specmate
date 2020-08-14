@@ -54,7 +54,7 @@ public interface RGConnection extends IModelConnection {
 	 * @see com.specmate.model.requirements.RGConnectionType
 	 * @see #setType(RGConnectionType)
 	 * @see com.specmate.model.requirements.RequirementsPackage#getRGConnection_Type()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Type' longDesc='The type of a connection' required='true' type='singleSelection' values='[\"Inheritance\", \"Composition\"]' position='2'"
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Type' longDesc='The type of a connection' required='true' type='singleSelection' values='[\"Inheritance\", \"Composition\", \"Action\"]' position='2'"
 	 * @generated
 	 */
 	RGConnectionType getType();

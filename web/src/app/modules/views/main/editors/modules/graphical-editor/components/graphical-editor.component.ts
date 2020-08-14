@@ -441,6 +441,8 @@ export class GraphicalEditor {
                 if (Type.is(connection, RGConnection)) {
                     if ((connection as RGConnection).label) {
                         value = (connection as RGConnection).label;
+                        console.log(value);
+                        console.log((connection as RGConnection).type);
                     }
                 }
                 const style = this.shapeProvider.getStyle(connection);

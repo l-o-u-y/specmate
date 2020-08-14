@@ -230,7 +230,7 @@
           <details key="longDesc" value="The type of a connection"/>
           <details key="required" value="true"/>
           <details key="type" value="singleSelection"/>
-          <details key="values" value="[&quot;Inheritance&quot;, &quot;Composition&quot;]"/>
+          <details key="values" value="[&quot;Inheritance&quot;, &quot;Composition&quot;, &quot;Action&quot;]"/>
           <details key="position" value="2"/>
         </eAnnotations>
       </eStructuralFeatures>
