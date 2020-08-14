@@ -228,19 +228,17 @@ export class ChangeTranslator {
 
         tool.source = source;
         tool.target = target;
-        // const connection = await tool.perform();
 
         if (tool instanceof CEGConnectionTool) {
             (tool as CEGConnectionTool).negated = this.isNegatedCEGNode(change.child);
         } else if (tool instanceof RGConnectionTool) {
             (tool as RGConnectionTool).negated = this.isNegatedRGNode(change.child);
-            // (tool as RGConnectionTool).label = 'blabla';
-            // TODO MA
         }
 
         let oldId = change.child.id;
         let cell = graph.getModel().getCell(oldId);
 
+        const connection = await tool.perform();
         const condition = change.child.value;
         if (condition !== null && condition !== undefined && condition !== '') {
             (connection as ProcessConnection).condition = condition;
@@ -524,6 +522,11 @@ export class ChangeTranslator {
     public retranslate(changedElement: IContainer, graph: mxgraph.mxGraph, cell: mxgraph.mxCell) {
         this.preventDataUpdates = true;
         let value = this.nodeNameConverter ? this.nodeNameConverter.convertTo(changedElement) : changedElement.name;
+        if (Type.is(changedElement, RGConnection)) {
+            if ((changedElement as RGConnection).label) {
+                value = (changedElement as RGConnection).label;
+            }
+        }
         if (value instanceof CEGmxModelNode || value instanceof RGmxModelNode) {
             for (const key in value) {
                 if (value.hasOwnProperty(key)) {
