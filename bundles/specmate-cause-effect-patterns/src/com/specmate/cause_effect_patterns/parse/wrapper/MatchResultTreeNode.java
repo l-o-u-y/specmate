@@ -53,12 +53,12 @@ public abstract class MatchResultTreeNode {
 		public int getPriority() {
 			switch (this) {
 			// TODO MA order
-			case INHERITANCE:
-				return 2;
 			case COMPOSITION:
 				return 1;
-//			case ACTION:
-//				return 3;
+			case INHERITANCE:
+				return 2;
+			case ACTION:
+				return 3;
 			case LIMITED_CONDITION:
 				return 4;
 			case CONDITION:

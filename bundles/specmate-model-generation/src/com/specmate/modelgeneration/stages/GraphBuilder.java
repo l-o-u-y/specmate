@@ -85,10 +85,10 @@ public class GraphBuilder {
 		}
 	}
 	
-	public synchronized RGNodes buildRGNode(MatchResultTreeNode node, MatchResultTreeNode parent) {
+	public synchronized RGNodes buildRGNode(MatchResultTreeNode node) {
 		if (node.getType().equals(RuleType.COMPOSITION) || node.getType().equals(RuleType.INHERITANCE)) {
-			final RGNodes first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), node);
-			final RGNodes second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), node);
+			final RGNodes first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
+			final RGNodes second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
 			
 			connectRGNodes(first, second, node);
 			
@@ -102,40 +102,37 @@ public class GraphBuilder {
 			// TODO MA this check always fails because MatchPostProcesser creates new ConditionVariableNodes
 			if (((BinaryMatchResultTreeNode) node).getFirstArgument()
 					.equals(((BinaryMatchResultTreeNode) node).getSecondArgument())) {
-				final RGNodes second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), node);
+				final RGNodes second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
 				return second;
 			} else {
-				final RGNodes first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), node);
-				final RGNodes second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), node);
+				final RGNodes first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
+				final RGNodes second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
 
 				connectRGNodes(first, second, node);
 				
-				if (node != null && node.getType().equals(RuleType.INHERITANCE)) {// left
-					return second;
-				} else {
-					return first;
-				}
+				// TODO MA
+				return second;
 			}
 		}
 
 		else if (node.getType().equals(RuleType.CONJUNCTION_AND)) {
-			final RGNodes first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), node);
-			final RGNodes second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), node);
+			final RGNodes first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
+			final RGNodes second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
 			
 			return new RGNodes(first, second, NodeType.AND);
 		} else if (node.getType().equals(RuleType.CONJUNCTION_OR)) {
-			final RGNodes first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), node);
-			final RGNodes second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), node);
+			final RGNodes first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
+			final RGNodes second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
 
 			return new RGNodes(first, second, NodeType.OR);
 		} else if (node.getType().equals(RuleType.CONJUNCTION_NOR)) {
-			final RGNodes first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), node);
-			final RGNodes second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), node);
+			final RGNodes first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
+			final RGNodes second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
 
 			return new RGNodes(first, second, NodeType.AND).swap();
 		} else if (node.getType().equals(RuleType.CONJUNCTION_XOR)) {
-			final RGNodes first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), node);
-			final RGNodes second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), node);
+			final RGNodes first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
+			final RGNodes second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
 			final RGNodes parent2 = new RGNodes(currentGraph.createInnerNode(NodeType.AND), NodeType.AND, false);
 			final RGNodes parent3 = new RGNodes(currentGraph.createInnerNode(NodeType.AND), NodeType.AND, false);
 			connectRGNodes(parent2, first, null);
@@ -146,7 +143,7 @@ public class GraphBuilder {
 			connectRGNodes(parent3, first, null);
 			return new RGNodes(parent2, parent3, NodeType.OR);
 		} else if (node.getType().equals(RuleType.NEGATION)) {
-			final RGNodes first = buildRGNode(((NegationTreeNode) node).getClause(), node);
+			final RGNodes first = buildRGNode(((NegationTreeNode) node).getClause());
 
 			return first.swap();
 		}
