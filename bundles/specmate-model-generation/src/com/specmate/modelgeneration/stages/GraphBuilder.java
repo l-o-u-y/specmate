@@ -37,7 +37,7 @@ public class GraphBuilder {
 
 	public synchronized Graph buildRGGraph(BinaryMatchResultTreeNode root) {
 		currentGraph = new Graph();
-		buildRGNode(root, null);
+		buildRGNode(root);
 
 		Graph result = currentGraph;
 		return result;
