@@ -3,7 +3,6 @@ import EN.POS.PTB.*
 
 def subtrees Source, Action, Target, Parent, Child, New, Old, TMP, TMP2
 
-
 /*
 TODO MA just leave this commented out for now
 def rule Update_1 {
@@ -43,6 +42,35 @@ def rule Update_6 {
 }
 */
 
+def rule Composition_1_1 {
+	[Child] - prep -> (IN:'on'|IN:'of'|IN:'inside'|IN:'in') - pobj -> [Parent]
+}
+
+def rule Composition_2 {
+	[Parent] - prep -> IN:'with' - pobj -> [Child]
+}
+
+def rule Composition_3 {
+	[Parent] - acl -> 'showing' - pobj -> [Child]
+}
+
+def rule Composition_4 {
+	'has':[TMP] - nsubj -> [Parent]
+	[TMP] - dobj -> [Child]
+}
+
+def rule Inheritance_1 {
+	'is':[TMP] - nsubj -> [Child]
+	[TMP] - attr -> [Parent]
+}
+
+def rule Inheritance_1_2 {
+	[Child] - relcl -> 'is':[TMP] - attr -> [Parent]
+}
+
+def rule Inheritance_2 { // a component -> called -> qbtn // TODO MA label
+	[Parent] - acl -> [Action] - oprd -> [Child]
+}
 
 def rule Action_Explicit_1 {
 	[Action] - nsubj -> [Source]
@@ -60,18 +88,6 @@ def rule Action_Explicit_Prep_1 {
 
 def rule Action_Prep_1 {
 	[Action] - prep -> TO:'to' - dobj -> [Target]
-}
-
-def rule Composition_1_1 {
-	[Child] - prep -> (IN:'on'|IN:'of'|IN:'inside'|IN:'in') - pobj -> [Parent]
-}
-
-def rule Composition_2 {
-	[Parent] - prep -> IN:'with' - pobj -> [Child]
-}
-
-def rule Composition_3 {
-	[Parent] - acl -> 'showing' - pobj -> [Child]
 }
 
 def subtrees  PartA, PartB, Head, Head_tmp

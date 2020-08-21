@@ -66,6 +66,7 @@ def tagset dependencies EN.DEP.CONLL2008 {
 }
 
 def tagset dependencies EN.DEP.STANFORD {
+	relcl
 	/* Clausal modifier of noun (adjectival clause) */
 	acl
 	/* Abbreviation modifier */

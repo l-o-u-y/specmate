@@ -49,10 +49,19 @@ public class BinaryMatchResultTreeNode extends MatchResultTreeNode {
 		this.type = left.getType();
 		left.setType(tmp);
 		
-		this.left  = childLeft;
-		this.right = left;
-		left.left  = childRight;
-		left.right = right;
+		// TODO MA If it's composition, connect leftleft with right
+		if (this.getType().equals(RuleType.COMPOSITION)) {
+			// this.left = left;
+			this.right = childRight;
+			left.right = right;
+		// else connect leftright with right
+		} else {
+			this.left  = childLeft;
+			this.right = left;
+			left.left  = childRight;
+			left.right = right;
+		}
+		
 	}
 
 	public void rightSwap() {
@@ -66,6 +75,7 @@ public class BinaryMatchResultTreeNode extends MatchResultTreeNode {
 		this.type = right.getType();
 		right.setType(tmp);
 		
+		// TODO MA might need cases
 		this.left  = right;
 		this.right = childRight;
 		right.left  = left;

@@ -52,31 +52,31 @@ public abstract class MatchResultTreeNode {
 
 		public int getPriority() {
 			switch (this) {
-			case LIMITED_CONDITION:
-				return 0;
-			case CONDITION:
-				return 1;
-			case CONJUNCTION_XOR:
-				return 2;
-			case CONJUNCTION_NOR:
-				return 3;
-			case CONJUNCTION_OR:
-				return 4;
-			case CONJUNCTION_AND:
-				return 5;
-			case CONDITION_VARIABLE:
-				return 6;
 			// TODO MA order
-//			case COMPOSITION:
-//				return 7;
-//			case INHERITANCE:
-//				return 8;
+			case INHERITANCE:
+				return 2;
+			case COMPOSITION:
+				return 1;
 //			case ACTION:
-//				return 9;
-			case VERB_OBJECT:
+//				return 3;
+			case LIMITED_CONDITION:
+				return 4;
+			case CONDITION:
+				return 5;
+			case CONJUNCTION_XOR:
+				return 6;
+			case CONJUNCTION_NOR:
 				return 7;
-			case VERB_PREPOSITION:
+			case CONJUNCTION_OR:
 				return 8;
+			case CONJUNCTION_AND:
+				return 9;
+			case CONDITION_VARIABLE:
+				return 10;
+			case VERB_OBJECT:
+				return 11;
+			case VERB_PREPOSITION:
+				return 12;
 			default: // Negation should not be moved
 				return -1;
 			}
