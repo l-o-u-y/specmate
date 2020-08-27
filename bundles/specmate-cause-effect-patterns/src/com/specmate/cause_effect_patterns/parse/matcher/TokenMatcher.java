@@ -44,7 +44,6 @@ public class TokenMatcher extends MatcherBase{
 
 	@Override
 	public MatchResult match(DependencyParsetree data, Token head) {
-		// TODO MA try making multiple POS tags possible
 		String tokenText = head.getCoveredText().trim();
 		if(!tokenText.matches(this.pattern)) {
 			return MatchResult.unsuccessful();

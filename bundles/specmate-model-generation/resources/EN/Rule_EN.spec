@@ -1,5 +1,7 @@
 import EN.DEP.STANFORD.*
+// import EN.DEP.SPACY.*
 import EN.POS.PTB.*
+import EN.POS.LENA.*
 
 def subtrees Source, Action, Target, Parent, Child, Label, New, Old, TMP, TMP2
 
@@ -15,7 +17,7 @@ def rule Update_2 {
 }
 
 def rule Update_2_2 {
-	'(add)|(adds)|(adding)|(include)|(includes)|(including)|(implement)|(implements)|(implementing)':[TMP] - dobj -> [New] - prep -> IN:'(to)|(in)' - pobj -> [Parent]
+	'(add)|(adds)|(adding)|(include)|(includes)|(including)|(implement)|(implements)|(implementing)':[TMP] - dobj -> [New] - prep -> IN:'(to)|(in)' - pobj -> noun:[Parent]
 }
 
 def rule Update_3 {
@@ -24,7 +26,7 @@ def rule Update_3 {
 }
 
 def rule Update_4 {
-	'(remove)|(removes)|(removing)' - dobj -> [Old] - prep -> IN:'from' - pobj -> [Parent]
+	'(remove)|(removes)|(removing)' - dobj -> [Old] - prep -> IN:'from' - pobj -> noun:[Parent]
 }
 
 def rule Update_5 {
@@ -44,37 +46,37 @@ def rule Update_6 {
 
 
 def rule Composition_1_1 {
-	[Child] - prep -> IN:'(on)|(of)|(inside)|(in)':[Label] - pobj -> [Parent]
+	noun:[Child] - prep -> IN:'(on)|(of)|(inside)|(in)':[Label] - pobj -> noun:[Parent]
 }
 
 def rule Composition_2 {
-	[Parent] - prep -> IN:'with':[Label] - pobj -> [Child]
+	noun:[Parent] - prep -> IN:'with':[Label] - pobj -> noun:[Child]
 }
 
 def rule Composition_3 {
-	[Parent] - acl -> 'showing':[Label] - pobj -> [Child]
+	noun:[Parent] - acl -> 'showing':[Label] - pobj -> noun:[Child]
 }
 
 def rule Composition_4 {
-	'has':[Label] - nsubj -> [Parent]
-	[Label] - dobj -> [Child]
+	'has':[Label] - nsubj -> noun:[Parent]
+	[Label] - dobj -> noun:[Child]
 }
 
 def rule Inheritance_1 {
-	'is':[Label] - nsubj -> [Child]
-	[Label] - attr -> [Parent]
+	'is':[Label] - nsubj -> noun:[Child]
+	[Label] - attr -> noun:[Parent]
 }
 
 def rule Inheritance_1_2 {
-	[Child] - relcl -> 'is':[Label] - attr -> [Parent]
+	noun:[Child] - relcl -> 'is':[Label] - attr -> noun:[Parent]
 }
 
 def rule Inheritance_2 { // a component -> called -> qbtn // TODO MA label
-	[Parent] - acl -> [Label] - oprd -> [Child]
+	noun:[Parent] - acl -> [Label] - oprd -> noun:[Child]
 }
 
 def rule Inheritance_Colon { // it comes in two shapes: this and that
-	[Parent] - appos -> [Child]
+	noun:[Parent] - appos -> noun:[Child]
 }
 
 def rule Action_Explicit_1 {

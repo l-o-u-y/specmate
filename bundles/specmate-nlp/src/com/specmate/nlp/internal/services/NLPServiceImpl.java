@@ -79,6 +79,7 @@ public class NLPServiceImpl implements INLPService {
 		AnalysisEngineDescription parser = null;
 		AnalysisEngineDescription chunker = null;
 		AnalysisEngineDescription dependencyParser = null;
+		AnalysisEngineDescription coreference = null;
 
 		String lang = ELanguage.EN.getLanguage();
 
@@ -92,6 +93,7 @@ public class NLPServiceImpl implements INLPService {
 			parser = createEngineDescription(OpenNlpParser.class, OpenNlpParser.PARAM_PRINT_TAGSET, true,
 					OpenNlpParser.PARAM_LANGUAGE, lang, OpenNlpParser.PARAM_WRITE_PENN_TREE, true,
 					OpenNlpParser.PARAM_WRITE_POS, true);
+			// TODO MA coreference = createEngineDescription(Stanford.class)
 
 			AnalysisEngine engine = createEngine(
 					createEngineDescription(segmenter, posTagger, chunker, dependencyParser, parser));

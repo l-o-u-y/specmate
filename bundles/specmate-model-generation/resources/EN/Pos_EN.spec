@@ -1,3 +1,8 @@
+def tagset parts-of-speech EN.POS.LENA {
+	noun
+}
+
+
 def tagset parts-of-speech EN.POS.ARKTWEET {
 	/* No description */
 	EX = "!"
@@ -420,7 +425,7 @@ def tagset parts-of-speech EN.POS.C5 {
 	AV0
 	/* No description */
 	AV0MIAJ0 = "AV0-AJ0"
-	/* 'i can’t hold out any longer', the same avp tag is used for out. */
+	/* 'i can鈥檛 hold out any longer', the same avp tag is used for out. */
 	AVPMIPRP = "AVP-PRP"
 	/* Occurs in interrogative or relative use.] */
 	AVQMICJS = "AVQ-CJS"
@@ -670,7 +675,7 @@ def tagset parts-of-speech EN.POS.LBJ {
 }
 
 def tagset parts-of-speech EN.POS.MEDPOST {
-	/* ” right quote */
+	/* 鈥� right quote */
 	SQTSQT = "''"
 	/* ( left parenthesis */
 	PAR = "("
@@ -696,7 +701,7 @@ def tagset parts-of-speech EN.POS.MEDPOST {
 	DD
 	/* Existential there */
 	EX
-	/* Genitive marker ’s */
+	/* Genitive marker 鈥檚 */
 	GE
 	/* Preposition */
 	II
@@ -788,7 +793,7 @@ def tagset parts-of-speech EN.POS.MEDPOST {
 	VVNJ
 	/* 3rd pers. sing. */
 	VVZ
-	/* “ left quote */
+	/* 鈥� left quote */
 	APAP = "``"
 }
 
