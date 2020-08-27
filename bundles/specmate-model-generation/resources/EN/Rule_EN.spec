@@ -80,21 +80,21 @@ def rule Inheritance_Colon { // it comes in two shapes: this and that
 }
 
 def rule Action_Explicit_1 {
-	[Action] - nsubj -> [Source]
-	[Action] - dobj -> [Target]
+	verb:[Action] - nsubj -> noun:[Source]
+	verb:[Action] - dobj -> noun:[Target]
 }
 
 def rule Action_1 {
-	[Action] - dobj -> [Target]
+	verb:[Action] - dobj -> noun:[Target]
 }
 
 def rule Action_Explicit_Prep_1 {
-	[Action] - prep -> [Label] - pobj -> [Target]
-	[Action] - nsubj -> [Source]
+	verb:[Action] - prep -> [Label] - pobj -> noun:[Target]
+	verb:[Action] - nsubj -> noun:[Source]
 }
 
 def rule Action_Prep_1 {
-	[Action] - prep -> [Label] - pobj -> [Target]
+	verb:[Action] - prep -> [Label] - pobj -> noun:[Target]
 }
 def subtrees  PartA, PartB, Head, Head_tmp
 def subtrees  PartA_SubA, PartB_SubA
