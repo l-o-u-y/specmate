@@ -60,7 +60,13 @@ public class TextPreProcessor {
 		text = text.replaceAll("has to", "must");
 
 		// replace : with .
-		text = text.replaceAll(":", ".");
+		// text = text.replaceAll(":", "."); // sometimes we need : for the appos relation
+
+		// This would mess with Action rule e.g. For instance, it comes in two shapes: rectangle and round.
+		text = text.replace("For instance ,", "Example :");
+		text = text.replace("for instance ,", "example :");
+		text = text.replace("For example ,", "Example :");
+		text = text.replace("for example ,", "example :");
 
 		// remove bullet points (rows starting with - )
 		text = text.replaceAll("\\r\\n- ", "\r\n");

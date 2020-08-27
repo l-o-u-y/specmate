@@ -45,6 +45,11 @@ public class GraphBuilder {
 	
 	public synchronized void connectRGNodes(RGNodes parent, RGNodes child, MatchResultTreeNode node) {
 		for (GraphNode p : parent.positiveNodes) {
+			if (child.nodeType.equals(NodeType.AND)) {
+				p.setType(NodeType.AND);
+			} else {
+				p.setType(NodeType.OR);
+			}
 			for (GraphNode c : child.positiveNodes) {
 				// TODO MA this case happens because equality check for action doesnt work
 				if (p == null || p.equals(c) || p.getComponent().equals(c.getComponent())) {
@@ -90,14 +95,14 @@ public class GraphBuilder {
 			final RGNodes first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
 			final RGNodes second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
 			
-			connectRGNodes(first, second, node);
-			
-			if (node != null && node.getType().equals(RuleType.INHERITANCE)) {// left
-				return second;
+			if (node.getType().equals(RuleType.INHERITANCE)) {
+				connectRGNodes(first, second, node);
 			} else {
-				return first;
+				connectRGNodes(second, first, node);
 			}
-
+			
+			return second;
+			
 		} else if (node.getType().equals(RuleType.ACTION)) {
 			// TODO MA this check always fails because MatchPostProcesser creates new ConditionVariableNodes
 			if (((BinaryMatchResultTreeNode) node).getFirstArgument()

@@ -16,70 +16,68 @@ public class BinaryMatchResultTreeNode extends MatchResultTreeNode {
 		this.type = type;
 		this.label = label;
 	}
-	
+
 	public MatchResultTreeNode getFirstArgument() {
 		return this.left;
 	}
-	
+
 	public void setFirstArguement(MatchResultTreeNode node) {
 		this.left = node;
 	}
-	
+
 	public MatchResultTreeNode getSecondArgument() {
 		return this.right;
 	}
-	
+
 	public void setSecondArguement(MatchResultTreeNode node) {
 		this.right = node;
 	}
-	
+
 	protected void setType(RuleType type) {
 		this.type = type;
 	}
-	
-	public void leftSwap() {		
+
+	public void leftSwap() {
 		BinaryMatchResultTreeNode left = (BinaryMatchResultTreeNode) getFirstArgument();
 		MatchResultTreeNode right = getSecondArgument();
-		
+
 		MatchResultTreeNode childLeft = left.getFirstArgument();
 		MatchResultTreeNode childRight = left.getSecondArgument();
-		
-		//Swap Types so the one with higher precedents gets shifted down
+		String label = this.label;
+
+		// Swap Types so the one with higher precedents gets shifted down
 		RuleType tmp = this.type;
 		this.type = left.getType();
 		left.setType(tmp);
-		
-		// TODO MA If it's composition, connect leftleft with right
-		if (this.getType().equals(RuleType.COMPOSITION)) {
-			// this.left = left;
-			this.right = childRight;
-			left.right = right;
-		// else connect leftright with right
-		} else {
-			this.left  = childLeft;
-			this.right = left;
-			left.left  = childRight;
-			left.right = right;
-		}
-		
+
+		this.left = childLeft;
+		this.right = left;
+		left.left = childRight;
+		left.right = right;
+		this.label = left.label;
+		left.label = label;
+
 	}
 
 	public void rightSwap() {
 		MatchResultTreeNode left = getFirstArgument();
 		BinaryMatchResultTreeNode right = (BinaryMatchResultTreeNode) getSecondArgument();
-		
+
 		MatchResultTreeNode childLeft = right.getFirstArgument();
 		MatchResultTreeNode childRight = right.getSecondArgument();
-		
+		String label = this.label;
+
 		RuleType tmp = this.type;
 		this.type = right.getType();
 		right.setType(tmp);
-		
+
 		// TODO MA might need cases hard to imagine rn
-		this.left  = right;
+		this.left = right;
 		this.right = childRight;
-		right.left  = left;
+		right.left = left;
 		right.right = childLeft;
+		this.label = right.label;
+		right.label = label;
 	}
 
 	@Override
@@ -90,7 +88,7 @@ public class BinaryMatchResultTreeNode extends MatchResultTreeNode {
 	public String getLabel() {
 		return label;
 	}
-	
+
 	@Override
 	public void acceptVisitor(MatchTreeVisitor visitor) {
 		visitor.visit(this);

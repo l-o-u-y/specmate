@@ -1,7 +1,7 @@
 import EN.DEP.STANFORD.*
 import EN.POS.PTB.*
 
-def subtrees Source, Action, Target, Parent, Child, New, Old, TMP, TMP2
+def subtrees Source, Action, Target, Parent, Child, Label, New, Old, TMP, TMP2
 
 /*
 TODO MA just leave this commented out for now
@@ -42,34 +42,39 @@ def rule Update_6 {
 }
 */
 
+
 def rule Composition_1_1 {
-	[Child] - prep -> (IN:'on'|IN:'of'|IN:'inside'|IN:'in') - pobj -> [Parent]
+	[Child] - prep -> IN:'(on)|(of)|(inside)|(in)':[Label] - pobj -> [Parent]
 }
 
 def rule Composition_2 {
-	[Parent] - prep -> IN:'with' - pobj -> [Child]
+	[Parent] - prep -> IN:'with':[Label] - pobj -> [Child]
 }
 
 def rule Composition_3 {
-	[Parent] - acl -> 'showing' - pobj -> [Child]
+	[Parent] - acl -> 'showing':[Label] - pobj -> [Child]
 }
 
 def rule Composition_4 {
-	'has':[TMP] - nsubj -> [Parent]
-	[TMP] - dobj -> [Child]
+	'has':[Label] - nsubj -> [Parent]
+	[Label] - dobj -> [Child]
 }
 
 def rule Inheritance_1 {
-	'is':[TMP] - nsubj -> [Child]
-	[TMP] - attr -> [Parent]
+	'is':[Label] - nsubj -> [Child]
+	[Label] - attr -> [Parent]
 }
 
 def rule Inheritance_1_2 {
-	[Child] - relcl -> 'is':[TMP] - attr -> [Parent]
+	[Child] - relcl -> 'is':[Label] - attr -> [Parent]
 }
 
 def rule Inheritance_2 { // a component -> called -> qbtn // TODO MA label
-	[Parent] - acl -> [Action] - oprd -> [Child]
+	[Parent] - acl -> [Label] - oprd -> [Child]
+}
+
+def rule Inheritance_Colon { // it comes in two shapes: this and that
+	[Parent] - appos -> [Child]
 }
 
 def rule Action_Explicit_1 {
@@ -82,14 +87,13 @@ def rule Action_1 {
 }
 
 def rule Action_Explicit_Prep_1 {
-	[Action] - prep -> TO:'to' - dobj -> [Target]
+	[Action] - prep -> [Label] - pobj -> [Target]
 	[Action] - nsubj -> [Source]
 }
 
 def rule Action_Prep_1 {
-	[Action] - prep -> TO:'to' - dobj -> [Target]
+	[Action] - prep -> [Label] - pobj -> [Target]
 }
-
 def subtrees  PartA, PartB, Head, Head_tmp
 def subtrees  PartA_SubA, PartB_SubA
 
