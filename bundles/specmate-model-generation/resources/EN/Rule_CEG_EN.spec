@@ -1,4 +1,8 @@
-def subtrees Limit, Conditional, Cause, Effect, Effect_SubA, Cause_SubA, Cause_SubB, Cause_SubC, Cause_SubD
+import EN.DEP.STANFORD.*
+// import EN.DEP.SPACY.*
+import EN.POS.PTB.*
+
+def subtrees Limit, Conditional, Cause, Effect, Effect_SubA, Cause_SubA, Cause_SubB, Cause_SubC, Cause_SubD, TMP
 
 def rule LimitedCondition_1 {
 	[Limit] - nsubjpass -> [Conditional] - prep -> IN:'until'

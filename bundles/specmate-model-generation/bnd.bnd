@@ -30,7 +30,8 @@ Private-Package: \
 -privatepackage: \
 	com.specmate.modelgeneration.stages,\
 	com.specmate.modelgeneration.stages.processors,\
-	com.specmate.modelgeneration.stages.graph
+	com.specmate.modelgeneration.stages.graph,\
+	com.specmate.modelgeneration.mapper
 Import-Package: \
 	org.apache.poi,\
 	org.apache.poi.hssf,\

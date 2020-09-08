@@ -2,7 +2,9 @@ package com.specmate.modelgeneration;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,6 +27,11 @@ import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.requirements.RGModel;
 import com.specmate.model.requirements.RGNode;
 import com.specmate.model.requirements.RequirementsFactory;
+import com.specmate.modelgeneration.mapper.ChunkObject;
+import com.specmate.modelgeneration.mapper.DiffMatchPatch;
+import com.specmate.modelgeneration.mapper.RGObject;
+import com.specmate.modelgeneration.mapper.DiffMatchPatch.Diff;
+import com.specmate.modelgeneration.mapper.DiffMatchPatch.Operation;
 import com.specmate.modelgeneration.stages.GraphBuilder;
 import com.specmate.modelgeneration.stages.GraphLayouter;
 import com.specmate.modelgeneration.stages.MatcherPostProcesser;
@@ -37,6 +44,7 @@ import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
 import com.specmate.nlp.util.NLPUtil;
 
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 
 public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
@@ -65,23 +73,98 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 	
 	// TODO MA multiple texts
 	public RGModel createModel(RGModel originalModel, String input) throws SpecmateException {
+		
 		log.log(LogService.LOG_INFO, "================");
 		log.log(LogService.LOG_INFO, "Textinput: " + input);
 		boolean generatedSomething = false;
+		
+		// save the original text chunks in textList;
+		DiffMatchPatch textMatcher = new DiffMatchPatch();
+		textMatcher.Diff_EditCost = 7;
+		List<RGObject> rgObjects = new ArrayList<RGObject>();
+		String[] textArray = input.split(" ");
+		for (String t:textArray) {
+			rgObjects.add(new RGObject(t));
+		}
+		/* JCas originalTagResult = this.tagger.processText(input, this.lang);
+		JCasUtil.select(originalTagResult, Token.class).forEach(p -> {
+			textList.add(new RGObject(p.getCoveredText()));
+		});*/
+		
 		List<String> texts = preProcessor.preProcess(input);
 		List<Pair<String, RGModel>> candidates = new ArrayList<>();
 
 		for (String text : texts) {
+			// TODO MA now only one text, but might need to change this for more
+			LinkedList<Diff> diffs = textMatcher.diff_main(input, text);
+			textMatcher.diff_cleanupEfficiency(diffs);
+			int j = 0;
+			for (int i = 0; i < diffs.size(); i++) {
+				Diff diff = diffs.get(i);
+				String[] diffTextArray = diff.text.trim().split(" ");
+				RGObject object = rgObjects.get(j);
+				
+				if (diff.operation.equals(Operation.EQUAL)) {
+					for (String diffText:diffTextArray) {
+						object = rgObjects.get(j);
+						object.setProcessedText();
+						j++;
+					}
+				} else if (diff.operation.equals(Operation.DELETE)) {
+					Diff next = diffs.get(i+1);
+					String[] nextTextArray = next.text.trim().split(" ");
+					
+					if (next.operation.equals(Operation.INSERT)) {
+						// this only works if #insertedWords <= #deletedWords
+						for (int k=0; k<diffTextArray.length; k++) {
+							if (nextTextArray.length > k) {
+								object = rgObjects.get(j);
+								object.setProcessedText(nextTextArray[k]);
+								j++;
+							} else {
+								// object = textList.get(j);
+								// object.setProcessedText("");
+								j++;
+							}
+						}
+						i++;
+					} else {
+						for (String diffText:diffTextArray) {
+							// object = textList.get(j);
+							// object.setProcessedText("");
+							j++;
+						}
+					}
+				} else if (diffs.get(i).operation.equals(Operation.INSERT)) {
+					//TODO MA
+					log.log(LogService.LOG_DEBUG,
+							"This case should never happen. Something went wrong. Diff: " + 
+							diffs.get(i).toString());
+				
+				}
+			}
+			
 			log.log(LogService.LOG_INFO, "Text Pre Processing: " + text);
 			JCas tagResult = this.tagger.processText(text, this.lang);
 			RGModel model = RequirementsFactory.eINSTANCE.createRGModel();
 
 			HashSet<String> nouns = new HashSet<String>();
-			JCasUtil.select(tagResult, Chunk.class).forEach(p -> {
+			int i = 0;
+			Iterable<Chunk> iterable = JCasUtil.select(tagResult, Chunk.class);
+			for (Chunk p:iterable) {
+				ChunkObject chunk = new ChunkObject(p);
+				while (p.getCoveredText().contains(rgObjects.get(i).getProcessedText())) {
+					rgObjects.get(i).setChunk(chunk);
+					i++;
+				}
+				while (rgObjects.get(i).getProcessedText() == null) {
+					i++;
+				}
 				if (p.getChunkValue().equals("NP")) {
 					nouns.add(p.getCoveredText());
 				}
-			});
+			}
+					
 
 			System.out.println(NLPUtil.printPOSTags(tagResult));
 			System.out.println(NLPUtil.printChunks(tagResult));
