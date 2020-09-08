@@ -22,10 +22,6 @@ public class SubtreeMatcher extends MatcherBase {
 	private Optional<String> posTag;
 	private Optional<String> pattern;
 	private String subtreeName;
-	private HashMap<String, String> posTagMatcher = new HashMap<String, String>() {{
-			put("noun", "NN|NNP|NNPS|NNS|NP|NPS");
-			put("verb", "VB|VBD|VBG|VBN|VBP|VBZ");
-	}};
 	
 	public SubtreeMatcher(String subtreeName, String pattern, String posTag) {
 		this(subtreeName, pattern);
@@ -100,15 +96,8 @@ public class SubtreeMatcher extends MatcherBase {
 	
 	public boolean matchPosTag(Token head) {
 		if (this.posTag.isPresent()) {
-			String match = this.posTagMatcher.get(this.posTag.get());
-			if (match != null) {
-				if (match.contains(head.getPosValue())) {
-					return true;
-				}
-			} else {
-				if (head.getPosValue().equals(this.posTag.get())) {
-					return true;
-				}
+			if (head.getPosValue().matches(this.posTag.get())) {
+				return true;
 			}
 			return false;
 		}

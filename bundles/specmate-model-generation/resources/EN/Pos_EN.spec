@@ -1,5 +1,6 @@
 def tagset parts-of-speech EN.POS.LENA {
-	noun
+	noun = "NN|NNP|NNPS|NNS|NP|NPS"
+	verb = "VB|VBD|VBG|VBN|VBP|VBZ"
 }
 
 
