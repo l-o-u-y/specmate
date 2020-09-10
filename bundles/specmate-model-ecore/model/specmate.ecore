@@ -137,7 +137,6 @@
           <details key="shortDesc" value="Original Word"/>
           <details key="longDesc" value=""/>
           <details key="required" value="true"/>
-          <details key="value" value=""/>
           <details key="type" value="text"/>
           <details key="position" value="1"/>
         </eAnnotations>
@@ -169,7 +168,6 @@
           <details key="shortDesc" value="Chunk Text"/>
           <details key="longDesc" value=""/>
           <details key="required" value="true"/>
-          <details key="value" value=""/>
           <details key="type" value="text"/>
           <details key="position" value="1"/>
         </eAnnotations>
@@ -189,7 +187,6 @@
           <details key="longDesc" value=""/>
           <details key="required" value="true"/>
           <details key="type" value="checkbox"/>
-          <details key="value" value="false"/>
           <details key="position" value="3"/>
         </eAnnotations>
       </eStructuralFeatures>

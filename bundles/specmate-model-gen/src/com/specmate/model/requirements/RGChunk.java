@@ -31,7 +31,7 @@ public interface RGChunk extends CDOObject {
 	 * @return the value of the '<em>Chunk Text</em>' attribute.
 	 * @see #setChunkText(String)
 	 * @see com.specmate.model.requirements.RequirementsPackage#getRGChunk_ChunkText()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Chunk Text' longDesc='' required='true' value='' type='text' position='1'"
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Chunk Text' longDesc='' required='true' type='text' position='1'"
 	 * @generated
 	 */
 	String getChunkText();
@@ -75,7 +75,7 @@ public interface RGChunk extends CDOObject {
 	 * @return the value of the '<em>Visited</em>' attribute.
 	 * @see #setVisited(boolean)
 	 * @see com.specmate.model.requirements.RequirementsPackage#getRGChunk_Visited()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Visited Flag' longDesc='' required='true' type='checkbox' value='false' position='3'"
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Visited Flag' longDesc='' required='true' type='checkbox' position='3'"
 	 * @generated
 	 */
 	boolean isVisited();

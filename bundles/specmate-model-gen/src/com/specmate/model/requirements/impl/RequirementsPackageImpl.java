@@ -850,7 +850,6 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 			   "shortDesc", "Original Word",
 			   "longDesc", "",
 			   "required", "true",
-			   "value", "",
 			   "type", "text",
 			   "position", "1"
 		   });
@@ -881,7 +880,6 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 			   "shortDesc", "Chunk Text",
 			   "longDesc", "",
 			   "required", "true",
-			   "value", "",
 			   "type", "text",
 			   "position", "1"
 		   });
@@ -903,7 +901,6 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 			   "longDesc", "",
 			   "required", "true",
 			   "type", "checkbox",
-			   "value", "false",
 			   "position", "3"
 		   });
 		addAnnotation

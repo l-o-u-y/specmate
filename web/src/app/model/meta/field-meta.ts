@@ -244,7 +244,6 @@ export class MetaInfo {
 			shortDesc: 'Original Word',
 			longDesc: '',
 			required: true,
-			value: '',
 			type: 'text',
 			position: '1'		
 		},			{
@@ -261,7 +260,6 @@ export class MetaInfo {
 			shortDesc: 'Chunk Text',
 			longDesc: '',
 			required: true,
-			value: '',
 			type: 'text',
 			position: '1'		
 		},			{
@@ -277,7 +275,6 @@ export class MetaInfo {
 			longDesc: '',
 			required: true,
 			type: 'checkbox',
-			value: false,
 			position: '3'		
 		}	];
 	public static CEGNode: FieldMetaItem[] = [

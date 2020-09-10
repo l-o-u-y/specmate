@@ -31,7 +31,7 @@ public interface RGObject extends CDOObject {
 	 * @return the value of the '<em>Original Text</em>' attribute.
 	 * @see #setOriginalText(String)
 	 * @see com.specmate.model.requirements.RequirementsPackage#getRGObject_OriginalText()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Original Word' longDesc='' required='true' value='' type='text' position='1'"
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Original Word' longDesc='' required='true' type='text' position='1'"
 	 * @generated
 	 */
 	String getOriginalText();
