@@ -2,9 +2,7 @@ package com.specmate.modelgeneration;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.LinkedList;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,15 +16,11 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
 import com.specmate.cause_effect_patterns.parse.wrapper.BinaryMatchResultTreeNode;
-import com.specmate.cause_effect_patterns.parse.wrapper.LeafTreeNode;
 import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultTreeNode;
 import com.specmate.cause_effect_patterns.parse.wrapper.MatchTreeBuilder;
 import com.specmate.common.exception.SpecmateException;
-import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.config.api.IConfigService;
-import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.requirements.RGModel;
-import com.specmate.model.requirements.RGNode;
 import com.specmate.model.requirements.RGObject;
 import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.modelgeneration.mapper.DiffMatchPatch;
@@ -38,14 +32,12 @@ import com.specmate.modelgeneration.stages.MatcherPostProcesser;
 import com.specmate.modelgeneration.stages.RuleMatcher;
 import com.specmate.modelgeneration.stages.TextPreProcessor;
 import com.specmate.modelgeneration.stages.graph.Graph;
-import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RGChunk;
 import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
 import com.specmate.nlp.util.NLPUtil;
 
-import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 
 public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
@@ -121,11 +113,12 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 					}
 					i++;
 				} else {
-					for (String diffText:diffTextArray) {
-						// object = textList.get(j);
-						// object.setProcessedText("");
-						j++;
-					}
+					j = j + diffTextArray.length;
+//					for (String diffText:diffTextArray) {
+//						object = textList.get(j);
+//						object.setProcessedText("");
+//						j++;
+//					}
 				}
 			} else if (diffs.get(i).operation.equals(Operation.INSERT)) {
 				//TODO MA
