@@ -72,125 +72,137 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		log = logService;
 	}
 	
-	// TODO MA multiple texts
-	public RGModel createModel(RGModel originalModel, String input) throws SpecmateException {
+	public RGModel createModelWithMapping(String original, String processed, JCas tagResult) {
 		RGModel model = RequirementsFactory.eINSTANCE.createRGModel();
 
-		log.log(LogService.LOG_INFO, "================");
-		log.log(LogService.LOG_INFO, "Textinput: " + input);
-		boolean generatedSomething = false;
-		
-		// save the original text chunks in textList;
+		// save original text words
 		DiffMatchPatch textMatcher = new DiffMatchPatch();
 		textMatcher.Diff_EditCost = 7;
 		EList<RGObject> rgObjects = model.getModelMapping();
 		
-		String[] textArray = input.split(" ");
+		String[] textArray = original.split(" ");
 		for (String t:textArray) {
 			RGObject tmp = RequirementsFactory.eINSTANCE.createRGObject();
 			tmp.setOriginalText(t);
 			rgObjects.add(tmp);
 		}
-		
-		List<String> texts = preProcessor.preProcess(input);
-		List<Pair<String, RGModel>> candidates = new ArrayList<>();
 
-		for (String text : texts) {
-			// TODO MA now only one text, but might need to change this for more
-			LinkedList<Diff> diffs = textMatcher.diff_main(input, text);
-			textMatcher.diff_cleanupEfficiency(diffs);
-			int j = 0;
-			for (int i = 0; i < diffs.size(); i++) {
-				Diff diff = diffs.get(i);
-				String[] diffTextArray = diff.text.trim().split(" ");
-				RGObject object = rgObjects.get(j);
+		// get diff then save processed text words
+		LinkedList<Diff> diffs = textMatcher.diff_main(original, processed);
+		textMatcher.diff_cleanupEfficiency(diffs);
+		int j = 0;
+		for (int i = 0; i < diffs.size(); i++) {
+			Diff diff = diffs.get(i);
+			String[] diffTextArray = diff.text.trim().split(" ");
+			RGObject object = rgObjects.get(j);
+			
+			if (diff.operation.equals(Operation.EQUAL)) {
+				for (String diffText:diffTextArray) {
+					object = rgObjects.get(j);
+					object.setProcessedText(diffText);
+					j++;
+				}
+			} else if (diff.operation.equals(Operation.DELETE)) {
+				Diff next = diffs.get(i+1);
+				String[] nextTextArray = next.text.trim().split(" ");
 				
-				if (diff.operation.equals(Operation.EQUAL)) {
-					for (String diffText:diffTextArray) {
-						object = rgObjects.get(j);
-						object.setProcessedText(diffText);
-						j++;
-					}
-				} else if (diff.operation.equals(Operation.DELETE)) {
-					Diff next = diffs.get(i+1);
-					String[] nextTextArray = next.text.trim().split(" ");
-					
-					if (next.operation.equals(Operation.INSERT)) {
-						// this only works if #insertedWords <= #deletedWords
-						for (int k=0; k<diffTextArray.length; k++) {
-							if (nextTextArray.length > k) {
-								object = rgObjects.get(j);
-								object.setProcessedText(nextTextArray[k]);
-								j++;
-							} else {
-								// object = textList.get(j);
-								// object.setProcessedText("");
-								j++;
-							}
-						}
-						i++;
-					} else {
-						for (String diffText:diffTextArray) {
+				if (next.operation.equals(Operation.INSERT)) {
+					// this only works if #insertedWords <= #deletedWords
+					for (int k=0; k<diffTextArray.length; k++) {
+						if (nextTextArray.length > k) {
+							object = rgObjects.get(j);
+							object.setProcessedText(nextTextArray[k]);
+							j++;
+						} else {
 							// object = textList.get(j);
 							// object.setProcessedText("");
 							j++;
 						}
 					}
-				} else if (diffs.get(i).operation.equals(Operation.INSERT)) {
-					//TODO MA
-					log.log(LogService.LOG_DEBUG,
-							"This case should never happen. Something went wrong. Diff: " + 
-							diffs.get(i).toString());
-				
+					i++;
+				} else {
+					for (String diffText:diffTextArray) {
+						// object = textList.get(j);
+						// object.setProcessedText("");
+						j++;
+					}
+				}
+			} else if (diffs.get(i).operation.equals(Operation.INSERT)) {
+				//TODO MA
+				log.log(LogService.LOG_DEBUG,
+						"This case should never happen. Something went wrong. Diff: " + 
+						diffs.get(i).toString());
+			
+			}
+		}
+		
+		// save text chunks
+		int i = 0;
+		Iterable<Chunk> iterable = JCasUtil.select(tagResult, Chunk.class);
+		for (Chunk p:iterable) {
+			RGChunk c = RequirementsFactory.eINSTANCE.createRGChunk();
+			c.setChunkText(p.getCoveredText());
+			while (p.getCoveredText().contains(rgObjects.get(i).getProcessedText())) {
+				rgObjects.get(i).setChunk(c);;
+				i++;
+			}
+			while (rgObjects.get(i).getProcessedText() == null) {
+				i++;
+			}
+		}
+		return model;
+	}
+	
+	public void addNounsToCreation(RGModel model, JCas tagResult) {
+		HashSet<String> nouns = new HashSet<String>();
+		Iterable<Chunk> iterable = JCasUtil.select(tagResult, Chunk.class);
+		for (Chunk p:iterable) {
+			if (p.getChunkValue().equals("NP")) {
+				nouns.add(p.getCoveredText());
+			}
+		}
+
+		if (nouns.size() > 0) {
+			int i = 1;
+			for (String noun : nouns) {
+				// don't add nouns with abstract rating of 3 or lower "In an effort to..."
+				if (this.creation.isConcrete(noun)) {
+					this.creation.createNodeIfNotExist(model, noun, "", 100 * (i), 100 * (i),
+							NodeType.AND);
+					i++;
 				}
 			}
+		}
+	}
+	
+	// TODO MA multiple texts
+	public RGModel createModel(RGModel originalModel, String input) throws SpecmateException {
+		
+		log.log(LogService.LOG_INFO, "================");
+		log.log(LogService.LOG_INFO, "Textinput: " + input);
+		
+		List<String> texts = preProcessor.preProcess(input);
+		List<Pair<String, RGModel>> candidates = new ArrayList<>();
+
+		for (String text : texts) {
 			
 			log.log(LogService.LOG_INFO, "Text Pre Processing: " + text);
 			JCas tagResult = this.tagger.processText(text, this.lang);
+			RGModel model = createModelWithMapping(input, text, tagResult);
+			// TODO MA
+			// addNounsToCreation(model, tagResult);
+
+			final List<MatchResult> results = matcher.matchText(text, true);
+			final MatchTreeBuilder builder = new MatchTreeBuilder();
 			
-			HashSet<String> nouns = new HashSet<String>();
-			int i = 0;
-			Iterable<Chunk> iterable = JCasUtil.select(tagResult, Chunk.class);
-			for (Chunk p:iterable) {
-				RGChunk c = RequirementsFactory.eINSTANCE.createRGChunk();
-				c.setChunkText(p.getCoveredText());
-				while (p.getCoveredText().contains(rgObjects.get(i).getProcessedText())) {
-					rgObjects.get(i).setChunk(c);;
-					i++;
-				}
-				while (rgObjects.get(i).getProcessedText() == null) {
-					i++;
-				}
-//				if (p.getChunkValue().equals("NP")) {
-//					nouns.add(p.getCoveredText());
-//				}
-			}
-					
 			System.out.println(NLPUtil.printPOSTags(tagResult));
 			System.out.println(NLPUtil.printChunks(tagResult));
 			System.out.println(NLPUtil.printParse(tagResult));
 			System.out.println(NLPUtil.printDependencies(tagResult));
-
-			// TODO MA
-//			if (nouns.size() > 0) {
-				generatedSomething = true;
-//				int i = 1;
-//				for (String noun : nouns) {
-//					// don't add nouns with abstract rating of 3 or lower "In an effort to..."
-//					if (this.creation.isConcrete(noun)) {
-//						this.creation.createNodeIfNotExist(model, noun, "", 100 * (i), 100 * (i),
-//								NodeType.AND);
-//						i++;
-//					}
-//				}
-//			}
-
-			final List<MatchResult> results = matcher.matchText(text, true);
-			final MatchTreeBuilder builder = new MatchTreeBuilder();
-
 			for (MatchResult result : results) {
 				System.out.println(result.getRuleName());
 			}
+			
 			// Convert all successful match results into an intermediate representation
 			final List<MatchResultTreeNode> trees = results.stream().filter(MatchResult::isSuccessfulMatch)
 					.map(builder::buildTree).filter(Optional::isPresent).map(Optional::get)
@@ -199,7 +211,6 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			 final MatcherPostProcesser matchPostProcesser = new MatcherPostProcesser(lang);
 			 GraphBuilder graphBuilder = new GraphBuilder();
 			 GraphLayouter graphLayouter = new GraphLayouter(lang, creation);
-
 
 			for (MatchResultTreeNode tree : trees) {
 				try {
@@ -243,9 +254,6 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 
 		});
 
-		if (!generatedSomething) {
-			throw new SpecmateInternalException(ErrorCode.NLP, "No Relationship Pair Found.");
-		}
 		if (candidates.isEmpty()) {
 			return originalModel;
 		}
