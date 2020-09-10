@@ -30,10 +30,12 @@ import com.specmate.model.requirements.CEGConnection;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.NodeType;
+import com.specmate.model.requirements.RGChunk;
 import com.specmate.model.requirements.RGConnection;
 import com.specmate.model.requirements.RGConnectionType;
 import com.specmate.model.requirements.RGModel;
 import com.specmate.model.requirements.RGNode;
+import com.specmate.model.requirements.RGObject;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.model.requirements.RequirementsPackage;
@@ -47,6 +49,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
@@ -90,6 +93,20 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	private EClass rgModelEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass rgObjectEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass rgChunkEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -417,6 +434,96 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	@Override
+	public EReference getRGModel_ModelMapping() {
+		return (EReference)rgModelEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getRGObject() {
+		return rgObjectEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getRGObject_OriginalText() {
+		return (EAttribute)rgObjectEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getRGObject_ProcessedText() {
+		return (EAttribute)rgObjectEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getRGObject_Chunk() {
+		return (EReference)rgObjectEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getRGChunk() {
+		return rgChunkEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getRGChunk_ChunkText() {
+		return (EAttribute)rgChunkEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getRGChunk_NodeId() {
+		return (EAttribute)rgChunkEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getRGChunk_Visited() {
+		return (EAttribute)rgChunkEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getRGNode() {
 		return rgNodeEClass;
 	}
@@ -556,6 +663,17 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 
 		rgModelEClass = createEClass(RG_MODEL);
 		createEAttribute(rgModelEClass, RG_MODEL__MODEL_REQUIREMENTS);
+		createEReference(rgModelEClass, RG_MODEL__MODEL_MAPPING);
+
+		rgObjectEClass = createEClass(RG_OBJECT);
+		createEAttribute(rgObjectEClass, RG_OBJECT__ORIGINAL_TEXT);
+		createEAttribute(rgObjectEClass, RG_OBJECT__PROCESSED_TEXT);
+		createEReference(rgObjectEClass, RG_OBJECT__CHUNK);
+
+		rgChunkEClass = createEClass(RG_CHUNK);
+		createEAttribute(rgChunkEClass, RG_CHUNK__CHUNK_TEXT);
+		createEAttribute(rgChunkEClass, RG_CHUNK__NODE_ID);
+		createEAttribute(rgChunkEClass, RG_CHUNK__VISITED);
 
 		cegNodeEClass = createEClass(CEG_NODE);
 		createEAttribute(cegNodeEClass, CEG_NODE__TYPE);
@@ -637,6 +755,17 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 
 		initEClass(rgModelEClass, RGModel.class, "RGModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRGModel_ModelRequirements(), ecorePackage.getEString(), "modelRequirements", null, 0, 1, RGModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRGModel_ModelMapping(), this.getRGObject(), null, "modelMapping", null, 0, -1, RGModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(rgObjectEClass, RGObject.class, "RGObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getRGObject_OriginalText(), ecorePackage.getEString(), "originalText", null, 0, 1, RGObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRGObject_ProcessedText(), ecorePackage.getEString(), "processedText", null, 0, 1, RGObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRGObject_Chunk(), this.getRGChunk(), null, "chunk", null, 0, 1, RGObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(rgChunkEClass, RGChunk.class, "RGChunk", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getRGChunk_ChunkText(), ecorePackage.getEString(), "chunkText", null, 0, 1, RGChunk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRGChunk_NodeId(), ecorePackage.getEString(), "nodeId", null, 0, 1, RGChunk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRGChunk_Visited(), ecorePackage.getEBoolean(), "visited", null, 0, 1, RGChunk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(cegNodeEClass, CEGNode.class, "CEGNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCEGNode_Type(), this.getNodeType(), "type", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -703,6 +832,79 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 			   "type", "longText",
 			   "rows", "5",
 			   "position", "110"
+		   });
+		addAnnotation
+		  (getRGModel_ModelMapping(),
+		   source,
+		   new String[] {
+			   "shortDesc", "Model Mapping with RGObjects",
+			   "longDesc", "Maps the original description to the modified description to the chunks to the graph node",
+			   "required", "true",
+			   "type", "list",
+			   "position", "111"
+		   });
+		addAnnotation
+		  (getRGObject_OriginalText(),
+		   source,
+		   new String[] {
+			   "shortDesc", "Original Word",
+			   "longDesc", "",
+			   "required", "true",
+			   "value", "",
+			   "type", "text",
+			   "position", "1"
+		   });
+		addAnnotation
+		  (getRGObject_ProcessedText(),
+		   source,
+		   new String[] {
+			   "shortDesc", "Processed Word",
+			   "longDesc", "",
+			   "required", "false",
+			   "type", "text",
+			   "position", "2"
+		   });
+		addAnnotation
+		  (getRGObject_Chunk(),
+		   source,
+		   new String[] {
+			   "shortDesc", "Corresponding Chunk",
+			   "longDesc", "",
+			   "required", "false",
+			   "type", "object",
+			   "position", "3"
+		   });
+		addAnnotation
+		  (getRGChunk_ChunkText(),
+		   source,
+		   new String[] {
+			   "shortDesc", "Chunk Text",
+			   "longDesc", "",
+			   "required", "true",
+			   "value", "",
+			   "type", "text",
+			   "position", "1"
+		   });
+		addAnnotation
+		  (getRGChunk_NodeId(),
+		   source,
+		   new String[] {
+			   "shortDesc", "Node Id of Graph",
+			   "longDesc", "",
+			   "required", "false",
+			   "type", "text",
+			   "position", "2"
+		   });
+		addAnnotation
+		  (getRGChunk_Visited(),
+		   source,
+		   new String[] {
+			   "shortDesc", "Visited Flag",
+			   "longDesc", "",
+			   "required", "true",
+			   "type", "checkbox",
+			   "value", "false",
+			   "position", "3"
 		   });
 		addAnnotation
 		  (cegNodeEClass,

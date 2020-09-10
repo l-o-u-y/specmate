@@ -122,6 +122,18 @@ public class RequirementsSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case RequirementsPackage.RG_OBJECT: {
+				RGObject rgObject = (RGObject)theEObject;
+				T result = caseRGObject(rgObject);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RequirementsPackage.RG_CHUNK: {
+				RGChunk rgChunk = (RGChunk)theEObject;
+				T result = caseRGChunk(rgChunk);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case RequirementsPackage.CEG_NODE: {
 				CEGNode cegNode = (CEGNode)theEObject;
 				T result = caseCEGNode(cegNode);
@@ -260,6 +272,36 @@ public class RequirementsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseRGModel(RGModel object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>RG Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>RG Object</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRGObject(RGObject object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>RG Chunk</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>RG Chunk</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRGChunk(RGChunk object) {
 		return null;
 	}
 

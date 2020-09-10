@@ -93,6 +93,19 @@
       </genClasses>
       <genClasses ecoreClass="specmate.ecore#//requirements/RGModel">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGModel/modelRequirements"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGModel/modelMapping"/>
+      </genClasses>
+      <genClasses ecoreClass="specmate.ecore#//requirements/RGObject">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGObject/originalText"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGObject/processedText"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGObject/chunk"/>
+      </genClasses>
+      <genClasses ecoreClass="specmate.ecore#//requirements/RGChunk">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGChunk/chunkText"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGChunk/nodeId"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGChunk/visited"/>
       </genClasses>
       <genClasses ecoreClass="specmate.ecore#//requirements/CEGNode">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/CEGNode/type"/>

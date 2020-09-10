@@ -3,6 +3,7 @@
 package com.specmate.model.requirements;
 
 import com.specmate.model.base.ISpecmateModelObject;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -14,6 +15,7 @@ import com.specmate.model.base.ISpecmateModelObject;
  * </p>
  * <ul>
  *   <li>{@link com.specmate.model.requirements.RGModel#getModelRequirements <em>Model Requirements</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.RGModel#getModelMapping <em>Model Mapping</em>}</li>
  * </ul>
  *
  * @see com.specmate.model.requirements.RequirementsPackage#getRGModel()
@@ -43,5 +45,17 @@ public interface RGModel extends ISpecmateModelObject {
 	 * @generated
 	 */
 	void setModelRequirements(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Model Mapping</b></em>' reference list.
+	 * The list contents are of type {@link com.specmate.model.requirements.RGObject}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Model Mapping</em>' reference list.
+	 * @see com.specmate.model.requirements.RequirementsPackage#getRGModel_ModelMapping()
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Model Mapping with RGObjects' longDesc='Maps the original description to the modified description to the chunks to the graph node' required='true' type='list' position='111'"
+	 * @generated
+	 */
+	EList<RGObject> getModelMapping();
 
 } // RGModel

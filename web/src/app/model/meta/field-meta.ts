@@ -238,6 +238,48 @@ export class MetaInfo {
 			rows: '5',
 			position: '110'		
 		}	];
+	public static RGObject: FieldMetaItem[] = [
+			{
+			name: "originalText",
+			shortDesc: 'Original Word',
+			longDesc: '',
+			required: true,
+			value: '',
+			type: 'text',
+			position: '1'		
+		},			{
+			name: "processedText",
+			shortDesc: 'Processed Word',
+			longDesc: '',
+			required: false,
+			type: 'text',
+			position: '2'		
+		}	];
+	public static RGChunk: FieldMetaItem[] = [
+			{
+			name: "chunkText",
+			shortDesc: 'Chunk Text',
+			longDesc: '',
+			required: true,
+			value: '',
+			type: 'text',
+			position: '1'		
+		},			{
+			name: "nodeId",
+			shortDesc: 'Node Id of Graph',
+			longDesc: '',
+			required: false,
+			type: 'text',
+			position: '2'		
+		},			{
+			name: "visited",
+			shortDesc: 'Visited Flag',
+			longDesc: '',
+			required: true,
+			type: 'checkbox',
+			value: false,
+			position: '3'		
+		}	];
 	public static CEGNode: FieldMetaItem[] = [
 			{
 			name: "type",

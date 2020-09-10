@@ -119,6 +119,80 @@
           <details key="position" value="110"/>
         </eAnnotations>
       </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="modelMapping" eType="#//requirements/RGObject" upperBound="-1">
+        <eAnnotations source="http://specmate.com/form_meta">
+          <details key="shortDesc" value="Model Mapping with RGObjects"/>
+          <details key="longDesc" value="Maps the original description to the modified description to the chunks to the graph node"/>
+          <details key="required" value="true"/>
+          <details key="type" value="list"/>
+          <details key="position" value="111"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+	</eClassifiers>
+	
+	
+    <eClassifiers xsi:type="ecore:EClass" name="RGObject">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="originalText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://specmate.com/form_meta">
+          <details key="shortDesc" value="Original Word"/>
+          <details key="longDesc" value=""/>
+          <details key="required" value="true"/>
+          <details key="value" value=""/>
+          <details key="type" value="text"/>
+          <details key="position" value="1"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="processedText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://specmate.com/form_meta">
+          <details key="shortDesc" value="Processed Word"/>
+          <details key="longDesc" value=""/>
+          <details key="required" value="false"/>
+          <details key="type" value="text"/>
+          <details key="position" value="2"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="chunk" eType="#//requirements/RGChunk">
+        <eAnnotations source="http://specmate.com/form_meta">
+          <details key="shortDesc" value="Corresponding Chunk"/>
+          <details key="longDesc" value=""/>
+          <details key="required" value="false"/>
+          <details key="type" value="object"/>
+          <details key="position" value="3"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+	</eClassifiers>
+	
+	
+    <eClassifiers xsi:type="ecore:EClass" name="RGChunk">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="chunkText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://specmate.com/form_meta">
+          <details key="shortDesc" value="Chunk Text"/>
+          <details key="longDesc" value=""/>
+          <details key="required" value="true"/>
+          <details key="value" value=""/>
+          <details key="type" value="text"/>
+          <details key="position" value="1"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="nodeId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://specmate.com/form_meta">
+          <details key="shortDesc" value="Node Id of Graph"/>
+          <details key="longDesc" value=""/>
+          <details key="required" value="false"/>
+          <details key="type" value="text"/>
+          <details key="position" value="2"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="visited" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eAnnotations source="http://specmate.com/form_meta">
+          <details key="shortDesc" value="Visited Flag"/>
+          <details key="longDesc" value=""/>
+          <details key="required" value="true"/>
+          <details key="type" value="checkbox"/>
+          <details key="value" value="false"/>
+          <details key="position" value="3"/>
+        </eAnnotations>
+      </eStructuralFeatures>
 	</eClassifiers>
 	
     <eClassifiers xsi:type="ecore:EClass" name="CEGNode" eSuperTypes="#//base/IModelNode">

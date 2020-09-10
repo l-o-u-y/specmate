@@ -93,6 +93,14 @@ public class RequirementsAdapterFactory extends AdapterFactoryImpl {
 				return createRGModelAdapter();
 			}
 			@Override
+			public Adapter caseRGObject(RGObject object) {
+				return createRGObjectAdapter();
+			}
+			@Override
+			public Adapter caseRGChunk(RGChunk object) {
+				return createRGChunkAdapter();
+			}
+			@Override
 			public Adapter caseCEGNode(CEGNode object) {
 				return createCEGNodeAdapter();
 			}
@@ -244,6 +252,34 @@ public class RequirementsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createRGModelAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.requirements.RGObject <em>RG Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.requirements.RGObject
+	 * @generated
+	 */
+	public Adapter createRGObjectAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.requirements.RGChunk <em>RG Chunk</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.requirements.RGChunk
+	 * @generated
+	 */
+	public Adapter createRGChunkAdapter() {
 		return null;
 	}
 

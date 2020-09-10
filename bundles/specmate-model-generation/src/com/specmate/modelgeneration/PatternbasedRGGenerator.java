@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
+import org.eclipse.emf.common.util.EList;
 import org.osgi.service.log.LogService;
 
 import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
@@ -26,10 +27,9 @@ import com.specmate.config.api.IConfigService;
 import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.requirements.RGModel;
 import com.specmate.model.requirements.RGNode;
+import com.specmate.model.requirements.RGObject;
 import com.specmate.model.requirements.RequirementsFactory;
-import com.specmate.modelgeneration.mapper.ChunkObject;
 import com.specmate.modelgeneration.mapper.DiffMatchPatch;
-import com.specmate.modelgeneration.mapper.RGObject;
 import com.specmate.modelgeneration.mapper.DiffMatchPatch.Diff;
 import com.specmate.modelgeneration.mapper.DiffMatchPatch.Operation;
 import com.specmate.modelgeneration.stages.GraphBuilder;
@@ -40,6 +40,7 @@ import com.specmate.modelgeneration.stages.TextPreProcessor;
 import com.specmate.modelgeneration.stages.graph.Graph;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.NodeType;
+import com.specmate.model.requirements.RGChunk;
 import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
 import com.specmate.nlp.util.NLPUtil;
@@ -73,7 +74,8 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 	
 	// TODO MA multiple texts
 	public RGModel createModel(RGModel originalModel, String input) throws SpecmateException {
-		
+		RGModel model = RequirementsFactory.eINSTANCE.createRGModel();
+
 		log.log(LogService.LOG_INFO, "================");
 		log.log(LogService.LOG_INFO, "Textinput: " + input);
 		boolean generatedSomething = false;
@@ -81,15 +83,14 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		// save the original text chunks in textList;
 		DiffMatchPatch textMatcher = new DiffMatchPatch();
 		textMatcher.Diff_EditCost = 7;
-		List<RGObject> rgObjects = new ArrayList<RGObject>();
+		EList<RGObject> rgObjects = model.getModelMapping();
+		
 		String[] textArray = input.split(" ");
 		for (String t:textArray) {
-			rgObjects.add(new RGObject(t));
+			RGObject tmp = RequirementsFactory.eINSTANCE.createRGObject();
+			tmp.setOriginalText(t);
+			rgObjects.add(tmp);
 		}
-		/* JCas originalTagResult = this.tagger.processText(input, this.lang);
-		JCasUtil.select(originalTagResult, Token.class).forEach(p -> {
-			textList.add(new RGObject(p.getCoveredText()));
-		});*/
 		
 		List<String> texts = preProcessor.preProcess(input);
 		List<Pair<String, RGModel>> candidates = new ArrayList<>();
@@ -107,7 +108,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 				if (diff.operation.equals(Operation.EQUAL)) {
 					for (String diffText:diffTextArray) {
 						object = rgObjects.get(j);
-						object.setProcessedText();
+						object.setProcessedText(diffText);
 						j++;
 					}
 				} else if (diff.operation.equals(Operation.DELETE)) {
@@ -146,26 +147,25 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			
 			log.log(LogService.LOG_INFO, "Text Pre Processing: " + text);
 			JCas tagResult = this.tagger.processText(text, this.lang);
-			RGModel model = RequirementsFactory.eINSTANCE.createRGModel();
-
+			
 			HashSet<String> nouns = new HashSet<String>();
 			int i = 0;
 			Iterable<Chunk> iterable = JCasUtil.select(tagResult, Chunk.class);
 			for (Chunk p:iterable) {
-				ChunkObject chunk = new ChunkObject(p);
+				RGChunk c = RequirementsFactory.eINSTANCE.createRGChunk();
+				c.setChunkText(p.getCoveredText());
 				while (p.getCoveredText().contains(rgObjects.get(i).getProcessedText())) {
-					rgObjects.get(i).setChunk(chunk);
+					rgObjects.get(i).setChunk(c);;
 					i++;
 				}
 				while (rgObjects.get(i).getProcessedText() == null) {
 					i++;
 				}
-				if (p.getChunkValue().equals("NP")) {
-					nouns.add(p.getCoveredText());
-				}
+//				if (p.getChunkValue().equals("NP")) {
+//					nouns.add(p.getCoveredText());
+//				}
 			}
 					
-
 			System.out.println(NLPUtil.printPOSTags(tagResult));
 			System.out.println(NLPUtil.printChunks(tagResult));
 			System.out.println(NLPUtil.printParse(tagResult));
