@@ -172,13 +172,22 @@
           <details key="position" value="1"/>
         </eAnnotations>
       </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="chunkId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+        <eAnnotations source="http://specmate.com/form_meta">
+          <details key="shortDesc" value="Chunk Id"/>
+          <details key="longDesc" value=""/>
+          <details key="required" value="true"/>
+          <details key="type" value="number"/>
+          <details key="position" value="2"/>
+        </eAnnotations>
+      </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="nodeId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
         <eAnnotations source="http://specmate.com/form_meta">
           <details key="shortDesc" value="Node Id of Graph"/>
           <details key="longDesc" value=""/>
           <details key="required" value="false"/>
           <details key="type" value="text"/>
-          <details key="position" value="2"/>
+          <details key="position" value="3"/>
         </eAnnotations>
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="visited" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
@@ -187,7 +196,7 @@
           <details key="longDesc" value=""/>
           <details key="required" value="true"/>
           <details key="type" value="checkbox"/>
-          <details key="position" value="3"/>
+          <details key="position" value="4"/>
         </eAnnotations>
       </eStructuralFeatures>
 	</eClassifiers>

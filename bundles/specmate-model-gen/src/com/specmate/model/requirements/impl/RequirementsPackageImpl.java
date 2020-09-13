@@ -504,7 +504,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	@Override
-	public EAttribute getRGChunk_NodeId() {
+	public EAttribute getRGChunk_ChunkId() {
 		return (EAttribute)rgChunkEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -514,8 +514,18 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	@Override
-	public EAttribute getRGChunk_Visited() {
+	public EAttribute getRGChunk_NodeId() {
 		return (EAttribute)rgChunkEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getRGChunk_Visited() {
+		return (EAttribute)rgChunkEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -672,6 +682,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 
 		rgChunkEClass = createEClass(RG_CHUNK);
 		createEAttribute(rgChunkEClass, RG_CHUNK__CHUNK_TEXT);
+		createEAttribute(rgChunkEClass, RG_CHUNK__CHUNK_ID);
 		createEAttribute(rgChunkEClass, RG_CHUNK__NODE_ID);
 		createEAttribute(rgChunkEClass, RG_CHUNK__VISITED);
 
@@ -764,6 +775,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 
 		initEClass(rgChunkEClass, RGChunk.class, "RGChunk", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRGChunk_ChunkText(), ecorePackage.getEString(), "chunkText", null, 0, 1, RGChunk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRGChunk_ChunkId(), ecorePackage.getEInt(), "chunkId", null, 0, 1, RGChunk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRGChunk_NodeId(), ecorePackage.getEString(), "nodeId", null, 0, 1, RGChunk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRGChunk_Visited(), ecorePackage.getEBoolean(), "visited", null, 0, 1, RGChunk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -884,6 +896,16 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 			   "position", "1"
 		   });
 		addAnnotation
+		  (getRGChunk_ChunkId(),
+		   source,
+		   new String[] {
+			   "shortDesc", "Chunk Id",
+			   "longDesc", "",
+			   "required", "true",
+			   "type", "number",
+			   "position", "2"
+		   });
+		addAnnotation
 		  (getRGChunk_NodeId(),
 		   source,
 		   new String[] {
@@ -891,7 +913,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 			   "longDesc", "",
 			   "required", "false",
 			   "type", "text",
-			   "position", "2"
+			   "position", "3"
 		   });
 		addAnnotation
 		  (getRGChunk_Visited(),
@@ -901,7 +923,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 			   "longDesc", "",
 			   "required", "true",
 			   "type", "checkbox",
-			   "position", "3"
+			   "position", "4"
 		   });
 		addAnnotation
 		  (cegNodeEClass,

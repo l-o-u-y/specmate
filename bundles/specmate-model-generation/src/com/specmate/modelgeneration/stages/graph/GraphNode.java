@@ -11,6 +11,7 @@ public class GraphNode {
 	private String variable;
 	private String component;
 	private String modifier;
+	private int id;
 	private NodeType type;
 	private Graph graph;
 
@@ -70,6 +71,14 @@ public class GraphNode {
 
 	public String getModifier() {
 		return modifier;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public void setCondition(String condition) {

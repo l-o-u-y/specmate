@@ -8,6 +8,7 @@ import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.RGModel;
 import com.specmate.model.requirements.RGNode;
+import com.specmate.model.requirements.RGObject;
 import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.modelgeneration.CEGCreation;
 import com.specmate.modelgeneration.Creation;
@@ -90,6 +91,17 @@ public class GraphLayouter {
 				String modifier = node.getModifier();
 				
 				n = ((RGCreation)creation).createNodeIfNotExist((RGModel)model, component, modifier, x, y, node.getType());
+
+				
+				for (RGObject m : ((RGModel)model).getModelMapping()) {
+					if (m.getChunk() != null) {
+						if (m.getChunk().getChunkId() == node.getId()) {
+							if (!m.getChunk().isVisited()) {
+								m.getChunk().setNodeId(n.getId());
+							}
+						}
+					}
+				}
 			}
 			nodeMap.put(node, n);
 			positionTable[xIndex]++;

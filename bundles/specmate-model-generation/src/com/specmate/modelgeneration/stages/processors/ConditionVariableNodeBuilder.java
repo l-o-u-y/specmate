@@ -74,7 +74,7 @@ public class ConditionVariableNodeBuilder {
 
 		@Override
 		public void visit(LeafTreeNode node) {
-			replacementNode = new ConditionVariableNode("", node.getContent());
+			replacementNode = new ConditionVariableNode("", node.getContent(), node.getId());
 		}
 
 		@Override

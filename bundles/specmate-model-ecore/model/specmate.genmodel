@@ -104,6 +104,7 @@
       </genClasses>
       <genClasses ecoreClass="specmate.ecore#//requirements/RGChunk">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGChunk/chunkText"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGChunk/chunkId"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGChunk/nodeId"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGChunk/visited"/>
       </genClasses>

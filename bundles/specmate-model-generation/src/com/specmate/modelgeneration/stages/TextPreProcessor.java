@@ -78,7 +78,7 @@ public class TextPreProcessor {
 		text = text.replaceAll("(\\w+)\\/(\\w+)", "$1 or $2");
 
 		// add "." before new line if not exists (for lists)
-		text = text.replaceAll("(.+[^\\.\\r\\n])(\\r?\\n|\\Z)", "$1.\n");
+		text = text.replaceAll("(.+[^\\.\\s\\r\\n])(\\r?\\n|\\Z)", "$1.\n");
 
 		// remove text that ends with question mark
 		// this does not detect questions that falsely end with . (e.g. in list; user

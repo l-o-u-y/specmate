@@ -156,7 +156,8 @@ public class GraphBuilder {
 		else {// if (node instanceof LeafTreeNode) { // TODO MA right now Leaf is still ConditionVariableNode
 			String text = ((LeafTreeNode) node).getContent();
 
-			if (text.startsWith("no") && text.matches("no\\s(.*)")) { // ex: no items
+			// TODO MA
+			/* if (text.startsWith("no") && text.matches("no\\s(.*)")) { // ex: no items
 				final GraphNode n = currentGraph.createInnerNode(NodeType.AND);
 				n.setComponent(text.replaceAll("no\\s(.*)", "$1"));
 				
@@ -171,11 +172,12 @@ public class GraphBuilder {
 				RGNodes second = new RGNodes(s, NodeType.AND, false);
 				
 				return new RGNodes(first, second, NodeType.OR);
-			} else {
+			} else {*/
 				final GraphNode n = currentGraph.createInnerNode(NodeType.AND);
 				n.setComponent(text);
+				n.setId(((LeafTreeNode) node).getId());
 				return new RGNodes(n, n.getType(), false);
-			}
+			//}
 		}
 	}
 

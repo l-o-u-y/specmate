@@ -263,19 +263,26 @@ export class MetaInfo {
 			type: 'text',
 			position: '1'		
 		},			{
+			name: "chunkId",
+			shortDesc: 'Chunk Id',
+			longDesc: '',
+			required: true,
+			type: 'number',
+			position: '2'		
+		},			{
 			name: "nodeId",
 			shortDesc: 'Node Id of Graph',
 			longDesc: '',
 			required: false,
 			type: 'text',
-			position: '2'		
+			position: '3'		
 		},			{
 			name: "visited",
 			shortDesc: 'Visited Flag',
 			longDesc: '',
 			required: true,
 			type: 'checkbox',
-			position: '3'		
+			position: '4'		
 		}	];
 	public static CEGNode: FieldMetaItem[] = [
 			{

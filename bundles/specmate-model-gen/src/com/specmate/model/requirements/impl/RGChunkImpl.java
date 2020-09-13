@@ -18,6 +18,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  * </p>
  * <ul>
  *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#getChunkText <em>Chunk Text</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#getChunkId <em>Chunk Id</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#getNodeId <em>Node Id</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#isVisited <em>Visited</em>}</li>
  * </ul>
@@ -34,6 +35,16 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 	 * @ordered
 	 */
 	protected static final String CHUNK_TEXT_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #getChunkId() <em>Chunk Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getChunkId()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int CHUNK_ID_EDEFAULT = 0;
 
 	/**
 	 * The default value of the '{@link #getNodeId() <em>Node Id</em>}' attribute.
@@ -110,6 +121,26 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 	 * @generated
 	 */
 	@Override
+	public int getChunkId() {
+		return (Integer)eDynamicGet(RequirementsPackage.RG_CHUNK__CHUNK_ID, RequirementsPackage.Literals.RG_CHUNK__CHUNK_ID, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setChunkId(int newChunkId) {
+		eDynamicSet(RequirementsPackage.RG_CHUNK__CHUNK_ID, RequirementsPackage.Literals.RG_CHUNK__CHUNK_ID, newChunkId);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public String getNodeId() {
 		return (String)eDynamicGet(RequirementsPackage.RG_CHUNK__NODE_ID, RequirementsPackage.Literals.RG_CHUNK__NODE_ID, true, true);
 	}
@@ -154,6 +185,8 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 		switch (featureID) {
 			case RequirementsPackage.RG_CHUNK__CHUNK_TEXT:
 				return getChunkText();
+			case RequirementsPackage.RG_CHUNK__CHUNK_ID:
+				return getChunkId();
 			case RequirementsPackage.RG_CHUNK__NODE_ID:
 				return getNodeId();
 			case RequirementsPackage.RG_CHUNK__VISITED:
@@ -172,6 +205,9 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 		switch (featureID) {
 			case RequirementsPackage.RG_CHUNK__CHUNK_TEXT:
 				setChunkText((String)newValue);
+				return;
+			case RequirementsPackage.RG_CHUNK__CHUNK_ID:
+				setChunkId((Integer)newValue);
 				return;
 			case RequirementsPackage.RG_CHUNK__NODE_ID:
 				setNodeId((String)newValue);
@@ -194,6 +230,9 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 			case RequirementsPackage.RG_CHUNK__CHUNK_TEXT:
 				setChunkText(CHUNK_TEXT_EDEFAULT);
 				return;
+			case RequirementsPackage.RG_CHUNK__CHUNK_ID:
+				setChunkId(CHUNK_ID_EDEFAULT);
+				return;
 			case RequirementsPackage.RG_CHUNK__NODE_ID:
 				setNodeId(NODE_ID_EDEFAULT);
 				return;
@@ -214,6 +253,8 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 		switch (featureID) {
 			case RequirementsPackage.RG_CHUNK__CHUNK_TEXT:
 				return CHUNK_TEXT_EDEFAULT == null ? getChunkText() != null : !CHUNK_TEXT_EDEFAULT.equals(getChunkText());
+			case RequirementsPackage.RG_CHUNK__CHUNK_ID:
+				return getChunkId() != CHUNK_ID_EDEFAULT;
 			case RequirementsPackage.RG_CHUNK__NODE_ID:
 				return NODE_ID_EDEFAULT == null ? getNodeId() != null : !NODE_ID_EDEFAULT.equals(getNodeId());
 			case RequirementsPackage.RG_CHUNK__VISITED:

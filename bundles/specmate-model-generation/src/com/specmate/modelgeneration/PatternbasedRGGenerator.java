@@ -64,6 +64,10 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		log = logService;
 	}
 	
+	private String trimSpace(String input) {
+		return input.replaceAll("[ ]*((.|\\n)*)[ ]*", "$1");
+	}
+	
 	public RGModel createModelWithMapping(String original, String processed, JCas tagResult) {
 		RGModel model = RequirementsFactory.eINSTANCE.createRGModel();
 
@@ -74,9 +78,11 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		
 		String[] textArray = original.split(" ");
 		for (String t:textArray) {
-			RGObject tmp = RequirementsFactory.eINSTANCE.createRGObject();
-			tmp.setOriginalText(t);
-			rgObjects.add(tmp);
+			if (!t.isEmpty()) {
+				RGObject tmp = RequirementsFactory.eINSTANCE.createRGObject();
+				tmp.setOriginalText(t);
+				rgObjects.add(tmp);
+			}
 		}
 
 		// get diff then save processed text words
@@ -85,7 +91,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		int j = 0;
 		for (int i = 0; i < diffs.size(); i++) {
 			Diff diff = diffs.get(i);
-			String[] diffTextArray = diff.text.trim().split(" ");
+			String[] diffTextArray = trimSpace(diff.text).split(" ");
 			RGObject object = rgObjects.get(j);
 			
 			if (diff.operation.equals(Operation.EQUAL)) {
@@ -96,7 +102,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 				}
 			} else if (diff.operation.equals(Operation.DELETE)) {
 				Diff next = diffs.get(i+1);
-				String[] nextTextArray = next.text.trim().split(" ");
+				String[] nextTextArray = trimSpace(next.text).split(" ");
 				
 				if (next.operation.equals(Operation.INSERT)) {
 					// this only works if #insertedWords <= #deletedWords
@@ -104,12 +110,11 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 						if (nextTextArray.length > k) {
 							object = rgObjects.get(j);
 							object.setProcessedText(nextTextArray[k]);
-							j++;
-						} else {
+						}
+						j++;
 							// object = textList.get(j);
 							// object.setProcessedText("");
-							j++;
-						}
+						
 					}
 					i++;
 				} else {
@@ -135,6 +140,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		for (Chunk p:iterable) {
 			RGChunk c = RequirementsFactory.eINSTANCE.createRGChunk();
 			c.setChunkText(p.getCoveredText());
+			c.setChunkId(p.getEnd());
 			while (p.getCoveredText().contains(rgObjects.get(i).getProcessedText())) {
 				rgObjects.get(i).setChunk(c);;
 				i++;
@@ -182,6 +188,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			log.log(LogService.LOG_INFO, "Text Pre Processing: " + text);
 			JCas tagResult = this.tagger.processText(text, this.lang);
 			RGModel model = createModelWithMapping(input, text, tagResult);
+			EList<RGObject> a = model.getModelMapping();
 			// TODO MA
 			// addNounsToCreation(model, tagResult);
 
@@ -220,6 +227,27 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 						Graph graph = graphBuilder.buildRGGraph((BinaryMatchResultTreeNode) tree);
 						model = (RGModel) graphLayouter.createModel(graph, model);
 						candidates.add(Pair.of(text, model));
+						
+						for (RGObject r : model.getModelMapping()) {
+							String tmp = r.getOriginalText() + "; ";
+									
+							if (r.getProcessedText() != null) {
+								tmp = tmp + r.getProcessedText() + "; ";
+								
+							} else {
+								tmp = tmp + "(no associated processed text); ";
+							}
+							
+							if (r.getChunk() != null) {
+								tmp = tmp + r.getChunk().getChunkText() + "; " +
+										r.getChunk().getChunkId() + "; " +
+										r.getChunk().getNodeId() + "; ";
+							}
+							else {
+								tmp = tmp + "(no associated chunk); ";
+							}
+							System.out.println(tmp);
+						}
 					}
 				} catch (Throwable t) {
 					t.printStackTrace();

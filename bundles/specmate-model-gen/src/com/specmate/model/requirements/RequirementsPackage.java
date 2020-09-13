@@ -598,13 +598,22 @@ public interface RequirementsPackage extends EPackage {
 	int RG_CHUNK__CHUNK_TEXT = 0;
 
 	/**
+	 * The feature id for the '<em><b>Chunk Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CHUNK__CHUNK_ID = 1;
+
+	/**
 	 * The feature id for the '<em><b>Node Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RG_CHUNK__NODE_ID = 1;
+	int RG_CHUNK__NODE_ID = 2;
 
 	/**
 	 * The feature id for the '<em><b>Visited</b></em>' attribute.
@@ -613,7 +622,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_CHUNK__VISITED = 2;
+	int RG_CHUNK__VISITED = 3;
 
 	/**
 	 * The number of structural features of the '<em>RG Chunk</em>' class.
@@ -622,7 +631,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_CHUNK_FEATURE_COUNT = 3;
+	int RG_CHUNK_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>RG Chunk</em>' class.
@@ -1560,6 +1569,17 @@ public interface RequirementsPackage extends EPackage {
 	EAttribute getRGChunk_ChunkText();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGChunk#getChunkId <em>Chunk Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Chunk Id</em>'.
+	 * @see com.specmate.model.requirements.RGChunk#getChunkId()
+	 * @see #getRGChunk()
+	 * @generated
+	 */
+	EAttribute getRGChunk_ChunkId();
+
+	/**
 	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGChunk#getNodeId <em>Node Id</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1940,6 +1960,14 @@ public interface RequirementsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute RG_CHUNK__CHUNK_TEXT = eINSTANCE.getRGChunk_ChunkText();
+
+		/**
+		 * The meta object literal for the '<em><b>Chunk Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RG_CHUNK__CHUNK_ID = eINSTANCE.getRGChunk_ChunkId();
 
 		/**
 		 * The meta object literal for the '<em><b>Node Id</b></em>' attribute feature.

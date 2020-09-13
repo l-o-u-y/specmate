@@ -14,6 +14,7 @@ import org.eclipse.emf.cdo.CDOObject;
  * </p>
  * <ul>
  *   <li>{@link com.specmate.model.requirements.RGChunk#getChunkText <em>Chunk Text</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.RGChunk#getChunkId <em>Chunk Id</em>}</li>
  *   <li>{@link com.specmate.model.requirements.RGChunk#getNodeId <em>Node Id</em>}</li>
  *   <li>{@link com.specmate.model.requirements.RGChunk#isVisited <em>Visited</em>}</li>
  * </ul>
@@ -47,13 +48,35 @@ public interface RGChunk extends CDOObject {
 	void setChunkText(String value);
 
 	/**
+	 * Returns the value of the '<em><b>Chunk Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Chunk Id</em>' attribute.
+	 * @see #setChunkId(int)
+	 * @see com.specmate.model.requirements.RequirementsPackage#getRGChunk_ChunkId()
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Chunk Id' longDesc='' required='true' type='number' position='2'"
+	 * @generated
+	 */
+	int getChunkId();
+
+	/**
+	 * Sets the value of the '{@link com.specmate.model.requirements.RGChunk#getChunkId <em>Chunk Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Chunk Id</em>' attribute.
+	 * @see #getChunkId()
+	 * @generated
+	 */
+	void setChunkId(int value);
+
+	/**
 	 * Returns the value of the '<em><b>Node Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Node Id</em>' attribute.
 	 * @see #setNodeId(String)
 	 * @see com.specmate.model.requirements.RequirementsPackage#getRGChunk_NodeId()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Node Id of Graph' longDesc='' required='false' type='text' position='2'"
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Node Id of Graph' longDesc='' required='false' type='text' position='3'"
 	 * @generated
 	 */
 	String getNodeId();
@@ -75,7 +98,7 @@ public interface RGChunk extends CDOObject {
 	 * @return the value of the '<em>Visited</em>' attribute.
 	 * @see #setVisited(boolean)
 	 * @see com.specmate.model.requirements.RequirementsPackage#getRGChunk_Visited()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Visited Flag' longDesc='' required='true' type='checkbox' position='3'"
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Visited Flag' longDesc='' required='true' type='checkbox' position='4'"
 	 * @generated
 	 */
 	boolean isVisited();

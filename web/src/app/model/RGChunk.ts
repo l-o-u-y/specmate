@@ -10,6 +10,7 @@
 		public static className: string = "RGChunk";
 		// Attributes
 		public chunkText: EString;
+		public chunkId: EInt;
 		public nodeId: EString;
 		public visited: EBoolean;
 

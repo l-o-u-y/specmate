@@ -360,7 +360,11 @@ public class MatchTreeBuilder {
 		}
 
 		// Just Text
-		LeafTreeNode leaf = new LeafTreeNode(result.getMatchTree().getRepresentationString(false));
+		LeafTreeNode leaf = new LeafTreeNode(
+				result.getMatchTree().getRepresentationString(false), 
+				((Token)result.getMatchTree().getHeads().toArray()[0]).getEnd()
+				);
+		
 		return Optional.of(leaf);
 	}
 }
