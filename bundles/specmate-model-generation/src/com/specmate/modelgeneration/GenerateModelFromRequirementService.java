@@ -168,7 +168,7 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 				}
 			}
 			// Fixes some issues with the dkpro/spacy backoff.
-			text = text.replaceAll("[^,.!? ](?=[,.!?])", "$0 ");
+			text = text.replaceAll("[^,.!?: ](?=[,.!?:])", "$0 ");
 			text = text.replaceAll("\n", " \n ");
 			text = text.replaceAll("  ", " ");
 			text = text.replaceAll("  ", " ");

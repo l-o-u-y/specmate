@@ -70,12 +70,12 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 	
 	public RGModel createModelWithMapping(String original, String processed, JCas tagResult) {
 		RGModel model = RequirementsFactory.eINSTANCE.createRGModel();
-
-		// save original text words
 		DiffMatchPatch textMatcher = new DiffMatchPatch();
-		textMatcher.Diff_EditCost = 7;
+		textMatcher.Diff_EditCost = 7; // approx this value will result in whole words differences
 		EList<RGObject> rgObjects = model.getModelMapping();
-		
+
+		/* save original text words */
+		// split text by space, and save each word individually
 		String[] textArray = original.split(" ");
 		for (String t:textArray) {
 			if (!t.isEmpty()) {
@@ -85,15 +85,18 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			}
 		}
 
-		// get diff then save processed text words
+		/* get diff then save processed text words */
+		// get list of differences
 		LinkedList<Diff> diffs = textMatcher.diff_main(original, processed);
-		textMatcher.diff_cleanupEfficiency(diffs);
-		int j = 0;
+		textMatcher.diff_cleanupEfficiency(diffs); // whole words
+		int j = 0; // rgObjects counter
+		// iterate over differences
 		for (int i = 0; i < diffs.size(); i++) {
 			Diff diff = diffs.get(i);
 			String[] diffTextArray = trimSpace(diff.text).split(" ");
 			RGObject object = rgObjects.get(j);
 			
+			// if equal, copy words
 			if (diff.operation.equals(Operation.EQUAL)) {
 				for (String diffText:diffTextArray) {
 					object = rgObjects.get(j);
@@ -104,26 +107,22 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 				Diff next = diffs.get(i+1);
 				String[] nextTextArray = trimSpace(next.text).split(" ");
 				
+				// delete + insert = replace
 				if (next.operation.equals(Operation.INSERT)) {
+					// replace words with new words
 					// this only works if #insertedWords <= #deletedWords
 					for (int k=0; k<diffTextArray.length; k++) {
 						if (nextTextArray.length > k) {
 							object = rgObjects.get(j);
 							object.setProcessedText(nextTextArray[k]);
 						}
+						// when all new words are added, skip
 						j++;
-							// object = textList.get(j);
-							// object.setProcessedText("");
-						
 					}
 					i++;
 				} else {
+					// is actual delete, skip
 					j = j + diffTextArray.length;
-//					for (String diffText:diffTextArray) {
-//						object = textList.get(j);
-//						object.setProcessedText("");
-//						j++;
-//					}
 				}
 			} else if (diffs.get(i).operation.equals(Operation.INSERT)) {
 				//TODO MA
@@ -134,19 +133,38 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			}
 		}
 		
-		// save text chunks
-		int i = 0;
+		/* save text chunks */
+		int i = 0; //rgObjects counter
 		Iterable<Chunk> iterable = JCasUtil.select(tagResult, Chunk.class);
 		for (Chunk p:iterable) {
+			String chunkText = trimSpace(p.getCoveredText());
+			String[] chunkTextArray = chunkText.split(" ");
 			RGChunk c = RequirementsFactory.eINSTANCE.createRGChunk();
-			c.setChunkText(p.getCoveredText());
+			c.setChunkText(chunkText);
 			c.setChunkId(p.getEnd());
-			while (p.getCoveredText().contains(rgObjects.get(i).getProcessedText())) {
-				rgObjects.get(i).setChunk(c);;
+			System.out.println("================");
+			System.out.println("'" + chunkText + "'");
+
+			j = 0; // counter for chunkTextArray
+			// for punctuation
+			while (rgObjects.get(i).getProcessedText() == null || 
+					!chunkTextArray[j].equals(rgObjects.get(i).getProcessedText())) {
+				System.out.println("----------------");
+				if (rgObjects.get(i).getProcessedText() == null) {
+					System.out.println("(procesed text null)");
+				} else {
+					System.out.println("'" + rgObjects.get(i).getProcessedText() + "'");
+				}
 				i++;
 			}
-			while (rgObjects.get(i).getProcessedText() == null) {
+			while (rgObjects.get(i).getProcessedText() != null && 
+					j < chunkTextArray.length &&
+					chunkTextArray[j].equals(rgObjects.get(i).getProcessedText())) {
+				System.out.println("----------------");
+				System.out.println("'" + rgObjects.get(i).getProcessedText() + "'");
+				rgObjects.get(i).setChunk(c);;
 				i++;
+				j++;
 			}
 		}
 		return model;
@@ -228,6 +246,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 						model = (RGModel) graphLayouter.createModel(graph, model);
 						candidates.add(Pair.of(text, model));
 						
+						System.out.println("++++++++++++++++++");
 						for (RGObject r : model.getModelMapping()) {
 							String tmp = r.getOriginalText() + "; ";
 									
