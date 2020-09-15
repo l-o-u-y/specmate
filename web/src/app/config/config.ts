@@ -87,7 +87,7 @@ export class Config {
 
     public static RG_NEW_NODE_NAME = 'New Node';
     public static RG_NEW_NODE_DESCRIPTION = '';
-    public static RG_NODE_NEW_TYPE = 'Component';
+    public static RG_NODE_NEW_TYPE = 'AND';
 
     public static RG_NEW_CONNECTION_NAME = 'New Connection';
     public static RG_NEW_CONNECTION_DESCRIPTION = '';

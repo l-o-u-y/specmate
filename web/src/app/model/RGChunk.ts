@@ -9,6 +9,7 @@
 		public className: string = "RGChunk";
 		public static className: string = "RGChunk";
 		// Attributes
+		public id: EString;
 		public chunkText: EString;
 		public chunkId: EInt;
 		public nodeId: EString;

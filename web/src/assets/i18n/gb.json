@@ -257,6 +257,7 @@
 		"addStep": "Step",
 		"autoLayout": "Auto-Layout",
 		"delete": "Delete",
+		"generateDescription": "Generate requirements",
 		"move": "Move",
 		"select": "Select"
 	},

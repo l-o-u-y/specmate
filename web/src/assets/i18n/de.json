@@ -257,6 +257,7 @@
 		"addStep": "Schritt",
 		"autoLayout": "Auto-Layout",
 		"delete": "Löschen",
+		"generateDescription": "Anforderungen generieren",
 		"move": "Verschieben",
 		"select": "Auswählen"
 	},

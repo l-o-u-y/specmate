@@ -2,6 +2,7 @@ package com.specmate.emfrest.internal.rest;
 
 import java.util.List;
 import java.util.SortedSet;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +39,8 @@ import com.specmate.metrics.ITimer;
 import com.specmate.model.administration.AdministrationFactory;
 import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.administration.ProblemDetail;
+import com.specmate.model.requirements.RGNode;
+import com.specmate.model.requirements.RGObject;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 import com.specmate.rest.RestResult;
@@ -232,6 +235,37 @@ public abstract class SpecmateResource {
 		return Response.status(status).entity(pd).build();
 	}
 
+
+	@Path("/text")
+	public String getText(@Context HttpServletRequest httpRequest) {
+		List<EObject> objects = doGetChildren();
+		List<RGNode> rgNodes = objects.stream()
+				.filter((o) -> o instanceof RGNode)
+				.map((o) -> (RGNode)o).collect(Collectors.toList());
+		List<RGObject> rgObjects = objects.stream()
+				.filter((o) -> o instanceof RGObject)
+				.map((o) -> (RGObject)o).collect(Collectors.toList());
+		String string = "";
+		for (RGObject object:rgObjects) {
+			String s = object.getOriginalText();
+			if (object.getProcessedText() != null 
+					&& object.getChunk() != null 
+					&& object.getChunk().getNodeId() != null) {
+				List<RGNode> r = rgNodes.stream()
+						.filter((n) -> n.getId().equals(object.getChunk().getNodeId()))
+						.collect(Collectors.toList());
+				if (r.size() > 0) {
+					s = r.get(0).getComponent();
+				}
+			string = string + s;
+			}
+		}
+		
+		String resource = resourceContext.getResource(String.class);
+		resource.concat(string);
+		return resource;
+	}
+	
 	@Path("/{id:[^_][^/]*(?=/)}")
 	public Object getObjectById(@PathParam("id") String name, @Context HttpServletRequest httpRequest) {
 		List<EObject> objects = doGetChildren();

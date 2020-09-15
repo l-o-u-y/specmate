@@ -14,7 +14,7 @@
 		public processedText: EString;
 
 		// References
-		public chunk: Proxy;
+		
 
 		// Containment
 
