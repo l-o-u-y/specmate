@@ -271,7 +271,6 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		}
 
 		originalModel.getContents().addAll(candidates.get(0).getRight().getContents());
-		originalModel.getModelMapping().clear();
 		originalModel.getModelMapping().addAll(candidates.get(0).getRight().getModelMapping());
 		
 		System.out.println("++++++++++++++++++");
