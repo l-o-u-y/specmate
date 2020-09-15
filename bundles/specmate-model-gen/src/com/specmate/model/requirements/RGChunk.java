@@ -2,7 +2,7 @@
  */
 package com.specmate.model.requirements;
 
-import org.eclipse.emf.cdo.CDOObject;
+import com.specmate.model.base.IID;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,10 +21,9 @@ import org.eclipse.emf.cdo.CDOObject;
  *
  * @see com.specmate.model.requirements.RequirementsPackage#getRGChunk()
  * @model
- * @extends CDOObject
  * @generated
  */
-public interface RGChunk extends CDOObject {
+public interface RGChunk extends IID {
 	/**
 	 * Returns the value of the '<em><b>Chunk Text</b></em>' attribute.
 	 * <!-- begin-user-doc -->

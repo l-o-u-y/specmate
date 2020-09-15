@@ -119,19 +119,12 @@
           <details key="position" value="110"/>
         </eAnnotations>
       </eStructuralFeatures>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="modelMapping" eType="#//requirements/RGObject" upperBound="-1">
-        <eAnnotations source="http://specmate.com/form_meta">
-          <details key="shortDesc" value="Model Mapping with RGObjects"/>
-          <details key="longDesc" value="Maps the original description to the modified description to the chunks to the graph node"/>
-          <details key="required" value="true"/>
-          <details key="type" value="list"/>
-          <details key="position" value="111"/>
-        </eAnnotations>
-      </eStructuralFeatures>
+      
+      <eStructuralFeatures xsi:type="ecore:EReference" name="modelMapping" upperBound="-1"
+          eType="#//requirements/RGObject" containment="true"/>
 	</eClassifiers>
 	
-	
-    <eClassifiers xsi:type="ecore:EClass" name="RGObject">
+    <eClassifiers xsi:type="ecore:EClass" name="RGObject" eSuperTypes="#//base/IID">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="originalText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
         <eAnnotations source="http://specmate.com/form_meta">
           <details key="shortDesc" value="Original Word"/>
@@ -150,7 +143,7 @@
           <details key="position" value="2"/>
         </eAnnotations>
       </eStructuralFeatures>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="chunk" eType="#//requirements/RGChunk">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="chunk" eType="#//requirements/RGChunk" containment="true">
         <eAnnotations source="http://specmate.com/form_meta">
           <details key="shortDesc" value="Corresponding Chunk"/>
           <details key="longDesc" value=""/>
@@ -162,7 +155,7 @@
 	</eClassifiers>
 	
 	
-    <eClassifiers xsi:type="ecore:EClass" name="RGChunk">
+    <eClassifiers xsi:type="ecore:EClass" name="RGChunk" eSuperTypes="#//base/IID">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="chunkText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
         <eAnnotations source="http://specmate.com/form_meta">
           <details key="shortDesc" value="Chunk Text"/>

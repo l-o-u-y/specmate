@@ -9,6 +9,7 @@
 		public className: string = "RGObject";
 		public static className: string = "RGObject";
 		// Attributes
+		public id: EString;
 		public originalText: EString;
 		public processedText: EString;
 

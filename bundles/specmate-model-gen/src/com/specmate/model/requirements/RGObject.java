@@ -2,7 +2,7 @@
  */
 package com.specmate.model.requirements;
 
-import org.eclipse.emf.cdo.CDOObject;
+import com.specmate.model.base.IID;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,10 +20,9 @@ import org.eclipse.emf.cdo.CDOObject;
  *
  * @see com.specmate.model.requirements.RequirementsPackage#getRGObject()
  * @model
- * @extends CDOObject
  * @generated
  */
-public interface RGObject extends CDOObject {
+public interface RGObject extends IID {
 	/**
 	 * Returns the value of the '<em><b>Original Text</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -69,22 +68,23 @@ public interface RGObject extends CDOObject {
 	void setProcessedText(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Chunk</b></em>' reference.
+	 * Returns the value of the '<em><b>Chunk</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Chunk</em>' reference.
+	 * @return the value of the '<em>Chunk</em>' containment reference.
 	 * @see #setChunk(RGChunk)
 	 * @see com.specmate.model.requirements.RequirementsPackage#getRGObject_Chunk()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Corresponding Chunk' longDesc='' required='false' type='object' position='3'"
+	 * @model containment="true"
+	 *        annotation="http://specmate.com/form_meta shortDesc='Corresponding Chunk' longDesc='' required='false' type='object' position='3'"
 	 * @generated
 	 */
 	RGChunk getChunk();
 
 	/**
-	 * Sets the value of the '{@link com.specmate.model.requirements.RGObject#getChunk <em>Chunk</em>}' reference.
+	 * Sets the value of the '{@link com.specmate.model.requirements.RGObject#getChunk <em>Chunk</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Chunk</em>' reference.
+	 * @param value the new value of the '<em>Chunk</em>' containment reference.
 	 * @see #getChunk()
 	 * @generated
 	 */

@@ -78,6 +78,7 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 		}
 		else { // if (parent instanceof RGModel) {
 			model = (RGModel) parent;
+			((RGModel)model).getModelMapping().clear();
 		}
 
 		model.getContents().clear(); // Delete Contents
@@ -90,22 +91,6 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 			logService.log(LogService.LOG_ERROR, "Model Generation failed with following error:\n" + e.getMessage());
 			return new RestResult<>(Response.Status.INTERNAL_SERVER_ERROR);
 		}
-
-		if (parent instanceof RGModel) {
-			model = (RGModel) parent;
-			model.getContents().clear(); // Delete Contents
-			try {
-				this.logService.log(LogService.LOG_INFO, "Model Generation STARTED");
-				model = generateModelFromDescription(model);
-				this.logService.log(LogService.LOG_INFO, "Model Generation FINISHED");
-				this.modelGenCounter.inc();
-			} catch (SpecmateException e) {
-				this.logService.log(LogService.LOG_ERROR,
-						"Model Generation failed with following error:\n" + e.getMessage());
-				return new RestResult<>(Response.Status.INTERNAL_SERVER_ERROR);
-			}
-		}
-		
 
 		return new RestResult<>(Response.Status.OK);
 	}

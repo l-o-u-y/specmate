@@ -744,6 +744,8 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		requirementEClass.getESuperTypes().add(theBasePackage.getIExternal());
 		cegModelEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
 		rgModelEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
+		rgObjectEClass.getESuperTypes().add(theBasePackage.getIID());
+		rgChunkEClass.getESuperTypes().add(theBasePackage.getIID());
 		cegNodeEClass.getESuperTypes().add(theBasePackage.getIModelNode());
 		rgNodeEClass.getESuperTypes().add(theBasePackage.getIModelNode());
 		cegConnectionEClass.getESuperTypes().add(theBasePackage.getIModelConnection());
@@ -766,12 +768,12 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 
 		initEClass(rgModelEClass, RGModel.class, "RGModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRGModel_ModelRequirements(), ecorePackage.getEString(), "modelRequirements", null, 0, 1, RGModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getRGModel_ModelMapping(), this.getRGObject(), null, "modelMapping", null, 0, -1, RGModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRGModel_ModelMapping(), this.getRGObject(), null, "modelMapping", null, 0, -1, RGModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(rgObjectEClass, RGObject.class, "RGObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRGObject_OriginalText(), ecorePackage.getEString(), "originalText", null, 0, 1, RGObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRGObject_ProcessedText(), ecorePackage.getEString(), "processedText", null, 0, 1, RGObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getRGObject_Chunk(), this.getRGChunk(), null, "chunk", null, 0, 1, RGObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRGObject_Chunk(), this.getRGChunk(), null, "chunk", null, 0, 1, RGObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(rgChunkEClass, RGChunk.class, "RGChunk", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRGChunk_ChunkText(), ecorePackage.getEString(), "chunkText", null, 0, 1, RGChunk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -844,16 +846,6 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 			   "type", "longText",
 			   "rows", "5",
 			   "position", "110"
-		   });
-		addAnnotation
-		  (getRGModel_ModelMapping(),
-		   source,
-		   new String[] {
-			   "shortDesc", "Model Mapping with RGObjects",
-			   "longDesc", "Maps the original description to the modified description to the chunks to the graph node",
-			   "required", "true",
-			   "type", "list",
-			   "position", "111"
 		   });
 		addAnnotation
 		  (getRGObject_OriginalText(),

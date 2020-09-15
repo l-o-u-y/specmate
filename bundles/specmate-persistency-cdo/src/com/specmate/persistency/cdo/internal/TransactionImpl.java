@@ -112,6 +112,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 			logService.log(LogService.LOG_INFO, e.toString());
 			logService.log(LogService.LOG_INFO, e.getMessage());
 			logService.log(LogService.LOG_INFO, e.getStackTrace().toString());
+			e.printStackTrace();
 			logService.log(LogService.LOG_DEBUG, "Error during commit, transaction rolled back.", e);
 			throw new SpecmateInternalException(ErrorCode.PERSISTENCY, "Error during commit, transaction rolled back.",
 					e);

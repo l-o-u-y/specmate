@@ -497,7 +497,7 @@ public interface RequirementsPackage extends EPackage {
 	int RG_MODEL__MODEL_REQUIREMENTS = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Model Mapping</b></em>' reference list.
+	 * The feature id for the '<em><b>Model Mapping</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -534,13 +534,22 @@ public interface RequirementsPackage extends EPackage {
 	int RG_OBJECT = 3;
 
 	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_OBJECT__ID = BasePackage.IID__ID;
+
+	/**
 	 * The feature id for the '<em><b>Original Text</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RG_OBJECT__ORIGINAL_TEXT = 0;
+	int RG_OBJECT__ORIGINAL_TEXT = BasePackage.IID_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Processed Text</b></em>' attribute.
@@ -549,16 +558,16 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_OBJECT__PROCESSED_TEXT = 1;
+	int RG_OBJECT__PROCESSED_TEXT = BasePackage.IID_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Chunk</b></em>' reference.
+	 * The feature id for the '<em><b>Chunk</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RG_OBJECT__CHUNK = 2;
+	int RG_OBJECT__CHUNK = BasePackage.IID_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>RG Object</em>' class.
@@ -567,7 +576,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_OBJECT_FEATURE_COUNT = 3;
+	int RG_OBJECT_FEATURE_COUNT = BasePackage.IID_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>RG Object</em>' class.
@@ -576,7 +585,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_OBJECT_OPERATION_COUNT = 0;
+	int RG_OBJECT_OPERATION_COUNT = BasePackage.IID_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link com.specmate.model.requirements.impl.RGChunkImpl <em>RG Chunk</em>}' class.
@@ -589,13 +598,22 @@ public interface RequirementsPackage extends EPackage {
 	int RG_CHUNK = 4;
 
 	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CHUNK__ID = BasePackage.IID__ID;
+
+	/**
 	 * The feature id for the '<em><b>Chunk Text</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RG_CHUNK__CHUNK_TEXT = 0;
+	int RG_CHUNK__CHUNK_TEXT = BasePackage.IID_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Chunk Id</b></em>' attribute.
@@ -604,7 +622,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_CHUNK__CHUNK_ID = 1;
+	int RG_CHUNK__CHUNK_ID = BasePackage.IID_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Node Id</b></em>' attribute.
@@ -613,7 +631,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_CHUNK__NODE_ID = 2;
+	int RG_CHUNK__NODE_ID = BasePackage.IID_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Visited</b></em>' attribute.
@@ -622,7 +640,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_CHUNK__VISITED = 3;
+	int RG_CHUNK__VISITED = BasePackage.IID_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>RG Chunk</em>' class.
@@ -631,7 +649,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_CHUNK_FEATURE_COUNT = 4;
+	int RG_CHUNK_FEATURE_COUNT = BasePackage.IID_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of operations of the '<em>RG Chunk</em>' class.
@@ -640,7 +658,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_CHUNK_OPERATION_COUNT = 0;
+	int RG_CHUNK_OPERATION_COUNT = BasePackage.IID_OPERATION_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -1494,10 +1512,10 @@ public interface RequirementsPackage extends EPackage {
 	EAttribute getRGModel_ModelRequirements();
 
 	/**
-	 * Returns the meta object for the reference list '{@link com.specmate.model.requirements.RGModel#getModelMapping <em>Model Mapping</em>}'.
+	 * Returns the meta object for the containment reference list '{@link com.specmate.model.requirements.RGModel#getModelMapping <em>Model Mapping</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Model Mapping</em>'.
+	 * @return the meta object for the containment reference list '<em>Model Mapping</em>'.
 	 * @see com.specmate.model.requirements.RGModel#getModelMapping()
 	 * @see #getRGModel()
 	 * @generated
@@ -1537,10 +1555,10 @@ public interface RequirementsPackage extends EPackage {
 	EAttribute getRGObject_ProcessedText();
 
 	/**
-	 * Returns the meta object for the reference '{@link com.specmate.model.requirements.RGObject#getChunk <em>Chunk</em>}'.
+	 * Returns the meta object for the containment reference '{@link com.specmate.model.requirements.RGObject#getChunk <em>Chunk</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Chunk</em>'.
+	 * @return the meta object for the containment reference '<em>Chunk</em>'.
 	 * @see com.specmate.model.requirements.RGObject#getChunk()
 	 * @see #getRGObject()
 	 * @generated
@@ -1902,7 +1920,7 @@ public interface RequirementsPackage extends EPackage {
 		EAttribute RG_MODEL__MODEL_REQUIREMENTS = eINSTANCE.getRGModel_ModelRequirements();
 
 		/**
-		 * The meta object literal for the '<em><b>Model Mapping</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Model Mapping</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -1936,7 +1954,7 @@ public interface RequirementsPackage extends EPackage {
 		EAttribute RG_OBJECT__PROCESSED_TEXT = eINSTANCE.getRGObject_ProcessedText();
 
 		/**
-		 * The meta object literal for the '<em><b>Chunk</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Chunk</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

@@ -321,6 +321,8 @@ public class RGModelImpl extends CDOObjectImpl implements RGModel {
 				return ((InternalEList<?>)getTracesTo()).basicRemove(otherEnd, msgs);
 			case RequirementsPackage.RG_MODEL__TRACES_FROM:
 				return ((InternalEList<?>)getTracesFrom()).basicRemove(otherEnd, msgs);
+			case RequirementsPackage.RG_MODEL__MODEL_MAPPING:
+				return ((InternalEList<?>)getModelMapping()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}

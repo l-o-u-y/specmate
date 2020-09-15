@@ -125,12 +125,14 @@ public class RequirementsSwitch<T> extends Switch<T> {
 			case RequirementsPackage.RG_OBJECT: {
 				RGObject rgObject = (RGObject)theEObject;
 				T result = caseRGObject(rgObject);
+				if (result == null) result = caseIID(rgObject);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case RequirementsPackage.RG_CHUNK: {
 				RGChunk rgChunk = (RGChunk)theEObject;
 				T result = caseRGChunk(rgChunk);
+				if (result == null) result = caseIID(rgChunk);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

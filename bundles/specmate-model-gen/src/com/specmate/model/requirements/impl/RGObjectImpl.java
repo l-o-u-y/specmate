@@ -2,12 +2,13 @@
  */
 package com.specmate.model.requirements.impl;
 
+import com.specmate.model.base.BasePackage;
 import com.specmate.model.requirements.RGChunk;
 import com.specmate.model.requirements.RGObject;
 import com.specmate.model.requirements.RequirementsPackage;
-
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 /**
@@ -18,6 +19,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link com.specmate.model.requirements.impl.RGObjectImpl#getId <em>Id</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGObjectImpl#getOriginalText <em>Original Text</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGObjectImpl#getProcessedText <em>Processed Text</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGObjectImpl#getChunk <em>Chunk</em>}</li>
@@ -26,6 +28,16 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  * @generated
  */
 public class RGObjectImpl extends CDOObjectImpl implements RGObject {
+	/**
+	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getId()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String ID_EDEFAULT = null;
+
 	/**
 	 * The default value of the '{@link #getOriginalText() <em>Original Text</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -73,6 +85,26 @@ public class RGObjectImpl extends CDOObjectImpl implements RGObject {
 	@Override
 	protected int eStaticFeatureCount() {
 		return 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String getId() {
+		return (String)eDynamicGet(RequirementsPackage.RG_OBJECT__ID, BasePackage.Literals.IID__ID, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setId(String newId) {
+		eDynamicSet(RequirementsPackage.RG_OBJECT__ID, BasePackage.Literals.IID__ID, newId);
 	}
 
 	/**
@@ -130,8 +162,9 @@ public class RGObjectImpl extends CDOObjectImpl implements RGObject {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RGChunk basicGetChunk() {
-		return (RGChunk)eDynamicGet(RequirementsPackage.RG_OBJECT__CHUNK, RequirementsPackage.Literals.RG_OBJECT__CHUNK, false, true);
+	public NotificationChain basicSetChunk(RGChunk newChunk, NotificationChain msgs) {
+		msgs = eDynamicInverseAdd((InternalEObject)newChunk, RequirementsPackage.RG_OBJECT__CHUNK, msgs);
+		return msgs;
 	}
 
 	/**
@@ -150,15 +183,30 @@ public class RGObjectImpl extends CDOObjectImpl implements RGObject {
 	 * @generated
 	 */
 	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case RequirementsPackage.RG_OBJECT__CHUNK:
+				return basicSetChunk(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case RequirementsPackage.RG_OBJECT__ID:
+				return getId();
 			case RequirementsPackage.RG_OBJECT__ORIGINAL_TEXT:
 				return getOriginalText();
 			case RequirementsPackage.RG_OBJECT__PROCESSED_TEXT:
 				return getProcessedText();
 			case RequirementsPackage.RG_OBJECT__CHUNK:
-				if (resolve) return getChunk();
-				return basicGetChunk();
+				return getChunk();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -168,9 +216,13 @@ public class RGObjectImpl extends CDOObjectImpl implements RGObject {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case RequirementsPackage.RG_OBJECT__ID:
+				setId((String)newValue);
+				return;
 			case RequirementsPackage.RG_OBJECT__ORIGINAL_TEXT:
 				setOriginalText((String)newValue);
 				return;
@@ -192,6 +244,9 @@ public class RGObjectImpl extends CDOObjectImpl implements RGObject {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case RequirementsPackage.RG_OBJECT__ID:
+				setId(ID_EDEFAULT);
+				return;
 			case RequirementsPackage.RG_OBJECT__ORIGINAL_TEXT:
 				setOriginalText(ORIGINAL_TEXT_EDEFAULT);
 				return;
@@ -213,12 +268,14 @@ public class RGObjectImpl extends CDOObjectImpl implements RGObject {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case RequirementsPackage.RG_OBJECT__ID:
+				return ID_EDEFAULT == null ? getId() != null : !ID_EDEFAULT.equals(getId());
 			case RequirementsPackage.RG_OBJECT__ORIGINAL_TEXT:
 				return ORIGINAL_TEXT_EDEFAULT == null ? getOriginalText() != null : !ORIGINAL_TEXT_EDEFAULT.equals(getOriginalText());
 			case RequirementsPackage.RG_OBJECT__PROCESSED_TEXT:
 				return PROCESSED_TEXT_EDEFAULT == null ? getProcessedText() != null : !PROCESSED_TEXT_EDEFAULT.equals(getProcessedText());
 			case RequirementsPackage.RG_OBJECT__CHUNK:
-				return basicGetChunk() != null;
+				return getChunk() != null;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -2,6 +2,7 @@
  */
 package com.specmate.model.requirements.impl;
 
+import com.specmate.model.base.BasePackage;
 import com.specmate.model.requirements.RGChunk;
 import com.specmate.model.requirements.RequirementsPackage;
 
@@ -17,6 +18,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#getId <em>Id</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#getChunkText <em>Chunk Text</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#getChunkId <em>Chunk Id</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#getNodeId <em>Node Id</em>}</li>
@@ -26,6 +28,16 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  * @generated
  */
 public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
+	/**
+	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getId()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String ID_EDEFAULT = null;
+
 	/**
 	 * The default value of the '{@link #getChunkText() <em>Chunk Text</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -93,6 +105,26 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 	@Override
 	protected int eStaticFeatureCount() {
 		return 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String getId() {
+		return (String)eDynamicGet(RequirementsPackage.RG_CHUNK__ID, BasePackage.Literals.IID__ID, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setId(String newId) {
+		eDynamicSet(RequirementsPackage.RG_CHUNK__ID, BasePackage.Literals.IID__ID, newId);
 	}
 
 	/**
@@ -183,6 +215,8 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case RequirementsPackage.RG_CHUNK__ID:
+				return getId();
 			case RequirementsPackage.RG_CHUNK__CHUNK_TEXT:
 				return getChunkText();
 			case RequirementsPackage.RG_CHUNK__CHUNK_ID:
@@ -203,6 +237,9 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case RequirementsPackage.RG_CHUNK__ID:
+				setId((String)newValue);
+				return;
 			case RequirementsPackage.RG_CHUNK__CHUNK_TEXT:
 				setChunkText((String)newValue);
 				return;
@@ -227,6 +264,9 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case RequirementsPackage.RG_CHUNK__ID:
+				setId(ID_EDEFAULT);
+				return;
 			case RequirementsPackage.RG_CHUNK__CHUNK_TEXT:
 				setChunkText(CHUNK_TEXT_EDEFAULT);
 				return;
@@ -251,6 +291,8 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case RequirementsPackage.RG_CHUNK__ID:
+				return ID_EDEFAULT == null ? getId() != null : !ID_EDEFAULT.equals(getId());
 			case RequirementsPackage.RG_CHUNK__CHUNK_TEXT:
 				return CHUNK_TEXT_EDEFAULT == null ? getChunkText() != null : !CHUNK_TEXT_EDEFAULT.equals(getChunkText());
 			case RequirementsPackage.RG_CHUNK__CHUNK_ID:

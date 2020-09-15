@@ -47,13 +47,13 @@ public interface RGModel extends ISpecmateModelObject {
 	void setModelRequirements(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Model Mapping</b></em>' reference list.
+	 * Returns the value of the '<em><b>Model Mapping</b></em>' containment reference list.
 	 * The list contents are of type {@link com.specmate.model.requirements.RGObject}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Model Mapping</em>' reference list.
+	 * @return the value of the '<em>Model Mapping</em>' containment reference list.
 	 * @see com.specmate.model.requirements.RequirementsPackage#getRGModel_ModelMapping()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Model Mapping with RGObjects' longDesc='Maps the original description to the modified description to the chunks to the graph node' required='true' type='list' position='111'"
+	 * @model containment="true"
 	 * @generated
 	 */
 	EList<RGObject> getModelMapping();
