@@ -122,6 +122,9 @@
       
       <eStructuralFeatures xsi:type="ecore:EReference" name="modelMapping" upperBound="-1"
           eType="#//requirements/RGObject" containment="true"/>
+          
+      <eStructuralFeatures xsi:type="ecore:EReference" name="chunks" upperBound="-1"
+      	  eType="#//requirements/RGChunk" containment="true"/>
 	</eClassifiers>
 	
     <eClassifiers xsi:type="ecore:EClass" name="RGObject" eSuperTypes="#//base/IID">
@@ -143,7 +146,7 @@
           <details key="position" value="2"/>
         </eAnnotations>
       </eStructuralFeatures>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="chunk" eType="#//requirements/RGChunk" containment="true">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="chunk" eType="#//requirements/RGChunk"> <!--containment="true"-->
         <eAnnotations source="http://specmate.com/form_meta">
           <details key="shortDesc" value="Corresponding Chunk"/>
           <details key="longDesc" value=""/>

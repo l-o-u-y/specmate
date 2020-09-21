@@ -68,23 +68,22 @@ public interface RGObject extends IID {
 	void setProcessedText(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Chunk</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Chunk</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Chunk</em>' containment reference.
+	 * @return the value of the '<em>Chunk</em>' reference.
 	 * @see #setChunk(RGChunk)
 	 * @see com.specmate.model.requirements.RequirementsPackage#getRGObject_Chunk()
-	 * @model containment="true"
-	 *        annotation="http://specmate.com/form_meta shortDesc='Corresponding Chunk' longDesc='' required='false' type='object' position='3'"
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Corresponding Chunk' longDesc='' required='false' type='object' position='3'"
 	 * @generated
 	 */
 	RGChunk getChunk();
 
 	/**
-	 * Sets the value of the '{@link com.specmate.model.requirements.RGObject#getChunk <em>Chunk</em>}' containment reference.
+	 * Sets the value of the '{@link com.specmate.model.requirements.RGObject#getChunk <em>Chunk</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Chunk</em>' containment reference.
+	 * @param value the new value of the '<em>Chunk</em>' reference.
 	 * @see #getChunk()
 	 * @generated
 	 */

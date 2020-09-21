@@ -147,6 +147,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			c.setId(SpecmateEcoreUtil.getIdForChild());
 			c.setChunkText(chunkText);
 			c.setChunkId(p.getEnd());
+			model.getChunks().add(c);
 			
 			j = 0; // counter for chunkTextArray
 			// for punctuation or replacements
@@ -272,6 +273,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 
 		originalModel.getContents().addAll(candidates.get(0).getRight().getContents());
 		originalModel.getModelMapping().addAll(candidates.get(0).getRight().getModelMapping());
+		originalModel.getChunks().addAll(candidates.get(0).getRight().getChunks());
 		
 		for (RGObject r : originalModel.getModelMapping()) {
 			String tmp = r.getOriginalText() + "; ";

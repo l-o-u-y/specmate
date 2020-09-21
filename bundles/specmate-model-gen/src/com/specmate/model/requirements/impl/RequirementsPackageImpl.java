@@ -444,6 +444,16 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	@Override
+	public EReference getRGModel_Chunks() {
+		return (EReference)rgModelEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getRGObject() {
 		return rgObjectEClass;
 	}
@@ -674,6 +684,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		rgModelEClass = createEClass(RG_MODEL);
 		createEAttribute(rgModelEClass, RG_MODEL__MODEL_REQUIREMENTS);
 		createEReference(rgModelEClass, RG_MODEL__MODEL_MAPPING);
+		createEReference(rgModelEClass, RG_MODEL__CHUNKS);
 
 		rgObjectEClass = createEClass(RG_OBJECT);
 		createEAttribute(rgObjectEClass, RG_OBJECT__ORIGINAL_TEXT);
@@ -769,11 +780,12 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		initEClass(rgModelEClass, RGModel.class, "RGModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRGModel_ModelRequirements(), ecorePackage.getEString(), "modelRequirements", null, 0, 1, RGModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRGModel_ModelMapping(), this.getRGObject(), null, "modelMapping", null, 0, -1, RGModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRGModel_Chunks(), this.getRGChunk(), null, "chunks", null, 0, -1, RGModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(rgObjectEClass, RGObject.class, "RGObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRGObject_OriginalText(), ecorePackage.getEString(), "originalText", null, 0, 1, RGObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRGObject_ProcessedText(), ecorePackage.getEString(), "processedText", null, 0, 1, RGObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getRGObject_Chunk(), this.getRGChunk(), null, "chunk", null, 0, 1, RGObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRGObject_Chunk(), this.getRGChunk(), null, "chunk", null, 0, 1, RGObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(rgChunkEClass, RGChunk.class, "RGChunk", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRGChunk_ChunkText(), ecorePackage.getEString(), "chunkText", null, 0, 1, RGChunk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -327,6 +327,7 @@ export class SpecmateDataService {
         this.logStart(this.translate.instant('log.readElement'), url);
         try {
             const element = await this.serviceInterface.readElement(url, this.auth.token);
+            if (!element.url) { element.url = url; }
             this.cache.addElement(element);
             return this.cache.readElement(url);
         } catch (error) {

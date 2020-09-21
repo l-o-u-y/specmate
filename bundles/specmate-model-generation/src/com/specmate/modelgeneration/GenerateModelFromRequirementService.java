@@ -1,16 +1,11 @@
 package com.specmate.modelgeneration;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -28,8 +23,6 @@ import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.RGModel;
-import com.specmate.modelgeneration.legacy.EnglishCEGFromRequirementGenerator;
-import com.specmate.modelgeneration.legacy.GermanCEGFromRequirementGenerator;
 import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
 import com.specmate.nlp.util.NLPUtil;
@@ -37,7 +30,6 @@ import com.specmate.rest.RestClient;
 import com.specmate.rest.RestResult;
 import com.specmate.xtext.XTextException;
 
-import org.json.JSONObject;
 
 /**
  * Service to create automatic a CEGModel from a requirement

@@ -1,5 +1,6 @@
 package com.specmate.emfrest.internal.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.stream.Collectors;
@@ -42,6 +43,9 @@ import com.specmate.model.administration.ProblemDetail;
 import com.specmate.model.requirements.RGNode;
 import com.specmate.model.requirements.RGObject;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.objectif.internal.dSL.DSLFactory;
+import com.specmate.objectif.internal.dSL.impl.DSLFactoryImpl;
+import com.specmate.objectif.internal.dSL.impl.LiteralImpl;
 import com.specmate.persistency.ITransaction;
 import com.specmate.rest.RestResult;
 
@@ -237,32 +241,59 @@ public abstract class SpecmateResource {
 
 
 	@Path("/text")
-	public String getText(@Context HttpServletRequest httpRequest) {
+	public Object getText(@Context HttpServletRequest httpRequest) {
 		List<EObject> objects = doGetChildren();
 		List<RGNode> rgNodes = objects.stream()
 				.filter((o) -> o instanceof RGNode)
 				.map((o) -> (RGNode)o).collect(Collectors.toList());
 		List<RGObject> rgObjects = objects.stream()
 				.filter((o) -> o instanceof RGObject)
-				.map((o) -> (RGObject)o).collect(Collectors.toList());
+				.map((o) -> {
+					RGObject obj = (RGObject)o;
+					if (obj.getChunk() != null) {
+						obj.getChunk().setVisited(false);
+					}
+					return obj;
+				}).collect(Collectors.toList());
 		String string = "";
 		for (RGObject object:rgObjects) {
+			// TODO MA sometimes it doesnt parse the chunks correctly somewhere -> duplicate text
 			String s = object.getOriginalText();
+//			String t= object.getProcessedText();
+//			RGChunk ch = object.getChunk();
+//			String cht = object.getChunk() != null ? object.getChunk().getChunkText() : "";
+			boolean isVisited = object.getChunk() != null ? object.getChunk().isVisited() : false;
 			if (object.getProcessedText() != null 
 					&& object.getChunk() != null 
 					&& object.getChunk().getNodeId() != null) {
-				List<RGNode> r = rgNodes.stream()
-						.filter((n) -> n.getId().equals(object.getChunk().getNodeId()))
-						.collect(Collectors.toList());
-				if (r.size() > 0) {
-					s = r.get(0).getComponent();
+				if (!object.getChunk().isVisited()) {
+					List<RGNode> r = rgNodes.stream()
+							.filter((n) -> n.getId().equals(object.getChunk().getNodeId()))
+							.collect(Collectors.toList());
+					if (r.size() > 0) {
+						object.getChunk().setVisited(true);
+						s = r.get(0).getComponent();
+					}
 				}
-			string = string + s;
+			}
+			if (!isVisited) {
+				string = string + ' ' + s;
 			}
 		}
-		
-		String resource = resourceContext.getResource(String.class);
-		resource.concat(string);
+		InstanceResource resource = resourceContext.getResource(InstanceResource.class);
+
+//		RequirementsFactory factory = new RequirementsFactoryImpl();
+//		RGObject obj = factory.createRGObject();
+//		RGChunk ch = factory.createRGChunk();
+//		obj.setChunk(ch);
+//		ch.setChunkText(string);
+//		resource.setModelInstance(obj);
+		DSLFactory factory = new DSLFactoryImpl();
+		LiteralImpl literal = (LiteralImpl)factory.createLiteral();
+		List<String> collection = new ArrayList<String>();
+		collection.add(string);
+		literal.eSet(0, collection);
+		resource.setModelInstance(literal);
 		return resource;
 	}
 	

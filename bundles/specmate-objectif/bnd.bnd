@@ -24,7 +24,9 @@
 	com.specmate.objectif.internal.dSL.util
 Export-Package: \
 	com.specmate.objectif.resolve,\
-	com.specmate.objectif.resolve.rule
+	com.specmate.objectif.resolve.rule,\
+	com.specmate.objectif.internal.dSL,\
+	com.specmate.objectif.internal.dSL.impl
 Import-Package: \
 	org.eclipse.xtext.smap;resolution:=optional,\
 	*

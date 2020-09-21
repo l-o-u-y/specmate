@@ -57,6 +57,10 @@ def rule Composition_3 {
 	noun:[Parent] - acl -> 'showing':[Label] - pobj -> noun:[Child]
 }
 
+def rule Composition_4_acl {
+	'has':[Label] - nsubj -> noun:[Parent] - acl -> [TMP]
+	[Label] - dobj -> noun:[Child]
+}
 def rule Composition_4 {
 	'has':[Label] - nsubj -> noun:[Parent]
 	[Label] - dobj -> noun:[Child]

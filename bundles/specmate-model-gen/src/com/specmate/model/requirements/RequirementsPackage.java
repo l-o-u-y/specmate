@@ -506,13 +506,22 @@ public interface RequirementsPackage extends EPackage {
 	int RG_MODEL__MODEL_MAPPING = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Chunks</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_MODEL__CHUNKS = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>RG Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RG_MODEL_FEATURE_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 2;
+	int RG_MODEL_FEATURE_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>RG Model</em>' class.
@@ -561,7 +570,7 @@ public interface RequirementsPackage extends EPackage {
 	int RG_OBJECT__PROCESSED_TEXT = BasePackage.IID_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Chunk</b></em>' containment reference.
+	 * The feature id for the '<em><b>Chunk</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1523,6 +1532,17 @@ public interface RequirementsPackage extends EPackage {
 	EReference getRGModel_ModelMapping();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link com.specmate.model.requirements.RGModel#getChunks <em>Chunks</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Chunks</em>'.
+	 * @see com.specmate.model.requirements.RGModel#getChunks()
+	 * @see #getRGModel()
+	 * @generated
+	 */
+	EReference getRGModel_Chunks();
+
+	/**
 	 * Returns the meta object for class '{@link com.specmate.model.requirements.RGObject <em>RG Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1555,10 +1575,10 @@ public interface RequirementsPackage extends EPackage {
 	EAttribute getRGObject_ProcessedText();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link com.specmate.model.requirements.RGObject#getChunk <em>Chunk</em>}'.
+	 * Returns the meta object for the reference '{@link com.specmate.model.requirements.RGObject#getChunk <em>Chunk</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Chunk</em>'.
+	 * @return the meta object for the reference '<em>Chunk</em>'.
 	 * @see com.specmate.model.requirements.RGObject#getChunk()
 	 * @see #getRGObject()
 	 * @generated
@@ -1928,6 +1948,14 @@ public interface RequirementsPackage extends EPackage {
 		EReference RG_MODEL__MODEL_MAPPING = eINSTANCE.getRGModel_ModelMapping();
 
 		/**
+		 * The meta object literal for the '<em><b>Chunks</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RG_MODEL__CHUNKS = eINSTANCE.getRGModel_Chunks();
+
+		/**
 		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.RGObjectImpl <em>RG Object</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1954,7 +1982,7 @@ public interface RequirementsPackage extends EPackage {
 		EAttribute RG_OBJECT__PROCESSED_TEXT = eINSTANCE.getRGObject_ProcessedText();
 
 		/**
-		 * The meta object literal for the '<em><b>Chunk</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Chunk</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

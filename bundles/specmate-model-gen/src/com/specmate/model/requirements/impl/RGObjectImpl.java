@@ -6,9 +6,7 @@ import com.specmate.model.base.BasePackage;
 import com.specmate.model.requirements.RGChunk;
 import com.specmate.model.requirements.RGObject;
 import com.specmate.model.requirements.RequirementsPackage;
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 /**
@@ -162,9 +160,8 @@ public class RGObjectImpl extends CDOObjectImpl implements RGObject {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetChunk(RGChunk newChunk, NotificationChain msgs) {
-		msgs = eDynamicInverseAdd((InternalEObject)newChunk, RequirementsPackage.RG_OBJECT__CHUNK, msgs);
-		return msgs;
+	public RGChunk basicGetChunk() {
+		return (RGChunk)eDynamicGet(RequirementsPackage.RG_OBJECT__CHUNK, RequirementsPackage.Literals.RG_OBJECT__CHUNK, false, true);
 	}
 
 	/**
@@ -183,20 +180,6 @@ public class RGObjectImpl extends CDOObjectImpl implements RGObject {
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case RequirementsPackage.RG_OBJECT__CHUNK:
-				return basicSetChunk(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case RequirementsPackage.RG_OBJECT__ID:
@@ -206,7 +189,8 @@ public class RGObjectImpl extends CDOObjectImpl implements RGObject {
 			case RequirementsPackage.RG_OBJECT__PROCESSED_TEXT:
 				return getProcessedText();
 			case RequirementsPackage.RG_OBJECT__CHUNK:
-				return getChunk();
+				if (resolve) return getChunk();
+				return basicGetChunk();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -275,7 +259,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGObject {
 			case RequirementsPackage.RG_OBJECT__PROCESSED_TEXT:
 				return PROCESSED_TEXT_EDEFAULT == null ? getProcessedText() != null : !PROCESSED_TEXT_EDEFAULT.equals(getProcessedText());
 			case RequirementsPackage.RG_OBJECT__CHUNK:
-				return getChunk() != null;
+				return basicGetChunk() != null;
 		}
 		return super.eIsSet(featureID);
 	}

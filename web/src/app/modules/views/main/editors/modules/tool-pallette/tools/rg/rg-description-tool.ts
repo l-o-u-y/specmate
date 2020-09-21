@@ -11,6 +11,8 @@ import {IContainer} from '../../../../../../../../model/IContainer';
 import {ConfirmationModal} from '../../../../../../../notification/modules/modals/services/confirmation-modal.service';
 import {TranslateService} from '@ngx-translate/core';
 
+type Literal = IContainer & {content: string[]};
+
 export class RgDescriptionTool extends ToolBase {
 
     protected modelType: { className: string; } = RGModel;
@@ -22,6 +24,7 @@ export class RgDescriptionTool extends ToolBase {
     public isHidden = false;
     public style = new ShapeProvider(RGModel).getStyle(RGNode);
 
+
     constructor(dataService: SpecmateDataService, selectedElementService: SelectedElementService,
                 parent: IContainer, private modalService: ConfirmationModal, private translate: TranslateService) {
         super(dataService, selectedElementService, parent);
@@ -32,10 +35,10 @@ export class RgDescriptionTool extends ToolBase {
 
     public perform(): Promise<any> {
         // TODO MA
-        return this.dataService.readContents(this.parent.url + '/text', false)
-            .then((value: IContainer[]) => {
-                console.log(value);
-                // this.modalService.openOk(value[0] as string);
+        return this.dataService.readElement(this.parent.url + '/text', false)
+            .then((value: Literal) => {
+                console.log(value.content[0]);
+                this.modalService.openOk('', value.content[0]);
             });
     }
 }
