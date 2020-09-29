@@ -5,9 +5,12 @@ package com.specmate.model.requirements.impl;
 import com.specmate.model.base.impl.IModelNodeImpl;
 
 import com.specmate.model.requirements.NodeType;
+import com.specmate.model.requirements.RGChunk;
 import com.specmate.model.requirements.RGNode;
 import com.specmate.model.requirements.RequirementsPackage;
 
+import java.util.Collection;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -20,7 +23,7 @@ import org.eclipse.emf.ecore.EClass;
  * <ul>
  *   <li>{@link com.specmate.model.requirements.impl.RGNodeImpl#getType <em>Type</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGNodeImpl#getComponent <em>Component</em>}</li>
- *   <li>{@link com.specmate.model.requirements.impl.RGNodeImpl#getModifier <em>Modifier</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGNodeImpl#getChunks <em>Chunks</em>}</li>
  * </ul>
  *
  * @generated
@@ -45,16 +48,6 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 	 * @ordered
 	 */
 	protected static final String COMPONENT_EDEFAULT = null;
-
-	/**
-	 * The default value of the '{@link #getModifier() <em>Modifier</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getModifier()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String MODIFIER_EDEFAULT = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -120,19 +113,10 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public String getModifier() {
-		return (String)eDynamicGet(RequirementsPackage.RG_NODE__MODIFIER, RequirementsPackage.Literals.RG_NODE__MODIFIER, true, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setModifier(String newModifier) {
-		eDynamicSet(RequirementsPackage.RG_NODE__MODIFIER, RequirementsPackage.Literals.RG_NODE__MODIFIER, newModifier);
+	public EList<RGChunk> getChunks() {
+		return (EList<RGChunk>)eDynamicGet(RequirementsPackage.RG_NODE__CHUNKS, RequirementsPackage.Literals.RG_NODE__CHUNKS, true, true);
 	}
 
 	/**
@@ -147,8 +131,8 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 				return getType();
 			case RequirementsPackage.RG_NODE__COMPONENT:
 				return getComponent();
-			case RequirementsPackage.RG_NODE__MODIFIER:
-				return getModifier();
+			case RequirementsPackage.RG_NODE__CHUNKS:
+				return getChunks();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -158,6 +142,7 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -167,8 +152,9 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 			case RequirementsPackage.RG_NODE__COMPONENT:
 				setComponent((String)newValue);
 				return;
-			case RequirementsPackage.RG_NODE__MODIFIER:
-				setModifier((String)newValue);
+			case RequirementsPackage.RG_NODE__CHUNKS:
+				getChunks().clear();
+				getChunks().addAll((Collection<? extends RGChunk>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -188,8 +174,8 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 			case RequirementsPackage.RG_NODE__COMPONENT:
 				setComponent(COMPONENT_EDEFAULT);
 				return;
-			case RequirementsPackage.RG_NODE__MODIFIER:
-				setModifier(MODIFIER_EDEFAULT);
+			case RequirementsPackage.RG_NODE__CHUNKS:
+				getChunks().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -207,8 +193,8 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 				return getType() != TYPE_EDEFAULT;
 			case RequirementsPackage.RG_NODE__COMPONENT:
 				return COMPONENT_EDEFAULT == null ? getComponent() != null : !COMPONENT_EDEFAULT.equals(getComponent());
-			case RequirementsPackage.RG_NODE__MODIFIER:
-				return MODIFIER_EDEFAULT == null ? getModifier() != null : !MODIFIER_EDEFAULT.equals(getModifier());
+			case RequirementsPackage.RG_NODE__CHUNKS:
+				return !getChunks().isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

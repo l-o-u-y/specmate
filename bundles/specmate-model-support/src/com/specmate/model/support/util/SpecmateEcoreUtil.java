@@ -260,7 +260,6 @@ public class SpecmateEcoreUtil {
 	}
 
 	public static String getUniqueId(EObject object) {
-		String id;
 		if (object instanceof CDOObject) {
 			CDOObject cdoObject = (CDOObject) object;
 			return buildStringId(cdoObject.cdoID());

@@ -126,6 +126,8 @@ public class RequirementsSwitch<T> extends Switch<T> {
 				RGObject rgObject = (RGObject)theEObject;
 				T result = caseRGObject(rgObject);
 				if (result == null) result = caseIID(rgObject);
+				if (result == null) result = caseIDescribed(rgObject);
+				if (result == null) result = caseIRecycled(rgObject);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -133,22 +135,8 @@ public class RequirementsSwitch<T> extends Switch<T> {
 				RGChunk rgChunk = (RGChunk)theEObject;
 				T result = caseRGChunk(rgChunk);
 				if (result == null) result = caseIID(rgChunk);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case RequirementsPackage.CEG_NODE: {
-				CEGNode cegNode = (CEGNode)theEObject;
-				T result = caseCEGNode(cegNode);
-				if (result == null) result = caseIModelNode(cegNode);
-				if (result == null) result = caseISpecmatePositionableModelObject(cegNode);
-				if (result == null) result = caseISpecmateModelObject(cegNode);
-				if (result == null) result = caseIContainer(cegNode);
-				if (result == null) result = caseITracingElement(cegNode);
-				if (result == null) result = caseIContentElement(cegNode);
-				if (result == null) result = caseIID(cegNode);
-				if (result == null) result = caseINamed(cegNode);
-				if (result == null) result = caseIDescribed(cegNode);
-				if (result == null) result = caseIRecycled(cegNode);
+				if (result == null) result = caseIDescribed(rgChunk);
+				if (result == null) result = caseIRecycled(rgChunk);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -165,6 +153,22 @@ public class RequirementsSwitch<T> extends Switch<T> {
 				if (result == null) result = caseINamed(rgNode);
 				if (result == null) result = caseIDescribed(rgNode);
 				if (result == null) result = caseIRecycled(rgNode);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RequirementsPackage.CEG_NODE: {
+				CEGNode cegNode = (CEGNode)theEObject;
+				T result = caseCEGNode(cegNode);
+				if (result == null) result = caseIModelNode(cegNode);
+				if (result == null) result = caseISpecmatePositionableModelObject(cegNode);
+				if (result == null) result = caseISpecmateModelObject(cegNode);
+				if (result == null) result = caseIContainer(cegNode);
+				if (result == null) result = caseITracingElement(cegNode);
+				if (result == null) result = caseIContentElement(cegNode);
+				if (result == null) result = caseIID(cegNode);
+				if (result == null) result = caseINamed(cegNode);
+				if (result == null) result = caseIDescribed(cegNode);
+				if (result == null) result = caseIRecycled(cegNode);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

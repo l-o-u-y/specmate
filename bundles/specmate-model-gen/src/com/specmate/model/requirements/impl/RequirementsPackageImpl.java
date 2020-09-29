@@ -454,6 +454,26 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	@Override
+	public EReference getRGModel_PrevRGModel() {
+		return (EReference)rgModelEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getRGModel_NextRGModel() {
+		return (EReference)rgModelEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getRGObject() {
 		return rgObjectEClass;
 	}
@@ -504,7 +524,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	@Override
-	public EAttribute getRGChunk_ChunkText() {
+	public EAttribute getRGChunk_Text() {
 		return (EAttribute)rgChunkEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -514,8 +534,8 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	@Override
-	public EAttribute getRGChunk_ChunkId() {
-		return (EAttribute)rgChunkEClass.getEStructuralFeatures().get(1);
+	public EReference getRGChunk_Node() {
+		return (EReference)rgChunkEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -524,8 +544,8 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	@Override
-	public EAttribute getRGChunk_NodeId() {
-		return (EAttribute)rgChunkEClass.getEStructuralFeatures().get(2);
+	public EReference getRGChunk_IncomingChunks() {
+		return (EReference)rgChunkEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -534,8 +554,18 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	@Override
-	public EAttribute getRGChunk_Visited() {
-		return (EAttribute)rgChunkEClass.getEStructuralFeatures().get(3);
+	public EReference getRGChunk_OutgoingChunks() {
+		return (EReference)rgChunkEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getRGChunk_Objects() {
+		return (EReference)rgChunkEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -574,8 +604,8 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	@Override
-	public EAttribute getRGNode_Modifier() {
-		return (EAttribute)rgNodeEClass.getEStructuralFeatures().get(2);
+	public EReference getRGNode_Chunks() {
+		return (EReference)rgNodeEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -685,6 +715,8 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		createEAttribute(rgModelEClass, RG_MODEL__MODEL_REQUIREMENTS);
 		createEReference(rgModelEClass, RG_MODEL__MODEL_MAPPING);
 		createEReference(rgModelEClass, RG_MODEL__CHUNKS);
+		createEReference(rgModelEClass, RG_MODEL__PREV_RG_MODEL);
+		createEReference(rgModelEClass, RG_MODEL__NEXT_RG_MODEL);
 
 		rgObjectEClass = createEClass(RG_OBJECT);
 		createEAttribute(rgObjectEClass, RG_OBJECT__ORIGINAL_TEXT);
@@ -692,20 +724,21 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		createEReference(rgObjectEClass, RG_OBJECT__CHUNK);
 
 		rgChunkEClass = createEClass(RG_CHUNK);
-		createEAttribute(rgChunkEClass, RG_CHUNK__CHUNK_TEXT);
-		createEAttribute(rgChunkEClass, RG_CHUNK__CHUNK_ID);
-		createEAttribute(rgChunkEClass, RG_CHUNK__NODE_ID);
-		createEAttribute(rgChunkEClass, RG_CHUNK__VISITED);
+		createEAttribute(rgChunkEClass, RG_CHUNK__TEXT);
+		createEReference(rgChunkEClass, RG_CHUNK__NODE);
+		createEReference(rgChunkEClass, RG_CHUNK__INCOMING_CHUNKS);
+		createEReference(rgChunkEClass, RG_CHUNK__OUTGOING_CHUNKS);
+		createEReference(rgChunkEClass, RG_CHUNK__OBJECTS);
+
+		rgNodeEClass = createEClass(RG_NODE);
+		createEAttribute(rgNodeEClass, RG_NODE__TYPE);
+		createEAttribute(rgNodeEClass, RG_NODE__COMPONENT);
+		createEReference(rgNodeEClass, RG_NODE__CHUNKS);
 
 		cegNodeEClass = createEClass(CEG_NODE);
 		createEAttribute(cegNodeEClass, CEG_NODE__TYPE);
 		createEAttribute(cegNodeEClass, CEG_NODE__VARIABLE);
 		createEAttribute(cegNodeEClass, CEG_NODE__CONDITION);
-
-		rgNodeEClass = createEClass(RG_NODE);
-		createEAttribute(rgNodeEClass, RG_NODE__TYPE);
-		createEAttribute(rgNodeEClass, RG_NODE__COMPONENT);
-		createEAttribute(rgNodeEClass, RG_NODE__MODIFIER);
 
 		cegConnectionEClass = createEClass(CEG_CONNECTION);
 		createEAttribute(cegConnectionEClass, CEG_CONNECTION__NEGATE);
@@ -756,9 +789,13 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		cegModelEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
 		rgModelEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
 		rgObjectEClass.getESuperTypes().add(theBasePackage.getIID());
+		rgObjectEClass.getESuperTypes().add(theBasePackage.getIDescribed());
+		rgObjectEClass.getESuperTypes().add(theBasePackage.getIRecycled());
 		rgChunkEClass.getESuperTypes().add(theBasePackage.getIID());
-		cegNodeEClass.getESuperTypes().add(theBasePackage.getIModelNode());
+		rgChunkEClass.getESuperTypes().add(theBasePackage.getIDescribed());
+		rgChunkEClass.getESuperTypes().add(theBasePackage.getIRecycled());
 		rgNodeEClass.getESuperTypes().add(theBasePackage.getIModelNode());
+		cegNodeEClass.getESuperTypes().add(theBasePackage.getIModelNode());
 		cegConnectionEClass.getESuperTypes().add(theBasePackage.getIModelConnection());
 		rgConnectionEClass.getESuperTypes().add(theBasePackage.getIModelConnection());
 
@@ -781,6 +818,8 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		initEAttribute(getRGModel_ModelRequirements(), ecorePackage.getEString(), "modelRequirements", null, 0, 1, RGModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRGModel_ModelMapping(), this.getRGObject(), null, "modelMapping", null, 0, -1, RGModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRGModel_Chunks(), this.getRGChunk(), null, "chunks", null, 0, -1, RGModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRGModel_PrevRGModel(), this.getRGModel(), null, "prevRGModel", null, 0, 1, RGModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRGModel_NextRGModel(), this.getRGModel(), null, "nextRGModel", null, 0, 1, RGModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(rgObjectEClass, RGObject.class, "RGObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRGObject_OriginalText(), ecorePackage.getEString(), "originalText", null, 0, 1, RGObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -788,20 +827,21 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		initEReference(getRGObject_Chunk(), this.getRGChunk(), null, "chunk", null, 0, 1, RGObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(rgChunkEClass, RGChunk.class, "RGChunk", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getRGChunk_ChunkText(), ecorePackage.getEString(), "chunkText", null, 0, 1, RGChunk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getRGChunk_ChunkId(), ecorePackage.getEInt(), "chunkId", null, 0, 1, RGChunk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getRGChunk_NodeId(), ecorePackage.getEString(), "nodeId", null, 0, 1, RGChunk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getRGChunk_Visited(), ecorePackage.getEBoolean(), "visited", null, 0, 1, RGChunk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRGChunk_Text(), ecorePackage.getEString(), "text", null, 0, 1, RGChunk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRGChunk_Node(), this.getRGNode(), null, "node", null, 0, 1, RGChunk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRGChunk_IncomingChunks(), this.getRGChunk(), null, "incomingChunks", null, 0, -1, RGChunk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRGChunk_OutgoingChunks(), this.getRGChunk(), null, "outgoingChunks", null, 0, -1, RGChunk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRGChunk_Objects(), this.getRGObject(), null, "objects", null, 0, -1, RGChunk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(rgNodeEClass, RGNode.class, "RGNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getRGNode_Type(), this.getNodeType(), "type", null, 0, 1, RGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRGNode_Component(), ecorePackage.getEString(), "component", null, 0, 1, RGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRGNode_Chunks(), this.getRGChunk(), null, "chunks", null, 0, -1, RGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(cegNodeEClass, CEGNode.class, "CEGNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCEGNode_Type(), this.getNodeType(), "type", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCEGNode_Variable(), ecorePackage.getEString(), "variable", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCEGNode_Condition(), ecorePackage.getEString(), "condition", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(rgNodeEClass, RGNode.class, "RGNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getRGNode_Type(), this.getNodeType(), "type", null, 0, 1, RGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getRGNode_Component(), ecorePackage.getEString(), "component", null, 0, 1, RGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getRGNode_Modifier(), ecorePackage.getEString(), "modifier", null, 0, 1, RGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(cegConnectionEClass, CEGConnection.class, "CEGConnection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCEGConnection_Negate(), ecorePackage.getEBoolean(), "negate", null, 0, 1, CEGConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -860,74 +900,33 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 			   "position", "110"
 		   });
 		addAnnotation
-		  (getRGObject_OriginalText(),
+		  (rgNodeEClass,
 		   source,
 		   new String[] {
-			   "shortDesc", "Original Word",
-			   "longDesc", "",
+			   "disabled1", "name",
+			   "disabled2", "description"
+		   });
+		addAnnotation
+		  (getRGNode_Type(),
+		   source,
+		   new String[] {
+			   "shortDesc", "Type",
+			   "longDesc", "The type of a node",
 			   "required", "true",
-			   "type", "text",
-			   "position", "1"
-		   });
-		addAnnotation
-		  (getRGObject_ProcessedText(),
-		   source,
-		   new String[] {
-			   "shortDesc", "Processed Word",
-			   "longDesc", "",
-			   "required", "false",
-			   "type", "text",
-			   "position", "2"
-		   });
-		addAnnotation
-		  (getRGObject_Chunk(),
-		   source,
-		   new String[] {
-			   "shortDesc", "Corresponding Chunk",
-			   "longDesc", "",
-			   "required", "false",
-			   "type", "object",
+			   "type", "singleSelection",
+			   "values", "[\"AND\", \"OR\"]",
 			   "position", "3"
 		   });
 		addAnnotation
-		  (getRGChunk_ChunkText(),
+		  (getRGNode_Component(),
 		   source,
 		   new String[] {
-			   "shortDesc", "Chunk Text",
-			   "longDesc", "",
+			   "shortDesc", "Component",
+			   "longDesc", "The component of a node",
 			   "required", "true",
 			   "type", "text",
-			   "position", "1"
-		   });
-		addAnnotation
-		  (getRGChunk_ChunkId(),
-		   source,
-		   new String[] {
-			   "shortDesc", "Chunk Id",
-			   "longDesc", "",
-			   "required", "true",
-			   "type", "number",
-			   "position", "2"
-		   });
-		addAnnotation
-		  (getRGChunk_NodeId(),
-		   source,
-		   new String[] {
-			   "shortDesc", "Node Id of Graph",
-			   "longDesc", "",
-			   "required", "false",
-			   "type", "text",
-			   "position", "3"
-		   });
-		addAnnotation
-		  (getRGChunk_Visited(),
-		   source,
-		   new String[] {
-			   "shortDesc", "Visited Flag",
-			   "longDesc", "",
-			   "required", "true",
-			   "type", "checkbox",
-			   "position", "4"
+			   "position", "1",
+			   "allowedPattern", "^[^,;|]*$"
 		   });
 		addAnnotation
 		  (cegNodeEClass,
@@ -964,45 +963,6 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		   new String[] {
 			   "shortDesc", "Condition",
 			   "longDesc", "The condition the variable has to fulfil",
-			   "required", "true",
-			   "type", "text",
-			   "position", "2"
-		   });
-		addAnnotation
-		  (rgNodeEClass,
-		   source,
-		   new String[] {
-			   "disabled1", "name",
-			   "disabled2", "description"
-		   });
-		addAnnotation
-		  (getRGNode_Type(),
-		   source,
-		   new String[] {
-			   "shortDesc", "Type",
-			   "longDesc", "The type of a node",
-			   "required", "true",
-			   "type", "singleSelection",
-			   "values", "[\"AND\", \"OR\"]",
-			   "position", "3"
-		   });
-		addAnnotation
-		  (getRGNode_Component(),
-		   source,
-		   new String[] {
-			   "shortDesc", "Component",
-			   "longDesc", "The component of a node",
-			   "required", "true",
-			   "type", "text",
-			   "position", "1",
-			   "allowedPattern", "^[^,;|]*$"
-		   });
-		addAnnotation
-		  (getRGNode_Modifier(),
-		   source,
-		   new String[] {
-			   "shortDesc", "Modifiers",
-			   "longDesc", "The modifiers to the variable",
 			   "required", "true",
 			   "type", "text",
 			   "position", "2"

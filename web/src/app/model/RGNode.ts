@@ -20,7 +20,6 @@
 		public height: EDouble;
 		public type: NodeType;
 		public component: EString;
-		public modifier: EString;
 
 		// References
 		
@@ -28,6 +27,7 @@
 		public tracesFrom: Proxy[];
 		public outgoingConnections: Proxy[];
 		public incomingConnections: Proxy[];
+		public chunks: Proxy[];
 
 		// Containment
 

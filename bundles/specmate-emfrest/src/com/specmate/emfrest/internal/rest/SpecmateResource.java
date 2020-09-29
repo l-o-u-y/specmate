@@ -40,7 +40,7 @@ import com.specmate.metrics.ITimer;
 import com.specmate.model.administration.AdministrationFactory;
 import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.administration.ProblemDetail;
-import com.specmate.model.requirements.RGNode;
+import com.specmate.model.requirements.RGChunk;
 import com.specmate.model.requirements.RGObject;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.objectif.internal.dSL.DSLFactory;
@@ -243,38 +243,24 @@ public abstract class SpecmateResource {
 	@Path("/text")
 	public Object getText(@Context HttpServletRequest httpRequest) {
 		List<EObject> objects = doGetChildren();
-		List<RGNode> rgNodes = objects.stream()
-				.filter((o) -> o instanceof RGNode)
-				.map((o) -> (RGNode)o).collect(Collectors.toList());
 		List<RGObject> rgObjects = objects.stream()
 				.filter((o) -> o instanceof RGObject)
-				.map((o) -> {
-					RGObject obj = (RGObject)o;
-					if (obj.getChunk() != null) {
-						obj.getChunk().setVisited(false);
-					}
-					return obj;
-				}).collect(Collectors.toList());
+				.map((o) -> (RGObject)o).collect(Collectors.toList());
 		String string = "";
-		for (RGObject object:rgObjects) {
+		for (int i = 0; i < rgObjects.size(); i++) {
+			RGChunk prevChunk = i > 0 ? rgObjects.get(i-1).getChunk() : null;
+			RGObject object = rgObjects.get(i);
+			boolean isVisited = prevChunk != null && object.getChunk() != prevChunk;
 			// TODO MA sometimes it doesnt parse the chunks correctly somewhere -> duplicate text
 			String s = object.getOriginalText();
 //			String t= object.getProcessedText();
 //			RGChunk ch = object.getChunk();
 //			String cht = object.getChunk() != null ? object.getChunk().getChunkText() : "";
-			boolean isVisited = object.getChunk() != null ? object.getChunk().isVisited() : false;
+			
 			if (object.getProcessedText() != null 
 					&& object.getChunk() != null 
-					&& object.getChunk().getNodeId() != null) {
-				if (!object.getChunk().isVisited()) {
-					List<RGNode> r = rgNodes.stream()
-							.filter((n) -> n.getId().equals(object.getChunk().getNodeId()))
-							.collect(Collectors.toList());
-					if (r.size() > 0) {
-						object.getChunk().setVisited(true);
-						s = r.get(0).getComponent();
-					}
-				}
+					&& object.getChunk().getNode() != null) {
+					s = object.getChunk().getNode().getComponent();
 			}
 			if (!isVisited) {
 				string = string + ' ' + s;

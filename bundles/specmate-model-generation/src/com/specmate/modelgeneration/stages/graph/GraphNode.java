@@ -10,8 +10,7 @@ public class GraphNode {
 	private String condition;
 	private String variable;
 	private String component;
-	private String modifier;
-	private int id;
+	private String id;
 	private NodeType type;
 	private Graph graph;
 
@@ -69,18 +68,6 @@ public class GraphNode {
 		return component;
 	}
 
-	public String getModifier() {
-		return modifier;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public void setCondition(String condition) {
 		this.condition = condition;
 	}
@@ -91,10 +78,6 @@ public class GraphNode {
 
 	public void setComponent(String component) {
 		this.component = component;
-	}
-
-	public void setModifier(String modifier) {
-		this.modifier = modifier;
 	}
 
 	public void setType(NodeType type) {
@@ -135,5 +118,13 @@ public class GraphNode {
 			minHeight = Math.min(minHeight, depth);
 		}
 		return minHeight - 1;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 }

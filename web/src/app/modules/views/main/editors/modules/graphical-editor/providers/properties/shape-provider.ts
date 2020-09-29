@@ -36,8 +36,7 @@ export class ShapeProvider extends ProviderBase {
                 height: Config.RG_NODE_HEIGHT
             },
             text: new NodeNameConverterProvider(type).nodeNameConverter.convertTo({
-            component: Config.RG_NODE_NEW_COMPONENT,
-            modifier: Config.RG_NODE_NEW_MODIFIER
+            component: Config.RG_NODE_NEW_COMPONENT
         })
         };
         this.shapeMap[CEGNode.className] = {

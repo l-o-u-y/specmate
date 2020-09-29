@@ -39,6 +39,8 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.requirements.impl.RGModelImpl#getModelRequirements <em>Model Requirements</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGModelImpl#getModelMapping <em>Model Mapping</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGModelImpl#getChunks <em>Chunks</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGModelImpl#getPrevRGModel <em>Prev RG Model</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGModelImpl#getNextRGModel <em>Next RG Model</em>}</li>
  * </ul>
  *
  * @generated
@@ -308,6 +310,64 @@ public class RGModelImpl extends CDOObjectImpl implements RGModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public RGModel getPrevRGModel() {
+		return (RGModel)eDynamicGet(RequirementsPackage.RG_MODEL__PREV_RG_MODEL, RequirementsPackage.Literals.RG_MODEL__PREV_RG_MODEL, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RGModel basicGetPrevRGModel() {
+		return (RGModel)eDynamicGet(RequirementsPackage.RG_MODEL__PREV_RG_MODEL, RequirementsPackage.Literals.RG_MODEL__PREV_RG_MODEL, false, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setPrevRGModel(RGModel newPrevRGModel) {
+		eDynamicSet(RequirementsPackage.RG_MODEL__PREV_RG_MODEL, RequirementsPackage.Literals.RG_MODEL__PREV_RG_MODEL, newPrevRGModel);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public RGModel getNextRGModel() {
+		return (RGModel)eDynamicGet(RequirementsPackage.RG_MODEL__NEXT_RG_MODEL, RequirementsPackage.Literals.RG_MODEL__NEXT_RG_MODEL, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RGModel basicGetNextRGModel() {
+		return (RGModel)eDynamicGet(RequirementsPackage.RG_MODEL__NEXT_RG_MODEL, RequirementsPackage.Literals.RG_MODEL__NEXT_RG_MODEL, false, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setNextRGModel(RGModel newNextRGModel) {
+		eDynamicSet(RequirementsPackage.RG_MODEL__NEXT_RG_MODEL, RequirementsPackage.Literals.RG_MODEL__NEXT_RG_MODEL, newNextRGModel);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -372,6 +432,12 @@ public class RGModelImpl extends CDOObjectImpl implements RGModel {
 				return getModelMapping();
 			case RequirementsPackage.RG_MODEL__CHUNKS:
 				return getChunks();
+			case RequirementsPackage.RG_MODEL__PREV_RG_MODEL:
+				if (resolve) return getPrevRGModel();
+				return basicGetPrevRGModel();
+			case RequirementsPackage.RG_MODEL__NEXT_RG_MODEL:
+				if (resolve) return getNextRGModel();
+				return basicGetNextRGModel();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -423,6 +489,12 @@ public class RGModelImpl extends CDOObjectImpl implements RGModel {
 				getChunks().clear();
 				getChunks().addAll((Collection<? extends RGChunk>)newValue);
 				return;
+			case RequirementsPackage.RG_MODEL__PREV_RG_MODEL:
+				setPrevRGModel((RGModel)newValue);
+				return;
+			case RequirementsPackage.RG_MODEL__NEXT_RG_MODEL:
+				setNextRGModel((RGModel)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -468,6 +540,12 @@ public class RGModelImpl extends CDOObjectImpl implements RGModel {
 			case RequirementsPackage.RG_MODEL__CHUNKS:
 				getChunks().clear();
 				return;
+			case RequirementsPackage.RG_MODEL__PREV_RG_MODEL:
+				setPrevRGModel((RGModel)null);
+				return;
+			case RequirementsPackage.RG_MODEL__NEXT_RG_MODEL:
+				setNextRGModel((RGModel)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -502,6 +580,10 @@ public class RGModelImpl extends CDOObjectImpl implements RGModel {
 				return !getModelMapping().isEmpty();
 			case RequirementsPackage.RG_MODEL__CHUNKS:
 				return !getChunks().isEmpty();
+			case RequirementsPackage.RG_MODEL__PREV_RG_MODEL:
+				return basicGetPrevRGModel() != null;
+			case RequirementsPackage.RG_MODEL__NEXT_RG_MODEL:
+				return basicGetNextRGModel() != null;
 		}
 		return super.eIsSet(featureID);
 	}

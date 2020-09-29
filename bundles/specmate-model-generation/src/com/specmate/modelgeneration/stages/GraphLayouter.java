@@ -2,14 +2,15 @@ package com.specmate.modelgeneration.stages;
 
 import java.util.HashMap;
 
+import org.osgi.service.log.LogService;
+
 import com.specmate.model.base.IModelNode;
-import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
+import com.specmate.model.requirements.RGChunk;
 import com.specmate.model.requirements.RGModel;
 import com.specmate.model.requirements.RGNode;
 import com.specmate.model.requirements.RGObject;
-import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.modelgeneration.CEGCreation;
 import com.specmate.modelgeneration.Creation;
 import com.specmate.modelgeneration.RGCreation;
@@ -18,7 +19,7 @@ import com.specmate.modelgeneration.stages.graph.GraphEdge;
 import com.specmate.modelgeneration.stages.graph.GraphNode;
 import com.specmate.nlp.api.ELanguage;
 
-public class GraphLayouter {
+public class GraphLayouter<T, S, U> {
 	private static final int XSTART = 225;
 	private static final int YSTART = 225;
 
@@ -26,15 +27,18 @@ public class GraphLayouter {
 	private static final int YOFFSET = 150;
 
 	private final ELanguage lang;
-	private final Creation creation;
+	private final Creation<T, S, U> creation;
+	private final LogService log;
 
-	public GraphLayouter(ELanguage language, CEGCreation creation) {
+	public GraphLayouter(ELanguage language, Creation<T, S, U> creation) {
 		lang = language;
 		this.creation = creation;
+		log = null;
 	}
-	public GraphLayouter(ELanguage language, RGCreation creation) {
+	public GraphLayouter(ELanguage language, Creation<T, S, U> creation, LogService logService) {
 		lang = language;
 		this.creation = creation;
+		log = logService;
 	}
 
 	private String innerVariableString() {
@@ -51,16 +55,11 @@ public class GraphLayouter {
 		return "Is fulfilled";
 	}
 
-	public ISpecmateModelObject createModel(Graph graph) {
-		ISpecmateModelObject model;
-		if (creation instanceof CEGCreation) {
-			model = RequirementsFactory.eINSTANCE.createCEGModel();
-		} else {
-			model = RequirementsFactory.eINSTANCE.createRGModel();
-		}
+	public T createModel(Graph graph) {
+		T model = creation.createModel();
 		return createModel(graph, model);
 	}
-	public ISpecmateModelObject createModel(Graph graph, ISpecmateModelObject model) {
+	public T createModel(Graph graph, T model) {
 		
 		int graphDepth = graph.getDepth();
 		int[] positionTable = new int[graphDepth + 1];
@@ -88,17 +87,16 @@ public class GraphLayouter {
 			} else {
 
 				String component = node.getComponent();
-				String modifier = node.getModifier();
 				
-				n = ((RGCreation)creation).createNodeIfNotExist((RGModel)model, component, modifier, x, y, node.getType());
+				n = ((RGCreation)creation).createNodeIfNotExist((RGModel)model, component, x, y, node.getType());
 
 				
 				for (RGObject m : ((RGModel)model).getModelMapping()) {
 					if (m.getChunk() != null) {
-						if (m.getChunk().getChunkId() == node.getId()) {
-							if (!m.getChunk().isVisited()) {
-								m.getChunk().setNodeId(n.getId());
-							}
+						if (m.getChunk().getId().equals(node.getId())) {
+							if (m.getChunk().getNode() != null)
+							m.getChunk().setNode((RGNode)n);
+							((RGNode)n).getChunks().add(m.getChunk());
 						}
 					}
 				}
@@ -114,6 +112,26 @@ public class GraphLayouter {
 				((CEGCreation)creation).createConnection((CEGModel)model, (CEGNode)from, (CEGNode)to, edge.isNegated());
 			} else {
 				((RGCreation)creation).createConnection((RGModel)model, (RGNode)from, (RGNode)to, edge.getType(), edge.isNegated(), edge.getLabel());
+				RGChunk fromChunk = null;
+				RGChunk toChunk = null;
+				for (RGChunk c : ((RGNode)from).getChunks()) {
+					if (c.getId().equals(edge.getFrom().getId())) {
+						fromChunk = c;
+					}
+				}
+
+				for (RGChunk c : ((RGNode)to).getChunks()) {
+					if (c.getId().equals(edge.getTo().getId())) {
+						toChunk = c;
+					}
+				}
+				if (fromChunk != null && toChunk != null) {
+					fromChunk.getOutgoingChunks().add(toChunk);
+					toChunk.getIncomingChunks().add(fromChunk);
+				} else {
+					log.log(LogService.LOG_ERROR,
+							"This case should never happen. Chunks not found");
+				}
 			}
 		}
 		return model;

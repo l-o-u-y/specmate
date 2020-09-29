@@ -153,7 +153,7 @@ public class GraphBuilder {
 			return first.swap();
 		}
 		// TODO MA other Types
-		else {// if (node instanceof LeafTreeNode) { // TODO MA right now Leaf is still ConditionVariableNode
+		else {// if (node instanceof LeafTreeNode) {
 			String text = ((LeafTreeNode) node).getContent();
 
 			// TODO MA
@@ -402,11 +402,11 @@ public class GraphBuilder {
 		public ArrayList<GraphNode> negativeNodes;
 		public NodeType nodeType;
 
-		public RGNodes() {
-			positiveNodes = new ArrayList<GraphNode>();
-			negativeNodes = new ArrayList<GraphNode>();
-			nodeType = NodeType.AND;
-		}
+//		public RGNodes() {
+//			positiveNodes = new ArrayList<GraphNode>();
+//			negativeNodes = new ArrayList<GraphNode>();
+//			nodeType = NodeType.AND;
+//		}
 		public RGNodes(GraphNode node, NodeType type, boolean negated) {
 			positiveNodes = new ArrayList<GraphNode>();
 			negativeNodes = new ArrayList<GraphNode>();
@@ -442,14 +442,14 @@ public class GraphBuilder {
 			negativeNodes.add(node);
 		}
 
-		public void addNodes(RGNodes nodes) {
-			positiveNodes.addAll(nodes.positiveNodes);
-			negativeNodes.addAll(nodes.negativeNodes);
-		}
+//		public void addNodes(RGNodes nodes) {
+//			positiveNodes.addAll(nodes.positiveNodes);
+//			negativeNodes.addAll(nodes.negativeNodes);
+//		}
 
 		
-		public void setNodeType(NodeType type) {
-			nodeType = type;
-		}
+//		public void setNodeType(NodeType type) {
+//			nodeType = type;
+//		}
 	}
 }

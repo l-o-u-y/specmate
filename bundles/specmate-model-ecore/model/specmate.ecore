@@ -125,78 +125,78 @@
           
       <eStructuralFeatures xsi:type="ecore:EReference" name="chunks" upperBound="-1"
       	  eType="#//requirements/RGChunk" containment="true"/>
+          
+      <eStructuralFeatures xsi:type="ecore:EReference" name="prevRGModel"
+      	  eType="#//requirements/RGModel"/>
+      	  
+      <eStructuralFeatures xsi:type="ecore:EReference" name="nextRGModel"
+      	  eType="#//requirements/RGModel"/>
 	</eClassifiers>
 	
-    <eClassifiers xsi:type="ecore:EClass" name="RGObject" eSuperTypes="#//base/IID">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="originalText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+    <eClassifiers xsi:type="ecore:EClass" name="RGObject" eSuperTypes="#//base/IID  #//base/IDescribed #//base/IRecycled">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="originalText" 
+      eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" />
+      
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="processedText" 
+      eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" />
+      
+      <eStructuralFeatures xsi:type="ecore:EReference" name="chunk" 
+      eType="#//requirements/RGChunk"/>
+	</eClassifiers>
+	
+	
+    <eClassifiers xsi:type="ecore:EClass" name="RGChunk" eSuperTypes="#//base/IID #//base/IDescribed #//base/IRecycled">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" 
+      eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" />
+        
+      <!--eStructuralFeatures xsi:type="ecore:EAttribute" name="chunkId" 
+      eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" /-->
+        
+      <eStructuralFeatures xsi:type="ecore:EReference" name="node" 
+      eType="#//requirements/RGNode"/>
+      
+      <eStructuralFeatures xsi:type="ecore:EReference" name="incomingChunks" upperBound="-1"
+      eType="#//requirements/RGChunk"/>
+      
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingChunks" upperBound="-1"
+      eType="#//requirements/RGChunk"/>
+      
+      <eStructuralFeatures xsi:type="ecore:EReference" name="objects" upperBound="-1"
+      eType="#//requirements/RGObject"/>
+      
+	</eClassifiers>
+	
+	
+    <eClassifiers xsi:type="ecore:EClass" name="RGNode" eSuperTypes="#//base/IModelNode">
+      <eAnnotations source="http://specmate.com/form_meta">
+        <details key="disabled1" value="name"/>
+        <details key="disabled2" value="description"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//requirements/NodeType">
         <eAnnotations source="http://specmate.com/form_meta">
-          <details key="shortDesc" value="Original Word"/>
-          <details key="longDesc" value=""/>
+          <details key="shortDesc" value="Type"/>
+          <details key="longDesc" value="The type of a node"/>
           <details key="required" value="true"/>
-          <details key="type" value="text"/>
-          <details key="position" value="1"/>
-        </eAnnotations>
-      </eStructuralFeatures>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="processedText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
-        <eAnnotations source="http://specmate.com/form_meta">
-          <details key="shortDesc" value="Processed Word"/>
-          <details key="longDesc" value=""/>
-          <details key="required" value="false"/>
-          <details key="type" value="text"/>
-          <details key="position" value="2"/>
-        </eAnnotations>
-      </eStructuralFeatures>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="chunk" eType="#//requirements/RGChunk"> <!--containment="true"-->
-        <eAnnotations source="http://specmate.com/form_meta">
-          <details key="shortDesc" value="Corresponding Chunk"/>
-          <details key="longDesc" value=""/>
-          <details key="required" value="false"/>
-          <details key="type" value="object"/>
+          <details key="type" value="singleSelection"/>
+          <details key="values" value="[&quot;AND&quot;, &quot;OR&quot;]"/>
           <details key="position" value="3"/>
         </eAnnotations>
       </eStructuralFeatures>
-	</eClassifiers>
-	
-	
-    <eClassifiers xsi:type="ecore:EClass" name="RGChunk" eSuperTypes="#//base/IID">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="chunkText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="component" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
         <eAnnotations source="http://specmate.com/form_meta">
-          <details key="shortDesc" value="Chunk Text"/>
-          <details key="longDesc" value=""/>
+          <details key="shortDesc" value="Component"/>
+          <details key="longDesc" value="The component of a node"/>
           <details key="required" value="true"/>
           <details key="type" value="text"/>
           <details key="position" value="1"/>
+          <details key="allowedPattern" value="^[^,;|]*$"/>
         </eAnnotations>
       </eStructuralFeatures>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="chunkId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
-        <eAnnotations source="http://specmate.com/form_meta">
-          <details key="shortDesc" value="Chunk Id"/>
-          <details key="longDesc" value=""/>
-          <details key="required" value="true"/>
-          <details key="type" value="number"/>
-          <details key="position" value="2"/>
-        </eAnnotations>
-      </eStructuralFeatures>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="nodeId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
-        <eAnnotations source="http://specmate.com/form_meta">
-          <details key="shortDesc" value="Node Id of Graph"/>
-          <details key="longDesc" value=""/>
-          <details key="required" value="false"/>
-          <details key="type" value="text"/>
-          <details key="position" value="3"/>
-        </eAnnotations>
-      </eStructuralFeatures>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="visited" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
-        <eAnnotations source="http://specmate.com/form_meta">
-          <details key="shortDesc" value="Visited Flag"/>
-          <details key="longDesc" value=""/>
-          <details key="required" value="true"/>
-          <details key="type" value="checkbox"/>
-          <details key="position" value="4"/>
-        </eAnnotations>
-      </eStructuralFeatures>
-	</eClassifiers>
-	
+      
+      <eStructuralFeatures xsi:type="ecore:EReference" name="chunks" upperBound="-1"
+      eType="#//requirements/RGChunk"/>
+    </eClassifiers>
+    
     <eClassifiers xsi:type="ecore:EClass" name="CEGNode" eSuperTypes="#//base/IModelNode">
       <eAnnotations source="http://specmate.com/form_meta">
         <details key="disabled1" value="name"/>
@@ -226,42 +226,6 @@
         <eAnnotations source="http://specmate.com/form_meta">
           <details key="shortDesc" value="Condition"/>
           <details key="longDesc" value="The condition the variable has to fulfil"/>
-          <details key="required" value="true"/>
-          <details key="type" value="text"/>
-          <details key="position" value="2"/>
-        </eAnnotations>
-      </eStructuralFeatures>
-    </eClassifiers>
-	
-    <eClassifiers xsi:type="ecore:EClass" name="RGNode" eSuperTypes="#//base/IModelNode">
-      <eAnnotations source="http://specmate.com/form_meta">
-        <details key="disabled1" value="name"/>
-        <details key="disabled2" value="description"/>
-      </eAnnotations>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//requirements/NodeType">
-        <eAnnotations source="http://specmate.com/form_meta">
-          <details key="shortDesc" value="Type"/>
-          <details key="longDesc" value="The type of a node"/>
-          <details key="required" value="true"/>
-          <details key="type" value="singleSelection"/>
-          <details key="values" value="[&quot;AND&quot;, &quot;OR&quot;]"/>
-          <details key="position" value="3"/>
-        </eAnnotations>
-      </eStructuralFeatures>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="component" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
-        <eAnnotations source="http://specmate.com/form_meta">
-          <details key="shortDesc" value="Component"/>
-          <details key="longDesc" value="The component of a node"/>
-          <details key="required" value="true"/>
-          <details key="type" value="text"/>
-          <details key="position" value="1"/>
-          <details key="allowedPattern" value="^[^,;|]*$"/>
-        </eAnnotations>
-      </eStructuralFeatures>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="modifier" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
-        <eAnnotations source="http://specmate.com/form_meta">
-          <details key="shortDesc" value="Modifiers"/>
-          <details key="longDesc" value="The modifiers to the variable"/>
           <details key="required" value="true"/>
           <details key="type" value="text"/>
           <details key="position" value="2"/>

@@ -2,7 +2,9 @@
  */
 package com.specmate.model.requirements;
 
+import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.IID;
+import com.specmate.model.base.IRecycled;
 
 /**
  * <!-- begin-user-doc -->
@@ -22,7 +24,7 @@ import com.specmate.model.base.IID;
  * @model
  * @generated
  */
-public interface RGObject extends IID {
+public interface RGObject extends IID, IDescribed, IRecycled {
 	/**
 	 * Returns the value of the '<em><b>Original Text</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -30,7 +32,7 @@ public interface RGObject extends IID {
 	 * @return the value of the '<em>Original Text</em>' attribute.
 	 * @see #setOriginalText(String)
 	 * @see com.specmate.model.requirements.RequirementsPackage#getRGObject_OriginalText()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Original Word' longDesc='' required='true' type='text' position='1'"
+	 * @model
 	 * @generated
 	 */
 	String getOriginalText();
@@ -52,7 +54,7 @@ public interface RGObject extends IID {
 	 * @return the value of the '<em>Processed Text</em>' attribute.
 	 * @see #setProcessedText(String)
 	 * @see com.specmate.model.requirements.RequirementsPackage#getRGObject_ProcessedText()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Processed Word' longDesc='' required='false' type='text' position='2'"
+	 * @model
 	 * @generated
 	 */
 	String getProcessedText();
@@ -74,7 +76,7 @@ public interface RGObject extends IID {
 	 * @return the value of the '<em>Chunk</em>' reference.
 	 * @see #setChunk(RGChunk)
 	 * @see com.specmate.model.requirements.RequirementsPackage#getRGObject_Chunk()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Corresponding Chunk' longDesc='' required='false' type='object' position='3'"
+	 * @model
 	 * @generated
 	 */
 	RGChunk getChunk();

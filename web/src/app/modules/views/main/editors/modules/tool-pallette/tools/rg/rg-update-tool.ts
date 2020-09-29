@@ -10,15 +10,15 @@ import {SelectedElementService} from '../../../../../../side/modules/selected-el
 import {IContainer} from '../../../../../../../../model/IContainer';
 import {ConfirmationModal} from '../../../../../../../notification/modules/modals/services/confirmation-modal.service';
 import {TranslateService} from '@ngx-translate/core';
+import {RGModelContainer} from '../../../contents-container/components/rg-model-container.component';
 
-type Literal = IContainer & {content: string[]};
 
-export class RgDescriptionTool extends ToolBase {
+export class RgUpdateTool extends ToolBase {
 
     protected modelType: { className: string; } = RGModel;
 
-    public icon = 'exchange';
-    public name = 'tools.generateDescription';
+    public icon = 'pencil';
+    public name = 'tools.updateModel';
     public isVertexTool: boolean = undefined;
     public color = 'primary';
     public isHidden = false;
@@ -33,10 +33,12 @@ export class RgDescriptionTool extends ToolBase {
         this.modalService = modalService;
     }
 
-    public perform(): Promise<any> {
-        return this.dataService.readElement(this.parent.url + '/text', false)
-            .then((value: Literal) => {
-                this.modalService.openOk('', value.content[0]);
-            });
+    public perform(): any {
+        // TODO MA
+        this.modalService.openCustom(RGModelContainer, this.parent);
+        // return this.dataService.readElement(this.parent.url + '/text', false)
+        //     .then((value: IContainer) => {
+        //         console.log(value);
+        //     });
     }
 }

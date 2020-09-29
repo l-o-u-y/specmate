@@ -2,7 +2,10 @@
  */
 package com.specmate.model.requirements;
 
+import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.IID;
+import com.specmate.model.base.IRecycled;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -13,103 +16,96 @@ import com.specmate.model.base.IID;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link com.specmate.model.requirements.RGChunk#getChunkText <em>Chunk Text</em>}</li>
- *   <li>{@link com.specmate.model.requirements.RGChunk#getChunkId <em>Chunk Id</em>}</li>
- *   <li>{@link com.specmate.model.requirements.RGChunk#getNodeId <em>Node Id</em>}</li>
- *   <li>{@link com.specmate.model.requirements.RGChunk#isVisited <em>Visited</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.RGChunk#getText <em>Text</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.RGChunk#getNode <em>Node</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.RGChunk#getIncomingChunks <em>Incoming Chunks</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.RGChunk#getOutgoingChunks <em>Outgoing Chunks</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.RGChunk#getObjects <em>Objects</em>}</li>
  * </ul>
  *
  * @see com.specmate.model.requirements.RequirementsPackage#getRGChunk()
  * @model
  * @generated
  */
-public interface RGChunk extends IID {
+public interface RGChunk extends IID, IDescribed, IRecycled {
 	/**
-	 * Returns the value of the '<em><b>Chunk Text</b></em>' attribute.
+	 * Returns the value of the '<em><b>Text</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Chunk Text</em>' attribute.
-	 * @see #setChunkText(String)
-	 * @see com.specmate.model.requirements.RequirementsPackage#getRGChunk_ChunkText()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Chunk Text' longDesc='' required='true' type='text' position='1'"
+	 * @return the value of the '<em>Text</em>' attribute.
+	 * @see #setText(String)
+	 * @see com.specmate.model.requirements.RequirementsPackage#getRGChunk_Text()
+	 * @model
 	 * @generated
 	 */
-	String getChunkText();
+	String getText();
 
 	/**
-	 * Sets the value of the '{@link com.specmate.model.requirements.RGChunk#getChunkText <em>Chunk Text</em>}' attribute.
+	 * Sets the value of the '{@link com.specmate.model.requirements.RGChunk#getText <em>Text</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Chunk Text</em>' attribute.
-	 * @see #getChunkText()
+	 * @param value the new value of the '<em>Text</em>' attribute.
+	 * @see #getText()
 	 * @generated
 	 */
-	void setChunkText(String value);
+	void setText(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Chunk Id</b></em>' attribute.
+	 * Returns the value of the '<em><b>Node</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Chunk Id</em>' attribute.
-	 * @see #setChunkId(int)
-	 * @see com.specmate.model.requirements.RequirementsPackage#getRGChunk_ChunkId()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Chunk Id' longDesc='' required='true' type='number' position='2'"
+	 * @return the value of the '<em>Node</em>' reference.
+	 * @see #setNode(RGNode)
+	 * @see com.specmate.model.requirements.RequirementsPackage#getRGChunk_Node()
+	 * @model
 	 * @generated
 	 */
-	int getChunkId();
+	RGNode getNode();
 
 	/**
-	 * Sets the value of the '{@link com.specmate.model.requirements.RGChunk#getChunkId <em>Chunk Id</em>}' attribute.
+	 * Sets the value of the '{@link com.specmate.model.requirements.RGChunk#getNode <em>Node</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Chunk Id</em>' attribute.
-	 * @see #getChunkId()
+	 * @param value the new value of the '<em>Node</em>' reference.
+	 * @see #getNode()
 	 * @generated
 	 */
-	void setChunkId(int value);
+	void setNode(RGNode value);
 
 	/**
-	 * Returns the value of the '<em><b>Node Id</b></em>' attribute.
+	 * Returns the value of the '<em><b>Incoming Chunks</b></em>' reference list.
+	 * The list contents are of type {@link com.specmate.model.requirements.RGChunk}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Node Id</em>' attribute.
-	 * @see #setNodeId(String)
-	 * @see com.specmate.model.requirements.RequirementsPackage#getRGChunk_NodeId()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Node Id of Graph' longDesc='' required='false' type='text' position='3'"
+	 * @return the value of the '<em>Incoming Chunks</em>' reference list.
+	 * @see com.specmate.model.requirements.RequirementsPackage#getRGChunk_IncomingChunks()
+	 * @model
 	 * @generated
 	 */
-	String getNodeId();
+	EList<RGChunk> getIncomingChunks();
 
 	/**
-	 * Sets the value of the '{@link com.specmate.model.requirements.RGChunk#getNodeId <em>Node Id</em>}' attribute.
+	 * Returns the value of the '<em><b>Outgoing Chunks</b></em>' reference list.
+	 * The list contents are of type {@link com.specmate.model.requirements.RGChunk}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Node Id</em>' attribute.
-	 * @see #getNodeId()
+	 * @return the value of the '<em>Outgoing Chunks</em>' reference list.
+	 * @see com.specmate.model.requirements.RequirementsPackage#getRGChunk_OutgoingChunks()
+	 * @model
 	 * @generated
 	 */
-	void setNodeId(String value);
+	EList<RGChunk> getOutgoingChunks();
 
 	/**
-	 * Returns the value of the '<em><b>Visited</b></em>' attribute.
+	 * Returns the value of the '<em><b>Objects</b></em>' reference list.
+	 * The list contents are of type {@link com.specmate.model.requirements.RGObject}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Visited</em>' attribute.
-	 * @see #setVisited(boolean)
-	 * @see com.specmate.model.requirements.RequirementsPackage#getRGChunk_Visited()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Visited Flag' longDesc='' required='true' type='checkbox' position='4'"
+	 * @return the value of the '<em>Objects</em>' reference list.
+	 * @see com.specmate.model.requirements.RequirementsPackage#getRGChunk_Objects()
+	 * @model
 	 * @generated
 	 */
-	boolean isVisited();
-
-	/**
-	 * Sets the value of the '{@link com.specmate.model.requirements.RGChunk#isVisited <em>Visited</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Visited</em>' attribute.
-	 * @see #isVisited()
-	 * @generated
-	 */
-	void setVisited(boolean value);
+	EList<RGObject> getObjects();
 
 } // RGChunk

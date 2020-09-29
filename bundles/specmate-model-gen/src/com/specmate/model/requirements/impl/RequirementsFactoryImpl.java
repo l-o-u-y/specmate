@@ -62,8 +62,8 @@ public class RequirementsFactoryImpl extends EFactoryImpl implements Requirement
 			case RequirementsPackage.RG_MODEL: return (EObject)createRGModel();
 			case RequirementsPackage.RG_OBJECT: return (EObject)createRGObject();
 			case RequirementsPackage.RG_CHUNK: return (EObject)createRGChunk();
-			case RequirementsPackage.CEG_NODE: return (EObject)createCEGNode();
 			case RequirementsPackage.RG_NODE: return (EObject)createRGNode();
+			case RequirementsPackage.CEG_NODE: return (EObject)createCEGNode();
 			case RequirementsPackage.CEG_CONNECTION: return (EObject)createCEGConnection();
 			case RequirementsPackage.RG_CONNECTION: return (EObject)createRGConnection();
 			default:

@@ -3,6 +3,8 @@
 package com.specmate.model.requirements.impl;
 
 import com.specmate.model.base.BasePackage;
+import com.specmate.model.base.IDescribed;
+import com.specmate.model.base.IRecycled;
 import com.specmate.model.requirements.RGChunk;
 import com.specmate.model.requirements.RGObject;
 import com.specmate.model.requirements.RequirementsPackage;
@@ -18,6 +20,9 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  * </p>
  * <ul>
  *   <li>{@link com.specmate.model.requirements.impl.RGObjectImpl#getId <em>Id</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGObjectImpl#getDescription <em>Description</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGObjectImpl#isRecycled <em>Recycled</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGObjectImpl#isHasRecycledChildren <em>Has Recycled Children</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGObjectImpl#getOriginalText <em>Original Text</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGObjectImpl#getProcessedText <em>Processed Text</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGObjectImpl#getChunk <em>Chunk</em>}</li>
@@ -35,6 +40,36 @@ public class RGObjectImpl extends CDOObjectImpl implements RGObject {
 	 * @ordered
 	 */
 	protected static final String ID_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDescription()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String DESCRIPTION_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #isRecycled() <em>Recycled</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isRecycled()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean RECYCLED_EDEFAULT = false;
+
+	/**
+	 * The default value of the '{@link #isHasRecycledChildren() <em>Has Recycled Children</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isHasRecycledChildren()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean HAS_RECYCLED_CHILDREN_EDEFAULT = false;
 
 	/**
 	 * The default value of the '{@link #getOriginalText() <em>Original Text</em>}' attribute.
@@ -103,6 +138,66 @@ public class RGObjectImpl extends CDOObjectImpl implements RGObject {
 	@Override
 	public void setId(String newId) {
 		eDynamicSet(RequirementsPackage.RG_OBJECT__ID, BasePackage.Literals.IID__ID, newId);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String getDescription() {
+		return (String)eDynamicGet(RequirementsPackage.RG_OBJECT__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setDescription(String newDescription) {
+		eDynamicSet(RequirementsPackage.RG_OBJECT__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, newDescription);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public boolean isRecycled() {
+		return (Boolean)eDynamicGet(RequirementsPackage.RG_OBJECT__RECYCLED, BasePackage.Literals.IRECYCLED__RECYCLED, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setRecycled(boolean newRecycled) {
+		eDynamicSet(RequirementsPackage.RG_OBJECT__RECYCLED, BasePackage.Literals.IRECYCLED__RECYCLED, newRecycled);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public boolean isHasRecycledChildren() {
+		return (Boolean)eDynamicGet(RequirementsPackage.RG_OBJECT__HAS_RECYCLED_CHILDREN, BasePackage.Literals.IRECYCLED__HAS_RECYCLED_CHILDREN, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setHasRecycledChildren(boolean newHasRecycledChildren) {
+		eDynamicSet(RequirementsPackage.RG_OBJECT__HAS_RECYCLED_CHILDREN, BasePackage.Literals.IRECYCLED__HAS_RECYCLED_CHILDREN, newHasRecycledChildren);
 	}
 
 	/**
@@ -184,6 +279,12 @@ public class RGObjectImpl extends CDOObjectImpl implements RGObject {
 		switch (featureID) {
 			case RequirementsPackage.RG_OBJECT__ID:
 				return getId();
+			case RequirementsPackage.RG_OBJECT__DESCRIPTION:
+				return getDescription();
+			case RequirementsPackage.RG_OBJECT__RECYCLED:
+				return isRecycled();
+			case RequirementsPackage.RG_OBJECT__HAS_RECYCLED_CHILDREN:
+				return isHasRecycledChildren();
 			case RequirementsPackage.RG_OBJECT__ORIGINAL_TEXT:
 				return getOriginalText();
 			case RequirementsPackage.RG_OBJECT__PROCESSED_TEXT:
@@ -206,6 +307,15 @@ public class RGObjectImpl extends CDOObjectImpl implements RGObject {
 		switch (featureID) {
 			case RequirementsPackage.RG_OBJECT__ID:
 				setId((String)newValue);
+				return;
+			case RequirementsPackage.RG_OBJECT__DESCRIPTION:
+				setDescription((String)newValue);
+				return;
+			case RequirementsPackage.RG_OBJECT__RECYCLED:
+				setRecycled((Boolean)newValue);
+				return;
+			case RequirementsPackage.RG_OBJECT__HAS_RECYCLED_CHILDREN:
+				setHasRecycledChildren((Boolean)newValue);
 				return;
 			case RequirementsPackage.RG_OBJECT__ORIGINAL_TEXT:
 				setOriginalText((String)newValue);
@@ -231,6 +341,15 @@ public class RGObjectImpl extends CDOObjectImpl implements RGObject {
 			case RequirementsPackage.RG_OBJECT__ID:
 				setId(ID_EDEFAULT);
 				return;
+			case RequirementsPackage.RG_OBJECT__DESCRIPTION:
+				setDescription(DESCRIPTION_EDEFAULT);
+				return;
+			case RequirementsPackage.RG_OBJECT__RECYCLED:
+				setRecycled(RECYCLED_EDEFAULT);
+				return;
+			case RequirementsPackage.RG_OBJECT__HAS_RECYCLED_CHILDREN:
+				setHasRecycledChildren(HAS_RECYCLED_CHILDREN_EDEFAULT);
+				return;
 			case RequirementsPackage.RG_OBJECT__ORIGINAL_TEXT:
 				setOriginalText(ORIGINAL_TEXT_EDEFAULT);
 				return;
@@ -254,6 +373,12 @@ public class RGObjectImpl extends CDOObjectImpl implements RGObject {
 		switch (featureID) {
 			case RequirementsPackage.RG_OBJECT__ID:
 				return ID_EDEFAULT == null ? getId() != null : !ID_EDEFAULT.equals(getId());
+			case RequirementsPackage.RG_OBJECT__DESCRIPTION:
+				return DESCRIPTION_EDEFAULT == null ? getDescription() != null : !DESCRIPTION_EDEFAULT.equals(getDescription());
+			case RequirementsPackage.RG_OBJECT__RECYCLED:
+				return isRecycled() != RECYCLED_EDEFAULT;
+			case RequirementsPackage.RG_OBJECT__HAS_RECYCLED_CHILDREN:
+				return isHasRecycledChildren() != HAS_RECYCLED_CHILDREN_EDEFAULT;
 			case RequirementsPackage.RG_OBJECT__ORIGINAL_TEXT:
 				return ORIGINAL_TEXT_EDEFAULT == null ? getOriginalText() != null : !ORIGINAL_TEXT_EDEFAULT.equals(getOriginalText());
 			case RequirementsPackage.RG_OBJECT__PROCESSED_TEXT:
@@ -262,6 +387,52 @@ public class RGObjectImpl extends CDOObjectImpl implements RGObject {
 				return basicGetChunk() != null;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == IDescribed.class) {
+			switch (derivedFeatureID) {
+				case RequirementsPackage.RG_OBJECT__DESCRIPTION: return BasePackage.IDESCRIBED__DESCRIPTION;
+				default: return -1;
+			}
+		}
+		if (baseClass == IRecycled.class) {
+			switch (derivedFeatureID) {
+				case RequirementsPackage.RG_OBJECT__RECYCLED: return BasePackage.IRECYCLED__RECYCLED;
+				case RequirementsPackage.RG_OBJECT__HAS_RECYCLED_CHILDREN: return BasePackage.IRECYCLED__HAS_RECYCLED_CHILDREN;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == IDescribed.class) {
+			switch (baseFeatureID) {
+				case BasePackage.IDESCRIBED__DESCRIPTION: return RequirementsPackage.RG_OBJECT__DESCRIPTION;
+				default: return -1;
+			}
+		}
+		if (baseClass == IRecycled.class) {
+			switch (baseFeatureID) {
+				case BasePackage.IRECYCLED__RECYCLED: return RequirementsPackage.RG_OBJECT__RECYCLED;
+				case BasePackage.IRECYCLED__HAS_RECYCLED_CHILDREN: return RequirementsPackage.RG_OBJECT__HAS_RECYCLED_CHILDREN;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
 } //RGObjectImpl

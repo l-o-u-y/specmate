@@ -10,11 +10,14 @@
 		public static className: string = "RGObject";
 		// Attributes
 		public id: EString;
+		public description: EString;
+		public recycled: EBoolean;
+		public hasRecycledChildren: EBoolean;
 		public originalText: EString;
 		public processedText: EString;
 
 		// References
-		
+		public chunk: Proxy;
 
 		// Containment
 

@@ -21,6 +21,9 @@
 		public tracesTo: Proxy[];
 		public tracesFrom: Proxy[];
 		
+		
+		public prevRGModel: Proxy;
+		public nextRGModel: Proxy;
 
 		// Containment
 

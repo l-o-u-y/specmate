@@ -39,20 +39,18 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 *
 	 * @param model
 	 * @param component
-	 * @param modifier
 	 * @param x
 	 * @param y
 	 * @param type
 	 * @return the created node
 	 */
-	public RGNode createNode(RGModel model, String component, String modifier, int x, int y, NodeType type) {
+	public RGNode createNode(RGModel model, String component, int x, int y, NodeType type) {
 		component = this.processWord(component);
 		component = component.toLowerCase();
 		RGNode node = RequirementsFactory.eINSTANCE.createRGNode();
 		node.setId(SpecmateEcoreUtil.getIdForChild());
 		node.setName("New RGNode " + dateFormat.format(new Date()));
 		node.setComponent(component);
-		node.setModifier(modifier);
 		node.setY(y);
 		node.setX(x);
 		node.setType(type);
@@ -141,13 +139,12 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 * @param list
 	 * @param model
 	 * @param component
-	 * @param modifier
 	 * @param x
 	 * @param y
 	 * @param type
 	 * @return new or existing node
 	 */
-	public RGNode createNodeIfNotExist(RGModel model, String component, String modifier, int x,
+	public RGNode createNodeIfNotExist(RGModel model, String component, int x,
 			int y, NodeType type) {
 		component = this.processWord(component);
 		component = component.toLowerCase();
@@ -160,8 +157,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 				}
 			}
 		}
-		RGNode node = createNode(model, component, modifier, x, y, type);
-		return node;
+		return createNode(model, component, x, y, type);
 	}
 
 	// TODO MA
@@ -219,5 +215,20 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		}
 		// default: if word can't be found we say it's concrete
 		return true;
+	}
+
+	@Override
+	public RGNode createNode(RGModel model, String component, String condition, int x, int y, NodeType type) {
+		return createNode(model, component, x, y, type);
+	}
+
+	@Override
+	public RGNode createNodeIfNotExist(RGModel model, String component, String condition, int x, int y, NodeType type) {
+		return createNodeIfNotExist(model, component, x, y, type);
+	}
+
+	@Override
+	public RGModel createModel() {
+		return RequirementsFactory.eINSTANCE.createRGModel();
 	}
 }

@@ -211,7 +211,7 @@ public class CrudUtil {
 							}
 						}
 					} else {
-						if (!isProjectModificationRequestAuthorized(resourceObject, (EObject) update.eGet(reference),
+						if (update.eGet(reference) != null && !isProjectModificationRequestAuthorized(resourceObject, (EObject) update.eGet(reference),
 								false)) {
 							return false;
 						}

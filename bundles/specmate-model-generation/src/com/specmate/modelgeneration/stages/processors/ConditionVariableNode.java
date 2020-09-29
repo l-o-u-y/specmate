@@ -11,11 +11,6 @@ public class ConditionVariableNode extends LeafTreeNode {
 		this.condition = condition;
 		this.variable = variable;
 	}
-	public ConditionVariableNode(String condition, String variable, int id) {
-		super(variable + " " + condition, id);
-		this.condition = condition;
-		this.variable = variable;
-	}
 
 	public String getCondition() {
 		return condition;

@@ -101,12 +101,12 @@ public class RequirementsAdapterFactory extends AdapterFactoryImpl {
 				return createRGChunkAdapter();
 			}
 			@Override
-			public Adapter caseCEGNode(CEGNode object) {
-				return createCEGNodeAdapter();
-			}
-			@Override
 			public Adapter caseRGNode(RGNode object) {
 				return createRGNodeAdapter();
+			}
+			@Override
+			public Adapter caseCEGNode(CEGNode object) {
+				return createCEGNodeAdapter();
 			}
 			@Override
 			public Adapter caseCEGConnection(CEGConnection object) {

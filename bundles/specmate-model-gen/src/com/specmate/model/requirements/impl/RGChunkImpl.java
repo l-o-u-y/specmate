@@ -3,9 +3,15 @@
 package com.specmate.model.requirements.impl;
 
 import com.specmate.model.base.BasePackage;
+import com.specmate.model.base.IDescribed;
+import com.specmate.model.base.IRecycled;
 import com.specmate.model.requirements.RGChunk;
+import com.specmate.model.requirements.RGNode;
+import com.specmate.model.requirements.RGObject;
 import com.specmate.model.requirements.RequirementsPackage;
 
+import java.util.Collection;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
@@ -19,10 +25,14 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  * </p>
  * <ul>
  *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#getId <em>Id</em>}</li>
- *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#getChunkText <em>Chunk Text</em>}</li>
- *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#getChunkId <em>Chunk Id</em>}</li>
- *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#getNodeId <em>Node Id</em>}</li>
- *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#isVisited <em>Visited</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#getDescription <em>Description</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#isRecycled <em>Recycled</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#isHasRecycledChildren <em>Has Recycled Children</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#getText <em>Text</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#getNode <em>Node</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#getIncomingChunks <em>Incoming Chunks</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#getOutgoingChunks <em>Outgoing Chunks</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#getObjects <em>Objects</em>}</li>
  * </ul>
  *
  * @generated
@@ -39,44 +49,44 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 	protected static final String ID_EDEFAULT = null;
 
 	/**
-	 * The default value of the '{@link #getChunkText() <em>Chunk Text</em>}' attribute.
+	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getChunkText()
+	 * @see #getDescription()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String CHUNK_TEXT_EDEFAULT = null;
+	protected static final String DESCRIPTION_EDEFAULT = null;
 
 	/**
-	 * The default value of the '{@link #getChunkId() <em>Chunk Id</em>}' attribute.
+	 * The default value of the '{@link #isRecycled() <em>Recycled</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getChunkId()
+	 * @see #isRecycled()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int CHUNK_ID_EDEFAULT = 0;
+	protected static final boolean RECYCLED_EDEFAULT = false;
 
 	/**
-	 * The default value of the '{@link #getNodeId() <em>Node Id</em>}' attribute.
+	 * The default value of the '{@link #isHasRecycledChildren() <em>Has Recycled Children</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getNodeId()
+	 * @see #isHasRecycledChildren()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String NODE_ID_EDEFAULT = null;
+	protected static final boolean HAS_RECYCLED_CHILDREN_EDEFAULT = false;
 
 	/**
-	 * The default value of the '{@link #isVisited() <em>Visited</em>}' attribute.
+	 * The default value of the '{@link #getText() <em>Text</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isVisited()
+	 * @see #getText()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean VISITED_EDEFAULT = false;
+	protected static final String TEXT_EDEFAULT = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -133,8 +143,8 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 	 * @generated
 	 */
 	@Override
-	public String getChunkText() {
-		return (String)eDynamicGet(RequirementsPackage.RG_CHUNK__CHUNK_TEXT, RequirementsPackage.Literals.RG_CHUNK__CHUNK_TEXT, true, true);
+	public String getDescription() {
+		return (String)eDynamicGet(RequirementsPackage.RG_CHUNK__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, true, true);
 	}
 
 	/**
@@ -143,8 +153,8 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 	 * @generated
 	 */
 	@Override
-	public void setChunkText(String newChunkText) {
-		eDynamicSet(RequirementsPackage.RG_CHUNK__CHUNK_TEXT, RequirementsPackage.Literals.RG_CHUNK__CHUNK_TEXT, newChunkText);
+	public void setDescription(String newDescription) {
+		eDynamicSet(RequirementsPackage.RG_CHUNK__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, newDescription);
 	}
 
 	/**
@@ -153,8 +163,8 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 	 * @generated
 	 */
 	@Override
-	public int getChunkId() {
-		return (Integer)eDynamicGet(RequirementsPackage.RG_CHUNK__CHUNK_ID, RequirementsPackage.Literals.RG_CHUNK__CHUNK_ID, true, true);
+	public boolean isRecycled() {
+		return (Boolean)eDynamicGet(RequirementsPackage.RG_CHUNK__RECYCLED, BasePackage.Literals.IRECYCLED__RECYCLED, true, true);
 	}
 
 	/**
@@ -163,8 +173,8 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 	 * @generated
 	 */
 	@Override
-	public void setChunkId(int newChunkId) {
-		eDynamicSet(RequirementsPackage.RG_CHUNK__CHUNK_ID, RequirementsPackage.Literals.RG_CHUNK__CHUNK_ID, newChunkId);
+	public void setRecycled(boolean newRecycled) {
+		eDynamicSet(RequirementsPackage.RG_CHUNK__RECYCLED, BasePackage.Literals.IRECYCLED__RECYCLED, newRecycled);
 	}
 
 	/**
@@ -173,8 +183,8 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 	 * @generated
 	 */
 	@Override
-	public String getNodeId() {
-		return (String)eDynamicGet(RequirementsPackage.RG_CHUNK__NODE_ID, RequirementsPackage.Literals.RG_CHUNK__NODE_ID, true, true);
+	public boolean isHasRecycledChildren() {
+		return (Boolean)eDynamicGet(RequirementsPackage.RG_CHUNK__HAS_RECYCLED_CHILDREN, BasePackage.Literals.IRECYCLED__HAS_RECYCLED_CHILDREN, true, true);
 	}
 
 	/**
@@ -183,8 +193,8 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 	 * @generated
 	 */
 	@Override
-	public void setNodeId(String newNodeId) {
-		eDynamicSet(RequirementsPackage.RG_CHUNK__NODE_ID, RequirementsPackage.Literals.RG_CHUNK__NODE_ID, newNodeId);
+	public void setHasRecycledChildren(boolean newHasRecycledChildren) {
+		eDynamicSet(RequirementsPackage.RG_CHUNK__HAS_RECYCLED_CHILDREN, BasePackage.Literals.IRECYCLED__HAS_RECYCLED_CHILDREN, newHasRecycledChildren);
 	}
 
 	/**
@@ -193,8 +203,8 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 	 * @generated
 	 */
 	@Override
-	public boolean isVisited() {
-		return (Boolean)eDynamicGet(RequirementsPackage.RG_CHUNK__VISITED, RequirementsPackage.Literals.RG_CHUNK__VISITED, true, true);
+	public String getText() {
+		return (String)eDynamicGet(RequirementsPackage.RG_CHUNK__TEXT, RequirementsPackage.Literals.RG_CHUNK__TEXT, true, true);
 	}
 
 	/**
@@ -203,8 +213,70 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 	 * @generated
 	 */
 	@Override
-	public void setVisited(boolean newVisited) {
-		eDynamicSet(RequirementsPackage.RG_CHUNK__VISITED, RequirementsPackage.Literals.RG_CHUNK__VISITED, newVisited);
+	public void setText(String newText) {
+		eDynamicSet(RequirementsPackage.RG_CHUNK__TEXT, RequirementsPackage.Literals.RG_CHUNK__TEXT, newText);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public RGNode getNode() {
+		return (RGNode)eDynamicGet(RequirementsPackage.RG_CHUNK__NODE, RequirementsPackage.Literals.RG_CHUNK__NODE, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RGNode basicGetNode() {
+		return (RGNode)eDynamicGet(RequirementsPackage.RG_CHUNK__NODE, RequirementsPackage.Literals.RG_CHUNK__NODE, false, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setNode(RGNode newNode) {
+		eDynamicSet(RequirementsPackage.RG_CHUNK__NODE, RequirementsPackage.Literals.RG_CHUNK__NODE, newNode);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public EList<RGChunk> getIncomingChunks() {
+		return (EList<RGChunk>)eDynamicGet(RequirementsPackage.RG_CHUNK__INCOMING_CHUNKS, RequirementsPackage.Literals.RG_CHUNK__INCOMING_CHUNKS, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public EList<RGChunk> getOutgoingChunks() {
+		return (EList<RGChunk>)eDynamicGet(RequirementsPackage.RG_CHUNK__OUTGOING_CHUNKS, RequirementsPackage.Literals.RG_CHUNK__OUTGOING_CHUNKS, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public EList<RGObject> getObjects() {
+		return (EList<RGObject>)eDynamicGet(RequirementsPackage.RG_CHUNK__OBJECTS, RequirementsPackage.Literals.RG_CHUNK__OBJECTS, true, true);
 	}
 
 	/**
@@ -217,14 +289,23 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 		switch (featureID) {
 			case RequirementsPackage.RG_CHUNK__ID:
 				return getId();
-			case RequirementsPackage.RG_CHUNK__CHUNK_TEXT:
-				return getChunkText();
-			case RequirementsPackage.RG_CHUNK__CHUNK_ID:
-				return getChunkId();
-			case RequirementsPackage.RG_CHUNK__NODE_ID:
-				return getNodeId();
-			case RequirementsPackage.RG_CHUNK__VISITED:
-				return isVisited();
+			case RequirementsPackage.RG_CHUNK__DESCRIPTION:
+				return getDescription();
+			case RequirementsPackage.RG_CHUNK__RECYCLED:
+				return isRecycled();
+			case RequirementsPackage.RG_CHUNK__HAS_RECYCLED_CHILDREN:
+				return isHasRecycledChildren();
+			case RequirementsPackage.RG_CHUNK__TEXT:
+				return getText();
+			case RequirementsPackage.RG_CHUNK__NODE:
+				if (resolve) return getNode();
+				return basicGetNode();
+			case RequirementsPackage.RG_CHUNK__INCOMING_CHUNKS:
+				return getIncomingChunks();
+			case RequirementsPackage.RG_CHUNK__OUTGOING_CHUNKS:
+				return getOutgoingChunks();
+			case RequirementsPackage.RG_CHUNK__OBJECTS:
+				return getObjects();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -234,23 +315,39 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case RequirementsPackage.RG_CHUNK__ID:
 				setId((String)newValue);
 				return;
-			case RequirementsPackage.RG_CHUNK__CHUNK_TEXT:
-				setChunkText((String)newValue);
+			case RequirementsPackage.RG_CHUNK__DESCRIPTION:
+				setDescription((String)newValue);
 				return;
-			case RequirementsPackage.RG_CHUNK__CHUNK_ID:
-				setChunkId((Integer)newValue);
+			case RequirementsPackage.RG_CHUNK__RECYCLED:
+				setRecycled((Boolean)newValue);
 				return;
-			case RequirementsPackage.RG_CHUNK__NODE_ID:
-				setNodeId((String)newValue);
+			case RequirementsPackage.RG_CHUNK__HAS_RECYCLED_CHILDREN:
+				setHasRecycledChildren((Boolean)newValue);
 				return;
-			case RequirementsPackage.RG_CHUNK__VISITED:
-				setVisited((Boolean)newValue);
+			case RequirementsPackage.RG_CHUNK__TEXT:
+				setText((String)newValue);
+				return;
+			case RequirementsPackage.RG_CHUNK__NODE:
+				setNode((RGNode)newValue);
+				return;
+			case RequirementsPackage.RG_CHUNK__INCOMING_CHUNKS:
+				getIncomingChunks().clear();
+				getIncomingChunks().addAll((Collection<? extends RGChunk>)newValue);
+				return;
+			case RequirementsPackage.RG_CHUNK__OUTGOING_CHUNKS:
+				getOutgoingChunks().clear();
+				getOutgoingChunks().addAll((Collection<? extends RGChunk>)newValue);
+				return;
+			case RequirementsPackage.RG_CHUNK__OBJECTS:
+				getObjects().clear();
+				getObjects().addAll((Collection<? extends RGObject>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -267,17 +364,29 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 			case RequirementsPackage.RG_CHUNK__ID:
 				setId(ID_EDEFAULT);
 				return;
-			case RequirementsPackage.RG_CHUNK__CHUNK_TEXT:
-				setChunkText(CHUNK_TEXT_EDEFAULT);
+			case RequirementsPackage.RG_CHUNK__DESCRIPTION:
+				setDescription(DESCRIPTION_EDEFAULT);
 				return;
-			case RequirementsPackage.RG_CHUNK__CHUNK_ID:
-				setChunkId(CHUNK_ID_EDEFAULT);
+			case RequirementsPackage.RG_CHUNK__RECYCLED:
+				setRecycled(RECYCLED_EDEFAULT);
 				return;
-			case RequirementsPackage.RG_CHUNK__NODE_ID:
-				setNodeId(NODE_ID_EDEFAULT);
+			case RequirementsPackage.RG_CHUNK__HAS_RECYCLED_CHILDREN:
+				setHasRecycledChildren(HAS_RECYCLED_CHILDREN_EDEFAULT);
 				return;
-			case RequirementsPackage.RG_CHUNK__VISITED:
-				setVisited(VISITED_EDEFAULT);
+			case RequirementsPackage.RG_CHUNK__TEXT:
+				setText(TEXT_EDEFAULT);
+				return;
+			case RequirementsPackage.RG_CHUNK__NODE:
+				setNode((RGNode)null);
+				return;
+			case RequirementsPackage.RG_CHUNK__INCOMING_CHUNKS:
+				getIncomingChunks().clear();
+				return;
+			case RequirementsPackage.RG_CHUNK__OUTGOING_CHUNKS:
+				getOutgoingChunks().clear();
+				return;
+			case RequirementsPackage.RG_CHUNK__OBJECTS:
+				getObjects().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -293,16 +402,70 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 		switch (featureID) {
 			case RequirementsPackage.RG_CHUNK__ID:
 				return ID_EDEFAULT == null ? getId() != null : !ID_EDEFAULT.equals(getId());
-			case RequirementsPackage.RG_CHUNK__CHUNK_TEXT:
-				return CHUNK_TEXT_EDEFAULT == null ? getChunkText() != null : !CHUNK_TEXT_EDEFAULT.equals(getChunkText());
-			case RequirementsPackage.RG_CHUNK__CHUNK_ID:
-				return getChunkId() != CHUNK_ID_EDEFAULT;
-			case RequirementsPackage.RG_CHUNK__NODE_ID:
-				return NODE_ID_EDEFAULT == null ? getNodeId() != null : !NODE_ID_EDEFAULT.equals(getNodeId());
-			case RequirementsPackage.RG_CHUNK__VISITED:
-				return isVisited() != VISITED_EDEFAULT;
+			case RequirementsPackage.RG_CHUNK__DESCRIPTION:
+				return DESCRIPTION_EDEFAULT == null ? getDescription() != null : !DESCRIPTION_EDEFAULT.equals(getDescription());
+			case RequirementsPackage.RG_CHUNK__RECYCLED:
+				return isRecycled() != RECYCLED_EDEFAULT;
+			case RequirementsPackage.RG_CHUNK__HAS_RECYCLED_CHILDREN:
+				return isHasRecycledChildren() != HAS_RECYCLED_CHILDREN_EDEFAULT;
+			case RequirementsPackage.RG_CHUNK__TEXT:
+				return TEXT_EDEFAULT == null ? getText() != null : !TEXT_EDEFAULT.equals(getText());
+			case RequirementsPackage.RG_CHUNK__NODE:
+				return basicGetNode() != null;
+			case RequirementsPackage.RG_CHUNK__INCOMING_CHUNKS:
+				return !getIncomingChunks().isEmpty();
+			case RequirementsPackage.RG_CHUNK__OUTGOING_CHUNKS:
+				return !getOutgoingChunks().isEmpty();
+			case RequirementsPackage.RG_CHUNK__OBJECTS:
+				return !getObjects().isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == IDescribed.class) {
+			switch (derivedFeatureID) {
+				case RequirementsPackage.RG_CHUNK__DESCRIPTION: return BasePackage.IDESCRIBED__DESCRIPTION;
+				default: return -1;
+			}
+		}
+		if (baseClass == IRecycled.class) {
+			switch (derivedFeatureID) {
+				case RequirementsPackage.RG_CHUNK__RECYCLED: return BasePackage.IRECYCLED__RECYCLED;
+				case RequirementsPackage.RG_CHUNK__HAS_RECYCLED_CHILDREN: return BasePackage.IRECYCLED__HAS_RECYCLED_CHILDREN;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == IDescribed.class) {
+			switch (baseFeatureID) {
+				case BasePackage.IDESCRIBED__DESCRIPTION: return RequirementsPackage.RG_CHUNK__DESCRIPTION;
+				default: return -1;
+			}
+		}
+		if (baseClass == IRecycled.class) {
+			switch (baseFeatureID) {
+				case BasePackage.IRECYCLED__RECYCLED: return RequirementsPackage.RG_CHUNK__RECYCLED;
+				case BasePackage.IRECYCLED__HAS_RECYCLED_CHILDREN: return RequirementsPackage.RG_CHUNK__HAS_RECYCLED_CHILDREN;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
 } //RGChunkImpl

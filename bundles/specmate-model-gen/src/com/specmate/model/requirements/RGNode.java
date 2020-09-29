@@ -3,6 +3,7 @@
 package com.specmate.model.requirements;
 
 import com.specmate.model.base.IModelNode;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -15,7 +16,7 @@ import com.specmate.model.base.IModelNode;
  * <ul>
  *   <li>{@link com.specmate.model.requirements.RGNode#getType <em>Type</em>}</li>
  *   <li>{@link com.specmate.model.requirements.RGNode#getComponent <em>Component</em>}</li>
- *   <li>{@link com.specmate.model.requirements.RGNode#getModifier <em>Modifier</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.RGNode#getChunks <em>Chunks</em>}</li>
  * </ul>
  *
  * @see com.specmate.model.requirements.RequirementsPackage#getRGNode()
@@ -71,25 +72,15 @@ public interface RGNode extends IModelNode {
 	void setComponent(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Modifier</b></em>' attribute.
+	 * Returns the value of the '<em><b>Chunks</b></em>' reference list.
+	 * The list contents are of type {@link com.specmate.model.requirements.RGChunk}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Modifier</em>' attribute.
-	 * @see #setModifier(String)
-	 * @see com.specmate.model.requirements.RequirementsPackage#getRGNode_Modifier()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Modifiers' longDesc='The modifiers to the variable' required='true' type='text' position='2'"
+	 * @return the value of the '<em>Chunks</em>' reference list.
+	 * @see com.specmate.model.requirements.RequirementsPackage#getRGNode_Chunks()
+	 * @model
 	 * @generated
 	 */
-	String getModifier();
-
-	/**
-	 * Sets the value of the '{@link com.specmate.model.requirements.RGNode#getModifier <em>Modifier</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Modifier</em>' attribute.
-	 * @see #getModifier()
-	 * @generated
-	 */
-	void setModifier(String value);
+	EList<RGChunk> getChunks();
 
 } // RGNode

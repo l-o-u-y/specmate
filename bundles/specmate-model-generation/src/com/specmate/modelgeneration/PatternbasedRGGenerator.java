@@ -12,6 +12,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.log.LogService;
 
 import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
@@ -37,6 +38,7 @@ import com.specmate.modelgeneration.stages.graph.Graph;
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RGChunk;
+import com.specmate.model.requirements.RGConnection;
 import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
 import com.specmate.nlp.util.NLPUtil;
@@ -130,7 +132,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 				}
 			} else if (diffs.get(i).operation.equals(Operation.INSERT)) {
 				//TODO MA
-				log.log(LogService.LOG_DEBUG,
+				log.log(LogService.LOG_ERROR,
 						"This case should never happen. Something went wrong. Diff: " + 
 						diffs.get(i).toString());
 			
@@ -144,10 +146,10 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			String chunkText = trimSpace(p.getCoveredText());
 			String[] chunkTextArray = chunkText.split(" ");
 			RGChunk c = RequirementsFactory.eINSTANCE.createRGChunk();
-			c.setId(SpecmateEcoreUtil.getIdForChild());
-			c.setChunkText(chunkText);
-			c.setChunkId(p.getEnd());
+			c.setId(p.getEnd()  + "");
+			c.setText(chunkText);
 			model.getChunks().add(c);
+			EList<RGObject> chunkObjects = c.getObjects();
 			
 			j = 0; // counter for chunkTextArray
 			// for punctuation or replacements
@@ -158,7 +160,8 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			while (rgObjects.get(i).getProcessedText() != null && 
 					j < chunkTextArray.length &&
 					chunkTextArray[j].equals(rgObjects.get(i).getProcessedText())) {
-				rgObjects.get(i).setChunk(c);;
+				rgObjects.get(i).setChunk(c);
+				chunkObjects.add(rgObjects.get(i));
 				i++;
 				j++;
 			}
@@ -190,6 +193,15 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 	
 	// TODO MA multiple texts
 	public RGModel createModel(RGModel originalModel, String input) throws SpecmateException {
+		EObject parent = originalModel.eContainer();
+		if (parent instanceof RGModel) {
+			((RGModel) parent).setNextRGModel(originalModel);
+			originalModel.setPrevRGModel((RGModel) parent);
+			originalModel.setModelRequirements(
+					((RGModel) parent).getModelRequirements()
+			+ "\n\n" + originalModel.getModelRequirements()
+			);
+		}
 		
 		log.log(LogService.LOG_INFO, "================");
 		log.log(LogService.LOG_INFO, "Textinput: " + input);
@@ -223,7 +235,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 
 			 final MatcherPostProcesser matchPostProcesser = new MatcherPostProcesser(lang);
 			 GraphBuilder graphBuilder = new GraphBuilder();
-			 GraphLayouter graphLayouter = new GraphLayouter(lang, creation);
+			 GraphLayouter<RGModel, RGNode, RGConnection> graphLayouter = new GraphLayouter<RGModel, RGNode, RGConnection>(lang, creation, log);
 
 			for (MatchResultTreeNode tree : trees) {
 				try {
@@ -286,13 +298,12 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			}
 			
 			if (r.getChunk() != null) {
-				tmp = tmp + r.getChunk().getChunkText() + "; " +
-						r.getChunk().getChunkId() + "; " +
-						r.getChunk().getNodeId() + "; ";
+				tmp = tmp + r.getChunk().getText() + "; " +
+						r.getChunk().getId() + "; ";
 				EList<IContentElement> list = originalModel.getContents();
 				for (IContentElement rgNode : list) {
 					if (rgNode instanceof RGNode) {
-						if (((RGNode)rgNode).getId().equals(r.getChunk().getNodeId())) {
+						if (((RGNode)rgNode).equals(r.getChunk().getNode())) {
 							tmp = tmp + ((RGNode)rgNode).getComponent() + "; ";
 							break;
 						}

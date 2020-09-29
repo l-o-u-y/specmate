@@ -26,7 +26,6 @@ export class VertexProvider extends ProviderBase {
     public static ID_SUFFIX_VARIABLE = '/variable';
     public static ID_SUFFIX_CONDITION = '/condition';
     public static ID_SUFFIX_COMPONENT = '/component';
-    public static ID_SUFFIX_MODIFIER = '/modifier';
     public static ID_SUFFIX_TYPE = '/type';
 
     private static INITIAL_CHILD_NODE_X = 0.5;
@@ -68,9 +67,7 @@ export class VertexProvider extends ProviderBase {
         const vertex = this.graph.insertVertex(parent, url, value, x, y, width, height, style);
         const l1 = this.graph.insertVertex(vertex, url + VertexProvider.ID_SUFFIX_COMPONENT, data.component,
             VertexProvider.INITIAL_CHILD_NODE_X, 0.15, 0, (mx.mxConstants.DEFAULT_FONTSIZE), EditorStyle.VARIABLE_NAME_STYLE, true);
-        const l2 = this.graph.insertVertex(vertex, url + VertexProvider.ID_SUFFIX_MODIFIER, data.modifier,
-            VertexProvider.INITIAL_CHILD_NODE_X, 0.4, 0, (mx.mxConstants.DEFAULT_FONTSIZE), EditorStyle.TEXT_INPUT_STYLE, true);
-        const l3 = this.graph.insertVertex(vertex, url + VertexProvider.ID_SUFFIX_TYPE, data.type,
+        const l2 = this.graph.insertVertex(vertex, url + VertexProvider.ID_SUFFIX_TYPE, data.type,
             VertexProvider.INITIAL_CHILD_NODE_X, 0.65, 0, (mx.mxConstants.DEFAULT_FONTSIZE), EditorStyle.TEXT_INPUT_STYLE, true);
 
         VertexProvider.adjustChildCellSize(l1, width);
@@ -78,7 +75,6 @@ export class VertexProvider extends ProviderBase {
 
         l1.isConnectable = () => false;
         l2.isConnectable = () => false;
-        l3.isConnectable = () => false;
         this.graph.getModel().endUpdate();
         return vertex;
     }
@@ -105,7 +101,7 @@ export class VertexProvider extends ProviderBase {
             return this.provideCEGNode(node.url, x || node.x, y || node.y, width, height, data);
         } else if (Type.is(node, RGNode)) {
             let n = node as RGNode;
-            const data = new RGmxModelNode(n.component, n.modifier, n.type);
+            const data = new RGmxModelNode(n.component, n.type);
             return this.provideRGNode(node.url, x || node.x, y || node.y, width, height, data);
         }
 
@@ -186,7 +182,7 @@ export class VertexProvider extends ProviderBase {
             .find(suffix => cell.id.endsWith(suffix)) !== undefined;
     }
     public static isRGTextInputCell(cell: mxgraph.mxCell): boolean {
-        return [VertexProvider.ID_SUFFIX_COMPONENT, VertexProvider.ID_SUFFIX_MODIFIER]
+        return [VertexProvider.ID_SUFFIX_COMPONENT]
             .find(suffix => cell.id.endsWith(suffix)) !== undefined;
     }
 }

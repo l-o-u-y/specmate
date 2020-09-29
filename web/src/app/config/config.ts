@@ -80,7 +80,6 @@ export class Config {
 
 
     public static RG_NODE_NEW_COMPONENT = 'New Component';
-    public static RG_NODE_NEW_MODIFIER = '';
 
     public static RG_NEW_MODEL_NAME = 'New Model';
     public static RG_NEW_MODEL_DESCRIPTION = '';

@@ -10,12 +10,16 @@
 		public static className: string = "RGChunk";
 		// Attributes
 		public id: EString;
-		public chunkText: EString;
-		public chunkId: EInt;
-		public nodeId: EString;
-		public visited: EBoolean;
+		public description: EString;
+		public recycled: EBoolean;
+		public hasRecycledChildren: EBoolean;
+		public text: EString;
 
 		// References
+		public node: Proxy;
+		public incomingChunks: Proxy[];
+		public outgoingChunks: Proxy[];
+		public objects: Proxy[];
 
 		// Containment
 

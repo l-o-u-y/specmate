@@ -3,7 +3,6 @@ package com.specmate.modelgeneration;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.Optional;
 
 import org.eclipse.emf.common.util.EList;
@@ -101,5 +100,10 @@ public class CEGCreation extends Creation<CEGModel, CEGNode, CEGConnection> {
 		CEGNode node = createNode(model, variable, condition, x, y, type);
 		list.add(node);
 		return node;
+	}
+
+	@Override
+	public CEGModel createModel() {
+		return RequirementsFactory.eINSTANCE.createCEGModel();
 	}
 }

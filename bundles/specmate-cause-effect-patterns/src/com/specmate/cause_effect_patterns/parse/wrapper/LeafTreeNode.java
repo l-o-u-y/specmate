@@ -4,11 +4,11 @@ package com.specmate.cause_effect_patterns.parse.wrapper;
 public class LeafTreeNode extends MatchResultTreeNode {
 
 	private String content;
-	private int id;
+	private String id;
 	public LeafTreeNode(String content) {
 		this.content = content;
 	}
-	public LeafTreeNode(String content, int id) {
+	public LeafTreeNode(String content, String id) {
 		this.content = content;
 		this.id = id;
 	}
@@ -17,11 +17,11 @@ public class LeafTreeNode extends MatchResultTreeNode {
 		return this.content;
 	}
 	
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	
-	public int getId() {
+	public String getId() {
 		return this.id;
 	}
 

@@ -271,7 +271,7 @@ export class ChangeTranslator {
             }
         } else if (Type.is(node, RGNode)) {
             const value =
-                new RGmxModelNode(change.child.children[0].value, change.child.children[1].value, change.child.children[2].value || 'AND');
+                new RGmxModelNode(change.child.children[0].value, change.child.children[1].value || 'AND');
             const elementValues = this.nodeNameConverter.convertFrom(value, node);
             for (const key in elementValues) {
                 node[key] = elementValues[key];
@@ -321,31 +321,24 @@ export class ChangeTranslator {
             delete this.parentComponents[oldIdType];
         } else if (Type.is(node, RGNode)) {
             let component = cell.children[0];
-            let modifier = cell.children[1];
-            let type = cell.children[2];
+            let type = cell.children[1];
 
             let oldIdVariable = component.id;
-            let oldIdCondition = modifier.id;
             let oldIdType = type.id;
 
             component.setId(newId + VertexProvider.ID_SUFFIX_COMPONENT);
-            modifier.setId(newId + VertexProvider.ID_SUFFIX_MODIFIER);
             type.setId(newId + VertexProvider.ID_SUFFIX_TYPE);
 
             delete cells[oldIdVariable];
-            delete cells[oldIdCondition];
             delete cells[oldIdType];
 
             cells[component.id] = component;
-            cells[modifier.id] = modifier;
             cells[type.id] = type;
 
             this.parentComponents[component.id] = node;
-            this.parentComponents[modifier.id] = node;
             this.parentComponents[type.id] = node;
 
             delete this.parentComponents[oldIdVariable];
-            delete this.parentComponents[oldIdCondition];
             delete this.parentComponents[oldIdType];
         }
         return node;
@@ -382,7 +375,7 @@ export class ChangeTranslator {
             if (Type.is(element, CEGNode)) {
                 value = new CEGmxModelNode(cell.children[0].value, cell.children[1].value, cell.children[2].value);
             } else if (Type.is(element, RGNode)) {
-                value = new RGmxModelNode(cell.children[0].value, cell.children[1].value, cell.children[2].value);
+                value = new RGmxModelNode(cell.children[0].value, cell.children[1].value);
             }
             const elementValues = this.nodeNameConverter.convertFrom(value, element);
             for (const key in elementValues) {

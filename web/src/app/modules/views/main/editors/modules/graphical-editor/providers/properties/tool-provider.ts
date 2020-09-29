@@ -22,6 +22,7 @@ import { ConfirmationModal } from '../../../../../../../../../app/modules/notifi
 import { TranslateService } from '@ngx-translate/core';
 import { ProcessLayoutTool } from '../../../tool-pallette/tools/process/process-layout-tool';
 import {RgDescriptionTool} from '../../../tool-pallette/tools/rg/rg-description-tool';
+import {RgUpdateTool} from '../../../tool-pallette/tools/rg/rg-update-tool';
 
 const mx: typeof mxgraph = require('mxgraph')({
     mxBasePath: 'mxgraph'
@@ -75,6 +76,7 @@ export class ToolProvider extends ProviderBase {
             new RGNodeTool(this.dataService, this.selectedElementService, this.model),
             new RGLayoutTool(this.dataService, this.selectedElementService, this.model, this.modal, this.translate),
             new RgDescriptionTool(this.dataService, this.selectedElementService, this.model, this.modal, this.translate),
+            new RgUpdateTool(this.dataService, this.selectedElementService, this.model, this.modal, this.translate),
             new RGConnectionTool(this.dataService, this.selectedElementService, this.model),
             new RGDeleteTool(this.model, this.dataService, this.selectedElementService)
         ];

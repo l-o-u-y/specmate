@@ -17,7 +17,9 @@ import com.specmate.common.exception.SpecmateException;
 import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.config.api.IConfigService;
 import com.specmate.model.administration.ErrorCode;
+import com.specmate.model.requirements.CEGConnection;
 import com.specmate.model.requirements.CEGModel;
+import com.specmate.model.requirements.CEGNode;
 import com.specmate.modelgeneration.stages.GraphBuilder;
 import com.specmate.modelgeneration.stages.GraphLayouter;
 import com.specmate.modelgeneration.stages.MatcherPostProcesser;
@@ -64,7 +66,7 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 
 			final MatcherPostProcesser matchPostProcesser = new MatcherPostProcesser(lang);
 			GraphBuilder graphBuilder = new GraphBuilder();
-			GraphLayouter graphLayouter = new GraphLayouter(lang, creation);
+			GraphLayouter<CEGModel, CEGNode, CEGConnection> graphLayouter = new GraphLayouter<CEGModel, CEGNode, CEGConnection>(lang, creation);
 
 			for (MatchResultTreeNode tree : trees) {
 				try {
