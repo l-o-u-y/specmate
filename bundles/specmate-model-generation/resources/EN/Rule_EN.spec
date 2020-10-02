@@ -5,44 +5,53 @@ import EN.POS.LENA.*
 
 def subtrees Source, Action, Target, Parent, Child, Label, New, Old, TMP, TMP2
 
-/*
-TODO MA just leave this commented out for now
-def rule Update_1 {
-	[New] - cc -> IN:'of' - advmod -> RB:'instead'
-	[New] - conj -> [Old]
+def rule Update_Replace_1 {
+	[New] - cc -> IN:'of':[TMP] - advmod -> RB:'instead'
+	[TMP] - pobj -> [Old]
 }
-
-def rule Update_2 {
-	'(add)|(adds)|(adding)|(include)|(includes)|(including)|(implement)|(implements)|(implementing)':[TMP] - dobj -> [New]
-}
-
-def rule Update_2_2 {
-	'(add)|(adds)|(adding)|(include)|(includes)|(including)|(implement)|(implements)|(implementing)':[TMP] - dobj -> [New] - prep -> IN:'(to)|(in)' - pobj -> noun:[Parent]
-}
-
-def rule Update_3 {
-	'(change)|(changes)|(changing)':[TMP] - prep -> IN:'to' - pobj -> [New]
-	[TMP] - dobj -> * - prep -> IN:'from' - pobj -> [Old]
-}
-
-def rule Update_4 {
-	'(remove)|(removes)|(removing)' - dobj -> [Old] - prep -> IN:'from' - pobj -> noun:[Parent]
-}
-
-def rule Update_5 {
-	'(replace)|(replaces)|(replacing)':[TMP] - dobj -> [Old]
-	[TMP] - prep -> IN:'with' - pobj -> [New]
-}
-def rule Update_5_2 {
-	'(replace)|(replaces)|(replacing)':[TMP] - conj -> [Old] - prep -> IN:'with' - pobj -> [New]
-}
-
-def rule Update_6 {
+// display a rectangle instead of the spinning animation 
+def rule Update_Replace_1_With_Verb_1 {
 	[TMP] - dobj -> [New]
 	[TMP] - prep -> IN:'of':[TMP2] - advmod -> RB:'instead'
 	[TMP2] - pobj -> [Old]
 }
-*/
+// instead of the spinning animation display a rectangle
+def rule Update_Replace_1_With_Verb_2 {
+	[TMP] - dobj -> [New]
+	[TMP] - cc -> IN:'of':[TMP2] - advmod -> RB:'instead'
+	[TMP2] - nsubj -> [Old]
+}
+def rule Update_Replace_1_With_Verb_3 {
+	[TMP] - dobj -> [New]
+	[TMP] - cc -> IN:'of':[TMP2] - advmod -> RB:'instead'
+	[TMP] - nsubj -> [Old]
+}
+
+def rule Update_Replace_2_P {
+	'(change)|(changes)|(changing)':[TMP] - prep -> IN:'to' - pobj -> [New]
+	[TMP] - prep -> IN:'from' - pobj -> [Old]
+}
+
+def rule Update_Replace_3 {
+	'(replace)|(replaces)|(replacing)':[TMP] - dobj -> [Old]
+	[TMP] - prep -> IN:'with' - pobj -> [New]
+}
+/* def rule Update_Replace_3_2 {
+	'(replace)|(replaces)|(replacing)':[TMP] - conj -> [Old] - prep -> IN:'with' - pobj -> [New]
+} */
+
+
+def rule Update_Remove_1 {
+	'(remove)|(removes)|(removing)' - dobj -> [Old] - prep -> IN:'from' - pobj -> noun:[Parent]
+}
+
+/* def rule Update_Add_1 {
+	'(add)|(adds)|(adding)|(include)|(includes)|(including)|(implement)|(implements)|(implementing)':[TMP] - dobj -> [New]
+}
+
+def rule Update_Add_1_P {
+	'(add)|(adds)|(adding)|(include)|(includes)|(including)|(implement)|(implements)|(implementing)':[TMP] - dobj -> [New] - prep -> IN:'(to)|(in)' - pobj -> noun:[Parent]
+} */
 
 
 def rule Composition_1_1 {
@@ -57,9 +66,10 @@ def rule Composition_3 {
 	noun:[Parent] - acl -> 'showing':[Label] - pobj -> noun:[Child]
 }
 
+// QBtn also has the material ripple effect "baked in"
 def rule Composition_4_acl {
-	'has':[Label] - nsubj -> noun:[Parent] - acl -> [TMP]
-	[Label] - dobj -> noun:[Child]
+	'has':[Label] - nsubj -> noun:[Parent]
+	[Label] - dobj -> noun:[Child] - acl -> [TMP]
 }
 def rule Composition_4 {
 	'has':[Label] - nsubj -> noun:[Parent]

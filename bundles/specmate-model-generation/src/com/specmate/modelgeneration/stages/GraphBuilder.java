@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
+import org.eclipse.emf.common.util.Enumerator;
+
 import com.specmate.cause_effect_patterns.parse.wrapper.BinaryMatchResultTreeNode;
 import com.specmate.cause_effect_patterns.parse.wrapper.LeafTreeNode;
 import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultTreeNode;
@@ -42,7 +44,7 @@ public class GraphBuilder {
 		Graph result = currentGraph;
 		return result;
 	}
-	
+
 	public synchronized void connectRGNodes(RGNodes parent, RGNodes child, MatchResultTreeNode node) {
 		for (GraphNode p : parent.positiveNodes) {
 			if (child.nodeType.equals(NodeType.AND)) {
@@ -75,7 +77,7 @@ public class GraphBuilder {
 		}
 		return null;
 	}
-	
+
 	public synchronized RGConnectionType getConnectionType(MatchResultTreeNode node) {
 		if (node == null) {
 			return null;
@@ -85,24 +87,28 @@ public class GraphBuilder {
 			return RGConnectionType.COMPOSITION;
 		} else if (node.getType().equals(RuleType.INHERITANCE)) {
 			return RGConnectionType.INHERITANCE;
+		}  else if (node.getType().equals(RuleType.REPLACE)) {
+			return RGConnectionType.REPLACE;
 		} else {
 			return null;
 		}
 	}
-	
+
 	public synchronized RGNodes buildRGNode(MatchResultTreeNode node) {
-		if (node.getType().equals(RuleType.COMPOSITION) || node.getType().equals(RuleType.INHERITANCE)) {
+		if (node.getType() == null) {
+			//LeafNode
+		} else if (node.getType().equals(RuleType.COMPOSITION) || node.getType().equals(RuleType.INHERITANCE)) {
 			final RGNodes first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
 			final RGNodes second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
-			
+
 			if (node.getType().equals(RuleType.INHERITANCE)) {
 				connectRGNodes(first, second, node);
 			} else {
 				connectRGNodes(second, first, node);
 			}
-			
+
 			return second;
-			
+
 		} else if (node.getType().equals(RuleType.ACTION)) {
 			// TODO MA this check always fails because MatchPostProcesser creates new ConditionVariableNodes
 			if (((BinaryMatchResultTreeNode) node).getFirstArgument()
@@ -114,16 +120,38 @@ public class GraphBuilder {
 				final RGNodes second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
 
 				connectRGNodes(first, second, node);
-				
+
 				// TODO MA
 				return second;
 			}
+		} else if (node.getType().equals(RuleType.REMOVE)) {
+				final RGNodes parent = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
+				final RGNodes old = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
+				for (GraphNode o : old.negativeNodes) {
+					o.setDeleted(true);
+				}
+				for (GraphNode o : old.positiveNodes) {
+					o.setDeleted(true);
+				}
+				connectRGNodes(parent, old, node);
+			
+		} else if (node.getType().equals(RuleType.REPLACE)) {
+			final RGNodes old = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
+			for (GraphNode o : old.negativeNodes) {
+				o.setDeleted(true);
+			}
+			for (GraphNode o : old.positiveNodes) {
+				o.setDeleted(true);
+			}
+			final RGNodes neww = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
+			connectRGNodes(old, neww, node);
+			return old;
 		}
 
 		else if (node.getType().equals(RuleType.CONJUNCTION_AND)) {
 			final RGNodes first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
 			final RGNodes second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
-			
+
 			return new RGNodes(first, second, NodeType.AND);
 		} else if (node.getType().equals(RuleType.CONJUNCTION_OR)) {
 			final RGNodes first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
@@ -152,33 +180,32 @@ public class GraphBuilder {
 
 			return first.swap();
 		}
-		// TODO MA other Types
-		else {// if (node instanceof LeafTreeNode) {
-			String text = ((LeafTreeNode) node).getContent();
 
-			// TODO MA
-			/* if (text.startsWith("no") && text.matches("no\\s(.*)")) { // ex: no items
+		// if (node instanceof LeafTreeNode) {
+		String text = ((LeafTreeNode) node).getContent();
+
+		// TODO MA
+		/* if (text.startsWith("no") && text.matches("no\\s(.*)")) { // ex: no items
 				final GraphNode n = currentGraph.createInnerNode(NodeType.AND);
 				n.setComponent(text.replaceAll("no\\s(.*)", "$1"));
-				
+
 				return new RGNodes(n, n.getType(), true);
 			} else if (text.matches("(.*)\\sor\\s([^\\s]*)\\s(.*)")) { //ex: only one or two items
 				final GraphNode f = currentGraph.createInnerNode(NodeType.AND);
 				f.setComponent(text.replaceAll("(.*)\\sor\\s([^\\s]*)\\s(.*)", "$1 $3"));
 				RGNodes first = new RGNodes(f, NodeType.AND, false);
-				
+
 				final GraphNode s = currentGraph.createInnerNode(NodeType.AND);
 				s.setComponent(text.replaceAll("(.*)\\sor\\s([^\\s]*)\\s(.*)", "$2 $3"));
 				RGNodes second = new RGNodes(s, NodeType.AND, false);
-				
+
 				return new RGNodes(first, second, NodeType.OR);
 			} else {*/
-				final GraphNode n = currentGraph.createInnerNode(NodeType.AND);
-				n.setComponent(text);
-				n.setId(((LeafTreeNode) node).getId());
-				return new RGNodes(n, n.getType(), false);
-			//}
-		}
+		final GraphNode n = currentGraph.createInnerNode(NodeType.AND);
+		n.setComponent(text);
+		n.setId(((LeafTreeNode) node).getId());
+		return new RGNodes(n, n.getType(), false);
+		//}
 	}
 
 	/**
@@ -395,18 +422,18 @@ public class GraphBuilder {
 			return result;
 		}
 	}
-	
+
 
 	private class RGNodes {
 		public ArrayList<GraphNode> positiveNodes;
 		public ArrayList<GraphNode> negativeNodes;
 		public NodeType nodeType;
 
-//		public RGNodes() {
-//			positiveNodes = new ArrayList<GraphNode>();
-//			negativeNodes = new ArrayList<GraphNode>();
-//			nodeType = NodeType.AND;
-//		}
+		//		public RGNodes() {
+		//			positiveNodes = new ArrayList<GraphNode>();
+		//			negativeNodes = new ArrayList<GraphNode>();
+		//			nodeType = NodeType.AND;
+		//		}
 		public RGNodes(GraphNode node, NodeType type, boolean negated) {
 			positiveNodes = new ArrayList<GraphNode>();
 			negativeNodes = new ArrayList<GraphNode>();
@@ -426,7 +453,7 @@ public class GraphBuilder {
 			this.negativeNodes.addAll(second.negativeNodes);
 			nodeType = type;
 		}
-		
+
 		public RGNodes swap() {
 			ArrayList<GraphNode> tmp = this.negativeNodes;
 			this.negativeNodes = this.positiveNodes;
@@ -442,14 +469,14 @@ public class GraphBuilder {
 			negativeNodes.add(node);
 		}
 
-//		public void addNodes(RGNodes nodes) {
-//			positiveNodes.addAll(nodes.positiveNodes);
-//			negativeNodes.addAll(nodes.negativeNodes);
-//		}
+		//		public void addNodes(RGNodes nodes) {
+		//			positiveNodes.addAll(nodes.positiveNodes);
+		//			negativeNodes.addAll(nodes.negativeNodes);
+		//		}
 
-		
-//		public void setNodeType(NodeType type) {
-//			nodeType = type;
-//		}
+
+		//		public void setNodeType(NodeType type) {
+		//			nodeType = type;
+		//		}
 	}
 }

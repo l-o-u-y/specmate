@@ -11,6 +11,7 @@ public class GraphNode {
 	private String variable;
 	private String component;
 	private String id;
+	private boolean deleted;
 	private NodeType type;
 	private Graph graph;
 
@@ -126,5 +127,13 @@ public class GraphNode {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 }

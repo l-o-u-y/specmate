@@ -46,7 +46,23 @@ public enum RGConnectionType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	ACTION(2, "Action", "Action");
+	ACTION(2, "Action", "Action"), /**
+	 * The '<em><b>Replace</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #REPLACE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	REPLACE(3, "Replace", "Replace"), /**
+	 * The '<em><b>Remove</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #REMOVE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	REMOVE(4, "Remove", "Remove");
 
 	/**
 	 * The '<em><b>Inheritance</b></em>' literal value.
@@ -82,6 +98,28 @@ public enum RGConnectionType implements Enumerator {
 	public static final int ACTION_VALUE = 2;
 
 	/**
+	 * The '<em><b>Replace</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #REPLACE
+	 * @model name="Replace"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int REPLACE_VALUE = 3;
+
+	/**
+	 * The '<em><b>Remove</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #REMOVE
+	 * @model name="Remove"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int REMOVE_VALUE = 4;
+
+	/**
 	 * An array of all the '<em><b>RG Connection Type</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -92,6 +130,8 @@ public enum RGConnectionType implements Enumerator {
 			INHERITANCE,
 			COMPOSITION,
 			ACTION,
+			REPLACE,
+			REMOVE,
 		};
 
 	/**
@@ -151,6 +191,8 @@ public enum RGConnectionType implements Enumerator {
 			case INHERITANCE_VALUE: return INHERITANCE;
 			case COMPOSITION_VALUE: return COMPOSITION;
 			case ACTION_VALUE: return ACTION;
+			case REPLACE_VALUE: return REPLACE;
+			case REMOVE_VALUE: return REMOVE;
 		}
 		return null;
 	}

@@ -914,13 +914,22 @@ public interface RequirementsPackage extends EPackage {
 	int RG_NODE__CHUNKS = BasePackage.IMODEL_NODE_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__DELETED = BasePackage.IMODEL_NODE_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>RG Node</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RG_NODE_FEATURE_COUNT = BasePackage.IMODEL_NODE_FEATURE_COUNT + 3;
+	int RG_NODE_FEATURE_COUNT = BasePackage.IMODEL_NODE_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of operations of the '<em>RG Node</em>' class.
@@ -1797,6 +1806,17 @@ public interface RequirementsPackage extends EPackage {
 	EReference getRGNode_Chunks();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGNode#isDeleted <em>Deleted</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Deleted</em>'.
+	 * @see com.specmate.model.requirements.RGNode#isDeleted()
+	 * @see #getRGNode()
+	 * @generated
+	 */
+	EAttribute getRGNode_Deleted();
+
+	/**
 	 * Returns the meta object for class '{@link com.specmate.model.requirements.RGConnection <em>RG Connection</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2202,6 +2222,14 @@ public interface RequirementsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference RG_NODE__CHUNKS = eINSTANCE.getRGNode_Chunks();
+
+		/**
+		 * The meta object literal for the '<em><b>Deleted</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RG_NODE__DELETED = eINSTANCE.getRGNode_Deleted();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.RGConnectionImpl <em>RG Connection</em>}' class.

@@ -71,7 +71,6 @@ public class BinaryMatchResultTreeNode extends MatchResultTreeNode {
 		this.type = right.getType();
 		right.setType(tmp);
 
-		// TODO MA might need cases hard to imagine rn
 		this.left = right;
 		this.right = childRight;
 		right.left = left;

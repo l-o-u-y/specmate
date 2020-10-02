@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EClass;
  *   <li>{@link com.specmate.model.requirements.impl.RGNodeImpl#getType <em>Type</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGNodeImpl#getComponent <em>Component</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGNodeImpl#getChunks <em>Chunks</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGNodeImpl#isDeleted <em>Deleted</em>}</li>
  * </ul>
  *
  * @generated
@@ -48,6 +49,16 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 	 * @ordered
 	 */
 	protected static final String COMPONENT_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #isDeleted() <em>Deleted</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isDeleted()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean DELETED_EDEFAULT = false;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -125,6 +136,26 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 	 * @generated
 	 */
 	@Override
+	public boolean isDeleted() {
+		return (Boolean)eDynamicGet(RequirementsPackage.RG_NODE__DELETED, RequirementsPackage.Literals.RG_NODE__DELETED, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setDeleted(boolean newDeleted) {
+		eDynamicSet(RequirementsPackage.RG_NODE__DELETED, RequirementsPackage.Literals.RG_NODE__DELETED, newDeleted);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case RequirementsPackage.RG_NODE__TYPE:
@@ -133,6 +164,8 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 				return getComponent();
 			case RequirementsPackage.RG_NODE__CHUNKS:
 				return getChunks();
+			case RequirementsPackage.RG_NODE__DELETED:
+				return isDeleted();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -156,6 +189,9 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 				getChunks().clear();
 				getChunks().addAll((Collection<? extends RGChunk>)newValue);
 				return;
+			case RequirementsPackage.RG_NODE__DELETED:
+				setDeleted((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -177,6 +213,9 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 			case RequirementsPackage.RG_NODE__CHUNKS:
 				getChunks().clear();
 				return;
+			case RequirementsPackage.RG_NODE__DELETED:
+				setDeleted(DELETED_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -195,6 +234,8 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 				return COMPONENT_EDEFAULT == null ? getComponent() != null : !COMPONENT_EDEFAULT.equals(getComponent());
 			case RequirementsPackage.RG_NODE__CHUNKS:
 				return !getChunks().isEmpty();
+			case RequirementsPackage.RG_NODE__DELETED:
+				return isDeleted() != DELETED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

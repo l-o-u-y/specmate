@@ -6,6 +6,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.emf.ecore.EObject;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -144,11 +145,6 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 					e.printStackTrace();
 				}
 			}
-			// Fixes some issues with the dkpro/spacy backoff.
-			text = text.replaceAll("[^,.!?: ](?=[,.!?:])", "$0 ");
-			text = text.replaceAll("\n", " \n ");
-			text = text.replaceAll("  ", " ");
-			text = text.replaceAll("  ", " ");
 			
 			IRGFromRequirementGenerator generator;
 			generator = new PatternbasedRGGenerator(ELanguage.EN, tagger, this.configService, this.logService);

@@ -191,17 +191,19 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		}
 	}
 	
-	// TODO MA multiple texts
+
 	public RGModel createModel(RGModel originalModel, String input) throws SpecmateException {
 		EObject parent = originalModel.eContainer();
-		if (parent instanceof RGModel) {
-			((RGModel) parent).setNextRGModel(originalModel);
-			originalModel.setPrevRGModel((RGModel) parent);
-			originalModel.setModelRequirements(
-					((RGModel) parent).getModelRequirements()
-			+ "\n\n" + originalModel.getModelRequirements()
-			);
-		}
+		return createModel(originalModel, parent, input);
+	}
+	// TODO MA multiple texts
+	public RGModel createModel(RGModel originalModel, EObject parent, String input) throws SpecmateException {
+
+		// Fixes some issues with the dkpro/spacy backoff.
+		input = input.replaceAll("[^,.!?: ](?=[,.!?:])", "$0 ");
+		input = input.replaceAll("\n", " \n ");
+		input = input.replaceAll("  ", " ");
+		input = input.replaceAll("  ", " ");
 		
 		log.log(LogService.LOG_INFO, "================");
 		log.log(LogService.LOG_INFO, "Textinput: " + input);
@@ -213,7 +215,24 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			
 			log.log(LogService.LOG_INFO, "Text Pre Processing: " + text);
 			JCas tagResult = this.tagger.processText(text, this.lang);
-			RGModel model = createModelWithMapping(input, text, tagResult);
+			
+			RGModel prevModel = RequirementsFactory.eINSTANCE.createRGModel();
+			if (parent instanceof RGModel) {
+				if (((RGModel) parent).getNextRGModel() != null) {
+					((RGModel) parent).setNextRGModel(originalModel);
+					originalModel.setPrevRGModel((RGModel) parent);
+				}
+
+				createModel(prevModel, parent.eContainer(), ((RGModel) parent).getModelRequirements());
+			}
+			RGModel curModel = createModelWithMapping(input, text, tagResult);
+			RGModel model = RequirementsFactory.eINSTANCE.createRGModel();
+			model.getContents().addAll(prevModel.getContents());
+			model.getModelMapping().addAll(prevModel.getModelMapping());
+			model.getChunks().addAll(prevModel.getChunks());
+			model.getModelMapping().addAll(curModel.getModelMapping());
+			model.getChunks().addAll(curModel.getChunks());
+			
 			// TODO MA
 			// addNounsToCreation(model, tagResult);
 
@@ -242,12 +261,12 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 					 matchPostProcesser.process(tree);
 					if (tree.getType().isComposition() || 
 							tree.getType().isInheritance() || 
-							tree.getType().isAction() // ||
+							tree.getType().isAction() ||
 //							tree.getType().isConjunction() ||
 //							tree.getType().isNorConjunction() ||
 //							tree.getType().isOrConjunction() ||
 //							tree.getType().isNegation() ||
-//							tree.getType().isUpdate()
+							tree.getType().isUpdate()
 							) {
 						Graph graph = graphBuilder.buildRGGraph((BinaryMatchResultTreeNode) tree);
 						model = (RGModel) graphLayouter.createModel(graph, model);
@@ -286,6 +305,9 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		originalModel.getContents().addAll(candidates.get(0).getRight().getContents());
 		originalModel.getModelMapping().addAll(candidates.get(0).getRight().getModelMapping());
 		originalModel.getChunks().addAll(candidates.get(0).getRight().getChunks());
+		for (RGChunk c : originalModel.getChunks()) {
+			c.setId(SpecmateEcoreUtil.getIdForChild());
+		}
 		
 		for (RGObject r : originalModel.getModelMapping()) {
 			String tmp = r.getOriginalText() + "; ";

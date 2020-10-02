@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -21,6 +23,7 @@ import com.specmate.model.requirements.RGConnectionType;
 import com.specmate.model.requirements.RGModel;
 import com.specmate.model.requirements.RGNode;
 import com.specmate.model.requirements.NodeType;
+import com.specmate.model.requirements.RGChunk;
 import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 
@@ -44,13 +47,14 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 * @param type
 	 * @return the created node
 	 */
-	public RGNode createNode(RGModel model, String component, int x, int y, NodeType type) {
+	public RGNode createNode(RGModel model, String component, boolean deleted, int x, int y, NodeType type) {
 		component = this.processWord(component);
 		component = component.toLowerCase();
 		RGNode node = RequirementsFactory.eINSTANCE.createRGNode();
 		node.setId(SpecmateEcoreUtil.getIdForChild());
 		node.setName("New RGNode " + dateFormat.format(new Date()));
 		node.setComponent(component);
+		node.setDeleted(deleted);
 		node.setY(y);
 		node.setX(x);
 		node.setType(type);
@@ -136,7 +140,6 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 * Create a new node if it does not exist in the list. Otherwise return the
 	 * existing node. Nodes are only compared by name and type
 	 *
-	 * @param list
 	 * @param model
 	 * @param component
 	 * @param x
@@ -144,22 +147,160 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 * @param type
 	 * @return new or existing node
 	 */
-	public RGNode createNodeIfNotExist(RGModel model, String component, int x,
-			int y, NodeType type) {
+	public RGNode createNodeIfNotExist(RGModel model, String component, boolean deleted,
+			int x, int y, NodeType type) {
 		component = this.processWord(component);
 		component = component.toLowerCase();
 		EList<IContentElement> list = model.getContents();
 		
 		for (IContentElement rgNode : list) {
 			if (rgNode instanceof RGNode) {
-				if (((RGNode)rgNode).getComponent().equals(component) && ((RGNode)rgNode).getType().equals(type)) {
+				if (((RGNode)rgNode).getComponent().equals(component) 
+						&& ((RGNode)rgNode).getType().equals(type)
+						&& ((RGNode)rgNode).isDeleted() == deleted) {
 					return (RGNode)rgNode;
 				}
 			}
 		}
-		return createNode(model, component, x, y, type);
+		return createNode(model, component, deleted, x, y, type);
+	}
+	
+
+	/**
+	 * Find the old node that exists in the list. Otherwise return null
+	 *
+	 * @param model
+	 * @param component
+	 * @param type
+	 * @return old node or null
+	 */
+	public RGNode findOldNode(RGModel model, RGNode node) {
+		String component = node.getComponent();
+		NodeType type = node.getType();
+		component = this.processWord(component);
+		component = component.toLowerCase();
+		EList<IContentElement> list = model.getContents();
+		
+		for (IContentElement rgNode : list) {
+			if (rgNode instanceof RGNode) {
+				if (((RGNode)rgNode).getComponent().equals(component) 
+						&& ((RGNode)rgNode).getType().equals(type)
+						&& !((RGNode)rgNode).isDeleted()) {
+					return (RGNode)rgNode;
+				}
+			}
+		}
+		return null;
 	}
 
+	public RGNode findReplaceNode(RGModel model, RGNode node) {
+		return null;
+	}
+
+	/**
+	 * Remove the connection between two nodes
+	 *
+	 * @param model
+	 * @param nodeFrom
+	 * @param nodeTo
+	 * @return void
+	 */
+	public void replaceConnection(RGModel model, RGNode nodeFrom, RGNode nodeToOld, RGNode nodeToTmp) {
+		RGNode nodeToNew = null;
+		EList<IContentElement> list = model.getContents();
+
+		// if nodeToTmp == null -> delete instead of replace
+		// if nodeToTmp != null -> find REPLACE connection tmp --> new
+		if (nodeToTmp != null) {
+			RGConnection replaceCon = null;
+			for (IModelConnection c : nodeToTmp.getOutgoingConnections()) {
+				if (c instanceof RGConnection) {
+					if (((RGConnection) c).getType().equals(RGConnectionType.REPLACE)) {
+						nodeToNew = ((RGNode)((RGConnection) c).getTarget()); 
+						replaceCon = (RGConnection)c;
+					}
+				}
+			}
+			
+			// if replace connection found -> remove
+			if (replaceCon != null) {
+				list.remove(replaceCon);
+				nodeToTmp.getOutgoingConnections().remove(replaceCon);
+				nodeToNew.getIncomingConnections().remove(replaceCon);
+			}
+		}
+		
+		// find connection parent --> old
+		RGConnection con = null;
+		for (IContentElement rgCon : list) {
+			if (rgCon instanceof RGConnection) {
+				if (((RGConnection)rgCon).getSource().equals(nodeFrom) 
+						&& ((RGConnection)rgCon).getTarget().equals(nodeToOld)) {
+					con = (RGConnection)rgCon;
+				}
+			}
+		}
+		if (con != null) {
+			if (nodeToNew == null) {
+				// if delete -> remove connection
+				list.remove(con);
+				con.getSource().getOutgoingConnections().remove(con);
+				nodeToOld.getIncomingConnections().remove(con);
+			} else {
+				// set target to new -> parent --> new
+				con.setTarget(nodeToNew);
+				nodeToOld.getIncomingConnections().remove(con);
+				nodeToNew.getIncomingConnections().add(con);
+			}
+		} else {
+			if (nodeToNew != null) {
+				createConnection(model, nodeFrom, nodeToNew, false);
+			}
+		}
+
+		// find connections xx --> old
+		List<RGConnection> consOld = new ArrayList<RGConnection>();
+		for (IContentElement rgCon : list) {
+			if (rgCon instanceof RGConnection) {
+				if (((RGConnection)rgCon).getTarget().equals(nodeToOld)) {
+					consOld.add((RGConnection)rgCon);
+				}
+			}
+		}
+		// if no connections xx --> old -> delete node fully
+		if (consOld.size() == 0) {
+			list.remove(nodeToOld);
+			// also update references with chunks
+			for (RGChunk c : nodeToOld.getChunks()) {
+				c.setNode(nodeToNew);
+			}
+			if (nodeToNew != null) {
+				nodeToNew.getChunks().addAll(nodeToOld.getChunks());
+			}
+		}
+		
+		// find connections xx --> tmp
+		List<RGConnection> consTmp = new ArrayList<RGConnection>();
+		for (IContentElement rgCon : list) {
+			if (rgCon instanceof RGConnection) {
+				if (((RGConnection)rgCon).getTarget().equals(nodeToTmp)) {
+					consTmp.add((RGConnection)rgCon);
+				}
+			}
+		}
+		// if no connections xx --> tmp -> delete node fully
+		if (consTmp.size() == 0) {
+			list.remove(nodeToTmp);
+			// also update references with chunks
+			for (RGChunk c : nodeToTmp.getChunks()) {
+				c.setNode(nodeToNew);
+			}
+			if (nodeToNew != null) {
+				nodeToNew.getChunks().addAll(nodeToTmp.getChunks());
+			}
+		}
+	}
+	
 	// TODO MA
 	// contains words that deviate from the xsl and should be considered abstract
 	public static final String[] blacklist = {"we"};
@@ -219,12 +360,12 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 
 	@Override
 	public RGNode createNode(RGModel model, String component, String condition, int x, int y, NodeType type) {
-		return createNode(model, component, x, y, type);
+		return createNode(model, component, false, x, y, type);
 	}
 
 	@Override
 	public RGNode createNodeIfNotExist(RGModel model, String component, String condition, int x, int y, NodeType type) {
-		return createNodeIfNotExist(model, component, x, y, type);
+		return createNodeIfNotExist(model, component, false, x, y, type);
 	}
 
 	@Override

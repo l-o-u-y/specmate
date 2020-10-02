@@ -1,6 +1,8 @@
 package com.specmate.modelgeneration.stages;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.osgi.service.log.LogService;
 
@@ -8,6 +10,7 @@ import com.specmate.model.base.IModelNode;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.RGChunk;
+import com.specmate.model.requirements.RGConnectionType;
 import com.specmate.model.requirements.RGModel;
 import com.specmate.model.requirements.RGNode;
 import com.specmate.model.requirements.RGObject;
@@ -88,15 +91,15 @@ public class GraphLayouter<T, S, U> {
 
 				String component = node.getComponent();
 				
-				n = ((RGCreation)creation).createNodeIfNotExist((RGModel)model, component, x, y, node.getType());
-
+				n = ((RGCreation)creation).createNodeIfNotExist((RGModel)model, component, node.isDeleted(), x, y, node.getType());
 				
 				for (RGObject m : ((RGModel)model).getModelMapping()) {
 					if (m.getChunk() != null) {
 						if (m.getChunk().getId().equals(node.getId())) {
-							if (m.getChunk().getNode() != null)
-							m.getChunk().setNode((RGNode)n);
-							((RGNode)n).getChunks().add(m.getChunk());
+							if (m.getChunk().getNode() == null) {
+								m.getChunk().setNode((RGNode)n);
+								((RGNode)n).getChunks().add(m.getChunk());
+							}
 						}
 					}
 				}
@@ -110,8 +113,18 @@ public class GraphLayouter<T, S, U> {
 			IModelNode to = nodeMap.get(edge.getTo());
 			if (creation instanceof CEGCreation) {
 				((CEGCreation)creation).createConnection((CEGModel)model, (CEGNode)from, (CEGNode)to, edge.isNegated());
-			} else {
-				((RGCreation)creation).createConnection((RGModel)model, (RGNode)from, (RGNode)to, edge.getType(), edge.isNegated(), edge.getLabel());
+			} else {				
+				// delete old connection
+				if (((RGNode)to).isDeleted()) {
+					System.out.println(1);
+					RGNode old = ((RGCreation)creation).findOldNode((RGModel)model, (RGNode)to);
+					if (old != null) {
+						((RGCreation)creation).replaceConnection((RGModel)model, (RGNode)from, old, (RGNode)to);
+					}
+				} else {
+					((RGCreation)creation).createConnection((RGModel)model, (RGNode)from, (RGNode)to, edge.getType(), edge.isNegated(), edge.getLabel());
+				}
+				
 				RGChunk fromChunk = null;
 				RGChunk toChunk = null;
 				for (RGChunk c : ((RGNode)from).getChunks()) {

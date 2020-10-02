@@ -38,6 +38,9 @@ public class MatchTreeBuilder {
 		public static final String COMPOSITION = "Composition";
 		public static final String ACTION = "Action";
 		public static final String UPDATE = "Update";
+		public static final String REPLACE = "Replace";
+		public static final String ADD = "Add";
+		public static final String REMOVE = "Remove";
 		public static final String LIMITED_CONDITION = "LimitedCondition";
 		public static final String CONDITION = "Condition";
 		public static final String CONJUNCTION = "Conjunction";
@@ -63,7 +66,6 @@ public class MatchTreeBuilder {
 		return name && subMatches;
 	}
 
-	// TODO MA
 	private boolean isAction(MatchResult result) {
 		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.ACTION);
 		boolean subMatches = result.hasSubmatch(SubtreeNames.TARGET) && result.hasSubmatch(SubtreeNames.ACTION);
@@ -73,8 +75,26 @@ public class MatchTreeBuilder {
 	// TODO MA
 	private boolean isUpdate(MatchResult result) {
 		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.UPDATE);
-		boolean subMatches = true; // result.hasSubmatch(SubtreeNames.SOURCE) &&
-									// result.hasSubmatch(SubtreeNames.TARGET);
+		boolean subMatches = true;
+		return name && subMatches;
+	}
+
+	private boolean isReplace(MatchResult result) {
+		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.REPLACE);
+		boolean subMatches = result.hasSubmatch(SubtreeNames.OLD) &&
+							result.hasSubmatch(SubtreeNames.NEW);
+		return name && subMatches;
+	}
+	private boolean isAdd(MatchResult result) {
+		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.ADD);
+		boolean subMatches = result.hasSubmatch(SubtreeNames.PARENT) &&
+							result.hasSubmatch(SubtreeNames.NEW);
+		return name && subMatches;
+	}
+	private boolean isRemove(MatchResult result) {
+		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.REMOVE);
+		boolean subMatches = // result.hasSubmatch(SubtreeNames.PARENT) &&
+							result.hasSubmatch(SubtreeNames.OLD);
 		return name && subMatches;
 	}
 
@@ -164,7 +184,11 @@ public class MatchTreeBuilder {
 			return SubtreeNames.CHILD;
 		} else if (isAction(result)) {
 			return SubtreeNames.SOURCE;
-		} else if (isUpdate(result)) {
+		} else if (isReplace(result)) {
+			return SubtreeNames.OLD;
+		} else if (isAdd(result)) {
+			return SubtreeNames.PARENT;
+		} else if (isRemove(result)) {
 			return SubtreeNames.OLD;
 		}
 
@@ -203,6 +227,10 @@ public class MatchTreeBuilder {
 			return SubtreeNames.TARGET;
 		} else if (isUpdate(result)) {
 			return SubtreeNames.NEW;
+		} else if (isReplace(result)) {
+			return SubtreeNames.NEW;
+		} else if (isAdd(result)) {
+			return SubtreeNames.NEW;
 		}
 		return null;
 	}
@@ -219,6 +247,10 @@ public class MatchTreeBuilder {
 		if (isAction(result)) {
 			return SubtreeNames.ACTION;
 		} else if (isUpdate(result)) {
+			return SubtreeNames.PARENT;
+		} else if (isReplace(result)) {
+			return SubtreeNames.PARENT;
+		} else if (isRemove(result)) {
 			return SubtreeNames.PARENT;
 		}
 		
@@ -302,8 +334,12 @@ public class MatchTreeBuilder {
 			return RuleType.COMPOSITION;
 		} else if (isAction(result)) {
 			return RuleType.ACTION;
-		} else if (isUpdate(result)) {
-			return RuleType.UPDATE;
+		} else if (isReplace(result)) {
+			return RuleType.REPLACE;
+		} else if (isAdd(result)) {
+			return RuleType.ADD;
+		} else if (isRemove(result)) {
+			return RuleType.REMOVE;
 		}
 
 		return null;
@@ -345,24 +381,37 @@ public class MatchTreeBuilder {
 			return Optional.of(new BinaryMatchResultTreeNode(left, right, getType(result), label));
 		}
 		if (isUpdate(result)) {
-			// TODO MA cases for different combinations of old (1), parent (2), new (3) 
-//			MatchResultTreeNode oldNode = getFirstArgument(result).isPresent() ? getFirstArgument(result).get() : null; 
-//			MatchResultTreeNode newNode = getSecondArgument(result).isPresent() ? getSecondArgument(result).get() : null;
-//			MatchResultTreeNode parentNode = getThirdArgument(result).isPresent() ? getThirdArgument(result).get() : null;
-//			if (parentNode != null && newNode != null) {
-//				return Optional.of(new BinaryMatchResultTreeNode(parentNode, newNode, getType(result)));
-//			} else if (parentNode == null && newNode != null) {
-//				String name = getSecondArgumentName(result);
-//				LeafTreeNode leaf = new LeafTreeNode(result.getSubmatch(name).getMatchTree().getRepresentationString(false));
-//				return Optional.of(leaf);
-//			}
-			
+			if (isReplace(result)) {
+				MatchResultTreeNode oldNode = getFirstArgument(result).get();
+				MatchResultTreeNode newNode = getSecondArgument(result).get();
+				
+				// has PARENT
+				if (getThirdArgument(result).isPresent()) {
+					MatchResultTreeNode parentNode = getThirdArgument(result).get();
+					BinaryMatchResultTreeNode oldRel = new BinaryMatchResultTreeNode(parentNode, oldNode, RuleType.COMPOSITION);
+					BinaryMatchResultTreeNode newRel = new BinaryMatchResultTreeNode(parentNode, newNode, RuleType.COMPOSITION);
+					return Optional.of(new BinaryMatchResultTreeNode(oldRel, newRel, getType(result)));
+				} else {
+					return Optional.of(new BinaryMatchResultTreeNode(oldNode, newNode, getType(result)));
+				}
+			} else if (isAdd(result)) {
+				MatchResultTreeNode parentNode = getFirstArgument(result).get();
+				MatchResultTreeNode newNode = getSecondArgument(result).get();
+				// TODO MA relation type? not explicit add -> we prob dont need this case
+				return Optional.of(new BinaryMatchResultTreeNode(parentNode, newNode, getType(result)));
+				
+			} else if (isRemove(result)) {
+				MatchResultTreeNode oldNode = getFirstArgument(result).get();
+				MatchResultTreeNode parentNode = getThirdArgument(result).get();
+				
+				return Optional.of(new BinaryMatchResultTreeNode(parentNode, oldNode, getType(result)));
+			}
 		}
 
 		// Just Text
 		LeafTreeNode leaf = new LeafTreeNode(
 				result.getMatchTree().getRepresentationString(false), 
-				((Token)result.getMatchTree().getHeads().toArray()[0]).getEnd()
+				((Token)result.getMatchTree().getHeads().toArray()[0]).getEnd() + ""
 				);
 		
 		return Optional.of(leaf);

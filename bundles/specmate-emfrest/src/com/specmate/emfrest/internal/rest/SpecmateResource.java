@@ -41,6 +41,7 @@ import com.specmate.model.administration.AdministrationFactory;
 import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.administration.ProblemDetail;
 import com.specmate.model.requirements.RGChunk;
+import com.specmate.model.requirements.RGNode;
 import com.specmate.model.requirements.RGObject;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.objectif.internal.dSL.DSLFactory;
@@ -250,17 +251,35 @@ public abstract class SpecmateResource {
 		for (int i = 0; i < rgObjects.size(); i++) {
 			RGChunk prevChunk = i > 0 ? rgObjects.get(i-1).getChunk() : null;
 			RGObject object = rgObjects.get(i);
-			boolean isVisited = prevChunk != null && object.getChunk() != prevChunk;
+			boolean isVisited = prevChunk != null && object.getChunk() == prevChunk;
 			// TODO MA sometimes it doesnt parse the chunks correctly somewhere -> duplicate text
 			String s = object.getOriginalText();
-//			String t= object.getProcessedText();
-//			RGChunk ch = object.getChunk();
-//			String cht = object.getChunk() != null ? object.getChunk().getChunkText() : "";
+			String t = object.getProcessedText();
+			String ct = object.getChunk() != null ? object.getChunk().getText() : "";
+			RGNode no = object.getChunk() != null && object.getChunk().getNode() != null ? object.getChunk().getNode() : null;
+			String n = object.getChunk() != null && object.getChunk().getNode() != null ? object.getChunk().getNode().getComponent() : "";
 			
 			if (object.getProcessedText() != null 
-					&& object.getChunk() != null 
-					&& object.getChunk().getNode() != null) {
-					s = object.getChunk().getNode().getComponent();
+					&& object.getChunk() != null) {
+				if (object.getChunk().getNode() != null) {
+					String m = "^(?i)((a )|(an )|(the ))?(?-i)(.*)";
+					String pct = ct.trim().replaceAll(m, "$5").trim().toLowerCase();
+					String nt = object.getChunk().getNode().getComponent();
+					if (pct.equals(nt)) {
+						s = ct;
+						// TODO MA if original text.preprocess == processed text -> replace
+					} else {
+						s = ct.trim().replaceAll(m, "$1"+nt).trim();
+
+						// capitalize first word of sentence
+						if (string.trim().endsWith(".")) {
+							s = s.substring(0, 1).toUpperCase() + nt.substring(1);
+						}
+					}
+				} else {
+					s = object.getChunk().getText();
+				}
+					
 			}
 			if (!isVisited) {
 				string = string + ' ' + s;
