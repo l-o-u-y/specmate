@@ -1,7 +1,6 @@
 package com.specmate.modelgeneration;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -36,7 +35,6 @@ import com.specmate.modelgeneration.stages.MatcherPostProcesser;
 import com.specmate.modelgeneration.stages.RuleMatcher;
 import com.specmate.modelgeneration.stages.TextPreProcessor;
 import com.specmate.modelgeneration.stages.graph.Graph;
-import com.specmate.model.base.IContentElement;
 import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RGChunk;
 import com.specmate.model.requirements.RGConnection;

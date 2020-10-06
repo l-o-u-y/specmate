@@ -3,8 +3,6 @@ package com.specmate.modelgeneration.stages;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import org.osgi.service.log.LogService;
 
@@ -12,10 +10,7 @@ import com.specmate.model.base.IModelConnection;
 import com.specmate.model.base.IModelNode;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
-import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RGChunk;
-import com.specmate.model.requirements.RGConnection;
-import com.specmate.model.requirements.RGConnectionType;
 import com.specmate.model.requirements.RGModel;
 import com.specmate.model.requirements.RGNode;
 import com.specmate.model.requirements.RGObject;
