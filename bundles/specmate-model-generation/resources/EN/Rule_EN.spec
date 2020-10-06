@@ -5,53 +5,58 @@ import EN.POS.LENA.*
 
 def subtrees Source, Action, Target, Parent, Child, Label, New, Old, TMP, TMP2
 
-def rule Update_Replace_1 {
+// ex: we want a rectangle instead of a square
+def rule Update_Replace_1_1 {
 	[New] - cc -> IN:'of':[TMP] - advmod -> RB:'instead'
 	[TMP] - pobj -> [Old]
 }
-// display a rectangle instead of the spinning animation 
-def rule Update_Replace_1_With_Verb_1 {
+
+// ex: instead of a square we want a rectangle, instead of an animation display a square
+def rule Update_Replace_With_1_2 {
 	[TMP] - dobj -> [New]
 	[TMP] - prep -> IN:'of':[TMP2] - advmod -> RB:'instead'
 	[TMP2] - pobj -> [Old]
 }
-// instead of the spinning animation display a rectangle
-def rule Update_Replace_1_With_Verb_2 {
+// ex: display a rectangle instead of a square
+def rule Update_Replace_With_Verb_1_3 {
+	[TMP] - dobj -> [Old]
+	[TMP] - prep -> IN:'of':[TMP2] - advmod -> RB:'instead'
 	[TMP] - dobj -> [New]
-	[TMP] - cc -> IN:'of':[TMP2] - advmod -> RB:'instead'
-	[TMP2] - nsubj -> [Old]
 }
-def rule Update_Replace_1_With_Verb_3 {
+// ex: display a rectangle instead of the spinning animation on the button
+def rule Update_Replace_1_With_Verb_1_4 {
+	[TMP] - dobj -> [Old]
 	[TMP] - dobj -> [New]
-	[TMP] - cc -> IN:'of':[TMP2] - advmod -> RB:'instead'
-	[TMP] - nsubj -> [Old]
+	[TMP] - prep -> IN:'of':[TMP2] - advmod -> RB:'instead'
 }
 
-def rule Update_Replace_2_P {
+// ex: change the animation to white from green
+def rule Update_Replace_2_1 {
 	'(change)|(changes)|(changing)':[TMP] - prep -> IN:'to' - pobj -> [New]
-	[TMP] - prep -> IN:'from' - pobj -> [Old]
+	[New] - prep -> IN:'from' - pobj -> [Old]
+}
+// ex: change from green to white 
+def rule Update_Replace_2_2 {
+	'(change)|(changes)|(changing)':[TMP] - prep -> IN:'from':[TMP2] - pobj -> [Old]
+	[TMP2] - prep -> IN:'to' - pobj -> [New]
 }
 
+// ex: change the animation to a rectangle
+def rule Update_Replace_2_3 {
+	'(change)|(changes)|(changing)':[TMP] - prep -> IN:'to' - pobj -> [New]
+	[TMP] - dobj -> [Old]
+}
+// TODO MA ex: change the animation from green to white 
+
+// ex: replacing the animation with a rectangle
 def rule Update_Replace_3 {
 	'(replace)|(replaces)|(replacing)':[TMP] - dobj -> [Old]
 	[TMP] - prep -> IN:'with' - pobj -> [New]
 }
-/* def rule Update_Replace_3_2 {
-	'(replace)|(replaces)|(replacing)':[TMP] - conj -> [Old] - prep -> IN:'with' - pobj -> [New]
-} */
-
 
 def rule Update_Remove_1 {
 	'(remove)|(removes)|(removing)' - dobj -> [Old] - prep -> IN:'from' - pobj -> noun:[Parent]
 }
-
-/* def rule Update_Add_1 {
-	'(add)|(adds)|(adding)|(include)|(includes)|(including)|(implement)|(implements)|(implementing)':[TMP] - dobj -> [New]
-}
-
-def rule Update_Add_1_P {
-	'(add)|(adds)|(adding)|(include)|(includes)|(including)|(implement)|(implements)|(implementing)':[TMP] - dobj -> [New] - prep -> IN:'(to)|(in)' - pobj -> noun:[Parent]
-} */
 
 
 def rule Composition_1_1 {
@@ -66,7 +71,7 @@ def rule Composition_3 {
 	noun:[Parent] - acl -> 'showing':[Label] - pobj -> noun:[Child]
 }
 
-// QBtn also has the material ripple effect "baked in"
+// ex: QBtn also has the material ripple effect baked in
 def rule Composition_4_acl {
 	'has':[Label] - nsubj -> noun:[Parent]
 	[Label] - dobj -> noun:[Child] - acl -> [TMP]
@@ -85,12 +90,12 @@ def rule Inheritance_1_2 {
 	noun:[Child] - relcl -> 'is':[Label] - attr -> noun:[Parent]
 }
 
-def rule Inheritance_2 { // a component -> called -> qbtn // TODO MA label
+def rule Inheritance_2 { // a component -> called -> qbtn
 	noun:[Parent] - acl -> [Label] - oprd -> noun:[Child]
 }
 
-def rule Inheritance_Colon { // it comes in two shapes: this and that
-	noun:[Parent] - appos -> noun:[Child]
+def rule Inheritance_Colon { // it comes in two shapes: green and blue
+	noun:[Parent] - appos -> [Child]
 }
 
 def rule Action_Explicit_1 {

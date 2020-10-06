@@ -1,6 +1,7 @@
 package com.specmate.modelgeneration;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -43,6 +44,7 @@ import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
 import com.specmate.nlp.util.NLPUtil;
 
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 
 public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
@@ -100,6 +102,10 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		for (int i = 0; i < diffs.size(); i++) {
 			Diff diff = diffs.get(i);
 			String[] diffTextArray = trimSpace(diff.text).split(" ");
+			// if last chunk / if input text doesnt end with .
+			if (rgObjects.size() <= j) {
+				break;
+			}
 			RGObject object = rgObjects.get(j);
 			
 			// if equal, copy words
@@ -141,8 +147,9 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		
 		/* save text chunks */
 		int i = 0; //rgObjects counter
-		Iterable<Chunk> iterable = JCasUtil.select(tagResult, Chunk.class);
-		for (Chunk p:iterable) {
+
+		Iterable<Token> iterable = JCasUtil.select(tagResult, Token.class);
+		for (Token p:iterable) {
 			String chunkText = trimSpace(p.getCoveredText());
 			String[] chunkTextArray = chunkText.split(" ");
 			RGChunk c = RequirementsFactory.eINSTANCE.createRGChunk();
@@ -153,11 +160,11 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			
 			j = 0; // counter for chunkTextArray
 			// for punctuation or replacements
-			while (rgObjects.get(i).getProcessedText() == null || 
+			while (i < rgObjects.size() && rgObjects.get(i).getProcessedText() == null || 
 					!chunkTextArray[j].equals(rgObjects.get(i).getProcessedText())) {
 				i++;
 			}
-			while (rgObjects.get(i).getProcessedText() != null && 
+			while (i < rgObjects.size() && rgObjects.get(i).getProcessedText() != null && 
 					j < chunkTextArray.length &&
 					chunkTextArray[j].equals(rgObjects.get(i).getProcessedText())) {
 				rgObjects.get(i).setChunk(c);
@@ -218,10 +225,6 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			
 			RGModel prevModel = RequirementsFactory.eINSTANCE.createRGModel();
 			if (parent instanceof RGModel) {
-				if (((RGModel) parent).getNextRGModel() != null) {
-					((RGModel) parent).setNextRGModel(originalModel);
-					originalModel.setPrevRGModel((RGModel) parent);
-				}
 
 				createModel(prevModel, parent.eContainer(), ((RGModel) parent).getModelRequirements());
 			}
@@ -240,8 +243,8 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			final MatchTreeBuilder builder = new MatchTreeBuilder();
 			
 			System.out.println(NLPUtil.printPOSTags(tagResult));
-			System.out.println(NLPUtil.printChunks(tagResult));
-			System.out.println(NLPUtil.printParse(tagResult));
+//			System.out.println(NLPUtil.printChunks(tagResult));
+//			System.out.println(NLPUtil.printParse(tagResult));
 			System.out.println(NLPUtil.printDependencies(tagResult));
 			for (MatchResult result : results) {
 				System.out.println(result.getRuleName());
@@ -309,34 +312,34 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			c.setId(SpecmateEcoreUtil.getIdForChild());
 		}
 		
-		for (RGObject r : originalModel.getModelMapping()) {
-			String tmp = r.getOriginalText() + "; ";
-					
-			if (r.getProcessedText() != null) {
-				tmp = tmp + r.getProcessedText() + "; ";
-				
-			} else {
-				tmp = tmp + "(no associated processed text); ";
-			}
-			
-			if (r.getChunk() != null) {
-				tmp = tmp + r.getChunk().getText() + "; " +
-						r.getChunk().getId() + "; ";
-				EList<IContentElement> list = originalModel.getContents();
-				for (IContentElement rgNode : list) {
-					if (rgNode instanceof RGNode) {
-						if (((RGNode)rgNode).equals(r.getChunk().getNode())) {
-							tmp = tmp + ((RGNode)rgNode).getComponent() + "; ";
-							break;
-						}
-					}
-				}
-			}
-			else {
-				tmp = tmp + "(no associated chunk); ";
-			}
-			System.out.println(tmp);
-		}
+//		for (RGObject r : originalModel.getModelMapping()) {
+//			String tmp = r.getOriginalText() + "; ";
+//					
+//			if (r.getProcessedText() != null) {
+//				tmp = tmp + r.getProcessedText() + "; ";
+//				
+//			} else {
+//				tmp = tmp + "(no associated processed text); ";
+//			}
+//			
+//			if (r.getChunk() != null) {
+//				tmp = tmp + r.getChunk().getText() + "; " +
+//						r.getChunk().getId() + "; ";
+//				EList<IContentElement> list = originalModel.getContents();
+//				for (IContentElement rgNode : list) {
+//					if (rgNode instanceof RGNode) {
+//						if (((RGNode)rgNode).equals(r.getChunk().getNode())) {
+//							tmp = tmp + ((RGNode)rgNode).getComponent() + "; ";
+//							break;
+//						}
+//					}
+//				}
+//			}
+//			else {
+//				tmp = tmp + "(no associated chunk); ";
+//			}
+//			System.out.println(tmp);
+//		}
 		return originalModel;
 
 	}

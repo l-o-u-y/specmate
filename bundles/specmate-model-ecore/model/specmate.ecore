@@ -126,11 +126,6 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="chunks" upperBound="-1"
       	  eType="#//requirements/RGChunk" containment="true"/>
           
-      <eStructuralFeatures xsi:type="ecore:EReference" name="prevRGModel"
-      	  eType="#//requirements/RGModel"/>
-      	  
-      <eStructuralFeatures xsi:type="ecore:EReference" name="nextRGModel"
-      	  eType="#//requirements/RGModel"/>
 	</eClassifiers>
 	
     <eClassifiers xsi:type="ecore:EClass" name="RGObject" eSuperTypes="#//base/IID  #//base/IDescribed #//base/IRecycled">

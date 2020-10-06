@@ -515,31 +515,13 @@ public interface RequirementsPackage extends EPackage {
 	int RG_MODEL__CHUNKS = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Prev RG Model</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RG_MODEL__PREV_RG_MODEL = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>Next RG Model</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RG_MODEL__NEXT_RG_MODEL = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 4;
-
-	/**
 	 * The number of structural features of the '<em>RG Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RG_MODEL_FEATURE_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 5;
+	int RG_MODEL_FEATURE_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>RG Model</em>' class.
@@ -1633,28 +1615,6 @@ public interface RequirementsPackage extends EPackage {
 	EReference getRGModel_Chunks();
 
 	/**
-	 * Returns the meta object for the reference '{@link com.specmate.model.requirements.RGModel#getPrevRGModel <em>Prev RG Model</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Prev RG Model</em>'.
-	 * @see com.specmate.model.requirements.RGModel#getPrevRGModel()
-	 * @see #getRGModel()
-	 * @generated
-	 */
-	EReference getRGModel_PrevRGModel();
-
-	/**
-	 * Returns the meta object for the reference '{@link com.specmate.model.requirements.RGModel#getNextRGModel <em>Next RG Model</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Next RG Model</em>'.
-	 * @see com.specmate.model.requirements.RGModel#getNextRGModel()
-	 * @see #getRGModel()
-	 * @generated
-	 */
-	EReference getRGModel_NextRGModel();
-
-	/**
 	 * Returns the meta object for class '{@link com.specmate.model.requirements.RGObject <em>RG Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2088,22 +2048,6 @@ public interface RequirementsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference RG_MODEL__CHUNKS = eINSTANCE.getRGModel_Chunks();
-
-		/**
-		 * The meta object literal for the '<em><b>Prev RG Model</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference RG_MODEL__PREV_RG_MODEL = eINSTANCE.getRGModel_PrevRGModel();
-
-		/**
-		 * The meta object literal for the '<em><b>Next RG Model</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference RG_MODEL__NEXT_RG_MODEL = eINSTANCE.getRGModel_NextRGModel();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.RGObjectImpl <em>RG Object</em>}' class.

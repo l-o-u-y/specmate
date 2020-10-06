@@ -121,7 +121,8 @@ public class NLPServiceImpl implements INLPService {
 					OpenNlpParser.PARAM_LANGUAGE, lang, OpenNlpParser.PARAM_WRITE_PENN_TREE, true,
 					OpenNlpParser.PARAM_WRITE_POS, true);
 
-			AnalysisEngine engine = createEngine(createEngineDescription(spacy, chunker, parser));
+			AnalysisEngine engine = createEngine(createEngineDescription(spacy));
+//			AnalysisEngine engine = createEngine(createEngineDescription(spacy, chunker, parser));
 
 			engines.put(lang, engine);
 		} catch (Throwable e) {

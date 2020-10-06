@@ -161,7 +161,7 @@ public class NLPUtil {
 		Collection<Dependency> dependencies = JCasUtil.select(jcas, Dependency.class);
 		StringJoiner builder = new StringJoiner("\n");
 		for (Dependency dep : dependencies) {
-			builder.add(dep.getGovernor().getCoveredText() + " <--" + dep.getDependencyType() + "-- "
+			builder.add(dep.getGovernor().getCoveredText() + " --" + dep.getDependencyType() + "--> "
 					+ dep.getDependent().getCoveredText());
 		}
 		return builder.toString();

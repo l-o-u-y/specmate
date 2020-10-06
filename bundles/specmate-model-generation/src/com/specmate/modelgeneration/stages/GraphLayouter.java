@@ -3,13 +3,18 @@ package com.specmate.modelgeneration.stages;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.osgi.service.log.LogService;
 
+import com.specmate.model.base.IModelConnection;
 import com.specmate.model.base.IModelNode;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
+import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RGChunk;
+import com.specmate.model.requirements.RGConnection;
 import com.specmate.model.requirements.RGConnectionType;
 import com.specmate.model.requirements.RGModel;
 import com.specmate.model.requirements.RGNode;
@@ -68,6 +73,7 @@ public class GraphLayouter<T, S, U> {
 		int[] positionTable = new int[graphDepth + 1];
 
 		HashMap<GraphNode, IModelNode> nodeMap = new HashMap<GraphNode, IModelNode>();
+		List<GraphNode> deletedNodes = new ArrayList<GraphNode>(); 
 		for (GraphNode node : graph.nodes) {
 			int xIndex = node.getHeight();
 			int yIndex = positionTable[xIndex];
@@ -103,9 +109,54 @@ public class GraphLayouter<T, S, U> {
 						}
 					}
 				}
+				
+				if (node.isDeleted()) {
+					deletedNodes.add(node);
+				}
 			}
 			nodeMap.put(node, n);
 			positionTable[xIndex]++;
+		}
+		
+		// if we have deleted nodes
+		for (GraphNode dNode : deletedNodes) {
+			// check if del node has parent connections
+			List<GraphEdge> edgesToDeletedNode = new ArrayList<GraphEdge>(); 
+			for (GraphEdge e : graph.edges) {
+				if (e.getTo().equals(dNode)) {
+					edgesToDeletedNode.add(e);
+				}
+			}
+			// if del node has parent connections
+			if (edgesToDeletedNode.size() > 0) {
+				// do nothing
+				break;
+			}
+			// if del node has no parent connections
+			// -> del has connection to all
+			dNode.connectTo(dNode, false);
+			
+//			RGNode del = (RGNode)nodeMap.get(dNode);
+//			RGNode old = ((RGCreation)creation).findOldNode((RGModel)model, del);
+//			// find old corresponding node
+//			if (old != null && old.getIncomingConnections().size() > 0) {
+//				// go through for every xx -> old
+//				for (IModelConnection con : old.getIncomingConnections()) {
+//					// and create new connection from xx -> del 
+//					RGNode f = (RGNode)((RGConnection)con).getSource();
+//					GraphNode n = nodeMap.entrySet().stream() // this is a inverse map
+//				              .collect(Collectors.toMap(Entry::getValue, Entry::getKey, (a, b) -> a))
+//				              .get(f);
+//					if (n == null) {
+//						n = new GraphNode(graph, NodeType.AND);
+//						n.setComponent(del.getComponent());
+//						System.out.println(12341234);
+//					}
+//					n.connectTo(dNode, false);
+////					GraphEdge e = new GraphEdge(n, dNode);
+////					graph.edges.add(e);
+//				}
+//			}
 		}
 
 		for (GraphEdge edge : graph.edges) {
@@ -113,13 +164,26 @@ public class GraphLayouter<T, S, U> {
 			IModelNode to = nodeMap.get(edge.getTo());
 			if (creation instanceof CEGCreation) {
 				((CEGCreation)creation).createConnection((CEGModel)model, (CEGNode)from, (CEGNode)to, edge.isNegated());
-			} else {				
+			} else {
+				// Note: replace edge is inserted before old connection edge so this works
 				// delete old connection
 				if (((RGNode)to).isDeleted()) {
-					System.out.println(1);
 					RGNode old = ((RGCreation)creation).findOldNode((RGModel)model, (RGNode)to);
 					if (old != null) {
-						((RGCreation)creation).replaceConnection((RGModel)model, (RGNode)from, old, (RGNode)to);
+						if (from.equals(to)) {
+							// if from equals to
+							// -> to didnt have any connections
+							// -> update all connections
+							List<RGNode> n = new ArrayList<RGNode>(); 
+							for (IModelConnection c : old.getIncomingConnections()) {
+								n.add((RGNode)c.getSource());
+							}
+							for (RGNode node : n) {
+								((RGCreation)creation).replaceConnection((RGModel)model, node, old, (RGNode)to);
+							}
+						} else {
+							((RGCreation)creation).replaceConnection((RGModel)model, (RGNode)from, old, (RGNode)to);
+						}
 					}
 				} else {
 					((RGCreation)creation).createConnection((RGModel)model, (RGNode)from, (RGNode)to, edge.getType(), edge.isNegated(), edge.getLabel());
