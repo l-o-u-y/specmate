@@ -73,7 +73,8 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 * @param label
 	 * @return
 	 */
-	public RGConnection createConnection(RGModel model, RGNode nodeFrom, RGNode nodeTo, RGConnectionType type, boolean negate, String label) {
+	public RGConnection createConnection(RGModel model, RGNode nodeFrom, RGNode nodeTo, RGConnectionType type,
+			boolean negate, String label) {
 		RGConnection conn = createConnection(model, nodeFrom, nodeTo, type, negate);
 		conn.setLabel(label);
 		return conn;
@@ -123,7 +124,8 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	}
 
 	private String processWord(String string) {
-		if (string == null) return "";
+		if (string == null)
+			return "";
 		String s = string;
 		// remove a, the
 		if (string.startsWith("a ")) {
@@ -147,24 +149,21 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 * @param type
 	 * @return new or existing node
 	 */
-	public RGNode createNodeIfNotExist(RGModel model, String component, boolean deleted,
-			int x, int y, NodeType type) {
+	public RGNode createNodeIfNotExist(RGModel model, String component, boolean deleted, int x, int y, NodeType type) {
 		component = this.processWord(component);
 		component = component.toLowerCase();
 		EList<IContentElement> list = model.getContents();
-		
+
 		for (IContentElement rgNode : list) {
 			if (rgNode instanceof RGNode) {
-				if (((RGNode)rgNode).getComponent().equals(component) 
-						&& ((RGNode)rgNode).getType().equals(type)
-						&& ((RGNode)rgNode).isDeleted() == deleted) {
-					return (RGNode)rgNode;
+				if (((RGNode) rgNode).getComponent().equals(component) && ((RGNode) rgNode).getType().equals(type)
+						&& ((RGNode) rgNode).isDeleted() == deleted) {
+					return (RGNode) rgNode;
 				}
 			}
 		}
 		return createNode(model, component, deleted, x, y, type);
 	}
-	
 
 	/**
 	 * Find the old node that exists in the list. Otherwise return null
@@ -180,13 +179,12 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		component = this.processWord(component);
 		component = component.toLowerCase();
 		EList<IContentElement> list = model.getContents();
-		
+
 		for (IContentElement rgNode : list) {
 			if (rgNode instanceof RGNode) {
-				if (((RGNode)rgNode).getComponent().equals(component) 
-						&& ((RGNode)rgNode).getType().equals(type)
-						&& !((RGNode)rgNode).isDeleted()) {
-					return (RGNode)rgNode;
+				if (((RGNode) rgNode).getComponent().equals(component) && ((RGNode) rgNode).getType().equals(type)
+						&& !((RGNode) rgNode).isDeleted()) {
+					return (RGNode) rgNode;
 				}
 			}
 		}
@@ -209,34 +207,35 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		RGNode nodeToNew = null;
 		EList<IContentElement> list = model.getContents();
 
-		// if nodeToTmp == null -> delete instead of replace
-		// if nodeToTmp != null -> find REPLACE connection tmp --> new
-		if (nodeToTmp != null) {
-			RGConnection replaceCon = null;
-			for (IModelConnection c : nodeToTmp.getOutgoingConnections()) {
-				if (c instanceof RGConnection) {
-					if (((RGConnection) c).getType().equals(RGConnectionType.REPLACE)) {
-						nodeToNew = ((RGNode)((RGConnection) c).getTarget()); 
-						replaceCon = (RGConnection)c;
-					}
+		// no need to find REMOVE connection tmp --> tmp
+		// find REPLACE connection tmp --> new
+		RGConnection replaceCon = null;
+		for (IModelConnection c : nodeToTmp.getOutgoingConnections()) {
+			if (c instanceof RGConnection) {
+				if (((RGConnection) c).getType().equals(RGConnectionType.REPLACE)) {
+					nodeToNew = ((RGNode) ((RGConnection) c).getTarget());
+					replaceCon = (RGConnection) c;
 				}
 			}
-			
-			// if replace connection found -> remove
-			if (replaceCon != null) {
-				list.remove(replaceCon);
-				nodeToTmp.getOutgoingConnections().remove(replaceCon);
+		}
+
+		// if replace connection found, remove
+		if (replaceCon != null) {
+			list.remove(replaceCon);
+			nodeToTmp.getIncomingConnections().remove(replaceCon);
+			nodeToTmp.getOutgoingConnections().remove(replaceCon);
+			if (nodeToNew != null) {
 				nodeToNew.getIncomingConnections().remove(replaceCon);
 			}
 		}
-		
+
 		// find connection parent --> old
 		RGConnection con = null;
 		for (IContentElement rgCon : list) {
 			if (rgCon instanceof RGConnection) {
-				if (((RGConnection)rgCon).getSource().equals(nodeFrom) 
-						&& ((RGConnection)rgCon).getTarget().equals(nodeToOld)) {
-					con = (RGConnection)rgCon;
+				if (((RGConnection) rgCon).getSource().equals(nodeFrom)
+						&& ((RGConnection) rgCon).getTarget().equals(nodeToOld)) {
+					con = (RGConnection) rgCon;
 				}
 			}
 		}
@@ -259,16 +258,22 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		}
 
 		// find connections xx --> old
-		List<RGConnection> consOld = new ArrayList<RGConnection>();
-		for (IContentElement rgCon : list) {
-			if (rgCon instanceof RGConnection) {
-				if (((RGConnection)rgCon).getTarget().equals(nodeToOld)) {
-					consOld.add((RGConnection)rgCon);
-				}
-			}
-		}
+		List<IModelConnection> consOld = nodeToOld.getIncomingConnections();
+
+		// TODO MA what about outgoing connections
 		// if no connections xx --> old -> delete node fully
 		if (consOld.size() == 0) {
+			if (nodeToOld.getOutgoingConnections().size() > 0) {
+				// clean up outgoing connections
+				for (IModelConnection c : nodeToOld.getOutgoingConnections()) {
+					if (nodeToNew == null) {
+						((RGConnection) c).getTarget().getIncomingConnections().remove(c);
+					} else {
+						((RGConnection) c).setSource(nodeToNew);
+					}
+				}
+			}
+
 			list.remove(nodeToOld);
 			// also update references with chunks
 			for (RGChunk c : nodeToOld.getChunks()) {
@@ -278,13 +283,16 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 				nodeToNew.getChunks().addAll(nodeToOld.getChunks());
 			}
 		}
-		
+
 		// find connections xx --> tmp
 		List<RGConnection> consTmp = new ArrayList<RGConnection>();
 		for (IContentElement rgCon : list) {
 			if (rgCon instanceof RGConnection) {
-				if (((RGConnection)rgCon).getTarget().equals(nodeToTmp)) {
-					consTmp.add((RGConnection)rgCon);
+				if (((RGConnection) rgCon).getTarget() == null) {
+					System.out.println(123);
+				}
+				if (((RGConnection) rgCon).getTarget().equals(nodeToTmp)) {
+					consTmp.add((RGConnection) rgCon);
 				}
 			}
 		}
@@ -300,13 +308,13 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 			}
 		}
 	}
-	
+
 	// TODO MA
 	// contains words that deviate from the xsl and should be considered abstract
-	public static final String[] blacklist = {"we"};
+	public static final String[] blacklist = { "we" };
 	// contains words that deviate from the xsl and should be considered concrete
 	public static final String[] whitelist = {};
-	
+
 	/**
 	 * Checks whether the noun is concrete or abstract based on concreteness rating
 	 * from an excel file
@@ -322,8 +330,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		if (Arrays.asList(whitelist).contains(noun)) {
 			return true;
 		}
-		
-		
+
 		// obtaining input bytes from a file
 		FileInputStream fis;
 		try {

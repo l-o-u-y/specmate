@@ -250,8 +250,6 @@ public class MatchTreeBuilder {
 			return SubtreeNames.PARENT;
 		} else if (isReplace(result)) {
 			return SubtreeNames.PARENT;
-		} else if (isRemove(result)) {
-			return SubtreeNames.PARENT;
 		}
 		
 		return null;
@@ -402,9 +400,8 @@ public class MatchTreeBuilder {
 				
 			} else if (isRemove(result)) {
 				MatchResultTreeNode oldNode = getFirstArgument(result).get();
-				MatchResultTreeNode parentNode = getThirdArgument(result).get();
-				
-				return Optional.of(new BinaryMatchResultTreeNode(parentNode, oldNode, getType(result)));
+				LeafTreeNode tmp = new LeafTreeNode("", "");
+				return Optional.of(new BinaryMatchResultTreeNode(tmp, oldNode, getType(result)));
 			}
 		}
 

@@ -92,4 +92,5 @@ public class BinaryMatchResultTreeNode extends MatchResultTreeNode {
 	public void acceptVisitor(MatchTreeVisitor visitor) {
 		visitor.visit(this);
 	}
+
 }

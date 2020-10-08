@@ -123,16 +123,15 @@ public class GraphBuilder {
 				return second;
 			}
 		} else if (node.getType().equals(RuleType.REMOVE)) {
-				final RGNodes parent = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
-				final RGNodes old = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
-				for (GraphNode o : old.negativeNodes) {
-					o.setDeleted(true);
-				}
-				for (GraphNode o : old.positiveNodes) {
-					o.setDeleted(true);
-				}
-				connectRGNodes(parent, old, node);
-			
+			final RGNodes old = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
+			for (GraphNode o : old.negativeNodes) {
+				o.setDeleted(true);
+			}
+			for (GraphNode o : old.positiveNodes) {
+				o.setDeleted(true);
+			}
+			return old;
+
 		} else if (node.getType().equals(RuleType.REPLACE)) {
 			final RGNodes old = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
 			for (GraphNode o : old.negativeNodes) {

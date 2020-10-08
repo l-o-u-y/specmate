@@ -11,6 +11,7 @@ import com.specmate.model.base.IModelNode;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.RGChunk;
+import com.specmate.model.requirements.RGConnectionType;
 import com.specmate.model.requirements.RGModel;
 import com.specmate.model.requirements.RGNode;
 import com.specmate.model.requirements.RGObject;
@@ -130,28 +131,6 @@ public class GraphLayouter<T, S, U> {
 			// if del node has no parent connections
 			// -> del has connection to all
 			dNode.connectTo(dNode, false);
-			
-//			RGNode del = (RGNode)nodeMap.get(dNode);
-//			RGNode old = ((RGCreation)creation).findOldNode((RGModel)model, del);
-//			// find old corresponding node
-//			if (old != null && old.getIncomingConnections().size() > 0) {
-//				// go through for every xx -> old
-//				for (IModelConnection con : old.getIncomingConnections()) {
-//					// and create new connection from xx -> del 
-//					RGNode f = (RGNode)((RGConnection)con).getSource();
-//					GraphNode n = nodeMap.entrySet().stream() // this is a inverse map
-//				              .collect(Collectors.toMap(Entry::getValue, Entry::getKey, (a, b) -> a))
-//				              .get(f);
-//					if (n == null) {
-//						n = new GraphNode(graph, NodeType.AND);
-//						n.setComponent(del.getComponent());
-//						System.out.println(12341234);
-//					}
-//					n.connectTo(dNode, false);
-////					GraphEdge e = new GraphEdge(n, dNode);
-////					graph.edges.add(e);
-//				}
-//			}
 		}
 
 		for (GraphEdge edge : graph.edges) {

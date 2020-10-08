@@ -55,9 +55,8 @@ def rule Update_Replace_3 {
 }
 
 def rule Update_Remove_1 {
-	'(remove)|(removes)|(removing)' - dobj -> [Old] - prep -> IN:'from' - pobj -> noun:[Parent]
+	'(remove)|(removes)|(removing)' - dobj -> [Old]
 }
-
 
 def rule Composition_1_1 {
 	noun:[Child] - prep -> IN:'(on)|(of)|(inside)|(in)':[Label] - pobj -> noun:[Parent]
@@ -79,6 +78,9 @@ def rule Composition_4_acl {
 def rule Composition_4 {
 	'has':[Label] - nsubj -> noun:[Parent]
 	[Label] - dobj -> noun:[Child]
+}
+def rule Composition_5 {
+	[Child] - prep -> IN:'from' - pobj -> noun:[Parent]
 }
 
 def rule Inheritance_1 {

@@ -149,6 +149,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		Iterable<Token> iterable = JCasUtil.select(tagResult, Token.class);
 		for (Token p:iterable) {
 			String chunkText = trimSpace(p.getCoveredText());
+			System.out.println();
 			String[] chunkTextArray = chunkText.split(" ");
 			RGChunk c = RequirementsFactory.eINSTANCE.createRGChunk();
 			c.setId(p.getEnd()  + "");
@@ -158,9 +159,20 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			
 			j = 0; // counter for chunkTextArray
 			// for punctuation or replacements
+			System.out.println("===================");
+			System.out.println(chunkText);
+			System.out.println(i);
+			if (i >= rgObjects.size()) return model;
+			System.out.println(rgObjects.get(i).getOriginalText());
+			System.out.println(rgObjects.get(i).getProcessedText());
+			System.out.println(j);
+			System.out.println(chunkTextArray[j]);
 			while (i < rgObjects.size() && rgObjects.get(i).getProcessedText() == null || 
 					!chunkTextArray[j].equals(rgObjects.get(i).getProcessedText())) {
 				i++;
+				System.out.println(i);
+				System.out.println(rgObjects.get(i).getOriginalText());
+				System.out.println(rgObjects.get(i).getProcessedText());
 			}
 			while (i < rgObjects.size() && rgObjects.get(i).getProcessedText() != null && 
 					j < chunkTextArray.length &&
@@ -169,6 +181,11 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 				chunkObjects.add(rgObjects.get(i));
 				i++;
 				j++;
+//				System.out.println(i);
+//				System.out.println(rgObjects.get(i).getOriginalText());
+//				System.out.println(rgObjects.get(i).getProcessedText());
+//				System.out.println(j);
+//				System.out.println(chunkTextArray[j]);
 			}
 		}
 		return model;
