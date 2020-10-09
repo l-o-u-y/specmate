@@ -23,9 +23,7 @@ import com.specmate.common.exception.SpecmateException;
 import com.specmate.config.api.IConfigService;
 import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RGChunk;
-import com.specmate.model.requirements.RGConnection;
 import com.specmate.model.requirements.RGModel;
-import com.specmate.model.requirements.RGNode;
 import com.specmate.model.requirements.RGObject;
 import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -33,8 +31,8 @@ import com.specmate.modelgeneration.mapper.DiffMatchPatch;
 import com.specmate.modelgeneration.mapper.DiffMatchPatch.Diff;
 import com.specmate.modelgeneration.mapper.DiffMatchPatch.Operation;
 import com.specmate.modelgeneration.stages.GraphBuilder;
-import com.specmate.modelgeneration.stages.GraphLayouter;
 import com.specmate.modelgeneration.stages.MatcherPostProcesser;
+import com.specmate.modelgeneration.stages.RGGraphLayouter;
 import com.specmate.modelgeneration.stages.RuleMatcher;
 import com.specmate.modelgeneration.stages.TextPreProcessor;
 import com.specmate.modelgeneration.stages.graph.Graph;
@@ -272,7 +270,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 
 			 final MatcherPostProcesser matchPostProcesser = new MatcherPostProcesser(lang);
 			 GraphBuilder graphBuilder = new GraphBuilder();
-			 GraphLayouter<RGModel, RGNode, RGConnection> graphLayouter = new GraphLayouter<RGModel, RGNode, RGConnection>(lang, creation, log);
+			 RGGraphLayouter graphLayouter = new RGGraphLayouter(lang, creation, log);
 
 			for (MatchResultTreeNode tree : trees) {
 				try {
