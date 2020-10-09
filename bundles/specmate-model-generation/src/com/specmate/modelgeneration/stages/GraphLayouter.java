@@ -70,7 +70,7 @@ public class GraphLayouter<T, S, U> {
 		int[] positionTable = new int[graphDepth + 1];
 
 		HashMap<GraphNode, IModelNode> nodeMap = new HashMap<GraphNode, IModelNode>();
-		List<GraphNode> deletedNodes = new ArrayList<GraphNode>(); 
+		List<GraphNode> markedNodes = new ArrayList<GraphNode>(); 
 		for (GraphNode node : graph.nodes) {
 			int xIndex = node.getHeight();
 			int yIndex = positionTable[xIndex];
@@ -95,11 +95,13 @@ public class GraphLayouter<T, S, U> {
 				String component = node.getComponent();
 				
 				if (node.isMarkedForDeletion()) {
+					markedNodes.add(node);
 					n = ((RGCreation)creation).createNode((RGModel)model, component, node.isMarkedForDeletion(), x, y, node.getType());
 				} else {
 					n = ((RGCreation)creation).createNodeIfNotExist((RGModel)model, component, x, y, node.getType());	
 				}
 				
+				// assign chunks based on chunk and node id (position)
 				for (RGObject m : ((RGModel)model).getModelMapping()) {
 					if (m.getChunk() != null) {
 						if (m.getChunk().getId().equals(node.getId())) {
@@ -110,32 +112,30 @@ public class GraphLayouter<T, S, U> {
 						}
 					}
 				}
-				
-				if (node.isMarkedForDeletion()) {
-					deletedNodes.add(node);
-				}
 			}
 			nodeMap.put(node, n);
 			positionTable[xIndex]++;
 		}
 		
-		// if we have deleted nodes
-		for (GraphNode dNode : deletedNodes) {
-			// check if del node has parent connections
+		// if we have nodes marked for deletion
+		for (GraphNode markedNode : markedNodes) {
+			// find connections parent --> marked
 			List<GraphEdge> edgesToDeletedNode = new ArrayList<GraphEdge>(); 
 			for (GraphEdge e : graph.edges) {
-				if (e.getTo().equals(dNode)) {
+				if (e.getTo().equals(markedNode)) {
 					edgesToDeletedNode.add(e);
 				}
 			}
-			// if del node has parent connections
+			// if marked node has parent connections
 			if (edgesToDeletedNode.size() > 0) {
 				// do nothing
-				break;
+				// this means that the marked node should only be DELETEd/REPLACEd from the parent
+			} else {
+				// if marked node has no parent connections
+				// this means that the marked node should be DELETEd/REPLACEd from all parents
+				// connect to self, so that we can use later
+				markedNode.connectTo(markedNode, false);
 			}
-			// if del node has no parent connections
-			// -> del has connection to all
-			dNode.connectTo(dNode, false);
 		}
 
 		for (GraphEdge edge : graph.edges) {
@@ -144,23 +144,22 @@ public class GraphLayouter<T, S, U> {
 			if (creation instanceof CEGCreation) {
 				((CEGCreation)creation).createConnection((CEGModel)model, (CEGNode)from, (CEGNode)to, edge.isNegated());
 			} else {
-				// Note: replace edge is inserted before old connection edge so this works
-				// delete old connection
+				// Note: this works because DELETE/REPLACE edge is inserted before this connection edge
+				// if connection xx -> tmp
 				if (((RGNode)to).isTemporary()) {
 					RGNode old = ((RGCreation)creation).findOldNode((RGModel)model, (RGNode)to);
 					if (old != null) {
 						if (from.equals(to)) {
-							// if from equals to
-							// -> to didnt have any connections
-							// -> update all connections
-							List<RGNode> n = new ArrayList<RGNode>(); 
+							// tmp --> tmp means, node should be DELETEd/REPLACEd from all parents of old
+							List<RGNode> parentsOfOld = new ArrayList<RGNode>(); 
 							for (IModelConnection c : old.getIncomingConnections()) {
-								n.add((RGNode)c.getSource());
+								parentsOfOld.add((RGNode)c.getSource());
 							}
-							for (RGNode node : n) {
-								((RGCreation)creation).replaceConnection((RGModel)model, node, old, (RGNode)to);
+							for (RGNode parentOfOld : parentsOfOld) {
+								((RGCreation)creation).replaceConnection((RGModel)model, parentOfOld, old, (RGNode)to);
 							}
 						} else {
+							// only DELETE/REPLACE from parent "from"
 							((RGCreation)creation).replaceConnection((RGModel)model, (RGNode)from, old, (RGNode)to);
 						}
 					}
@@ -168,6 +167,7 @@ public class GraphLayouter<T, S, U> {
 					((RGCreation)creation).createConnection((RGModel)model, (RGNode)from, (RGNode)to, edge.getType(), edge.isNegated(), edge.getLabel());
 				}
 				
+				// connect chunks
 				RGChunk fromChunk = null;
 				RGChunk toChunk = null;
 				for (RGChunk c : ((RGNode)from).getChunks()) {
@@ -191,20 +191,20 @@ public class GraphLayouter<T, S, U> {
 			}
 		}
 
-		// delete tmpNodes
+		// delete tmp nodes
 		EList<IContentElement> list = ((RGModel)model).getContents();
-		for (GraphNode dNode : deletedNodes) {
-			IModelNode n = nodeMap.get(dNode);
-			list.remove(n);
-			for (IModelConnection c : n.getIncomingConnections()) {
+		for (GraphNode markedNode : markedNodes) {
+			IModelNode tmpNode = nodeMap.get(markedNode);
+			list.remove(tmpNode);
+			for (IModelConnection c : tmpNode.getIncomingConnections()) {
 				list.remove(c);
 				c.getSource().getOutgoingConnections().remove(c);
 			}
-			for (IModelConnection c : n.getOutgoingConnections()) {
+			for (IModelConnection c : tmpNode.getOutgoingConnections()) {
 				list.remove(c);
 				c.getTarget().getIncomingConnections().remove(c);
 			}
-			for (RGChunk c : ((RGNode)n).getChunks()) {
+			for (RGChunk c : ((RGNode)tmpNode).getChunks()) {
 				c.setNode(null);
 			}
 		}

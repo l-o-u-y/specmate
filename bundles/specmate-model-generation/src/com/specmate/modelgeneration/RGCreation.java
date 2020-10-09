@@ -203,7 +203,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		RGNode replacementNode = null;
 		EList<IContentElement> list = model.getContents();
 
-		// no need to find REMOVE connection tmp --> tmp bc we delete tmp afterwards anyway
+		// no need to find REMOVE connection tmp --> tmp. We delete tmp afterwards anyway
 		// find REPLACE connection tmp --> new
 		RGConnection replacementCon = null;
 		for (IModelConnection c : tmpNode.getOutgoingConnections()) {
