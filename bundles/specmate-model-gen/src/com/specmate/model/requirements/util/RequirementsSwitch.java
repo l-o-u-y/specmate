@@ -2,6 +2,10 @@
  */
 package com.specmate.model.requirements.util;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.Switch;
+
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IDescribed;
@@ -14,13 +18,16 @@ import com.specmate.model.base.IRecycled;
 import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.base.ISpecmatePositionableModelObject;
 import com.specmate.model.base.ITracingElement;
-
-import com.specmate.model.requirements.*;
-
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-
-import org.eclipse.emf.ecore.util.Switch;
+import com.specmate.model.requirements.CEGConnection;
+import com.specmate.model.requirements.CEGModel;
+import com.specmate.model.requirements.CEGNode;
+import com.specmate.model.requirements.RGChunk;
+import com.specmate.model.requirements.RGConnection;
+import com.specmate.model.requirements.RGModel;
+import com.specmate.model.requirements.RGNode;
+import com.specmate.model.requirements.RGObject;
+import com.specmate.model.requirements.Requirement;
+import com.specmate.model.requirements.RequirementsPackage;
 
 /**
  * <!-- begin-user-doc -->

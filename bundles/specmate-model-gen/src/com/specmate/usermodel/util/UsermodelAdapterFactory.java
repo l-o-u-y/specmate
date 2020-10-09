@@ -2,14 +2,14 @@
  */
 package com.specmate.usermodel.util;
 
-import com.specmate.usermodel.*;
-
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
+
+import com.specmate.usermodel.User;
+import com.specmate.usermodel.UserSession;
+import com.specmate.usermodel.UsermodelPackage;
 
 /**
  * <!-- begin-user-doc -->

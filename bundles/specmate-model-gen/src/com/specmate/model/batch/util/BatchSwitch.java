@@ -2,12 +2,13 @@
  */
 package com.specmate.model.batch.util;
 
-import com.specmate.model.batch.*;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
+
+import com.specmate.model.batch.BatchOperation;
+import com.specmate.model.batch.BatchPackage;
+import com.specmate.model.batch.Operation;
 
 /**
  * <!-- begin-user-doc -->

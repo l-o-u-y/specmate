@@ -2,13 +2,12 @@
  */
 package com.specmate.model.requirements.impl;
 
-import com.specmate.model.base.impl.IModelNodeImpl;
+import org.eclipse.emf.ecore.EClass;
 
+import com.specmate.model.base.impl.IModelNodeImpl;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RequirementsPackage;
-
-import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->

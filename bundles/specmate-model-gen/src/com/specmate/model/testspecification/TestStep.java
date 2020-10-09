@@ -2,10 +2,10 @@
  */
 package com.specmate.model.testspecification;
 
+import org.eclipse.emf.common.util.EList;
+
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IPositionable;
-
-import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->

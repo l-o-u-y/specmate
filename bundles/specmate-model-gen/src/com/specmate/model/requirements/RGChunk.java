@@ -2,10 +2,11 @@
  */
 package com.specmate.model.requirements;
 
+import org.eclipse.emf.common.util.EList;
+
 import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.IID;
 import com.specmate.model.base.IRecycled;
-import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->

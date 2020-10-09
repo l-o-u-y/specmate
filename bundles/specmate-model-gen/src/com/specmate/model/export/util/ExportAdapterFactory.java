@@ -2,16 +2,14 @@
  */
 package com.specmate.model.export.util;
 
-import com.specmate.model.base.INamed;
-
-import com.specmate.model.export.*;
-
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
+
+import com.specmate.model.base.INamed;
+import com.specmate.model.export.Export;
+import com.specmate.model.export.ExportPackage;
 
 /**
  * <!-- begin-user-doc -->

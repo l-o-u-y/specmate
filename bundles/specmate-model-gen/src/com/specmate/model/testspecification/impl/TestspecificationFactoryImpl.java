@@ -2,16 +2,22 @@
  */
 package com.specmate.model.testspecification.impl;
 
-import com.specmate.model.testspecification.*;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
+import com.specmate.model.testspecification.ParameterAssignment;
+import com.specmate.model.testspecification.ParameterType;
+import com.specmate.model.testspecification.TestCase;
+import com.specmate.model.testspecification.TestParameter;
+import com.specmate.model.testspecification.TestProcedure;
+import com.specmate.model.testspecification.TestSpecification;
+import com.specmate.model.testspecification.TestStep;
+import com.specmate.model.testspecification.TestspecificationFactory;
+import com.specmate.model.testspecification.TestspecificationPackage;
 
 /**
  * <!-- begin-user-doc -->

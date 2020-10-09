@@ -2,18 +2,15 @@
  */
 package com.specmate.model.batch.impl;
 
-import com.specmate.model.base.IContentElement;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
+import com.specmate.model.base.IContentElement;
 import com.specmate.model.batch.BatchPackage;
 import com.specmate.model.batch.Operation;
 import com.specmate.model.batch.OperationType;
-
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 /**
  * <!-- begin-user-doc -->

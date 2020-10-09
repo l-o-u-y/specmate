@@ -2,16 +2,18 @@
  */
 package com.specmate.usermodel.impl;
 
-import com.specmate.usermodel.*;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
+import com.specmate.usermodel.AccessRights;
+import com.specmate.usermodel.User;
+import com.specmate.usermodel.UserSession;
+import com.specmate.usermodel.UsermodelFactory;
+import com.specmate.usermodel.UsermodelPackage;
 
 /**
  * <!-- begin-user-doc -->

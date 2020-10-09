@@ -2,13 +2,12 @@
  */
 package com.specmate.model.requirements.impl;
 
-import com.specmate.model.base.impl.IModelConnectionImpl;
+import org.eclipse.emf.ecore.EClass;
 
+import com.specmate.model.base.impl.IModelConnectionImpl;
 import com.specmate.model.requirements.RGConnection;
 import com.specmate.model.requirements.RGConnectionType;
 import com.specmate.model.requirements.RequirementsPackage;
-
-import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->

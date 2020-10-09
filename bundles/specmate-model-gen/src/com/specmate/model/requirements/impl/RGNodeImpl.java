@@ -2,16 +2,16 @@
  */
 package com.specmate.model.requirements.impl;
 
-import com.specmate.model.base.impl.IModelNodeImpl;
+import java.util.Collection;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+
+import com.specmate.model.base.impl.IModelNodeImpl;
 import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RGChunk;
 import com.specmate.model.requirements.RGNode;
 import com.specmate.model.requirements.RequirementsPackage;
-
-import java.util.Collection;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->

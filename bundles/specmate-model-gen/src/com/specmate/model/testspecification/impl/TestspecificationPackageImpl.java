@@ -2,34 +2,27 @@
  */
 package com.specmate.model.testspecification.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.impl.EPackageImpl;
+
 import com.specmate.model.administration.AdministrationPackage;
-
 import com.specmate.model.administration.impl.AdministrationPackageImpl;
-
 import com.specmate.model.base.BasePackage;
-
 import com.specmate.model.base.impl.BasePackageImpl;
-
 import com.specmate.model.batch.BatchPackage;
-
 import com.specmate.model.batch.impl.BatchPackageImpl;
-
 import com.specmate.model.export.ExportPackage;
-
 import com.specmate.model.export.impl.ExportPackageImpl;
-
 import com.specmate.model.history.HistoryPackage;
-
 import com.specmate.model.history.impl.HistoryPackageImpl;
-
 import com.specmate.model.processes.ProcessesPackage;
-
 import com.specmate.model.processes.impl.ProcessesPackageImpl;
-
 import com.specmate.model.requirements.RequirementsPackage;
-
 import com.specmate.model.requirements.impl.RequirementsPackageImpl;
-
 import com.specmate.model.testspecification.ParameterAssignment;
 import com.specmate.model.testspecification.ParameterType;
 import com.specmate.model.testspecification.TestCase;
@@ -39,14 +32,6 @@ import com.specmate.model.testspecification.TestSpecification;
 import com.specmate.model.testspecification.TestStep;
 import com.specmate.model.testspecification.TestspecificationFactory;
 import com.specmate.model.testspecification.TestspecificationPackage;
-
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
-
-import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
  * <!-- begin-user-doc -->

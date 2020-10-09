@@ -2,12 +2,11 @@
  */
 package com.specmate.model.history.impl;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.specmate.model.history.Change;
 import com.specmate.model.history.HistoryPackage;
-
-import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 /**
  * <!-- begin-user-doc -->

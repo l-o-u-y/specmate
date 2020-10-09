@@ -2,8 +2,9 @@
  */
 package com.specmate.model.requirements;
 
-import com.specmate.model.base.IModelNode;
 import org.eclipse.emf.common.util.EList;
+
+import com.specmate.model.base.IModelNode;
 
 /**
  * <!-- begin-user-doc -->

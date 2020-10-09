@@ -2,14 +2,14 @@
  */
 package com.specmate.model.administration.util;
 
-import com.specmate.model.administration.*;
-
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
+
+import com.specmate.model.administration.AdministrationPackage;
+import com.specmate.model.administration.ProblemDetail;
+import com.specmate.model.administration.Status;
 
 /**
  * <!-- begin-user-doc -->

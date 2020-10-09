@@ -3,7 +3,6 @@
 package com.specmate.model.batch;
 
 import org.eclipse.emf.cdo.CDOObject;
-
 import org.eclipse.emf.common.util.EList;
 
 /**

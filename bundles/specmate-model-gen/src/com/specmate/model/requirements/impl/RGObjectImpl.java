@@ -2,14 +2,15 @@
  */
 package com.specmate.model.requirements.impl;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.IRecycled;
 import com.specmate.model.requirements.RGChunk;
 import com.specmate.model.requirements.RGObject;
 import com.specmate.model.requirements.RequirementsPackage;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 /**
  * <!-- begin-user-doc -->

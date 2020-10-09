@@ -2,14 +2,13 @@
  */
 package com.specmate.model.export.util;
 
-import com.specmate.model.base.INamed;
-
-import com.specmate.model.export.*;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
+
+import com.specmate.model.base.INamed;
+import com.specmate.model.export.Export;
+import com.specmate.model.export.ExportPackage;
 
 /**
  * <!-- begin-user-doc -->

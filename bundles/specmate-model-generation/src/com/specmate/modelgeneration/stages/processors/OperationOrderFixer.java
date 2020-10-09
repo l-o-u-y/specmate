@@ -2,9 +2,9 @@ package com.specmate.modelgeneration.stages.processors;
 
 import com.specmate.cause_effect_patterns.parse.wrapper.BinaryMatchResultTreeNode;
 import com.specmate.cause_effect_patterns.parse.wrapper.LeafTreeNode;
+import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultTreeNode.RuleType;
 import com.specmate.cause_effect_patterns.parse.wrapper.MatchTreeVisitor;
 import com.specmate.cause_effect_patterns.parse.wrapper.NegationTreeNode;
-import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultTreeNode.RuleType;
 
 public class OperationOrderFixer extends MatchTreeVisitor {
 

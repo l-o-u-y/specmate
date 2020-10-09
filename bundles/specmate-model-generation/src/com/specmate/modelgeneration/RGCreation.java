@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -18,12 +17,12 @@ import org.eclipse.emf.common.util.EList;
 
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IModelConnection;
+import com.specmate.model.requirements.NodeType;
+import com.specmate.model.requirements.RGChunk;
 import com.specmate.model.requirements.RGConnection;
 import com.specmate.model.requirements.RGConnectionType;
 import com.specmate.model.requirements.RGModel;
 import com.specmate.model.requirements.RGNode;
-import com.specmate.model.requirements.NodeType;
-import com.specmate.model.requirements.RGChunk;
 import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 
@@ -149,20 +148,19 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 * @param type
 	 * @return new or existing node
 	 */
-	public RGNode createNodeIfNotExist(RGModel model, String component, boolean deleted, int x, int y, NodeType type) {
+	public RGNode createNodeIfNotExist(RGModel model, String component, int x, int y, NodeType type) {
 		component = this.processWord(component);
 		component = component.toLowerCase();
 		EList<IContentElement> list = model.getContents();
 
 		for (IContentElement rgNode : list) {
 			if (rgNode instanceof RGNode) {
-				if (((RGNode) rgNode).getComponent().equals(component) && ((RGNode) rgNode).getType().equals(type)
-						&& ((RGNode) rgNode).isDeleted() == deleted) {
+				if (((RGNode) rgNode).getComponent().equals(component) && ((RGNode) rgNode).getType().equals(type)) {
 					return (RGNode) rgNode;
 				}
 			}
 		}
-		return createNode(model, component, deleted, x, y, type);
+		return createNode(model, component, false, x, y, type);
 	}
 
 	/**
@@ -215,6 +213,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 				if (((RGConnection) c).getType().equals(RGConnectionType.REPLACE)) {
 					nodeToNew = ((RGNode) ((RGConnection) c).getTarget());
 					replaceCon = (RGConnection) c;
+					break;
 				}
 			}
 		}
@@ -236,6 +235,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 				if (((RGConnection) rgCon).getSource().equals(nodeFrom)
 						&& ((RGConnection) rgCon).getTarget().equals(nodeToOld)) {
 					con = (RGConnection) rgCon;
+					break;
 				}
 			}
 		}
@@ -267,6 +267,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 				// clean up outgoing connections
 				for (IModelConnection c : nodeToOld.getOutgoingConnections()) {
 					if (nodeToNew == null) {
+						list.remove(c);
 						((RGConnection) c).getTarget().getIncomingConnections().remove(c);
 					} else {
 						((RGConnection) c).setSource(nodeToNew);
@@ -284,28 +285,13 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 			}
 		}
 
-		// find connections xx --> tmp
-		List<RGConnection> consTmp = new ArrayList<RGConnection>();
-		for (IContentElement rgCon : list) {
-			if (rgCon instanceof RGConnection) {
-				if (((RGConnection) rgCon).getTarget() == null) {
-					System.out.println(123);
-				}
-				if (((RGConnection) rgCon).getTarget().equals(nodeToTmp)) {
-					consTmp.add((RGConnection) rgCon);
-				}
-			}
+
+		// update references with chunks
+		for (RGChunk c : nodeToTmp.getChunks()) {
+			c.setNode(nodeToNew);
 		}
-		// if no connections xx --> tmp -> delete node fully
-		if (consTmp.size() == 0) {
-			list.remove(nodeToTmp);
-			// also update references with chunks
-			for (RGChunk c : nodeToTmp.getChunks()) {
-				c.setNode(nodeToNew);
-			}
-			if (nodeToNew != null) {
-				nodeToNew.getChunks().addAll(nodeToTmp.getChunks());
-			}
+		if (nodeToNew != null) {
+			nodeToNew.getChunks().addAll(nodeToTmp.getChunks());
 		}
 	}
 
@@ -372,7 +358,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 
 	@Override
 	public RGNode createNodeIfNotExist(RGModel model, String component, String condition, int x, int y, NodeType type) {
-		return createNodeIfNotExist(model, component, false, x, y, type);
+		return createNodeIfNotExist(model, component, x, y, type);
 	}
 
 	@Override

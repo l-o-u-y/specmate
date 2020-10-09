@@ -2,12 +2,11 @@
  */
 package com.specmate.model.administration.impl;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.specmate.model.administration.AdministrationPackage;
 import com.specmate.model.administration.Status;
-
-import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 /**
  * <!-- begin-user-doc -->

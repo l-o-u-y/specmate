@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
 import org.osgi.service.log.LogService;
 
+import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IModelConnection;
 import com.specmate.model.base.IModelNode;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.RGChunk;
-import com.specmate.model.requirements.RGConnectionType;
 import com.specmate.model.requirements.RGModel;
 import com.specmate.model.requirements.RGNode;
 import com.specmate.model.requirements.RGObject;
@@ -93,7 +94,11 @@ public class GraphLayouter<T, S, U> {
 
 				String component = node.getComponent();
 				
-				n = ((RGCreation)creation).createNodeIfNotExist((RGModel)model, component, node.isDeleted(), x, y, node.getType());
+				if (node.isDeleted()) {
+					n = ((RGCreation)creation).createNode((RGModel)model, component, node.isDeleted(), x, y, node.getType());
+				} else {
+					n = ((RGCreation)creation).createNodeIfNotExist((RGModel)model, component, x, y, node.getType());	
+				}
 				
 				for (RGObject m : ((RGModel)model).getModelMapping()) {
 					if (m.getChunk() != null) {
@@ -183,6 +188,24 @@ public class GraphLayouter<T, S, U> {
 					log.log(LogService.LOG_ERROR,
 							"This case should never happen. Chunks not found");
 				}
+			}
+		}
+
+		// delete tmpNodes
+		EList<IContentElement> list = ((RGModel)model).getContents();
+		for (GraphNode dNode : deletedNodes) {
+			IModelNode n = nodeMap.get(dNode);
+			list.remove(n);
+			for (IModelConnection c : n.getIncomingConnections()) {
+				list.remove(c);
+				c.getSource().getOutgoingConnections().remove(c);
+			}
+			for (IModelConnection c : n.getOutgoingConnections()) {
+				list.remove(c);
+				c.getTarget().getIncomingConnections().remove(c);
+			}
+			for (RGChunk c : ((RGNode)n).getChunks()) {
+				c.setNode(null);
 			}
 		}
 		return model;
