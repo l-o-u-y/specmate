@@ -25,18 +25,19 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 	public RGGraphLayouter(ELanguage language, RGCreation creation) {
 		super(language, creation);
 	}
+
 	public RGGraphLayouter(ELanguage language, RGCreation creation, LogService logService) {
 		super(language, creation, logService);
 	}
 
 	public RGModel createModel(Graph graph, RGModel model) {
 
-		RGCreation rgCreation = (RGCreation)creation;
+		RGCreation rgCreation = (RGCreation) creation;
 		int graphDepth = graph.getDepth();
 		int[] positionTable = new int[graphDepth + 1];
 
 		HashMap<GraphNode, RGNode> nodeMap = new HashMap<GraphNode, RGNode>();
-		List<GraphNode> markedNodes = new ArrayList<GraphNode>(); 
+		List<GraphNode> markedNodes = new ArrayList<GraphNode>();
 		for (GraphNode node : graph.nodes) {
 			int xIndex = node.getHeight();
 			int yIndex = positionTable[xIndex];
@@ -51,7 +52,7 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 				markedNodes.add(node);
 				n = rgCreation.createNode(model, component, node.isMarkedForDeletion(), x, y, node.getType());
 			} else {
-				n = rgCreation.createNodeIfNotExist(model, component, x, y, node.getType());	
+				n = rgCreation.createNodeIfNotExist(model, component, x, y, node.getType());
 			}
 
 			// assign chunks based on chunk and node id (position)
@@ -72,7 +73,7 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 		// if we have nodes marked for deletion
 		for (GraphNode markedNode : markedNodes) {
 			// find connections parent --> marked
-			List<GraphEdge> edgesToDeletedNode = new ArrayList<GraphEdge>(); 
+			List<GraphEdge> edgesToDeletedNode = new ArrayList<GraphEdge>();
 			for (GraphEdge e : graph.edges) {
 				if (e.getTo().equals(markedNode)) {
 					edgesToDeletedNode.add(e);
@@ -81,7 +82,8 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 			// if marked node has parent connections
 			if (edgesToDeletedNode.size() > 0) {
 				// do nothing
-				// this means that the marked node should only be DELETEd/REPLACEd from the parent
+				// this means that the marked node should only be DELETEd/REPLACEd from the
+				// parent
 			} else {
 				// if marked node has no parent connections
 				// this means that the marked node should be DELETEd/REPLACEd from all parents
@@ -93,16 +95,17 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 		for (GraphEdge edge : graph.edges) {
 			RGNode from = nodeMap.get(edge.getFrom());
 			RGNode to = nodeMap.get(edge.getTo());
-			// Note: this works because DELETE/REPLACE edge is inserted before this connection edge
+			// Note: this works because DELETE/REPLACE edge is inserted before this
+			// connection edge
 			// if connection xx -> tmp
 			if (to.isTemporary()) {
 				RGNode old = rgCreation.findOldNode(model, to);
 				if (old != null) {
 					if (from.equals(to)) {
 						// tmp --> tmp means, node should be DELETEd/REPLACEd from all parents of old
-						List<RGNode> parentsOfOld = new ArrayList<RGNode>(); 
+						List<RGNode> parentsOfOld = new ArrayList<RGNode>();
 						for (IModelConnection c : old.getIncomingConnections()) {
-							parentsOfOld.add((RGNode)c.getSource());
+							parentsOfOld.add((RGNode) c.getSource());
 						}
 						for (RGNode parentOfOld : parentsOfOld) {
 							rgCreation.replaceConnection(model, parentOfOld, old, to);
@@ -134,8 +137,7 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 				fromChunk.getOutgoingChunks().add(toChunk);
 				toChunk.getIncomingChunks().add(fromChunk);
 			} else {
-				log.log(LogService.LOG_ERROR,
-						"This case should never happen. Chunks not found");
+				log.log(LogService.LOG_ERROR, "This case should never happen. Chunks not found");
 
 			}
 		}

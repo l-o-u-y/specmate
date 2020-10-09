@@ -32,12 +32,12 @@ public class CEGGraphLayouter extends GraphLayouter<CEGModel, CEGNode, CEGConnec
 
 	private String innerConditionString() {
 		if (lang == ELanguage.DE) {
-			return "Ist erfÃ¼llt";
+			return "Ist erf¨¹llt";
 		}
 		return "Is fulfilled";
 	}
 	public CEGModel createModel(Graph graph, CEGModel model) {
-		
+
 		int graphDepth = graph.getDepth();
 		int[] positionTable = new int[graphDepth + 1];
 
@@ -51,25 +51,25 @@ public class CEGGraphLayouter extends GraphLayouter<CEGModel, CEGNode, CEGConnec
 
 			IModelNode n;
 
-				String condition = node.getCondition();
-				String variable = node.getVariable();
+			String condition = node.getCondition();
+			String variable = node.getVariable();
 
-				if (graph.isInnerNode(node)) {
-					condition = innerConditionString();
-					variable = innerVariableString() + " " + xIndex + " - " + yIndex;
-				}
-				
-				n = ((CEGCreation)creation).createNode((CEGModel)model, variable, condition, x, y, node.getType());
-			
+			if (graph.isInnerNode(node)) {
+				condition = innerConditionString();
+				variable = innerVariableString() + " " + xIndex + " - " + yIndex;
+			}
+
+			n = ((CEGCreation)creation).createNode((CEGModel)model, variable, condition, x, y, node.getType());
+
 			nodeMap.put(node, n);
 			positionTable[xIndex]++;
 		}
-		
+
 
 		for (GraphEdge edge : graph.edges) {
 			IModelNode from = nodeMap.get(edge.getFrom());
 			IModelNode to = nodeMap.get(edge.getTo());
-				((CEGCreation)creation).createConnection((CEGModel)model, (CEGNode)from, (CEGNode)to, edge.isNegated());
+			((CEGCreation)creation).createConnection((CEGModel)model, (CEGNode)from, (CEGNode)to, edge.isNegated());
 		}
 
 		return model;
