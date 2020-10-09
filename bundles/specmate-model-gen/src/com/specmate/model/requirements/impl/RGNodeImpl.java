@@ -24,7 +24,7 @@ import com.specmate.model.requirements.RequirementsPackage;
  *   <li>{@link com.specmate.model.requirements.impl.RGNodeImpl#getType <em>Type</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGNodeImpl#getComponent <em>Component</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGNodeImpl#getChunks <em>Chunks</em>}</li>
- *   <li>{@link com.specmate.model.requirements.impl.RGNodeImpl#isDeleted <em>Deleted</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGNodeImpl#isTemporary <em>Temporary</em>}</li>
  * </ul>
  *
  * @generated
@@ -51,14 +51,14 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 	protected static final String COMPONENT_EDEFAULT = null;
 
 	/**
-	 * The default value of the '{@link #isDeleted() <em>Deleted</em>}' attribute.
+	 * The default value of the '{@link #isTemporary() <em>Temporary</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isDeleted()
+	 * @see #isTemporary()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean DELETED_EDEFAULT = false;
+	protected static final boolean TEMPORARY_EDEFAULT = false;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -136,8 +136,8 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 	 * @generated
 	 */
 	@Override
-	public boolean isDeleted() {
-		return (Boolean)eDynamicGet(RequirementsPackage.RG_NODE__DELETED, RequirementsPackage.Literals.RG_NODE__DELETED, true, true);
+	public boolean isTemporary() {
+		return (Boolean)eDynamicGet(RequirementsPackage.RG_NODE__TEMPORARY, RequirementsPackage.Literals.RG_NODE__TEMPORARY, true, true);
 	}
 
 	/**
@@ -146,8 +146,8 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 	 * @generated
 	 */
 	@Override
-	public void setDeleted(boolean newDeleted) {
-		eDynamicSet(RequirementsPackage.RG_NODE__DELETED, RequirementsPackage.Literals.RG_NODE__DELETED, newDeleted);
+	public void setTemporary(boolean newTemporary) {
+		eDynamicSet(RequirementsPackage.RG_NODE__TEMPORARY, RequirementsPackage.Literals.RG_NODE__TEMPORARY, newTemporary);
 	}
 
 	/**
@@ -164,8 +164,8 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 				return getComponent();
 			case RequirementsPackage.RG_NODE__CHUNKS:
 				return getChunks();
-			case RequirementsPackage.RG_NODE__DELETED:
-				return isDeleted();
+			case RequirementsPackage.RG_NODE__TEMPORARY:
+				return isTemporary();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -189,8 +189,8 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 				getChunks().clear();
 				getChunks().addAll((Collection<? extends RGChunk>)newValue);
 				return;
-			case RequirementsPackage.RG_NODE__DELETED:
-				setDeleted((Boolean)newValue);
+			case RequirementsPackage.RG_NODE__TEMPORARY:
+				setTemporary((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -213,8 +213,8 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 			case RequirementsPackage.RG_NODE__CHUNKS:
 				getChunks().clear();
 				return;
-			case RequirementsPackage.RG_NODE__DELETED:
-				setDeleted(DELETED_EDEFAULT);
+			case RequirementsPackage.RG_NODE__TEMPORARY:
+				setTemporary(TEMPORARY_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -234,8 +234,8 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 				return COMPONENT_EDEFAULT == null ? getComponent() != null : !COMPONENT_EDEFAULT.equals(getComponent());
 			case RequirementsPackage.RG_NODE__CHUNKS:
 				return !getChunks().isEmpty();
-			case RequirementsPackage.RG_NODE__DELETED:
-				return isDeleted() != DELETED_EDEFAULT;
+			case RequirementsPackage.RG_NODE__TEMPORARY:
+				return isTemporary() != TEMPORARY_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -46,14 +46,14 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 * @param type
 	 * @return the created node
 	 */
-	public RGNode createNode(RGModel model, String component, boolean deleted, int x, int y, NodeType type) {
+	public RGNode createNode(RGModel model, String component, boolean temporary, int x, int y, NodeType type) {
 		component = this.processWord(component);
 		component = component.toLowerCase();
 		RGNode node = RequirementsFactory.eINSTANCE.createRGNode();
 		node.setId(SpecmateEcoreUtil.getIdForChild());
 		node.setName("New RGNode " + dateFormat.format(new Date()));
 		node.setComponent(component);
-		node.setDeleted(deleted);
+		node.setTemporary(temporary);
 		node.setY(y);
 		node.setX(x);
 		node.setType(type);
@@ -155,7 +155,8 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 
 		for (IContentElement rgNode : list) {
 			if (rgNode instanceof RGNode) {
-				if (((RGNode) rgNode).getComponent().equals(component) && ((RGNode) rgNode).getType().equals(type)) {
+				if (((RGNode) rgNode).getComponent().equals(component) && ((RGNode) rgNode).getType().equals(type)
+						&& !((RGNode) rgNode).isTemporary()) {
 					return (RGNode) rgNode;
 				}
 			}
@@ -181,7 +182,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		for (IContentElement rgNode : list) {
 			if (rgNode instanceof RGNode) {
 				if (((RGNode) rgNode).getComponent().equals(component) && ((RGNode) rgNode).getType().equals(type)
-						&& !((RGNode) rgNode).isDeleted()) {
+						&& !((RGNode) rgNode).isTemporary()) {
 					return (RGNode) rgNode;
 				}
 			}
@@ -189,109 +190,103 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		return null;
 	}
 
-	public RGNode findReplaceNode(RGModel model, RGNode node) {
-		return null;
-	}
-
 	/**
 	 * Remove the connection between two nodes
 	 *
 	 * @param model
-	 * @param nodeFrom
-	 * @param nodeTo
+	 * @param parentNode
+	 * @param oldNode
+	 * @param tmpNode
 	 * @return void
 	 */
-	public void replaceConnection(RGModel model, RGNode nodeFrom, RGNode nodeToOld, RGNode nodeToTmp) {
-		RGNode nodeToNew = null;
+	public void replaceConnection(RGModel model, RGNode parentNode, RGNode oldNode, RGNode tmpNode) {
+		RGNode replacementNode = null;
 		EList<IContentElement> list = model.getContents();
 
-		// no need to find REMOVE connection tmp --> tmp
+		// no need to find REMOVE connection tmp --> tmp bc we delete tmp afterwards anyway
 		// find REPLACE connection tmp --> new
-		RGConnection replaceCon = null;
-		for (IModelConnection c : nodeToTmp.getOutgoingConnections()) {
+		RGConnection replacementCon = null;
+		for (IModelConnection c : tmpNode.getOutgoingConnections()) {
 			if (c instanceof RGConnection) {
 				if (((RGConnection) c).getType().equals(RGConnectionType.REPLACE)) {
-					nodeToNew = ((RGNode) ((RGConnection) c).getTarget());
-					replaceCon = (RGConnection) c;
+					replacementNode = ((RGNode) ((RGConnection) c).getTarget());
+					replacementCon = (RGConnection) c;
 					break;
 				}
 			}
 		}
 
-		// if replace connection found, remove
-		if (replaceCon != null) {
-			list.remove(replaceCon);
-			nodeToTmp.getIncomingConnections().remove(replaceCon);
-			nodeToTmp.getOutgoingConnections().remove(replaceCon);
-			if (nodeToNew != null) {
-				nodeToNew.getIncomingConnections().remove(replaceCon);
-			}
+		// if REPLACE connection found: remove tmp --> new
+		if (replacementCon != null) {
+			list.remove(replacementCon);
+			replacementNode.getIncomingConnections().remove(replacementCon);
 		}
 
 		// find connection parent --> old
-		RGConnection con = null;
-		for (IContentElement rgCon : list) {
-			if (rgCon instanceof RGConnection) {
-				if (((RGConnection) rgCon).getSource().equals(nodeFrom)
-						&& ((RGConnection) rgCon).getTarget().equals(nodeToOld)) {
-					con = (RGConnection) rgCon;
-					break;
-				}
+		RGConnection parentCon = null;
+		for (IModelConnection c : parentNode.getOutgoingConnections()) {
+			if (((RGConnection) c).getTarget().equals(oldNode)) {
+				parentCon = (RGConnection) c;
+				break;
 			}
 		}
-		if (con != null) {
-			if (nodeToNew == null) {
-				// if delete -> remove connection
-				list.remove(con);
-				con.getSource().getOutgoingConnections().remove(con);
-				nodeToOld.getIncomingConnections().remove(con);
+		
+		if (parentCon != null) {
+			if (replacementNode == null) {
+				// DELETE: remove parent --> old
+				list.remove(parentCon);
+				parentNode.getOutgoingConnections().remove(parentCon);
+				oldNode.getIncomingConnections().remove(parentCon);
 			} else {
-				// set target to new -> parent --> new
-				con.setTarget(nodeToNew);
-				nodeToOld.getIncomingConnections().remove(con);
-				nodeToNew.getIncomingConnections().add(con);
+				// REPLACE: parent --> old ~> parent --> new
+				parentCon.setTarget(replacementNode);
+				oldNode.getIncomingConnections().remove(parentCon);
+				replacementNode.getIncomingConnections().add(parentCon);
 			}
 		} else {
-			if (nodeToNew != null) {
-				createConnection(model, nodeFrom, nodeToNew, false);
+			if (replacementNode != null) {
+				createConnection(model, parentNode, replacementNode, false);
 			}
 		}
 
-		// find connections xx --> old
-		List<IModelConnection> consOld = nodeToOld.getIncomingConnections();
+		// connections xx --> old
+		List<IModelConnection> consToOld = oldNode.getIncomingConnections();
 
 		// TODO MA what about outgoing connections
-		// if no connections xx --> old -> delete node fully
-		if (consOld.size() == 0) {
-			if (nodeToOld.getOutgoingConnections().size() > 0) {
-				// clean up outgoing connections
-				for (IModelConnection c : nodeToOld.getOutgoingConnections()) {
-					if (nodeToNew == null) {
+		if (consToOld.size() == 0) {
+			if (oldNode.getOutgoingConnections().size() > 0) {
+				// clean up connections old --> yy
+				for (IModelConnection c : oldNode.getOutgoingConnections()) {
+					if (replacementNode == null) {
+						// DELETE: old --> yy
 						list.remove(c);
 						((RGConnection) c).getTarget().getIncomingConnections().remove(c);
 					} else {
-						((RGConnection) c).setSource(nodeToNew);
+						// REPLACE: old --> yy ~> old --> new
+						((RGConnection) c).setSource(replacementNode);
 					}
 				}
 			}
 
-			list.remove(nodeToOld);
-			// also update references with chunks
-			for (RGChunk c : nodeToOld.getChunks()) {
-				c.setNode(nodeToNew);
+			// DELETE old
+			list.remove(oldNode);
+			
+			// update chunk references of old
+			for (RGChunk c : oldNode.getChunks()) {
+				c.setNode(replacementNode);
 			}
-			if (nodeToNew != null) {
-				nodeToNew.getChunks().addAll(nodeToOld.getChunks());
+			if (replacementNode != null) {
+				replacementNode.getChunks().addAll(oldNode.getChunks());
 			}
 		}
 
 
-		// update references with chunks
-		for (RGChunk c : nodeToTmp.getChunks()) {
-			c.setNode(nodeToNew);
+		// update chunk references of tmp
+		for (RGChunk c : tmpNode.getChunks()) {
+			c.setNode(replacementNode);
 		}
-		if (nodeToNew != null) {
-			nodeToNew.getChunks().addAll(nodeToTmp.getChunks());
+		if (replacementNode != null) {
+			replacementNode.getChunks().addAll(tmpNode.getChunks());
 		}
 	}
 

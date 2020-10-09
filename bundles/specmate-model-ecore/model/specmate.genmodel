@@ -121,7 +121,7 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGNode/component"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGNode/chunks"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGNode/deleted"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGNode/temporary"/>
       </genClasses>
       <genClasses ecoreClass="specmate.ecore#//requirements/CEGNode">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/CEGNode/type"/>

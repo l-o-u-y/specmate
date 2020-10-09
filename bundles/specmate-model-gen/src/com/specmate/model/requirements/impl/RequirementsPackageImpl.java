@@ -579,7 +579,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	@Override
-	public EAttribute getRGNode_Deleted() {
+	public EAttribute getRGNode_Temporary() {
 		return (EAttribute)rgNodeEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -707,7 +707,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		createEAttribute(rgNodeEClass, RG_NODE__TYPE);
 		createEAttribute(rgNodeEClass, RG_NODE__COMPONENT);
 		createEReference(rgNodeEClass, RG_NODE__CHUNKS);
-		createEAttribute(rgNodeEClass, RG_NODE__DELETED);
+		createEAttribute(rgNodeEClass, RG_NODE__TEMPORARY);
 
 		cegNodeEClass = createEClass(CEG_NODE);
 		createEAttribute(cegNodeEClass, CEG_NODE__TYPE);
@@ -809,7 +809,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		initEAttribute(getRGNode_Type(), this.getNodeType(), "type", null, 0, 1, RGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRGNode_Component(), ecorePackage.getEString(), "component", null, 0, 1, RGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRGNode_Chunks(), this.getRGChunk(), null, "chunks", null, 0, -1, RGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getRGNode_Deleted(), ecorePackage.getEBoolean(), "deleted", null, 0, 1, RGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRGNode_Temporary(), ecorePackage.getEBoolean(), "temporary", null, 0, 1, RGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(cegNodeEClass, CEGNode.class, "CEGNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCEGNode_Type(), this.getNodeType(), "type", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

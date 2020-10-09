@@ -896,13 +896,13 @@ public interface RequirementsPackage extends EPackage {
 	int RG_NODE__CHUNKS = BasePackage.IMODEL_NODE_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * The feature id for the '<em><b>Temporary</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RG_NODE__DELETED = BasePackage.IMODEL_NODE_FEATURE_COUNT + 3;
+	int RG_NODE__TEMPORARY = BasePackage.IMODEL_NODE_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>RG Node</em>' class.
@@ -1766,15 +1766,15 @@ public interface RequirementsPackage extends EPackage {
 	EReference getRGNode_Chunks();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGNode#isDeleted <em>Deleted</em>}'.
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGNode#isTemporary <em>Temporary</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Deleted</em>'.
-	 * @see com.specmate.model.requirements.RGNode#isDeleted()
+	 * @return the meta object for the attribute '<em>Temporary</em>'.
+	 * @see com.specmate.model.requirements.RGNode#isTemporary()
 	 * @see #getRGNode()
 	 * @generated
 	 */
-	EAttribute getRGNode_Deleted();
+	EAttribute getRGNode_Temporary();
 
 	/**
 	 * Returns the meta object for class '{@link com.specmate.model.requirements.RGConnection <em>RG Connection</em>}'.
@@ -2168,12 +2168,12 @@ public interface RequirementsPackage extends EPackage {
 		EReference RG_NODE__CHUNKS = eINSTANCE.getRGNode_Chunks();
 
 		/**
-		 * The meta object literal for the '<em><b>Deleted</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Temporary</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute RG_NODE__DELETED = eINSTANCE.getRGNode_Deleted();
+		EAttribute RG_NODE__TEMPORARY = eINSTANCE.getRGNode_Temporary();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.RGConnectionImpl <em>RG Connection</em>}' class.

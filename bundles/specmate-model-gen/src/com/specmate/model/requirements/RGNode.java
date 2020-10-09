@@ -18,7 +18,7 @@ import com.specmate.model.base.IModelNode;
  *   <li>{@link com.specmate.model.requirements.RGNode#getType <em>Type</em>}</li>
  *   <li>{@link com.specmate.model.requirements.RGNode#getComponent <em>Component</em>}</li>
  *   <li>{@link com.specmate.model.requirements.RGNode#getChunks <em>Chunks</em>}</li>
- *   <li>{@link com.specmate.model.requirements.RGNode#isDeleted <em>Deleted</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.RGNode#isTemporary <em>Temporary</em>}</li>
  * </ul>
  *
  * @see com.specmate.model.requirements.RequirementsPackage#getRGNode()
@@ -86,25 +86,25 @@ public interface RGNode extends IModelNode {
 	EList<RGChunk> getChunks();
 
 	/**
-	 * Returns the value of the '<em><b>Deleted</b></em>' attribute.
+	 * Returns the value of the '<em><b>Temporary</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Deleted</em>' attribute.
-	 * @see #setDeleted(boolean)
-	 * @see com.specmate.model.requirements.RequirementsPackage#getRGNode_Deleted()
+	 * @return the value of the '<em>Temporary</em>' attribute.
+	 * @see #setTemporary(boolean)
+	 * @see com.specmate.model.requirements.RequirementsPackage#getRGNode_Temporary()
 	 * @model
 	 * @generated
 	 */
-	boolean isDeleted();
+	boolean isTemporary();
 
 	/**
-	 * Sets the value of the '{@link com.specmate.model.requirements.RGNode#isDeleted <em>Deleted</em>}' attribute.
+	 * Sets the value of the '{@link com.specmate.model.requirements.RGNode#isTemporary <em>Temporary</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Deleted</em>' attribute.
-	 * @see #isDeleted()
+	 * @param value the new value of the '<em>Temporary</em>' attribute.
+	 * @see #isTemporary()
 	 * @generated
 	 */
-	void setDeleted(boolean value);
+	void setTemporary(boolean value);
 
 } // RGNode

@@ -191,7 +191,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="chunks" upperBound="-1"
       eType="#//requirements/RGChunk"/>
       
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="deleted" 
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="temporary" 
       eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" />
     </eClassifiers>
     

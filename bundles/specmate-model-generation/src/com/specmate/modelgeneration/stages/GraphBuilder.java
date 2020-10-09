@@ -125,20 +125,20 @@ public class GraphBuilder {
 		} else if (node.getType().equals(RuleType.REMOVE)) {
 			final RGNodes old = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
 			for (GraphNode o : old.negativeNodes) {
-				o.setDeleted(true);
+				o.setMarkedForDeletion(true);
 			}
 			for (GraphNode o : old.positiveNodes) {
-				o.setDeleted(true);
+				o.setMarkedForDeletion(true);
 			}
 			return old;
 
 		} else if (node.getType().equals(RuleType.REPLACE)) {
 			final RGNodes old = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
 			for (GraphNode o : old.negativeNodes) {
-				o.setDeleted(true);
+				o.setMarkedForDeletion(true);
 			}
 			for (GraphNode o : old.positiveNodes) {
-				o.setDeleted(true);
+				o.setMarkedForDeletion(true);
 			}
 			final RGNodes neww = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
 			connectRGNodes(old, neww, node);

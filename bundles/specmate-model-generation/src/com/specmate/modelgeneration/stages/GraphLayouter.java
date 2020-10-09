@@ -94,8 +94,8 @@ public class GraphLayouter<T, S, U> {
 
 				String component = node.getComponent();
 				
-				if (node.isDeleted()) {
-					n = ((RGCreation)creation).createNode((RGModel)model, component, node.isDeleted(), x, y, node.getType());
+				if (node.isMarkedForDeletion()) {
+					n = ((RGCreation)creation).createNode((RGModel)model, component, node.isMarkedForDeletion(), x, y, node.getType());
 				} else {
 					n = ((RGCreation)creation).createNodeIfNotExist((RGModel)model, component, x, y, node.getType());	
 				}
@@ -111,7 +111,7 @@ public class GraphLayouter<T, S, U> {
 					}
 				}
 				
-				if (node.isDeleted()) {
+				if (node.isMarkedForDeletion()) {
 					deletedNodes.add(node);
 				}
 			}
@@ -146,7 +146,7 @@ public class GraphLayouter<T, S, U> {
 			} else {
 				// Note: replace edge is inserted before old connection edge so this works
 				// delete old connection
-				if (((RGNode)to).isDeleted()) {
+				if (((RGNode)to).isTemporary()) {
 					RGNode old = ((RGCreation)creation).findOldNode((RGModel)model, (RGNode)to);
 					if (old != null) {
 						if (from.equals(to)) {
