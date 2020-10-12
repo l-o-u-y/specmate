@@ -1,8 +1,7 @@
 import EN.DEP.STANFORD.*
-// import EN.DEP.SPACY.*
 import EN.POS.PTB.*
 
-def subtrees Limit, Conditional, Cause, Effect, Effect_SubA, Cause_SubA, Cause_SubB, Cause_SubC, Cause_SubD, TMP
+def subtrees Limit, Conditional
 
 def rule LimitedCondition_1 {
 	[Limit] - nsubjpass -> [Conditional] - prep -> IN:'until'
@@ -11,6 +10,9 @@ def rule LimitedCondition_1 {
 def rule LimitedCondition_2 {
 	[Limit] - csubjpass -> [Conditional] - prep -> IN:'until'
 }
+
+
+def subtrees Cause, Effect, TMP, Effect_SubA, Cause_SubA, Cause_SubB, Cause_SubC, Cause_SubD
 
 //  If the tool detects an error then the tool beeps.
 def rule Condition1_1 {
