@@ -295,104 +295,13 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		}
 		
 		// remove residuals
+		// TODO MA this doesnt work it seems?
 		removeConnection(model, replacementCon);
 		list.remove(tmpNode);
 		if (oldNode.getIncomingConnections().size() == 0 && oldNode.getOutgoingConnections().size() == 0) {
 			list.remove(tmpNode);			
 		}
 		list.remove(tmpNode);
-
-		// find connection parent --> old
-		/* List<RGConnection> parentCons = oldNode.getIncomingConnections().stream().map(c -> (RGConnection)c)
-				.filter(c -> parentNode == null || c.getSource().equals(parentNode) ).collect(Collectors.toList());
-
-		for (RGConnection parentCon : parentCons) {
-			if (replacementNode == null) {
-				// DELETE: remove parent --> old
-				removeConnection(model, parentCon);
-			} else {
-				// REPLACE: parent --> old ~> parent --> new
-				parentCon.setTarget(replacementNode);
-				oldNode.getIncomingConnections().remove(parentCon);
-				replacementNode.getIncomingConnections().add(parentCon);
-			}
-		}
-		if (parentCons.size() == 0 ) {
-			if (parentNode != null && replacementNode != null) {
-				createConnection(model, parentNode, replacementNode, false);
-			}
-		}
-
-		// connections xx --> old
-		List<IModelConnection> consToOld = oldNode.getIncomingConnections();
-
-		if (consToOld.size() == 0) {
-			if (oldNode.getOutgoingConnections().size() > 0) {
-				// clean up connections old --> yy
-				List<IModelConnection> consFromOld = oldNode.getOutgoingConnections();
-				for (IModelConnection c : consFromOld) {
-					if (replacementNode == null) {
-						// DELETE: old --> yy
-						removeConnection(model, (RGConnection)c);
-					} else {
-						// REPLACE: old --> yy ~> new --> yy
-						((RGConnection) c).setSource(replacementNode);
-					}
-				}
-			}
-
-			// DELETE old
-			list.remove(oldNode);
-
-			// update chunk references of old
-			for (RGChunk c : oldNode.getChunks()) {
-				c.setNode(replacementNode);
-			}
-			if (replacementNode != null) {
-				replacementNode.getChunks().addAll(oldNode.getChunks());
-			}
-		}
-
-
-		// update chunk references of tmp
-		for (RGChunk c : tmpNode.getChunks()) {
-			c.setNode(replacementNode);
-		}
-		if (replacementNode != null) {
-			replacementNode.getChunks().addAll(tmpNode.getChunks());
-		} */
-
-
-		// TODO outgoing connections
-		//		if (replacementNode != null) {
-		//			EList<RGChunk> chunks = replacementNode.getChunks();
-		//			for (RGChunk chunk : chunks) {
-		//				EList<RGChunk> inChunks = chunk.getIncomingChunks();
-		//				for (RGChunk sourceChunk : inChunks) {
-		//					RGNode sourceNode = sourceChunk.getNode();
-		//					if (sourceNode != null) {
-		//						EList<IModelConnection> con = sourceNode.getOutgoingConnections();
-		//						for (IModelConnection c : con) {
-		//							if (c.getTarget().equals(oldNode)) {
-		//								c.setTarget(replacementNode);
-		//							}
-		//						}
-		//					}
-		//				}
-		//				EList<RGChunk> outChunks = chunk.getOutgoingChunks();
-		//				for (RGChunk targetChunk : outChunks) {
-		//					RGNode targetNode = targetChunk.getNode();
-		//					if (targetNode != null) {
-		//						EList<IModelConnection> con = targetNode.getIncomingConnections();
-		//						for (IModelConnection c : con) {
-		//							if (c.getSource().equals(oldNode)) {
-		//								c.setSource(replacementNode);
-		//							}
-		//						}
-		//					}
-		//				}
-		//			}
-		//		}
 	}
 
 	// TODO MA nouns: concreteness rating
