@@ -260,8 +260,10 @@
 		"addStep": "Step",
 		"autoLayout": "Auto-Layout",
 		"delete": "Delete",
+		"generateDescription": "Generate requirements",
 		"move": "Move",
-		"select": "Select"
+		"select": "Select",
+		"updateModel": "Update model requirements"
 	},
 	"triedToCheckExistenceOfUnknownElement": "Tried to check existence of unknown element.",
 	"triedToReadContensForVirtualElement": "Tried to read contents for virtual element.",

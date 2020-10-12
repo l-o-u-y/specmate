@@ -2,12 +2,25 @@
  */
 package com.specmate.model.base.util;
 
-import com.specmate.model.base.*;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
+
+import com.specmate.model.base.BasePackage;
+import com.specmate.model.base.Folder;
+import com.specmate.model.base.IContainer;
+import com.specmate.model.base.IContentElement;
+import com.specmate.model.base.IDescribed;
+import com.specmate.model.base.IExternal;
+import com.specmate.model.base.IID;
+import com.specmate.model.base.IModelConnection;
+import com.specmate.model.base.IModelNode;
+import com.specmate.model.base.INamed;
+import com.specmate.model.base.IPositionable;
+import com.specmate.model.base.IRecycled;
+import com.specmate.model.base.ISpecmateModelObject;
+import com.specmate.model.base.ISpecmatePositionableModelObject;
+import com.specmate.model.base.ITracingElement;
 
 /**
  * <!-- begin-user-doc -->

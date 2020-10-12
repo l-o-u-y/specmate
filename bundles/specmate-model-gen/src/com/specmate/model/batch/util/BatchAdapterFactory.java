@@ -2,14 +2,14 @@
  */
 package com.specmate.model.batch.util;
 
-import com.specmate.model.batch.*;
-
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
+
+import com.specmate.model.batch.BatchOperation;
+import com.specmate.model.batch.BatchPackage;
+import com.specmate.model.batch.Operation;
 
 /**
  * <!-- begin-user-doc -->

@@ -6,7 +6,7 @@ import com.specmate.model.base.IModelConnection;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>CEG Connection</b></em>'.
+ * A representation of the model object '<em><b>RG Connection</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
@@ -15,6 +15,7 @@ import com.specmate.model.base.IModelConnection;
  * <ul>
  *   <li>{@link com.specmate.model.requirements.RGConnection#isNegate <em>Negate</em>}</li>
  *   <li>{@link com.specmate.model.requirements.RGConnection#getType <em>Type</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.RGConnection#getLabel <em>Label</em>}</li>
  * </ul>
  *
  * @see com.specmate.model.requirements.RequirementsPackage#getRGConnection()
@@ -53,7 +54,7 @@ public interface RGConnection extends IModelConnection {
 	 * @see com.specmate.model.requirements.RGConnectionType
 	 * @see #setType(RGConnectionType)
 	 * @see com.specmate.model.requirements.RequirementsPackage#getRGConnection_Type()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Type' longDesc='The type of a connection' required='true' type='singleSelection' values='[\"Inheritance\", \"Composition\"]' position='3'"
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Type' longDesc='The type of a connection' required='true' type='singleSelection' values='[\"Inheritance\", \"Composition\", \"Action\"]' position='2'"
 	 * @generated
 	 */
 	RGConnectionType getType();
@@ -68,5 +69,27 @@ public interface RGConnection extends IModelConnection {
 	 * @generated
 	 */
 	void setType(RGConnectionType value);
+
+	/**
+	 * Returns the value of the '<em><b>Label</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Label</em>' attribute.
+	 * @see #setLabel(String)
+	 * @see com.specmate.model.requirements.RequirementsPackage#getRGConnection_Label()
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Label' longDesc='The label of a connection' required='false' type='text' position='3'"
+	 * @generated
+	 */
+	String getLabel();
+
+	/**
+	 * Sets the value of the '{@link com.specmate.model.requirements.RGConnection#getLabel <em>Label</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Label</em>' attribute.
+	 * @see #getLabel()
+	 * @generated
+	 */
+	void setLabel(String value);
 
 } // RGConnection

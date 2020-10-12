@@ -2,13 +2,12 @@
  */
 package com.specmate.model.requirements.impl;
 
-import com.specmate.model.base.impl.IModelConnectionImpl;
+import org.eclipse.emf.ecore.EClass;
 
+import com.specmate.model.base.impl.IModelConnectionImpl;
 import com.specmate.model.requirements.RGConnection;
 import com.specmate.model.requirements.RGConnectionType;
 import com.specmate.model.requirements.RequirementsPackage;
-
-import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,6 +19,7 @@ import org.eclipse.emf.ecore.EClass;
  * <ul>
  *   <li>{@link com.specmate.model.requirements.impl.RGConnectionImpl#isNegate <em>Negate</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGConnectionImpl#getType <em>Type</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGConnectionImpl#getLabel <em>Label</em>}</li>
  * </ul>
  *
  * @generated
@@ -44,6 +44,16 @@ public class RGConnectionImpl extends IModelConnectionImpl implements RGConnecti
 	 * @ordered
 	 */
 	protected static final RGConnectionType TYPE_EDEFAULT = RGConnectionType.INHERITANCE;
+
+	/**
+	 * The default value of the '{@link #getLabel() <em>Label</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLabel()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String LABEL_EDEFAULT = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -110,12 +120,34 @@ public class RGConnectionImpl extends IModelConnectionImpl implements RGConnecti
 	 * @generated
 	 */
 	@Override
+	public String getLabel() {
+		return (String)eDynamicGet(RequirementsPackage.RG_CONNECTION__LABEL, RequirementsPackage.Literals.RG_CONNECTION__LABEL, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setLabel(String newLabel) {
+		eDynamicSet(RequirementsPackage.RG_CONNECTION__LABEL, RequirementsPackage.Literals.RG_CONNECTION__LABEL, newLabel);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case RequirementsPackage.RG_CONNECTION__NEGATE:
 				return isNegate();
 			case RequirementsPackage.RG_CONNECTION__TYPE:
 				return getType();
+			case RequirementsPackage.RG_CONNECTION__LABEL:
+				return getLabel();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -133,6 +165,9 @@ public class RGConnectionImpl extends IModelConnectionImpl implements RGConnecti
 				return;
 			case RequirementsPackage.RG_CONNECTION__TYPE:
 				setType((RGConnectionType)newValue);
+				return;
+			case RequirementsPackage.RG_CONNECTION__LABEL:
+				setLabel((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -152,6 +187,9 @@ public class RGConnectionImpl extends IModelConnectionImpl implements RGConnecti
 			case RequirementsPackage.RG_CONNECTION__TYPE:
 				setType(TYPE_EDEFAULT);
 				return;
+			case RequirementsPackage.RG_CONNECTION__LABEL:
+				setLabel(LABEL_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -168,6 +206,8 @@ public class RGConnectionImpl extends IModelConnectionImpl implements RGConnecti
 				return isNegate() != NEGATE_EDEFAULT;
 			case RequirementsPackage.RG_CONNECTION__TYPE:
 				return getType() != TYPE_EDEFAULT;
+			case RequirementsPackage.RG_CONNECTION__LABEL:
+				return LABEL_EDEFAULT == null ? getLabel() != null : !LABEL_EDEFAULT.equals(getLabel());
 		}
 		return super.eIsSet(featureID);
 	}

@@ -2,12 +2,11 @@
  */
 package com.specmate.model.processes.impl;
 
-import com.specmate.model.base.impl.IModelNodeImpl;
+import org.eclipse.emf.ecore.EClass;
 
+import com.specmate.model.base.impl.IModelNodeImpl;
 import com.specmate.model.processes.ProcessNode;
 import com.specmate.model.processes.ProcessesPackage;
-
-import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->

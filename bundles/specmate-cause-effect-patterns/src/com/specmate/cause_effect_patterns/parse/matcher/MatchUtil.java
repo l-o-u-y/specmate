@@ -2,10 +2,14 @@ package com.specmate.cause_effect_patterns.parse.matcher;
 
 import java.util.List;
 import java.util.Vector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import com.specmate.cause_effect_patterns.parse.DependencyNode;
 import com.specmate.cause_effect_patterns.parse.DependencyParsetree;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
 
 public class MatchUtil {
 	/**
@@ -16,9 +20,25 @@ public class MatchUtil {
 	 * @return A List of Results for each head of the dependency data object.
 	 */
 	public static List<MatchResult> evaluateRuleset(List<MatchRule> rules, DependencyParsetree data) {
-		Vector<MatchResult> result = new Vector<MatchResult>();
+		return evaluateRuleset(rules, data, false);
+	}
+	
+	public static List<MatchResult> evaluateRuleset(List<MatchRule> rules, DependencyParsetree data, boolean matchAll) {
+		List<MatchResult> result = new Vector<MatchResult>();
 		for(Token head: data.getHeads()) {
 			result.add(MatchUtil.evaluateRuleset(rules, data, head));
+			// TODO MA does this even work? 
+			/* if (matchAll) {
+				if (data.getDependencyNode(head)==null) {
+					return result;
+				}
+				for (Dependency d : data.getDependencyNode(head)) {
+					List<MatchResult> subresult = MatchUtil.evaluateRuleset(rules, DependencyParsetree.getSubtree(data, d.getDependent()), matchAll);
+					List<MatchResult> newList = Stream.concat(result.stream(), subresult.stream())
+                    .collect(Collectors.toList());
+					result = newList;
+				}
+			} */
 		}
 		return result; 
 	}
@@ -61,6 +81,7 @@ public class MatchUtil {
 			Token subHead = subData.getHeads().stream().findFirst().get();
 			
 			MatchResult recursiveCall;
+
 			if(subData.getTreeFragmentText().equals(data.getTreeFragmentText()) && subHead.equals(head)) {
 				int newOffset = rules.indexOf(currentRule) + 1;
 				recursiveCall = evaluateRuleset(rules, subData, subHead, newOffset);

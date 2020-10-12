@@ -2,16 +2,18 @@
  */
 package com.specmate.model.administration.impl;
 
-import com.specmate.model.administration.*;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
+import com.specmate.model.administration.AdministrationFactory;
+import com.specmate.model.administration.AdministrationPackage;
+import com.specmate.model.administration.ErrorCode;
+import com.specmate.model.administration.ProblemDetail;
+import com.specmate.model.administration.Status;
 
 /**
  * <!-- begin-user-doc -->

@@ -74,6 +74,7 @@ export abstract class ContentContainerBase<T extends IContainer> implements OnIn
 
     protected async readContents(): Promise<void> {
         this.contents = undefined;
+        if (this.parent == undefined) { return; }
         const contents = await this.dataService.readContents(this.parent.url, false);
         this.contents = contents.filter(this.condition);
     }

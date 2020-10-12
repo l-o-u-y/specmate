@@ -1,5 +1,7 @@
 package com.specmate.cause_effect_patterns.parse.matcher;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import com.specmate.cause_effect_patterns.parse.DependencyParsetree;
@@ -20,7 +22,7 @@ public class SubtreeMatcher extends MatcherBase {
 	private Optional<String> posTag;
 	private Optional<String> pattern;
 	private String subtreeName;
-
+	
 	public SubtreeMatcher(String subtreeName, String pattern, String posTag) {
 		this(subtreeName, pattern);
 		if (posTag != null) {
@@ -77,10 +79,8 @@ public class SubtreeMatcher extends MatcherBase {
 			}
 		}
 		
-		if(this.posTag.isPresent()) {
-			if(!head.getPosValue().equals(this.posTag.get())) {
-				return MatchResult.unsuccessful();
-			}
+		if (!this.matchPosTag(head)) {
+			return MatchResult.unsuccessful();
 		}
 		
 		MatchResult res = super.match(data, head);
@@ -92,5 +92,15 @@ public class SubtreeMatcher extends MatcherBase {
 		res.addSubmatch(this.subtreeName, subtree);
 		res.clearMatchTree();
 		return res;
+	}
+	
+	public boolean matchPosTag(Token head) {
+		if (this.posTag.isPresent()) {
+			if (head.getPosValue().matches(this.posTag.get())) {
+				return true;
+			}
+			return false;
+		}
+		return true;
 	}
 }

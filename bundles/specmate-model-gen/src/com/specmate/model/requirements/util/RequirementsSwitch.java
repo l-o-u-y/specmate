@@ -2,6 +2,10 @@
  */
 package com.specmate.model.requirements.util;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.Switch;
+
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IDescribed;
@@ -14,13 +18,16 @@ import com.specmate.model.base.IRecycled;
 import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.base.ISpecmatePositionableModelObject;
 import com.specmate.model.base.ITracingElement;
-
-import com.specmate.model.requirements.*;
-
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-
-import org.eclipse.emf.ecore.util.Switch;
+import com.specmate.model.requirements.CEGConnection;
+import com.specmate.model.requirements.CEGModel;
+import com.specmate.model.requirements.CEGNode;
+import com.specmate.model.requirements.RGChunk;
+import com.specmate.model.requirements.RGConnection;
+import com.specmate.model.requirements.RGModel;
+import com.specmate.model.requirements.RGNode;
+import com.specmate.model.requirements.RGObject;
+import com.specmate.model.requirements.Requirement;
+import com.specmate.model.requirements.RequirementsPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -122,19 +129,21 @@ public class RequirementsSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case RequirementsPackage.CEG_NODE: {
-				CEGNode cegNode = (CEGNode)theEObject;
-				T result = caseCEGNode(cegNode);
-				if (result == null) result = caseIModelNode(cegNode);
-				if (result == null) result = caseISpecmatePositionableModelObject(cegNode);
-				if (result == null) result = caseISpecmateModelObject(cegNode);
-				if (result == null) result = caseIContainer(cegNode);
-				if (result == null) result = caseITracingElement(cegNode);
-				if (result == null) result = caseIContentElement(cegNode);
-				if (result == null) result = caseIID(cegNode);
-				if (result == null) result = caseINamed(cegNode);
-				if (result == null) result = caseIDescribed(cegNode);
-				if (result == null) result = caseIRecycled(cegNode);
+			case RequirementsPackage.RG_OBJECT: {
+				RGObject rgObject = (RGObject)theEObject;
+				T result = caseRGObject(rgObject);
+				if (result == null) result = caseIID(rgObject);
+				if (result == null) result = caseIDescribed(rgObject);
+				if (result == null) result = caseIRecycled(rgObject);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RequirementsPackage.RG_CHUNK: {
+				RGChunk rgChunk = (RGChunk)theEObject;
+				T result = caseRGChunk(rgChunk);
+				if (result == null) result = caseIID(rgChunk);
+				if (result == null) result = caseIDescribed(rgChunk);
+				if (result == null) result = caseIRecycled(rgChunk);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -151,6 +160,22 @@ public class RequirementsSwitch<T> extends Switch<T> {
 				if (result == null) result = caseINamed(rgNode);
 				if (result == null) result = caseIDescribed(rgNode);
 				if (result == null) result = caseIRecycled(rgNode);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RequirementsPackage.CEG_NODE: {
+				CEGNode cegNode = (CEGNode)theEObject;
+				T result = caseCEGNode(cegNode);
+				if (result == null) result = caseIModelNode(cegNode);
+				if (result == null) result = caseISpecmatePositionableModelObject(cegNode);
+				if (result == null) result = caseISpecmateModelObject(cegNode);
+				if (result == null) result = caseIContainer(cegNode);
+				if (result == null) result = caseITracingElement(cegNode);
+				if (result == null) result = caseIContentElement(cegNode);
+				if (result == null) result = caseIID(cegNode);
+				if (result == null) result = caseINamed(cegNode);
+				if (result == null) result = caseIDescribed(cegNode);
+				if (result == null) result = caseIRecycled(cegNode);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -260,6 +285,36 @@ public class RequirementsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseRGModel(RGModel object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>RG Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>RG Object</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRGObject(RGObject object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>RG Chunk</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>RG Chunk</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRGChunk(RGChunk object) {
 		return null;
 	}
 

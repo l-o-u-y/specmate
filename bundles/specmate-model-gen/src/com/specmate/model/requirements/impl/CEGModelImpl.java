@@ -2,6 +2,15 @@
  */
 package com.specmate.model.requirements.impl;
 
+import java.util.Collection;
+
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IDescribed;
@@ -10,13 +19,6 @@ import com.specmate.model.base.IRecycled;
 import com.specmate.model.base.ITracingElement;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.RequirementsPackage;
-import java.util.Collection;
-import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 /**
  * <!-- begin-user-doc -->

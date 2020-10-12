@@ -18,8 +18,8 @@ import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.config.api.IConfigService;
 import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.requirements.CEGModel;
+import com.specmate.modelgeneration.stages.CEGGraphLayouter;
 import com.specmate.modelgeneration.stages.GraphBuilder;
-import com.specmate.modelgeneration.stages.GraphLayouter;
 import com.specmate.modelgeneration.stages.MatcherPostProcesser;
 import com.specmate.modelgeneration.stages.RuleMatcher;
 import com.specmate.modelgeneration.stages.TextPreProcessor;
@@ -67,7 +67,7 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 
 			final MatcherPostProcesser matchPostProcesser = new MatcherPostProcesser(lang);
 			GraphBuilder graphBuilder = new GraphBuilder();
-			GraphLayouter graphLayouter = new GraphLayouter(lang, creation);
+			CEGGraphLayouter graphLayouter = new CEGGraphLayouter(lang, creation);
 
 			for (MatchResultTreeNode tree : trees) {
 				try {
@@ -81,8 +81,8 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 						continue;
 					}
 
-					Graph graph = graphBuilder.buildGraph((BinaryMatchResultTreeNode) tree);
-					CEGModel model = graphLayouter.createModel(graph);
+					Graph graph = graphBuilder.buildCEGGraph((BinaryMatchResultTreeNode) tree);
+					CEGModel model = (CEGModel)graphLayouter.createModel(graph);
 					candidates.add(Pair.of(text, model));
 				} catch (Throwable t) {
 					log.log(LogService.LOG_DEBUG,

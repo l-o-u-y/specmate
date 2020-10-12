@@ -117,10 +117,10 @@ export class ChangeTranslator {
         if (Type.is(element, CEGConnection)) {
             const connection = (element as CEGConnection);
             let changeMade = false;
-            if (Arrays.contains(newStyles, EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE)) {
+            if (Arrays.contains(newStyles, EditorStyle.CEG_CONNECTION_NEGATED_STYLE)) {
                 connection.negate = true;
                 changeMade = true;
-            } else if (Arrays.contains(removedStyles, EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE)) {
+            } else if (Arrays.contains(removedStyles, EditorStyle.CEG_CONNECTION_NEGATED_STYLE)) {
                 connection.negate = false;
                 changeMade = true;
             }
@@ -131,10 +131,10 @@ export class ChangeTranslator {
         } else if (Type.is(element, RGConnection)) {
             const connection = (element as RGConnection);
             let changeMade = false;
-            if (Arrays.contains(newStyles, EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE)) {
+            if (Arrays.contains(newStyles, EditorStyle.RG_CONNECTION_NEGATED_STYLE)) {
                 connection.negate = true;
                 changeMade = true;
-            } else if (Arrays.contains(removedStyles, EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE)) {
+            } else if (Arrays.contains(removedStyles, EditorStyle.RG_CONNECTION_NEGATED_STYLE)) {
                 connection.negate = false;
                 changeMade = true;
             }
@@ -193,11 +193,11 @@ export class ChangeTranslator {
     }
 
     private isNegatedCEGNode(cell: mxgraph.mxCell): boolean {
-        return (cell.style as String).includes(EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE);
+        return (cell.style as String).includes(EditorStyle.CEG_CONNECTION_NEGATED_STYLE);
     }
 
     private isNegatedRGNode(cell: mxgraph.mxCell): boolean {
-        return (cell.style as String).includes(EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE);
+        return (cell.style as String).includes(EditorStyle.RG_CONNECTION_NEGATED_STYLE);
     }
 
     private async translateEdgeAdd(change: mxgraph.mxChildChange, graph: mxgraph.mxGraph): Promise<IModelConnection> {
@@ -235,11 +235,10 @@ export class ChangeTranslator {
             (tool as RGConnectionTool).negated = this.isNegatedRGNode(change.child);
         }
 
-        const connection = await tool.perform();
-
         let oldId = change.child.id;
         let cell = graph.getModel().getCell(oldId);
 
+        const connection = await tool.perform();
         const condition = change.child.value;
         if (condition !== null && condition !== undefined && condition !== '') {
             (connection as ProcessConnection).condition = condition;
@@ -272,7 +271,7 @@ export class ChangeTranslator {
             }
         } else if (Type.is(node, RGNode)) {
             const value =
-                new RGmxModelNode(change.child.children[0].value, change.child.children[1].value, change.child.children[2].value || 'AND');
+                new RGmxModelNode(change.child.children[0].value, change.child.children[1].value || 'AND');
             const elementValues = this.nodeNameConverter.convertFrom(value, node);
             for (const key in elementValues) {
                 node[key] = elementValues[key];
@@ -323,31 +322,24 @@ export class ChangeTranslator {
             delete this.parentComponents[oldIdType];
         } else if (Type.is(node, RGNode)) {
             let component = cell.children[0];
-            let modifier = cell.children[1];
-            let type = cell.children[2];
+            let type = cell.children[1];
 
             let oldIdVariable = component.id;
-            let oldIdCondition = modifier.id;
             let oldIdType = type.id;
 
             component.setId(newId + VertexProvider.ID_SUFFIX_COMPONENT);
-            modifier.setId(newId + VertexProvider.ID_SUFFIX_MODIFIER);
             type.setId(newId + VertexProvider.ID_SUFFIX_TYPE);
 
             delete cells[oldIdVariable];
-            delete cells[oldIdCondition];
             delete cells[oldIdType];
 
             cells[component.id] = component;
-            cells[modifier.id] = modifier;
             cells[type.id] = type;
 
             this.parentComponents[component.id] = node;
-            this.parentComponents[modifier.id] = node;
             this.parentComponents[type.id] = node;
 
             delete this.parentComponents[oldIdVariable];
-            delete this.parentComponents[oldIdCondition];
             delete this.parentComponents[oldIdType];
         }
         return node;
@@ -384,7 +376,7 @@ export class ChangeTranslator {
             if (Type.is(element, CEGNode)) {
                 value = new CEGmxModelNode(cell.children[0].value, cell.children[1].value, cell.children[2].value);
             } else if (Type.is(element, RGNode)) {
-                value = new RGmxModelNode(cell.children[0].value, cell.children[1].value, cell.children[2].value);
+                value = new RGmxModelNode(cell.children[0].value, cell.children[1].value);
             }
             const elementValues = this.nodeNameConverter.convertFrom(value, element);
             for (const key in elementValues) {
@@ -524,6 +516,11 @@ export class ChangeTranslator {
     public retranslate(changedElement: IContainer, graph: mxgraph.mxGraph, cell: mxgraph.mxCell) {
         this.preventDataUpdates = true;
         let value = this.nodeNameConverter ? this.nodeNameConverter.convertTo(changedElement) : changedElement.name;
+        if (Type.is(changedElement, RGConnection)) {
+            if ((changedElement as RGConnection).label) {
+                value = (changedElement as RGConnection).label;
+            }
+        }
         if (value instanceof CEGmxModelNode || value instanceof RGmxModelNode) {
             for (const key in value) {
                 if (value.hasOwnProperty(key)) {

@@ -19,13 +19,15 @@ public class Graph {
 	}
 
 	public GraphNode createNode(String condition, String variable, NodeType type) {
-		GraphNode result = new GraphNode(this, condition, variable, type);
+		GraphNode result = new GraphNode(this, type);
+		result.setCondition(condition);
+		result.setVariable(variable);
 		nodes.add(result);
 		return result;
 	}
 
 	public GraphNode createInnerNode( NodeType type) {
-		GraphNode result = new GraphNode(this, null, null, type);
+		GraphNode result = new GraphNode(this, type);
 		nodes.add(result);
 		innerNodes.add(result);
 		return result;
@@ -42,5 +44,10 @@ public class Graph {
 
 	public boolean isInnerNode(GraphNode node) {
 		return innerNodes.contains(node);
+	}
+	
+	public void removeNode(GraphNode node) {
+		this.nodes.remove(node);
+		this.innerNodes.remove(node);
 	}
 }

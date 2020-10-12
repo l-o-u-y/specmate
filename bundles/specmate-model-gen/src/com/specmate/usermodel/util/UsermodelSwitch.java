@@ -2,12 +2,13 @@
  */
 package com.specmate.usermodel.util;
 
-import com.specmate.usermodel.*;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
+
+import com.specmate.usermodel.User;
+import com.specmate.usermodel.UserSession;
+import com.specmate.usermodel.UsermodelPackage;
 
 /**
  * <!-- begin-user-doc -->

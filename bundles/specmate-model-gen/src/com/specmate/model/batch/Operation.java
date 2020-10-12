@@ -2,9 +2,9 @@
  */
 package com.specmate.model.batch;
 
-import com.specmate.model.base.IContentElement;
-
 import org.eclipse.emf.cdo.CDOObject;
+
+import com.specmate.model.base.IContentElement;
 
 /**
  * <!-- begin-user-doc -->

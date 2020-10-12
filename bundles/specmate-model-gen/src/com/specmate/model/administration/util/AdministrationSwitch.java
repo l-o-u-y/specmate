@@ -2,12 +2,13 @@
  */
 package com.specmate.model.administration.util;
 
-import com.specmate.model.administration.*;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
+
+import com.specmate.model.administration.AdministrationPackage;
+import com.specmate.model.administration.ProblemDetail;
+import com.specmate.model.administration.Status;
 
 /**
  * <!-- begin-user-doc -->

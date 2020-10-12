@@ -33,7 +33,7 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
  */
 public abstract class MatcherBase {
 	private Optional<MatcherBase> parent;
-	private Set<MatcherBase> children;
+	protected Set<MatcherBase> children;
 	protected ArrayListMultimap<String, MatcherBase> arcs;
 	
 	public MatcherBase() {
@@ -52,10 +52,18 @@ public abstract class MatcherBase {
 		if (to.children.contains(this)) {
 			throw MatcherException.circularRule(this, to);
 		}
-		this.children.add(to);
-		this.children.addAll(to.children);
+
 		
-		this.arcs.put(dependencyTag, to);
+		if (this instanceof OrMatcher) {
+			for (MatcherBase from : ((OrMatcher) this).getOptions()) {
+				from.arcTo(to, dependencyTag);
+			}
+		} else {
+			this.children.add(to);
+			this.children.addAll(to.children);
+			
+			this.arcs.put(dependencyTag, to);
+		}
 	}
 	
 	public Collection<MatcherBase> getArcChildren() {
@@ -86,6 +94,9 @@ public abstract class MatcherBase {
 	
 	private int positionOfInterest;
 	public MatchResult match(DependencyParsetree data, Token head) {
+		if (data.getTreeFragmentText().contains("child of parent")) {
+			System.out.println(data.getTreeFragmentText());
+		}
 		DependencyNode dependencies = data.getDependencyNode(head);
 		MatchResult result = MatchResult.success();
 		
@@ -124,7 +135,6 @@ public abstract class MatcherBase {
 			}
 			result.addSubtree(match);
 		}
-		
 		// Add remaining unmatched Subtrees
 		if(dependencies != null) {
 			Set<String> keys = dependencies.getKeySet();

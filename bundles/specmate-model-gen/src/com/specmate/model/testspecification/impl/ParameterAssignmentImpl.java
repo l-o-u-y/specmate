@@ -2,21 +2,18 @@
  */
 package com.specmate.model.testspecification.impl;
 
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.INamed;
-
 import com.specmate.model.base.IRecycled;
 import com.specmate.model.testspecification.ParameterAssignment;
 import com.specmate.model.testspecification.TestParameter;
 import com.specmate.model.testspecification.TestspecificationPackage;
-
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 /**
  * <!-- begin-user-doc -->

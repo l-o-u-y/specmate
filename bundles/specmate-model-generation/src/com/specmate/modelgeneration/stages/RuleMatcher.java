@@ -48,6 +48,7 @@ public class RuleMatcher {
 		try {
 			URI dep = getURI(depPath,  "resources/"+langCode+"/Dep_"+langCode+".spec");
 			URI pos = getURI(posPath,  "resources/"+langCode+"/Pos_"+langCode+".spec");
+			// TODO MA misc: switch case for RG/CEG
 			URI rule = getURI(rulePath,"resources/"+langCode+"/Rule_"+langCode+".spec");
 
 			rules = new GenerateMatcherUtil().loadXTextResources(rule, dep, pos);
@@ -106,9 +107,13 @@ public class RuleMatcher {
 	}
 
 	public List<MatchResult> matchText(String text) throws SpecmateException {
+		return matchText(text, false);
+	}
+
+	public List<MatchResult> matchText(String text, boolean matchAll) throws SpecmateException {
 		JCas tagResult = tagger.processText(text, lang);
 		DependencyParsetree data = DependencyParsetree.generateFromJCas(tagResult);
-		return MatchUtil.evaluateRuleset(rules, data);
+		return MatchUtil.evaluateRuleset(rules, data, matchAll);
 	}
 
 }

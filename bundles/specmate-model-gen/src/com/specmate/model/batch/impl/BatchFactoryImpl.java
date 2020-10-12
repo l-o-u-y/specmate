@@ -2,16 +2,18 @@
  */
 package com.specmate.model.batch.impl;
 
-import com.specmate.model.batch.*;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
+import com.specmate.model.batch.BatchFactory;
+import com.specmate.model.batch.BatchOperation;
+import com.specmate.model.batch.BatchPackage;
+import com.specmate.model.batch.Operation;
+import com.specmate.model.batch.OperationType;
 
 /**
  * <!-- begin-user-doc -->

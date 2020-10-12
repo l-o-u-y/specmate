@@ -17,7 +17,8 @@ Export-Package: \
 	com.specmate.model.testspecification.util,\
 	com.specmate.model.testspecification,\
 	com.specmate.model.history,\
-	com.specmate.model.history.util
+	com.specmate.model.history.util,\
+	com.specmate.model.requirements.impl
 Private-Package: \
 	com.specmate.model.base.impl,\
 	com.specmate.model.batch.impl,\

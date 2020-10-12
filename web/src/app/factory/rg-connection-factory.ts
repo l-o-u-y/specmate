@@ -11,7 +11,9 @@ import { ElementFactoryBase } from './element-factory-base';
 
 export class RGConnectionFactory extends ConnectionElementFactoryBase<RGConnection> {
 
-    constructor(protected source: IModelNode, protected target: IModelNode, dataService: SpecmateDataService, private negated = false, private type = 'Inheritance') {
+    constructor(protected source: IModelNode, protected target: IModelNode,
+                dataService: SpecmateDataService,
+                private negated = false) {
         super(source, target, dataService);
     }
 
@@ -28,7 +30,6 @@ export class RGConnectionFactory extends ConnectionElementFactoryBase<RGConnecti
         connection.recycled = false;
         connection.hasRecycledChildren = false;
         connection.negate = this.negated;
-        connection.type = this.type;
         connection.source = new Proxy();
         connection.source.url = this.source.url;
         connection.target = new Proxy();

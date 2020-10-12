@@ -2,12 +2,13 @@
  */
 package com.specmate.model.requirements;
 
-import com.specmate.model.base.BasePackage;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+
+import com.specmate.model.base.BasePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -385,6 +386,26 @@ public interface RequirementsPackage extends EPackage {
 	int CEG_MODEL_OPERATION_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link com.specmate.model.requirements.impl.CEGNodeImpl <em>CEG Node</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.requirements.impl.CEGNodeImpl
+	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getCEGNode()
+	 * @generated
+	 */
+	int CEG_NODE = 6;
+
+	/**
+	 * The meta object id for the '{@link com.specmate.model.requirements.impl.CEGConnectionImpl <em>CEG Connection</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.requirements.impl.CEGConnectionImpl
+	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getCEGConnection()
+	 * @generated
+	 */
+	int CEG_CONNECTION = 7;
+
+	/**
 	 * The meta object id for the '{@link com.specmate.model.requirements.impl.RGModelImpl <em>RG Model</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -476,13 +497,31 @@ public interface RequirementsPackage extends EPackage {
 	int RG_MODEL__MODEL_REQUIREMENTS = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Model Mapping</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_MODEL__MODEL_MAPPING = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Chunks</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_MODEL__CHUNKS = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>RG Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RG_MODEL_FEATURE_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 1;
+	int RG_MODEL_FEATURE_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>RG Model</em>' class.
@@ -502,6 +541,396 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 */
 	int CEG_NODE = 3;
+
+	/**
+	 * The meta object id for the '{@link com.specmate.model.requirements.impl.RGObjectImpl <em>RG Object</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.requirements.impl.RGObjectImpl
+	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getRGObject()
+	 * @generated
+	 */
+	int RG_OBJECT = 3;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_OBJECT__ID = BasePackage.IID__ID;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_OBJECT__DESCRIPTION = BasePackage.IID_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Recycled</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_OBJECT__RECYCLED = BasePackage.IID_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Has Recycled Children</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_OBJECT__HAS_RECYCLED_CHILDREN = BasePackage.IID_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Original Text</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_OBJECT__ORIGINAL_TEXT = BasePackage.IID_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Processed Text</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_OBJECT__PROCESSED_TEXT = BasePackage.IID_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Chunk</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_OBJECT__CHUNK = BasePackage.IID_FEATURE_COUNT + 5;
+
+	/**
+	 * The number of structural features of the '<em>RG Object</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_OBJECT_FEATURE_COUNT = BasePackage.IID_FEATURE_COUNT + 6;
+
+	/**
+	 * The number of operations of the '<em>RG Object</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_OBJECT_OPERATION_COUNT = BasePackage.IID_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link com.specmate.model.requirements.impl.RGChunkImpl <em>RG Chunk</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.requirements.impl.RGChunkImpl
+	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getRGChunk()
+	 * @generated
+	 */
+	int RG_CHUNK = 4;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CHUNK__ID = BasePackage.IID__ID;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CHUNK__DESCRIPTION = BasePackage.IID_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Recycled</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CHUNK__RECYCLED = BasePackage.IID_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Has Recycled Children</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CHUNK__HAS_RECYCLED_CHILDREN = BasePackage.IID_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Text</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CHUNK__TEXT = BasePackage.IID_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Node</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CHUNK__NODE = BasePackage.IID_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Incoming Chunks</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CHUNK__INCOMING_CHUNKS = BasePackage.IID_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Outgoing Chunks</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CHUNK__OUTGOING_CHUNKS = BasePackage.IID_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Objects</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CHUNK__OBJECTS = BasePackage.IID_FEATURE_COUNT + 7;
+
+	/**
+	 * The number of structural features of the '<em>RG Chunk</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CHUNK_FEATURE_COUNT = BasePackage.IID_FEATURE_COUNT + 8;
+
+	/**
+	 * The number of operations of the '<em>RG Chunk</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CHUNK_OPERATION_COUNT = BasePackage.IID_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link com.specmate.model.requirements.impl.RGNodeImpl <em>RG Node</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.requirements.impl.RGNodeImpl
+	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getRGNode()
+	 * @generated
+	 */
+	int RG_NODE = 5;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__ID = BasePackage.IMODEL_NODE__ID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__NAME = BasePackage.IMODEL_NODE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__DESCRIPTION = BasePackage.IMODEL_NODE__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Recycled</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__RECYCLED = BasePackage.IMODEL_NODE__RECYCLED;
+
+	/**
+	 * The feature id for the '<em><b>Has Recycled Children</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__HAS_RECYCLED_CHILDREN = BasePackage.IMODEL_NODE__HAS_RECYCLED_CHILDREN;
+
+	/**
+	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__CONTENTS = BasePackage.IMODEL_NODE__CONTENTS;
+
+	/**
+	 * The feature id for the '<em><b>Traces To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__TRACES_TO = BasePackage.IMODEL_NODE__TRACES_TO;
+
+	/**
+	 * The feature id for the '<em><b>Traces From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__TRACES_FROM = BasePackage.IMODEL_NODE__TRACES_FROM;
+
+	/**
+	 * The feature id for the '<em><b>X</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__X = BasePackage.IMODEL_NODE__X;
+
+	/**
+	 * The feature id for the '<em><b>Y</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__Y = BasePackage.IMODEL_NODE__Y;
+
+	/**
+	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__WIDTH = BasePackage.IMODEL_NODE__WIDTH;
+
+	/**
+	 * The feature id for the '<em><b>Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__HEIGHT = BasePackage.IMODEL_NODE__HEIGHT;
+
+	/**
+	 * The feature id for the '<em><b>Outgoing Connections</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__OUTGOING_CONNECTIONS = BasePackage.IMODEL_NODE__OUTGOING_CONNECTIONS;
+
+	/**
+	 * The feature id for the '<em><b>Incoming Connections</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__INCOMING_CONNECTIONS = BasePackage.IMODEL_NODE__INCOMING_CONNECTIONS;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__TYPE = BasePackage.IMODEL_NODE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Component</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__COMPONENT = BasePackage.IMODEL_NODE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Chunks</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__CHUNKS = BasePackage.IMODEL_NODE_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Temporary</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE__TEMPORARY = BasePackage.IMODEL_NODE_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>RG Node</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE_FEATURE_COUNT = BasePackage.IMODEL_NODE_FEATURE_COUNT + 4;
+
+	/**
+	 * The number of operations of the '<em>RG Node</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_NODE_OPERATION_COUNT = BasePackage.IMODEL_NODE_OPERATION_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -675,187 +1104,6 @@ public interface RequirementsPackage extends EPackage {
 	int CEG_NODE_OPERATION_COUNT = BasePackage.IMODEL_NODE_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link com.specmate.model.requirements.impl.RGNodeImpl <em>RG Node</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see com.specmate.model.requirements.impl.RGNodeImpl
-	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getRGNode()
-	 * @generated
-	 */
-	int RG_NODE = 4;
-
-	/**
-	 * The feature id for the '<em><b>Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RG_NODE__ID = BasePackage.IMODEL_NODE__ID;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RG_NODE__NAME = BasePackage.IMODEL_NODE__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RG_NODE__DESCRIPTION = BasePackage.IMODEL_NODE__DESCRIPTION;
-
-	/**
-	 * The feature id for the '<em><b>Recycled</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RG_NODE__RECYCLED = BasePackage.IMODEL_NODE__RECYCLED;
-
-	/**
-	 * The feature id for the '<em><b>Has Recycled Children</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RG_NODE__HAS_RECYCLED_CHILDREN = BasePackage.IMODEL_NODE__HAS_RECYCLED_CHILDREN;
-
-	/**
-	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RG_NODE__CONTENTS = BasePackage.IMODEL_NODE__CONTENTS;
-
-	/**
-	 * The feature id for the '<em><b>Traces To</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RG_NODE__TRACES_TO = BasePackage.IMODEL_NODE__TRACES_TO;
-
-	/**
-	 * The feature id for the '<em><b>Traces From</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RG_NODE__TRACES_FROM = BasePackage.IMODEL_NODE__TRACES_FROM;
-
-	/**
-	 * The feature id for the '<em><b>X</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RG_NODE__X = BasePackage.IMODEL_NODE__X;
-
-	/**
-	 * The feature id for the '<em><b>Y</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RG_NODE__Y = BasePackage.IMODEL_NODE__Y;
-
-	/**
-	 * The feature id for the '<em><b>Width</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RG_NODE__WIDTH = BasePackage.IMODEL_NODE__WIDTH;
-
-	/**
-	 * The feature id for the '<em><b>Height</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RG_NODE__HEIGHT = BasePackage.IMODEL_NODE__HEIGHT;
-
-	/**
-	 * The feature id for the '<em><b>Outgoing Connections</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RG_NODE__OUTGOING_CONNECTIONS = BasePackage.IMODEL_NODE__OUTGOING_CONNECTIONS;
-
-	/**
-	 * The feature id for the '<em><b>Incoming Connections</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RG_NODE__INCOMING_CONNECTIONS = BasePackage.IMODEL_NODE__INCOMING_CONNECTIONS;
-
-	/**
-	 * The feature id for the '<em><b>Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RG_NODE__TYPE = BasePackage.IMODEL_NODE_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Component</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RG_NODE__COMPONENT = BasePackage.IMODEL_NODE_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Modifier</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RG_NODE__MODIFIER = BasePackage.IMODEL_NODE_FEATURE_COUNT + 2;
-
-	/**
-	 * The number of structural features of the '<em>RG Node</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RG_NODE_FEATURE_COUNT = BasePackage.IMODEL_NODE_FEATURE_COUNT + 3;
-
-	/**
-	 * The number of operations of the '<em>RG Node</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RG_NODE_OPERATION_COUNT = BasePackage.IMODEL_NODE_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link com.specmate.model.requirements.impl.CEGConnectionImpl <em>CEG Connection</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -990,7 +1238,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getRGConnection()
 	 * @generated
 	 */
-	int RG_CONNECTION = 6;
+	int RG_CONNECTION = 8;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -1101,13 +1349,22 @@ public interface RequirementsPackage extends EPackage {
 	int RG_CONNECTION__TYPE = BasePackage.IMODEL_CONNECTION_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Label</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CONNECTION__LABEL = BasePackage.IMODEL_CONNECTION_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>RG Connection</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RG_CONNECTION_FEATURE_COUNT = BasePackage.IMODEL_CONNECTION_FEATURE_COUNT + 2;
+	int RG_CONNECTION_FEATURE_COUNT = BasePackage.IMODEL_CONNECTION_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>RG Connection</em>' class.
@@ -1126,7 +1383,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getNodeType()
 	 * @generated
 	 */
-	int NODE_TYPE = 7;
+	int NODE_TYPE = 9;
 
 
 	/**
@@ -1137,7 +1394,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getRGConnectionType()
 	 * @generated
 	 */
-	int RG_CONNECTION_TYPE = 8;
+	int RG_CONNECTION_TYPE = 10;
 
 
 	/**
@@ -1335,6 +1592,179 @@ public interface RequirementsPackage extends EPackage {
 	EAttribute getCEGNode_Condition();
 
 	/**
+	 * Returns the meta object for class '{@link com.specmate.model.requirements.CEGConnection <em>CEG Connection</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>CEG Connection</em>'.
+	 * @see com.specmate.model.requirements.CEGConnection
+	 * @generated
+	 */
+	EClass getCEGConnection();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.CEGConnection#isNegate <em>Negate</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Negate</em>'.
+	 * @see com.specmate.model.requirements.CEGConnection#isNegate()
+	 * @see #getCEGConnection()
+	 * @generated
+	 */
+	EAttribute getCEGConnection_Negate();
+	
+
+	/**
+	 * Returns the meta object for class '{@link com.specmate.model.requirements.RGModel <em>RG Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>RG Model</em>'.
+	 * @see com.specmate.model.requirements.RGModel
+	 * @generated
+	 */
+	EClass getRGModel();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGModel#getModelRequirements <em>Model Requirements</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Model Requirements</em>'.
+	 * @see com.specmate.model.requirements.RGModel#getModelRequirements()
+	 * @see #getRGModel()
+	 * @generated
+	 */
+	EAttribute getRGModel_ModelRequirements();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link com.specmate.model.requirements.RGModel#getModelMapping <em>Model Mapping</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Model Mapping</em>'.
+	 * @see com.specmate.model.requirements.RGModel#getModelMapping()
+	 * @see #getRGModel()
+	 * @generated
+	 */
+	EReference getRGModel_ModelMapping();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link com.specmate.model.requirements.RGModel#getChunks <em>Chunks</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Chunks</em>'.
+	 * @see com.specmate.model.requirements.RGModel#getChunks()
+	 * @see #getRGModel()
+	 * @generated
+	 */
+	EReference getRGModel_Chunks();
+
+	/**
+	 * Returns the meta object for class '{@link com.specmate.model.requirements.RGObject <em>RG Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>RG Object</em>'.
+	 * @see com.specmate.model.requirements.RGObject
+	 * @generated
+	 */
+	EClass getRGObject();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGObject#getOriginalText <em>Original Text</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Original Text</em>'.
+	 * @see com.specmate.model.requirements.RGObject#getOriginalText()
+	 * @see #getRGObject()
+	 * @generated
+	 */
+	EAttribute getRGObject_OriginalText();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGObject#getProcessedText <em>Processed Text</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Processed Text</em>'.
+	 * @see com.specmate.model.requirements.RGObject#getProcessedText()
+	 * @see #getRGObject()
+	 * @generated
+	 */
+	EAttribute getRGObject_ProcessedText();
+
+	/**
+	 * Returns the meta object for the reference '{@link com.specmate.model.requirements.RGObject#getChunk <em>Chunk</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Chunk</em>'.
+	 * @see com.specmate.model.requirements.RGObject#getChunk()
+	 * @see #getRGObject()
+	 * @generated
+	 */
+	EReference getRGObject_Chunk();
+
+	/**
+	 * Returns the meta object for class '{@link com.specmate.model.requirements.RGChunk <em>RG Chunk</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>RG Chunk</em>'.
+	 * @see com.specmate.model.requirements.RGChunk
+	 * @generated
+	 */
+	EClass getRGChunk();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGChunk#getText <em>Text</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Text</em>'.
+	 * @see com.specmate.model.requirements.RGChunk#getText()
+	 * @see #getRGChunk()
+	 * @generated
+	 */
+	EAttribute getRGChunk_Text();
+
+	/**
+	 * Returns the meta object for the reference '{@link com.specmate.model.requirements.RGChunk#getNode <em>Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Node</em>'.
+	 * @see com.specmate.model.requirements.RGChunk#getNode()
+	 * @see #getRGChunk()
+	 * @generated
+	 */
+	EReference getRGChunk_Node();
+
+	/**
+	 * Returns the meta object for the reference list '{@link com.specmate.model.requirements.RGChunk#getIncomingChunks <em>Incoming Chunks</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Incoming Chunks</em>'.
+	 * @see com.specmate.model.requirements.RGChunk#getIncomingChunks()
+	 * @see #getRGChunk()
+	 * @generated
+	 */
+	EReference getRGChunk_IncomingChunks();
+
+	/**
+	 * Returns the meta object for the reference list '{@link com.specmate.model.requirements.RGChunk#getOutgoingChunks <em>Outgoing Chunks</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Outgoing Chunks</em>'.
+	 * @see com.specmate.model.requirements.RGChunk#getOutgoingChunks()
+	 * @see #getRGChunk()
+	 * @generated
+	 */
+	EReference getRGChunk_OutgoingChunks();
+
+	/**
+	 * Returns the meta object for the reference list '{@link com.specmate.model.requirements.RGChunk#getObjects <em>Objects</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Objects</em>'.
+	 * @see com.specmate.model.requirements.RGChunk#getObjects()
+	 * @see #getRGChunk()
+	 * @generated
+	 */
+	EReference getRGChunk_Objects();
+
+	/**
 	 * Returns the meta object for class '{@link com.specmate.model.requirements.RGNode <em>RG Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1367,15 +1797,26 @@ public interface RequirementsPackage extends EPackage {
 	EAttribute getRGNode_Component();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGNode#getModifier <em>Modifier</em>}'.
+	 * Returns the meta object for the reference list '{@link com.specmate.model.requirements.RGNode#getChunks <em>Chunks</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Modifier</em>'.
-	 * @see com.specmate.model.requirements.RGNode#getModifier()
+	 * @return the meta object for the reference list '<em>Chunks</em>'.
+	 * @see com.specmate.model.requirements.RGNode#getChunks()
 	 * @see #getRGNode()
 	 * @generated
 	 */
-	EAttribute getRGNode_Modifier();
+	EReference getRGNode_Chunks();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGNode#isTemporary <em>Temporary</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Temporary</em>'.
+	 * @see com.specmate.model.requirements.RGNode#isTemporary()
+	 * @see #getRGNode()
+	 * @generated
+	 */
+	EAttribute getRGNode_Temporary();
 
 	/**
 	 * Returns the meta object for class '{@link com.specmate.model.requirements.CEGConnection <em>CEG Connection</em>}'.
@@ -1429,6 +1870,17 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getRGConnection_Type();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGConnection#getLabel <em>Label</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Label</em>'.
+	 * @see com.specmate.model.requirements.RGConnection#getLabel()
+	 * @see #getRGConnection()
+	 * @generated
+	 */
+	EAttribute getRGConnection_Label();
 
 	/**
 	 * Returns the meta object for enum '{@link com.specmate.model.requirements.NodeType <em>Node Type</em>}'.
@@ -1626,6 +2078,143 @@ public interface RequirementsPackage extends EPackage {
 		EAttribute CEG_NODE__CONDITION = eINSTANCE.getCEGNode_Condition();
 
 		/**
+		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.CEGConnectionImpl <em>CEG Connection</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.requirements.impl.CEGConnectionImpl
+		 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getCEGConnection()
+		 * @generated
+		 */
+		EClass CEG_CONNECTION = eINSTANCE.getCEGConnection();
+
+		/**
+		 * The meta object literal for the '<em><b>Negate</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CEG_CONNECTION__NEGATE = eINSTANCE.getCEGConnection_Negate();
+
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.RGModelImpl <em>RG Model</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.requirements.impl.RGModelImpl
+		 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getRGModel()
+		 * @generated
+		 */
+		EClass RG_MODEL = eINSTANCE.getRGModel();
+
+		/**
+		 * The meta object literal for the '<em><b>Model Requirements</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RG_MODEL__MODEL_REQUIREMENTS = eINSTANCE.getRGModel_ModelRequirements();
+
+		/**
+		 * The meta object literal for the '<em><b>Model Mapping</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RG_MODEL__MODEL_MAPPING = eINSTANCE.getRGModel_ModelMapping();
+
+		/**
+		 * The meta object literal for the '<em><b>Chunks</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RG_MODEL__CHUNKS = eINSTANCE.getRGModel_Chunks();
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.RGObjectImpl <em>RG Object</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.requirements.impl.RGObjectImpl
+		 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getRGObject()
+		 * @generated
+		 */
+		EClass RG_OBJECT = eINSTANCE.getRGObject();
+
+		/**
+		 * The meta object literal for the '<em><b>Original Text</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RG_OBJECT__ORIGINAL_TEXT = eINSTANCE.getRGObject_OriginalText();
+
+		/**
+		 * The meta object literal for the '<em><b>Processed Text</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RG_OBJECT__PROCESSED_TEXT = eINSTANCE.getRGObject_ProcessedText();
+
+		/**
+		 * The meta object literal for the '<em><b>Chunk</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RG_OBJECT__CHUNK = eINSTANCE.getRGObject_Chunk();
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.RGChunkImpl <em>RG Chunk</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.requirements.impl.RGChunkImpl
+		 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getRGChunk()
+		 * @generated
+		 */
+		EClass RG_CHUNK = eINSTANCE.getRGChunk();
+
+		/**
+		 * The meta object literal for the '<em><b>Text</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RG_CHUNK__TEXT = eINSTANCE.getRGChunk_Text();
+
+		/**
+		 * The meta object literal for the '<em><b>Node</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RG_CHUNK__NODE = eINSTANCE.getRGChunk_Node();
+
+		/**
+		 * The meta object literal for the '<em><b>Incoming Chunks</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RG_CHUNK__INCOMING_CHUNKS = eINSTANCE.getRGChunk_IncomingChunks();
+
+		/**
+		 * The meta object literal for the '<em><b>Outgoing Chunks</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RG_CHUNK__OUTGOING_CHUNKS = eINSTANCE.getRGChunk_OutgoingChunks();
+
+		/**
+		 * The meta object literal for the '<em><b>Objects</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RG_CHUNK__OBJECTS = eINSTANCE.getRGChunk_Objects();
+
+		/**
 		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.RGNodeImpl <em>RG Node</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1652,12 +2241,20 @@ public interface RequirementsPackage extends EPackage {
 		EAttribute RG_NODE__COMPONENT = eINSTANCE.getRGNode_Component();
 
 		/**
-		 * The meta object literal for the '<em><b>Modifier</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Chunks</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute RG_NODE__MODIFIER = eINSTANCE.getRGNode_Modifier();
+		EReference RG_NODE__CHUNKS = eINSTANCE.getRGNode_Chunks();
+
+		/**
+		 * The meta object literal for the '<em><b>Temporary</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RG_NODE__TEMPORARY = eINSTANCE.getRGNode_Temporary();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.CEGConnectionImpl <em>CEG Connection</em>}' class.
@@ -1702,6 +2299,14 @@ public interface RequirementsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute RG_CONNECTION__TYPE = eINSTANCE.getRGConnection_Type();
+
+		/**
+		 * The meta object literal for the '<em><b>Label</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RG_CONNECTION__LABEL = eINSTANCE.getRGConnection_Label();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.requirements.NodeType <em>Node Type</em>}' enum.

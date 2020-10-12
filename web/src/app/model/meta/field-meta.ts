@@ -240,6 +240,44 @@ export class MetaInfo {
 			rows: '5',
 			position: '110'		
 		}	];
+	public static RGObject: FieldMetaItem[] = [
+			{
+			name: "description",
+			shortDesc: 'Description',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '5',
+			position: '100'		
+		}	];
+	public static RGChunk: FieldMetaItem[] = [
+			{
+			name: "description",
+			shortDesc: 'Description',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '5',
+			position: '100'		
+		}	];
+	public static RGNode: FieldMetaItem[] = [
+			{
+			name: "type",
+			shortDesc: 'Type',
+			longDesc: 'The type of a node',
+			required: true,
+			type: 'singleSelection',
+			values: '["AND", "OR"]',
+			position: '3'		
+		},			{
+			name: "component",
+			shortDesc: 'Component',
+			longDesc: 'The component of a node',
+			required: true,
+			type: 'text',
+			position: '1',
+			allowedPattern: '^[^,;|]*$'		
+		}	];
 	public static CEGNode: FieldMetaItem[] = [
 			{
 			name: "type",
@@ -261,31 +299,6 @@ export class MetaInfo {
 			name: "condition",
 			shortDesc: 'Condition',
 			longDesc: 'The condition the variable has to fulfil',
-			required: true,
-			type: 'text',
-			position: '2'		
-		}	];
-	public static RGNode: FieldMetaItem[] = [
-			{
-			name: "type",
-			shortDesc: 'Type',
-			longDesc: 'The type of a node',
-			required: true,
-			type: 'singleSelection',
-			values: '["AND", "OR"]',
-			position: '3'		
-		},			{
-			name: "component",
-			shortDesc: 'Component',
-			longDesc: 'The component of a node',
-			required: true,
-			type: 'text',
-			position: '1',
-			allowedPattern: '^[^,;|]*$'		
-		},			{
-			name: "modifier",
-			shortDesc: 'Modifiers',
-			longDesc: 'The modifiers to the variable',
 			required: true,
 			type: 'text',
 			position: '2'		
@@ -343,7 +356,14 @@ export class MetaInfo {
 			longDesc: 'The type of a connection',
 			required: true,
 			type: 'singleSelection',
-			values: '["Inheritance", "Composition"]',
+			values: '["Inheritance", "Composition", "Action"]',
+			position: '2'		
+		},			{
+			name: "label",
+			shortDesc: 'Label',
+			longDesc: 'The label of a connection',
+			required: false,
+			type: 'text',
 			position: '3'		
 		}	];
 	public static TestSpecification: FieldMetaItem[] = [

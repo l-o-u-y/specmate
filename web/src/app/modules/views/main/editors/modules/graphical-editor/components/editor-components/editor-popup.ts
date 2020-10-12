@@ -1,13 +1,13 @@
 import { mxgraph } from 'mxgraph';
-import { CEGConnection } from 'src/app/model/CEGConnection';
 import { StyleChanger } from '../util/style-changer';
 import { EditorStyle } from './editor-style';
-import { SpecmateDataService } from 'src/app/modules/data/modules/data-service/services/specmate-data.service';
-import { Type } from 'src/app/util/type';
 import { replaceClass } from '../util/css-utils';
 import { TranslateService } from '@ngx-translate/core';
-import { IContainer } from 'src/app/model/IContainer';
 import {RGConnection} from '../../../../../../../../model/RGConnection';
+import {RGConnectionType} from '../../../../../../../../model/RGConnectionType';
+import {CEGConnection} from '../../../../../../../../model/CEGConnection';
+import {IContainer} from '../../../../../../../../model/IContainer';
+import {Type} from '../../../../../../../../util/type';
 
 declare var require: any;
 
@@ -61,9 +61,9 @@ export class EditorPopup {
             menu.addItem(negateText, null, async () => {
                 this.graph.getModel().beginUpdate();
                 if (connection.negate) {
-                    StyleChanger.removeStyle(cell, this.graph, EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE);
+                    StyleChanger.removeStyle(cell, this.graph, EditorStyle.CEG_CONNECTION_NEGATED_STYLE);
                 } else {
-                    StyleChanger.addStyle(cell, this.graph, EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE);
+                    StyleChanger.addStyle(cell, this.graph, EditorStyle.CEG_CONNECTION_NEGATED_STYLE);
                 }
                 this.graph.getModel().endUpdate();
             }, undefined, icon, undefined, undefined);
@@ -75,9 +75,22 @@ export class EditorPopup {
             menu.addItem(negateText, null, async () => {
                 this.graph.getModel().beginUpdate();
                 if (connection.negate) {
-                    StyleChanger.removeStyle(cell, this.graph, EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE);
+                    StyleChanger.removeStyle(cell, this.graph, EditorStyle.RG_CONNECTION_NEGATED_STYLE);
                 } else {
-                    StyleChanger.addStyle(cell, this.graph, EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE);
+                    StyleChanger.addStyle(cell, this.graph, EditorStyle.RG_CONNECTION_NEGATED_STYLE);
+                }
+                if ((element as RGConnection).type == 'Composition') {
+                    StyleChanger.addStyle(cell, this.graph, EditorStyle.RG_CONNECTION_COMPOSITION_STYLE);
+                    StyleChanger.removeStyle(cell, this.graph, EditorStyle.RG_CONNECTION_INHERITANCE_STYLE);
+                    StyleChanger.removeStyle(cell, this.graph, EditorStyle.RG_CONNECTION_ACTION_STYLE);
+                } else if ((element as RGConnection).type == 'Inheritance') {
+                    StyleChanger.removeStyle(cell, this.graph, EditorStyle.RG_CONNECTION_COMPOSITION_STYLE);
+                    StyleChanger.addStyle(cell, this.graph, EditorStyle.RG_CONNECTION_INHERITANCE_STYLE);
+                    StyleChanger.removeStyle(cell, this.graph, EditorStyle.RG_CONNECTION_ACTION_STYLE);
+                } else if ((element as RGConnection).type == 'Action') {
+                    StyleChanger.removeStyle(cell, this.graph, EditorStyle.RG_CONNECTION_COMPOSITION_STYLE);
+                    StyleChanger.removeStyle(cell, this.graph, EditorStyle.RG_CONNECTION_INHERITANCE_STYLE);
+                    StyleChanger.addStyle(cell, this.graph, EditorStyle.RG_CONNECTION_ACTION_STYLE);
                 }
                 this.graph.getModel().endUpdate();
             }, undefined, icon, undefined, undefined);

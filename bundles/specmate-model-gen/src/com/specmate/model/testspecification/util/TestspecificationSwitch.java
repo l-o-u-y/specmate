@@ -2,6 +2,10 @@
  */
 package com.specmate.model.testspecification.util;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.Switch;
+
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IDescribed;
@@ -9,14 +13,14 @@ import com.specmate.model.base.IExternal;
 import com.specmate.model.base.IID;
 import com.specmate.model.base.INamed;
 import com.specmate.model.base.IPositionable;
-
 import com.specmate.model.base.IRecycled;
-import com.specmate.model.testspecification.*;
-
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-
-import org.eclipse.emf.ecore.util.Switch;
+import com.specmate.model.testspecification.ParameterAssignment;
+import com.specmate.model.testspecification.TestCase;
+import com.specmate.model.testspecification.TestParameter;
+import com.specmate.model.testspecification.TestProcedure;
+import com.specmate.model.testspecification.TestSpecification;
+import com.specmate.model.testspecification.TestStep;
+import com.specmate.model.testspecification.TestspecificationPackage;
 
 /**
  * <!-- begin-user-doc -->

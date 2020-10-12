@@ -2,14 +2,15 @@
  */
 package com.specmate.model.history.util;
 
-import com.specmate.model.history.*;
-
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
+
+import com.specmate.model.history.Change;
+import com.specmate.model.history.History;
+import com.specmate.model.history.HistoryEntry;
+import com.specmate.model.history.HistoryPackage;
 
 /**
  * <!-- begin-user-doc -->

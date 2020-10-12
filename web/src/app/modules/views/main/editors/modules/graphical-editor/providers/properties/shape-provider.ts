@@ -13,6 +13,7 @@ import { RGNode } from '../../../../../../../../model/RGNode';
 import { CEGNode } from '../../../../../../../../model/CEGNode';
 import { RGmxModelNode } from './rg-mx-model-node';
 import { RGConnection } from '../../../../../../../../model/RGConnection';
+import {RGConnectionType} from '../../../../../../../../model/RGConnectionType';
 
 export type ShapeData = {
     style: string,
@@ -35,8 +36,7 @@ export class ShapeProvider extends ProviderBase {
                 height: Config.RG_NODE_HEIGHT
             },
             text: new NodeNameConverterProvider(type).nodeNameConverter.convertTo({
-            component: Config.RG_NODE_NEW_COMPONENT,
-            modifier: Config.RG_NODE_NEW_MODIFIER
+            component: Config.RG_NODE_NEW_COMPONENT
         })
         };
         this.shapeMap[CEGNode.className] = {
@@ -98,16 +98,40 @@ export class ShapeProvider extends ProviderBase {
         this.styles.push((element: { className: string }) => this.shapeMap[element.className]);
 
         this.styles.push((element: { className: string }) => {
+            if (Type.is(element, RGConnection)) {
+                if ((element as RGConnection).type == 'Composition') {
+                    return {
+                        size: undefined,
+                        style: EditorStyle.RG_CONNECTION_COMPOSITION_STYLE,
+                        text: undefined
+                    };
+                } else if ((element as RGConnection).type == 'Inheritance') {
+                    return {
+                        size: undefined,
+                        style: EditorStyle.RG_CONNECTION_INHERITANCE_STYLE,
+                        text: undefined
+                    };
+                } else if ((element as RGConnection).type == 'Action') {
+                    return {
+                        size: undefined,
+                        style: EditorStyle.RG_CONNECTION_ACTION_STYLE,
+                        text: undefined
+                    };
+                }
+            }
+        });
+
+        this.styles.push((element: { className: string }) => {
             if (Type.is(element, CEGConnection) && (element as CEGConnection).negate === true) {
                 return {
                     size: undefined,
-                    style: EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE,
+                    style: EditorStyle.CEG_CONNECTION_NEGATED_STYLE,
                     text: undefined
                 };
             } else if (Type.is(element, RGConnection) && (element as RGConnection).negate === true) {
                 return {
                     size: undefined,
-                    style: EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE,
+                    style: EditorStyle.RG_CONNECTION_NEGATED_STYLE,
                     text: undefined
                 };
             }

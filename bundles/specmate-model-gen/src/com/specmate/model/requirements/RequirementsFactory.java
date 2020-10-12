@@ -67,6 +67,24 @@ public interface RequirementsFactory extends EFactory {
 	RGModel createRGModel();
 
 	/**
+	 * Returns a new object of class '<em>RG Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>RG Object</em>'.
+	 * @generated
+	 */
+	RGObject createRGObject();
+
+	/**
+	 * Returns a new object of class '<em>RG Chunk</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>RG Chunk</em>'.
+	 * @generated
+	 */
+	RGChunk createRGChunk();
+
+	/**
 	 * Returns a new object of class '<em>RG Node</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -3,29 +3,33 @@ package com.specmate.modelgeneration;
 import java.net.URISyntaxException;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.config.api.IConfigService;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.metrics.ICounter;
 import com.specmate.metrics.IMetricsService;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.RGModel;
-import com.specmate.modelgeneration.legacy.EnglishCEGFromRequirementGenerator;
-import com.specmate.modelgeneration.legacy.GermanCEGFromRequirementGenerator;
 import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
 import com.specmate.nlp.util.NLPUtil;
+import com.specmate.rest.RestClient;
 import com.specmate.rest.RestResult;
 import com.specmate.xtext.XTextException;
+
 
 /**
  * Service to create automatic a CEGModel from a requirement
@@ -59,13 +63,14 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 
 	@Override
 	public RestResult<?> post(Object parent, Object child, String token) {
-		// TODO make CEG and RG Model inherit from Model then polymorph
+		// TODO MA misc: make CEG and RG Model inherit from Model then polymorph
 		ISpecmateModelObject model;
 		if (parent instanceof CEGModel) {
 			model = (CEGModel) parent;
 		}
 		else { // if (parent instanceof RGModel) {
 			model = (RGModel) parent;
+			((RGModel)model).getModelMapping().clear();
 		}
 
 		model.getContents().clear(); // Delete Contents
@@ -120,10 +125,9 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 		if (text == null || StringUtils.isEmpty(text)) {
 			return model;
 		}
-		// Fixes some issues with the dkpro/spacy backoff.
-		text = text.replaceAll("[^,.!? ](?=[,.!?])", "$0 ").replaceAll("\\s+", " ");
 		// text = new PersonalPronounsReplacer(tagger).replacePronouns(text);
 		ELanguage lang = NLPUtil.detectLanguage(text);
+
 		if (model instanceof CEGModel) {
 			ICEGFromRequirementGenerator generator;
 
@@ -145,12 +149,37 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 				} else {
 					generator = new EnglishCEGFromRequirementGenerator(logService, tagger);
 				}
+			// Fixes some issues with the dkpro/spacy backoff.
+			text = text.replaceAll("[^,.!? ](?=[,.!?])", "$0 ").replaceAll("\\s+", " ");
+//			try {
 				generator.createModel((CEGModel)model, text);
-			}
+//			} catch (SpecmateException e) {
+//				// Generation Backof
+//				this.logService.log(LogService.LOG_INFO,
+//						"NLP model generation failed with the following error: \"" + e.getMessage() + "\"");
+//				this.logService.log(LogService.LOG_INFO, "Backing off to rule based generation...");
+//				if (lang == ELanguage.DE) {
+//					generator = new GermanCEGFromRequirementGenerator(logService, tagger);
+//				} else {
+//					generator = new EnglishCEGFromRequirementGenerator(logService, tagger);
+//				}
+//				generator.createModel((CEGModel)model, text);
+//			}
 		}
 		else { // if (parent instanceof RGModel) {
+			// TODO MA misc: ggf. just have a separate input field in FE
+			if (text.matches("(.*)https:\\/\\/github.com\\/(.*)\\/(.*)\\/issues\\/(\\d*)(.*)")) {
+				String apiUrl = text.replaceAll("(.*)https:\\/\\/github.com\\/(.*)\\/(.*)\\/issues\\/(\\d*)(.*)",
+						"https://api.github.com/repos/$2/$3/issues/$4");
+				try {
+					text = this.getGithubIssue(apiUrl);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
 			IRGFromRequirementGenerator generator;
-			generator = new PatternbasedRGGenerator(ELanguage.EN, tagger, this.configService);
+			generator = new PatternbasedRGGenerator(ELanguage.EN, tagger, this.configService, this.logService);
 
 			try {
 				generator.createModel((RGModel)model, text);
@@ -162,6 +191,25 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 
 		return model;
 	}
+
+
+	   private String getGithubIssue(String urlToRead) throws Exception {
+			RestClient restClient = new RestClient(urlToRead, 5000, logService);
+			try (restClient) {
+				RestResult<JSONObject> result = restClient.get("");
+				if (result.getResponse().getStatus() == Status.OK.getStatusCode()) {
+					result.getResponse().close();
+					JSONObject payload = result.getPayload();
+					String text = (String)payload.get("body");
+					return text;
+
+				} else {
+					result.getResponse().close();
+					throw new SpecmateInternalException(ErrorCode.NO_SUCH_SERVICE,
+							"Could not access Github Issue. Description could not be loaded.");
+				}
+			}
+	   }
 
 	@Reference
 	public void setLogService(LogService logService) {

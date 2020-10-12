@@ -3,9 +3,11 @@ package com.specmate.modelgeneration;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.Optional;
 
+import org.eclipse.emf.common.util.EList;
+
+import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IModelConnection;
 import com.specmate.model.requirements.CEGConnection;
 import com.specmate.model.requirements.CEGModel;
@@ -20,7 +22,7 @@ import com.specmate.model.support.util.SpecmateEcoreUtil;
  * @author Andreas Wehrle
  *
  */
-public class CEGCreation {
+public class CEGCreation extends Creation<CEGModel, CEGNode, CEGConnection> {
 
 	private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -86,16 +88,22 @@ public class CEGCreation {
 	 * @param type
 	 * @return new or existing node
 	 */
-	public CEGNode createNodeIfNotExist(LinkedList<CEGNode> list, CEGModel model, String variable, String condition,
+	public CEGNode createNodeIfNotExist(CEGModel model, String variable, String condition,
 			int x, int y, NodeType type) {
-		for (CEGNode cegNode : list) {
-			if (cegNode.getVariable().equals(variable) && cegNode.getCondition().equals(condition)
-					&& cegNode.getType().equals(type)) {
-				return cegNode;
+		EList<IContentElement> list = model.getContents();
+		for (IContentElement cegNode : list) {
+			if (((CEGNode)cegNode).getVariable().equals(variable) && ((CEGNode)cegNode).getCondition().equals(condition)
+					&& ((CEGNode)cegNode).getType().equals(type)) {
+				return ((CEGNode)cegNode);
 			}
 		}
 		CEGNode node = createNode(model, variable, condition, x, y, type);
 		list.add(node);
 		return node;
+	}
+
+	@Override
+	public CEGModel createModel() {
+		return RequirementsFactory.eINSTANCE.createCEGModel();
 	}
 }

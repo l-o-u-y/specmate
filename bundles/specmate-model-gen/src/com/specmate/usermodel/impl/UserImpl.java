@@ -2,16 +2,14 @@
  */
 package com.specmate.usermodel.impl;
 
-import com.specmate.usermodel.User;
-import com.specmate.usermodel.UsermodelPackage;
-
 import java.util.Collection;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
+import com.specmate.usermodel.User;
+import com.specmate.usermodel.UsermodelPackage;
 
 /**
  * <!-- begin-user-doc -->

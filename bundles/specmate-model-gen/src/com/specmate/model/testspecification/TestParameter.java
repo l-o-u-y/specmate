@@ -2,9 +2,9 @@
  */
 package com.specmate.model.testspecification;
 
-import com.specmate.model.base.IContentElement;
-
 import org.eclipse.emf.common.util.EList;
+
+import com.specmate.model.base.IContentElement;
 
 /**
  * <!-- begin-user-doc -->

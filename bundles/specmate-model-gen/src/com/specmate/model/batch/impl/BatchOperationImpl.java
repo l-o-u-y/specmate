@@ -2,22 +2,18 @@
  */
 package com.specmate.model.batch.impl;
 
-import com.specmate.model.batch.BatchOperation;
-import com.specmate.model.batch.BatchPackage;
-import com.specmate.model.batch.Operation;
-
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
+import com.specmate.model.batch.BatchOperation;
+import com.specmate.model.batch.BatchPackage;
+import com.specmate.model.batch.Operation;
 
 /**
  * <!-- begin-user-doc -->

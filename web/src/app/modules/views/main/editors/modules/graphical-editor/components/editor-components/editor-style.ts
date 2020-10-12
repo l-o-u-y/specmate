@@ -1,6 +1,6 @@
 /* tslint:disable:max-line-length */
 
-import { mxgraph } from 'mxgraph'; // Typings only - no code!
+import {mxgraph} from 'mxgraph'; // Typings only - no code!
 
 declare var require: any;
 
@@ -36,11 +36,11 @@ export class EditorStyle {
     public static readonly EDGE_HIGHLIGHT_STYLE: Style = {};
     public static readonly EDGE_DIM_STYLE: Style = {};
 
-    public static readonly COMPONENT_STYLE_NAME = 'COMPONENT';
+    // public static readonly COMPONENT_STYLE_NAME = 'COMPONENT';
     public static readonly CAUSE_STYLE_NAME = 'CAUSE';
     public static readonly INNER_STYLE_NAME = 'INNER';
     public static readonly EFFECT_STYLE_NAME = 'EFFECT';
-    public static readonly COMPONENT_STYLE: Style = {};
+    // public static readonly COMPONENT_STYLE: Style = {};
     public static readonly CAUSE_STYLE: Style = {};
     public static readonly INNER_STYLE: Style = {};
     public static readonly EFFECT_STYLE: Style = {};
@@ -71,12 +71,21 @@ export class EditorStyle {
     private static readonly BASE_PROCESS_DECISION_STYLE_STR = 'shape=rhombus;align=center;perimeter=rhombusPerimeter;dashed=0;fontColor=#000000';
     private static readonly BASE_PROCESS_DECISION_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.BASE_PROCESS_DECISION_STYLE_STR);
 
-    public static readonly ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE = 'ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE';
-    private static readonly ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE_STR = 'dashed=1';
-    private static readonly ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE_STR);
-    public static readonly ADDITIONAL_RG_CONNECTION_NEGATED_STYLE = 'ADDITIONAL_RG_CONNECTION_NEGATED_STYLE';
-    private static readonly ADDITIONAL_RG_CONNECTION_NEGATED_STYLE_STR = 'dashed=1';
-    private static readonly ADDITIONAL_RG_CONNECTION_NEGATED_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE_STR);
+    public static readonly CEG_CONNECTION_NEGATED_STYLE = 'CEG_CONNECTION_NEGATED_STYLE';
+    private static readonly CEG_CONNECTION_NEGATED_STYLE_STR = 'dashed=1';
+    private static readonly CEG_CONNECTION_NEGATED_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.CEG_CONNECTION_NEGATED_STYLE_STR);
+    public static readonly RG_CONNECTION_NEGATED_STYLE = 'RG_CONNECTION_NEGATED_STYLE';
+    private static readonly RG_CONNECTION_NEGATED_STYLE_STR = 'dashed=1';
+    private static readonly RG_CONNECTION_NEGATED_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.RG_CONNECTION_NEGATED_STYLE_STR);
+    public static readonly RG_CONNECTION_INHERITANCE_STYLE = 'RG_CONNECTION_INHERITANCE_STYLE';
+    private static readonly RG_CONNECTION_INHERITANCE_STYLE_STR = 'endArrow=undefined;startArrow=block;';
+    private static readonly RG_CONNECTION_INHERITANCE_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.RG_CONNECTION_INHERITANCE_STYLE_STR);
+    public static readonly RG_CONNECTION_COMPOSITION_STYLE = 'RG_CONNECTION_COMPOSITION_STYLE';
+    private static readonly RG_CONNECTION_COMPOSITION_STYLE_STR = 'endArrow=undefined;startArrow=diamond;';
+    private static readonly RG_CONNECTION_COMPOSITION_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.RG_CONNECTION_COMPOSITION_STYLE_STR);
+    public static readonly RG_CONNECTION_ACTION_STYLE = 'RG_CONNECTION_ACTION_STYLE';
+    private static readonly RG_CONNECTION_ACTION_STYLE_STR = 'endArrow=open;startArrow=undefined;';
+    private static readonly RG_CONNECTION_ACTION_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.RG_CONNECTION_ACTION_STYLE_STR);
 
 
 
@@ -90,7 +99,7 @@ export class EditorStyle {
         EditorStyle.INVALID_STYLE[mx.mxConstants.STYLE_STROKE_OPACITY] = '100';
         EditorStyle.INVALID_STYLE[mx.mxConstants.STYLE_STROKECOLOR] = '#ff0000';
 
-        EditorStyle.COMPONENT_STYLE[mx.mxConstants.STYLE_FILLCOLOR] = '#f0a029';
+        // EditorStyle.COMPONENT_STYLE[mx.mxConstants.STYLE_FILLCOLOR] = '#f0a029';
 
         EditorStyle.CAUSE_STYLE[mx.mxConstants.STYLE_FILLCOLOR] = '#c3d9ff';
         EditorStyle.EFFECT_STYLE[mx.mxConstants.STYLE_FILLCOLOR] = '#f0a029';
@@ -118,12 +127,15 @@ export class EditorStyle {
         stylesheet.putCellStyle(EditorStyle.BASE_PROCESS_STEP_STYLE, EditorStyle.BASE_PROCESS_STEP_STYLE_OBJ);
         stylesheet.putCellStyle(EditorStyle.BASE_PROCESS_DECISION_STYLE, EditorStyle.BASE_PROCESS_DECISION_STYLE_OBJ);
 
-        stylesheet.putCellStyle(EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE, EditorStyle.ADDITIONAL_CEG_CONNECTION_NEGATED_STYLE_OBJ);
-        stylesheet.putCellStyle(EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE, EditorStyle.ADDITIONAL_RG_CONNECTION_NEGATED_STYLE_OBJ);
+        stylesheet.putCellStyle(EditorStyle.CEG_CONNECTION_NEGATED_STYLE, EditorStyle.CEG_CONNECTION_NEGATED_STYLE_OBJ);
+        stylesheet.putCellStyle(EditorStyle.RG_CONNECTION_NEGATED_STYLE, EditorStyle.RG_CONNECTION_NEGATED_STYLE_OBJ);
+        stylesheet.putCellStyle(EditorStyle.RG_CONNECTION_INHERITANCE_STYLE, EditorStyle.RG_CONNECTION_INHERITANCE_STYLE_OBJ);
+        stylesheet.putCellStyle(EditorStyle.RG_CONNECTION_COMPOSITION_STYLE, EditorStyle.RG_CONNECTION_COMPOSITION_STYLE_OBJ);
+        stylesheet.putCellStyle(EditorStyle.RG_CONNECTION_ACTION_STYLE, EditorStyle.RG_CONNECTION_ACTION_STYLE_OBJ);
 
         stylesheet.putCellStyle(EditorStyle.VALID_STYLE_NAME, EditorStyle.VALID_STYLE);
         stylesheet.putCellStyle(EditorStyle.INVALID_STYLE_NAME, EditorStyle.INVALID_STYLE);
-        stylesheet.putCellStyle(EditorStyle.COMPONENT_STYLE_NAME, EditorStyle.COMPONENT_STYLE);
+        // stylesheet.putCellStyle(EditorStyle.COMPONENT_STYLE_NAME, EditorStyle.COMPONENT_STYLE);
         stylesheet.putCellStyle(EditorStyle.CAUSE_STYLE_NAME, EditorStyle.CAUSE_STYLE);
         stylesheet.putCellStyle(EditorStyle.EFFECT_STYLE_NAME, EditorStyle.EFFECT_STYLE);
         stylesheet.putCellStyle(EditorStyle.INNER_STYLE_NAME, EditorStyle.INNER_STYLE);

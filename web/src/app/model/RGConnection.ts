@@ -16,6 +16,7 @@
 		public hasRecycledChildren: EBoolean;
 		public negate: EBoolean;
 		public type: RGConnectionType;
+		public label: EString;
 
 		// References
 		

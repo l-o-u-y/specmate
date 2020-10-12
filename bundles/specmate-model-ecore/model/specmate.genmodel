@@ -78,8 +78,9 @@
       <genEnums typeSafeEnumCompatible="false" ecoreEnum="specmate.ecore#//requirements/RGConnectionType">
         <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/RGConnectionType/Inheritance"/>
         <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/RGConnectionType/Composition"/>
-        <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/RGConnectionType/Target"/>
-        <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/RGConnectionType/Source"/>
+        <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/RGConnectionType/Action"/>
+        <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/RGConnectionType/Replace"/>
+        <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/RGConnectionType/Remove"/>
       </genEnums>
       <genClasses ecoreClass="specmate.ecore#//requirements/Requirement">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/Requirement/numberOfTests"/>
@@ -97,16 +98,38 @@
       </genClasses>
       <genClasses ecoreClass="specmate.ecore#//requirements/RGModel">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGModel/modelRequirements"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGModel/modelMapping"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGModel/chunks"/>
+      </genClasses>
+      <genClasses ecoreClass="specmate.ecore#//requirements/RGObject">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGObject/originalText"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGObject/processedText"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGObject/chunk"/>
+      </genClasses>
+      <genClasses ecoreClass="specmate.ecore#//requirements/RGChunk">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGChunk/text"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGChunk/node"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGChunk/incomingChunks"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGChunk/outgoingChunks"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGChunk/objects"/>
+      </genClasses>
+      <genClasses ecoreClass="specmate.ecore#//requirements/RGNode">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGNode/type"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGNode/component"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGNode/chunks"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGNode/temporary"/>
       </genClasses>
       <genClasses ecoreClass="specmate.ecore#//requirements/CEGNode">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/CEGNode/type"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/CEGNode/variable"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/CEGNode/condition"/>
-      </genClasses>
-      <genClasses ecoreClass="specmate.ecore#//requirements/RGNode">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGNode/type"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGNode/component"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGNode/modifier"/>
       </genClasses>
       <genClasses ecoreClass="specmate.ecore#//requirements/CEGConnection">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/CEGConnection/negate"/>
@@ -114,6 +137,7 @@
       <genClasses ecoreClass="specmate.ecore#//requirements/RGConnection">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGConnection/negate"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGConnection/type"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGConnection/label"/>
       </genClasses>
     </nestedGenPackages>
     <nestedGenPackages prefix="Testspecification" disposableProviderFactory="true"

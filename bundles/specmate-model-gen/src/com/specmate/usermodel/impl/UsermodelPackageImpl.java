@@ -2,18 +2,17 @@
  */
 package com.specmate.usermodel.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.impl.EPackageImpl;
+
 import com.specmate.usermodel.AccessRights;
 import com.specmate.usermodel.User;
 import com.specmate.usermodel.UserSession;
 import com.specmate.usermodel.UsermodelFactory;
 import com.specmate.usermodel.UsermodelPackage;
-
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EPackage;
-
-import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
  * <!-- begin-user-doc -->

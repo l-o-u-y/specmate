@@ -2,15 +2,17 @@
  */
 package com.specmate.model.history.impl;
 
-import com.specmate.model.history.*;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
+import com.specmate.model.history.Change;
+import com.specmate.model.history.History;
+import com.specmate.model.history.HistoryEntry;
+import com.specmate.model.history.HistoryFactory;
+import com.specmate.model.history.HistoryPackage;
 
 /**
  * <!-- begin-user-doc -->

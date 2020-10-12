@@ -2,14 +2,12 @@
  */
 package com.specmate.model.export.impl;
 
-import com.specmate.model.base.BasePackage;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
+import com.specmate.model.base.BasePackage;
 import com.specmate.model.export.Export;
 import com.specmate.model.export.ExportPackage;
-
-import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 /**
  * <!-- begin-user-doc -->

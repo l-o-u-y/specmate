@@ -1,9 +1,12 @@
 package com.specmate.cause_effect_patterns.parse.wrapper;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
 import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultTreeNode.RuleType;
+
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
 public class MatchTreeBuilder {
 	private static class SubtreeNames {
@@ -20,9 +23,23 @@ public class MatchTreeBuilder {
 		public static final String VERB = "Verb";
 		public static final String OBJECT = "Object";
 		public static final String PREPOSITION = "Preposition";
+		public static final String SOURCE = "Source";
+		public static final String TARGET = "Target";
+		public static final String ACTION = "Action";
+		public static final String PARENT = "Parent";
+		public static final String CHILD = "Child";
+		public static final String NEW = "New";
+		public static final String OLD = "Old";
+		public static final String LABEL = "Label";
 	}
 
 	private static class RuleNames {
+		public static final String INHERITANCE = "Inheritance";
+		public static final String COMPOSITION = "Composition";
+		public static final String ACTION = "Action";
+		public static final String UPDATE = "Update";
+		public static final String REPLACE = "Replace";
+		public static final String REMOVE = "Remove";
 		public static final String LIMITED_CONDITION = "LimitedCondition";
 		public static final String CONDITION = "Condition";
 		public static final String CONJUNCTION = "Conjunction";
@@ -34,6 +51,41 @@ public class MatchTreeBuilder {
 		public static final String NOR = "_NOR";
 		public static final String OR = "_OR";
 		public static final String AND = "_AND";
+	}
+
+	private boolean isInheritance(MatchResult result) {
+		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.INHERITANCE);
+		boolean subMatches = result.hasSubmatch(SubtreeNames.PARENT) && result.hasSubmatch(SubtreeNames.CHILD);
+		return name && subMatches;
+	}
+
+	private boolean isComposition(MatchResult result) {
+		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.COMPOSITION);
+		boolean subMatches = result.hasSubmatch(SubtreeNames.PARENT) && result.hasSubmatch(SubtreeNames.CHILD);
+		return name && subMatches;
+	}
+
+	private boolean isAction(MatchResult result) {
+		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.ACTION);
+		boolean subMatches = result.hasSubmatch(SubtreeNames.TARGET) && result.hasSubmatch(SubtreeNames.ACTION);
+		return name && subMatches;
+	}
+
+	private boolean isUpdate(MatchResult result) {
+		return isRemove(result) || isReplace(result);
+	}
+
+	private boolean isReplace(MatchResult result) {
+		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.REPLACE);
+		boolean subMatches = result.hasSubmatch(SubtreeNames.OLD) &&
+				result.hasSubmatch(SubtreeNames.NEW);
+		return name && subMatches;
+	}
+	private boolean isRemove(MatchResult result) {
+		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.REMOVE);
+		boolean subMatches = // result.hasSubmatch(SubtreeNames.PARENT) &&
+				result.hasSubmatch(SubtreeNames.OLD);
+		return name && subMatches;
 	}
 
 	private boolean isCondition(MatchResult result) {
@@ -115,15 +167,28 @@ public class MatchTreeBuilder {
 			return SubtreeNames.VERB;
 		}
 
+		// TODO MA subtree matchers
+		else if (isInheritance(result)) {
+			return SubtreeNames.PARENT;
+		} else if (isComposition(result)) {
+			return SubtreeNames.CHILD;
+		} else if (isAction(result)) {
+			return SubtreeNames.SOURCE;
+		} else if (isReplace(result)) {
+			return SubtreeNames.OLD;
+		} else if (isRemove(result)) {
+			return SubtreeNames.OLD;
+		}
+
 		return null;
 	}
 
 	public Optional<MatchResultTreeNode> getFirstArgument(MatchResult result) {
 		String name = getFirstArgumentName(result);
-		if (name != null) {
+		if (name != null && result.getSubmatch(name) != null) {
 			return buildTree(result.getSubmatch(name));
 		}
-		return null;
+		return Optional.empty();
 	}
 
 	private String getSecondArgumentName(MatchResult result) {
@@ -140,15 +205,82 @@ public class MatchTreeBuilder {
 		} else if (isVerbPreposition(result)) {
 			return SubtreeNames.PREPOSITION;
 		}
+
+		// TODO MA subtree matchers
+		else if (isInheritance(result)) {
+			return SubtreeNames.CHILD;
+		} else if (isComposition(result)) {
+			return SubtreeNames.PARENT;
+		} else if (isAction(result)) {
+			return SubtreeNames.TARGET;
+		} else if (isUpdate(result)) {
+			return SubtreeNames.NEW;
+		} else if (isReplace(result)) {
+			return SubtreeNames.NEW;
+		}
 		return null;
 	}
 
 	public Optional<MatchResultTreeNode> getSecondArgument(MatchResult result) {
 		String name = getSecondArgumentName(result);
-		if (name != null) {
+		if (name != null && result.getSubmatch(name) != null) {
 			return buildTree(result.getSubmatch(name));
 		}
+		return Optional.empty();
+	}
+
+	private String getThirdArgumentName(MatchResult result) {
+		if (isAction(result)) {
+			return SubtreeNames.ACTION;
+		}
+
 		return null;
+	}
+
+
+	public Optional<MatchResultTreeNode> getThirdArgument(MatchResult result) {
+		String name = getThirdArgumentName(result);
+		if (name != null && result.getSubmatch(name) != null) {
+			return buildTree(result.getSubmatch(name));
+		}
+		return Optional.empty();
+	}
+
+	public String getLabel(MatchResult result) {
+		String name = getThirdArgumentName(result);
+		String text = null;
+		if (name != null && result.getSubmatch(name) != null) {
+			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
+			if (tokens.size() == 0) {
+
+			} else {
+				for (Token t: tokens) {
+					text = t.getCoveredText();
+					break;
+				}
+			}
+
+		}
+		name = SubtreeNames.LABEL;
+
+		if (result.getSubmatch(name) != null) {
+			if (text == null) {
+				text = "";
+			} else {
+				text = text + " ";
+			}
+			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
+			if (tokens.size() == 0) {
+
+			} else {
+				for (Token t: tokens) {
+					text = text + t.getCoveredText();
+					break;
+				}
+			}
+
+		}
+		return text;
 	}
 
 	public RuleType getType(MatchResult result) {
@@ -174,6 +306,20 @@ public class MatchTreeBuilder {
 			return RuleType.VERB_PREPOSITION;
 		}
 
+
+		// TODO MA subtree matchers
+		else if (isInheritance(result)) {
+			return RuleType.INHERITANCE;
+		} else if (isComposition(result)) {
+			return RuleType.COMPOSITION;
+		} else if (isAction(result)) {
+			return RuleType.ACTION;
+		} else if (isReplace(result)) {
+			return RuleType.REPLACE;
+		} else if (isRemove(result)) {
+			return RuleType.REMOVE;
+		}
+
 		return null;
 	}
 
@@ -190,14 +336,47 @@ public class MatchTreeBuilder {
 
 		// Binary
 		if (isConditionVarible(result) || isVerbObject(result) || isVerbPreposition(result) || isConjunction(result)
-				|| isCondition(result) || isLimitedCondition(result)) {
+				|| isCondition(result) || isLimitedCondition(result)
+
+				|| isComposition(result) || isInheritance(result)) {
 			MatchResultTreeNode left = getFirstArgument(result).get();
 			MatchResultTreeNode right = getSecondArgument(result).get();
-			return Optional.of(new BinaryMatchResultTreeNode(left, right, getType(result)));
+
+			String label = getLabel(result);
+			return Optional.of(new BinaryMatchResultTreeNode(left, right, getType(result), label));
+		}
+
+		if (isAction(result)) {
+			MatchResultTreeNode right = getSecondArgument(result).get();
+			MatchResultTreeNode left = new LeafTreeNode("", "");
+			// no source -> self node
+			if (getFirstArgument(result).isPresent()) {
+				left = getFirstArgument(result).get();
+			}
+
+			String label = getLabel(result);
+
+			return Optional.of(new BinaryMatchResultTreeNode(left, right, getType(result), label));
+		}
+		if (isUpdate(result)) {
+			if (isReplace(result)) {
+				MatchResultTreeNode oldNode = getFirstArgument(result).get();
+				MatchResultTreeNode newNode = getSecondArgument(result).get();
+
+				return Optional.of(new BinaryMatchResultTreeNode(newNode, oldNode, getType(result)));
+			} else if (isRemove(result)) {
+				MatchResultTreeNode oldNode = getFirstArgument(result).get();
+				LeafTreeNode tmp = new LeafTreeNode("", "");
+				return Optional.of(new BinaryMatchResultTreeNode(tmp, oldNode, getType(result)));
+			}
 		}
 
 		// Just Text
-		LeafTreeNode leaf = new LeafTreeNode(result.getMatchTree().getRepresentationString(false));
+		LeafTreeNode leaf = new LeafTreeNode(
+				result.getMatchTree().getRepresentationString(false), 
+				((Token)result.getMatchTree().getHeads().toArray()[0]).getEnd() + ""
+				);
+
 		return Optional.of(leaf);
 	}
 }

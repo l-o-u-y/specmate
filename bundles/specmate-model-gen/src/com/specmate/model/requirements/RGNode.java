@@ -2,6 +2,8 @@
  */
 package com.specmate.model.requirements;
 
+import org.eclipse.emf.common.util.EList;
+
 import com.specmate.model.base.IModelNode;
 
 /**
@@ -15,7 +17,8 @@ import com.specmate.model.base.IModelNode;
  * <ul>
  *   <li>{@link com.specmate.model.requirements.RGNode#getType <em>Type</em>}</li>
  *   <li>{@link com.specmate.model.requirements.RGNode#getComponent <em>Component</em>}</li>
- *   <li>{@link com.specmate.model.requirements.RGNode#getModifier <em>Modifier</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.RGNode#getChunks <em>Chunks</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.RGNode#isTemporary <em>Temporary</em>}</li>
  * </ul>
  *
  * @see com.specmate.model.requirements.RequirementsPackage#getRGNode()
@@ -71,25 +74,37 @@ public interface RGNode extends IModelNode {
 	void setComponent(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Modifier</b></em>' attribute.
+	 * Returns the value of the '<em><b>Chunks</b></em>' reference list.
+	 * The list contents are of type {@link com.specmate.model.requirements.RGChunk}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Modifier</em>' attribute.
-	 * @see #setModifier(String)
-	 * @see com.specmate.model.requirements.RequirementsPackage#getRGNode_Modifier()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Modifiers' longDesc='The modifiers to the variable' required='true' type='text' position='2'"
+	 * @return the value of the '<em>Chunks</em>' reference list.
+	 * @see com.specmate.model.requirements.RequirementsPackage#getRGNode_Chunks()
+	 * @model
 	 * @generated
 	 */
-	String getModifier();
+	EList<RGChunk> getChunks();
 
 	/**
-	 * Sets the value of the '{@link com.specmate.model.requirements.RGNode#getModifier <em>Modifier</em>}' attribute.
+	 * Returns the value of the '<em><b>Temporary</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Modifier</em>' attribute.
-	 * @see #getModifier()
+	 * @return the value of the '<em>Temporary</em>' attribute.
+	 * @see #setTemporary(boolean)
+	 * @see com.specmate.model.requirements.RequirementsPackage#getRGNode_Temporary()
+	 * @model
 	 * @generated
 	 */
-	void setModifier(String value);
+	boolean isTemporary();
+
+	/**
+	 * Sets the value of the '{@link com.specmate.model.requirements.RGNode#isTemporary <em>Temporary</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Temporary</em>' attribute.
+	 * @see #isTemporary()
+	 * @generated
+	 */
+	void setTemporary(boolean value);
 
 } // RGNode

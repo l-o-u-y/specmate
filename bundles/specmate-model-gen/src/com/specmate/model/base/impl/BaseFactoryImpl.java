@@ -2,15 +2,19 @@
  */
 package com.specmate.model.base.impl;
 
-import com.specmate.model.base.*;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
+import com.specmate.model.base.BaseFactory;
+import com.specmate.model.base.BasePackage;
+import com.specmate.model.base.Folder;
+import com.specmate.model.base.IExternal;
+import com.specmate.model.base.IModelConnection;
+import com.specmate.model.base.IModelNode;
+import com.specmate.model.base.ITracingElement;
 
 /**
  * <!-- begin-user-doc -->

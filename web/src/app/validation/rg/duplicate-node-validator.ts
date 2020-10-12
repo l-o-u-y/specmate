@@ -19,7 +19,6 @@ export class DuplicateNodeValidator extends ElementValidatorBase<RGModel> {
             let currentDuplicates: RGNode[] =
                 nodes.filter((otherNode: RGNode) =>
                     ValidationUtil.compareStrTrimmed(otherNode.component, currentNode.component) &&
-                    ValidationUtil.compareStrTrimmed(otherNode.modifier, currentNode.modifier) &&
                     otherNode !== currentNode &&
                     !duplicates.has(otherNode));
             currentDuplicates.forEach( node => duplicates.add(node));

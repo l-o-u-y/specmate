@@ -1,7 +1,9 @@
 package com.specmate.emfrest.internal.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +40,13 @@ import com.specmate.metrics.ITimer;
 import com.specmate.model.administration.AdministrationFactory;
 import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.administration.ProblemDetail;
+import com.specmate.model.requirements.RGChunk;
+import com.specmate.model.requirements.RGNode;
+import com.specmate.model.requirements.RGObject;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.objectif.internal.dSL.DSLFactory;
+import com.specmate.objectif.internal.dSL.impl.DSLFactoryImpl;
+import com.specmate.objectif.internal.dSL.impl.LiteralImpl;
 import com.specmate.persistency.ITransaction;
 import com.specmate.rest.RestResult;
 
@@ -232,6 +240,67 @@ public abstract class SpecmateResource {
 		return Response.status(status).entity(pd).build();
 	}
 
+
+	@Path("/text")
+	public Object getText(@Context HttpServletRequest httpRequest) {
+		List<EObject> objects = doGetChildren();
+		List<RGObject> rgObjects = objects.stream()
+				.filter((o) -> o instanceof RGObject)
+				.map((o) -> (RGObject)o).collect(Collectors.toList());
+		String string = "";
+		for (int i = 0; i < rgObjects.size(); i++) {
+			RGChunk prevChunk = i > 0 ? rgObjects.get(i-1).getChunk() : null;
+			RGObject object = rgObjects.get(i);
+			boolean isVisited = prevChunk != null && object.getChunk() == prevChunk;
+			String s = object.getOriginalText();
+			String t = object.getProcessedText();
+			String ct = object.getChunk() != null ? object.getChunk().getText() : "";
+			RGNode no = object.getChunk() != null && object.getChunk().getNode() != null ? object.getChunk().getNode() : null;
+			String n = object.getChunk() != null && object.getChunk().getNode() != null ? object.getChunk().getNode().getComponent() : "";
+			
+			if (object.getProcessedText() != null 
+					&& object.getChunk() != null) {
+				if (object.getChunk().getNode() != null) {
+					String m = "^(?i)((a )|(an )|(the ))?(?-i)(.*)";
+					String pct = ct.trim().replaceAll(m, "$5").trim().toLowerCase();
+					String nt = object.getChunk().getNode().getComponent();
+					if (pct.equals(nt)) {
+						s = ct;
+						// TODO MA TextGenerator: if original text.preprocess == processed text -> replace
+					} else {
+						s = ct.trim().replaceAll(m, "$1"+nt).trim();
+
+						// capitalize first word of sentence
+						if (string.trim().endsWith(".")) {
+							s = s.substring(0, 1).toUpperCase() + nt.substring(1);
+						}
+					}
+				} else {
+					s = object.getChunk().getText();
+				}
+					
+			}
+			if (!isVisited) {
+				string = string + ' ' + s;
+			}
+		}
+		InstanceResource resource = resourceContext.getResource(InstanceResource.class);
+
+//		RequirementsFactory factory = new RequirementsFactoryImpl();
+//		RGObject obj = factory.createRGObject();
+//		RGChunk ch = factory.createRGChunk();
+//		obj.setChunk(ch);
+//		ch.setChunkText(string);
+//		resource.setModelInstance(obj);
+		DSLFactory factory = new DSLFactoryImpl();
+		LiteralImpl literal = (LiteralImpl)factory.createLiteral();
+		List<String> collection = new ArrayList<String>();
+		collection.add(string);
+		literal.eSet(0, collection);
+		resource.setModelInstance(literal);
+		return resource;
+	}
+	
 	@Path("/{id:[^_][^/]*(?=/)}")
 	public Object getObjectById(@PathParam("id") String name, @Context HttpServletRequest httpRequest) {
 		List<EObject> objects = doGetChildren();

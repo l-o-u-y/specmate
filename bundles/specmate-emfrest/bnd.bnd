@@ -37,7 +37,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-auth-api;version=latest,\
 	specmate-metrics;version=latest,\
 	specmate-rest;version=latest,\
-	specmate-connectors-api;version=latest
+	specmate-connectors-api;version=latest,\
+	specmate-objectif;version=latest
 
 -dsannotations:  \
 	*

@@ -38,6 +38,7 @@ export class RGModelContainer extends TestSpecificationContentContainerBase<RGMo
     protected condition = (element: IContainer) => Type.is(element, RGModel);
 
     public async createElement(name: string): Promise<RGModel> {
+        console.log(1234123412341234)
         const factory: ModelFactoryBase = new RGModelFactory(this.dataService);
         const element = await factory.create(this.parent, true, Id.uuid, name) as RGModel;
 
@@ -49,6 +50,8 @@ export class RGModelContainer extends TestSpecificationContentContainerBase<RGMo
 
         if (description.length > 0) {
             element.modelRequirements = description;
+            console.log(element)
+            console.log(this.parent)
             await this.dataService.updateElement(element, true, Id.uuid);
             await this.dataService.commit(this.translate.instant('save'));
             await this.dataService.performOperations(element.url, 'generateModel');

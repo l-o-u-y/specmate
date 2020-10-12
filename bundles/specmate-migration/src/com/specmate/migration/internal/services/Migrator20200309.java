@@ -12,6 +12,7 @@ import com.specmate.dbprovider.api.migration.IObjectToSQLMapper;
 import com.specmate.migration.api.IMigrator;
 import com.specmate.model.base.BasePackage;
 
+// TODO MA misc: this migrator doesnt work yet
 @Component(property = "sourceVersion=20200309", service = IMigrator.class)
 public class Migrator20200309 implements IMigrator {
 	private IDBProvider dbProvider;

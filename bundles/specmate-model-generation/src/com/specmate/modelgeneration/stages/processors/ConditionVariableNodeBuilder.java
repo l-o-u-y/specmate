@@ -21,7 +21,7 @@ public class ConditionVariableNodeBuilder {
 	}
 
 	private class NodeVisitor extends MatchTreeVisitor {
-		public ConditionVariableNode replacementNode;
+		public LeafTreeNode replacementNode;
 
 		@Override
 		public void visit(BinaryMatchResultTreeNode node) {
@@ -53,7 +53,6 @@ public class ConditionVariableNodeBuilder {
 					cond = ((LeafTreeNode) condition).getContent();
 				}
 				replacementNode = new ConditionVariableNode(cond, var);
-
 			} else if (node.getType().equals(RuleType.VERB_OBJECT)) {
 				String var = ((LeafTreeNode) node.getFirstArgument()).getContent();
 				String cond = ((LeafTreeNode) node.getSecondArgument()).getContent();
@@ -75,7 +74,12 @@ public class ConditionVariableNodeBuilder {
 
 		@Override
 		public void visit(LeafTreeNode node) {
-			replacementNode = new ConditionVariableNode("", node.getContent());
+			if (node instanceof ConditionVariableNode) {
+				replacementNode = new ConditionVariableNode("", node.getContent());	
+			} else {
+				replacementNode = new LeafTreeNode(node.getContent(), node.getId());
+			}
+			
 		}
 
 		@Override

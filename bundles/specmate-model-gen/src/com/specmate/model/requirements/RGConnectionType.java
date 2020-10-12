@@ -39,24 +39,30 @@ public enum RGConnectionType implements Enumerator {
 	COMPOSITION(1, "Composition", "Composition"),
 
 	/**
-	 * The '<em><b>Target</b></em>' literal object.
+	 * The '<em><b>Action</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #TARGET_VALUE
+	 * @see #ACTION_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	TARGET(2, "Target", "Target"),
-
-	/**
-	 * The '<em><b>Source</b></em>' literal object.
+	ACTION(2, "Action", "Action"), /**
+	 * The '<em><b>Replace</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #SOURCE_VALUE
+	 * @see #REPLACE_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	SOURCE(3, "Source", "Source");
+	REPLACE(3, "Replace", "Replace"), /**
+	 * The '<em><b>Remove</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #REMOVE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	REMOVE(4, "Remove", "Remove");
 
 	/**
 	 * The '<em><b>Inheritance</b></em>' literal value.
@@ -81,26 +87,37 @@ public enum RGConnectionType implements Enumerator {
 	public static final int COMPOSITION_VALUE = 1;
 
 	/**
-	 * The '<em><b>Target</b></em>' literal value.
+	 * The '<em><b>Action</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #TARGET
-	 * @model name="Target"
+	 * @see #ACTION
+	 * @model name="Action"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int TARGET_VALUE = 2;
+	public static final int ACTION_VALUE = 2;
 
 	/**
-	 * The '<em><b>Source</b></em>' literal value.
+	 * The '<em><b>Replace</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #SOURCE
-	 * @model name="Source"
+	 * @see #REPLACE
+	 * @model name="Replace"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int SOURCE_VALUE = 3;
+	public static final int REPLACE_VALUE = 3;
+
+	/**
+	 * The '<em><b>Remove</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #REMOVE
+	 * @model name="Remove"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int REMOVE_VALUE = 4;
 
 	/**
 	 * An array of all the '<em><b>RG Connection Type</b></em>' enumerators.
@@ -112,8 +129,9 @@ public enum RGConnectionType implements Enumerator {
 		new RGConnectionType[] {
 			INHERITANCE,
 			COMPOSITION,
-			TARGET,
-			SOURCE,
+			ACTION,
+			REPLACE,
+			REMOVE,
 		};
 
 	/**
@@ -172,8 +190,9 @@ public enum RGConnectionType implements Enumerator {
 		switch (value) {
 			case INHERITANCE_VALUE: return INHERITANCE;
 			case COMPOSITION_VALUE: return COMPOSITION;
-			case TARGET_VALUE: return TARGET;
-			case SOURCE_VALUE: return SOURCE;
+			case ACTION_VALUE: return ACTION;
+			case REPLACE_VALUE: return REPLACE;
+			case REMOVE_VALUE: return REMOVE;
 		}
 		return null;
 	}

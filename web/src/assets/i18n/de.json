@@ -260,8 +260,10 @@
 		"addStep": "Schritt",
 		"autoLayout": "Auto-Layout",
 		"delete": "Löschen",
+		"generateDescription": "Anforderungen generieren",
 		"move": "Verschieben",
-		"select": "Auswählen"
+		"select": "Auswählen",
+		"updateModel": "Modelanforderungen updaten"
 	},
 	"triedToCheckExistenceOfUnknownElement": "Versuch, Existenz eines unbekannten Elements zu prüfen",
 	"triedToReadContensForVirtualElement": "Versuch, Inhalt eines virtuellen Elements zu laden",

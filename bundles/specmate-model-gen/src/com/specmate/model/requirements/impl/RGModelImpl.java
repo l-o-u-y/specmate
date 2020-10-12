@@ -2,21 +2,25 @@
  */
 package com.specmate.model.requirements.impl;
 
-import com.specmate.model.base.BasePackage;
-import com.specmate.model.base.IContentElement;
-import com.specmate.model.base.IDescribed;
-import com.specmate.model.base.INamed;
-import com.specmate.model.base.IRecycled;
-import com.specmate.model.base.ITracingElement;
-import com.specmate.model.requirements.RGModel;
-import com.specmate.model.requirements.RequirementsPackage;
 import java.util.Collection;
+
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
+import com.specmate.model.base.BasePackage;
+import com.specmate.model.base.IContentElement;
+import com.specmate.model.base.IDescribed;
+import com.specmate.model.base.INamed;
+import com.specmate.model.base.IRecycled;
+import com.specmate.model.base.ITracingElement;
+import com.specmate.model.requirements.RGChunk;
+import com.specmate.model.requirements.RGModel;
+import com.specmate.model.requirements.RGObject;
+import com.specmate.model.requirements.RequirementsPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -35,6 +39,8 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.requirements.impl.RGModelImpl#getTracesTo <em>Traces To</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGModelImpl#getTracesFrom <em>Traces From</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGModelImpl#getModelRequirements <em>Model Requirements</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGModelImpl#getModelMapping <em>Model Mapping</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGModelImpl#getChunks <em>Chunks</em>}</li>
  * </ul>
  *
  * @generated
@@ -284,6 +290,28 @@ public class RGModelImpl extends CDOObjectImpl implements RGModel {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
+	public EList<RGObject> getModelMapping() {
+		return (EList<RGObject>)eDynamicGet(RequirementsPackage.RG_MODEL__MODEL_MAPPING, RequirementsPackage.Literals.RG_MODEL__MODEL_MAPPING, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public EList<RGChunk> getChunks() {
+		return (EList<RGChunk>)eDynamicGet(RequirementsPackage.RG_MODEL__CHUNKS, RequirementsPackage.Literals.RG_MODEL__CHUNKS, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case RequirementsPackage.RG_MODEL__TRACES_TO:
@@ -308,6 +336,10 @@ public class RGModelImpl extends CDOObjectImpl implements RGModel {
 				return ((InternalEList<?>)getTracesTo()).basicRemove(otherEnd, msgs);
 			case RequirementsPackage.RG_MODEL__TRACES_FROM:
 				return ((InternalEList<?>)getTracesFrom()).basicRemove(otherEnd, msgs);
+			case RequirementsPackage.RG_MODEL__MODEL_MAPPING:
+				return ((InternalEList<?>)getModelMapping()).basicRemove(otherEnd, msgs);
+			case RequirementsPackage.RG_MODEL__CHUNKS:
+				return ((InternalEList<?>)getChunks()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -338,6 +370,10 @@ public class RGModelImpl extends CDOObjectImpl implements RGModel {
 				return getTracesFrom();
 			case RequirementsPackage.RG_MODEL__MODEL_REQUIREMENTS:
 				return getModelRequirements();
+			case RequirementsPackage.RG_MODEL__MODEL_MAPPING:
+				return getModelMapping();
+			case RequirementsPackage.RG_MODEL__CHUNKS:
+				return getChunks();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -381,6 +417,14 @@ public class RGModelImpl extends CDOObjectImpl implements RGModel {
 			case RequirementsPackage.RG_MODEL__MODEL_REQUIREMENTS:
 				setModelRequirements((String)newValue);
 				return;
+			case RequirementsPackage.RG_MODEL__MODEL_MAPPING:
+				getModelMapping().clear();
+				getModelMapping().addAll((Collection<? extends RGObject>)newValue);
+				return;
+			case RequirementsPackage.RG_MODEL__CHUNKS:
+				getChunks().clear();
+				getChunks().addAll((Collection<? extends RGChunk>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -420,6 +464,12 @@ public class RGModelImpl extends CDOObjectImpl implements RGModel {
 			case RequirementsPackage.RG_MODEL__MODEL_REQUIREMENTS:
 				setModelRequirements(MODEL_REQUIREMENTS_EDEFAULT);
 				return;
+			case RequirementsPackage.RG_MODEL__MODEL_MAPPING:
+				getModelMapping().clear();
+				return;
+			case RequirementsPackage.RG_MODEL__CHUNKS:
+				getChunks().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -450,6 +500,10 @@ public class RGModelImpl extends CDOObjectImpl implements RGModel {
 				return !getTracesFrom().isEmpty();
 			case RequirementsPackage.RG_MODEL__MODEL_REQUIREMENTS:
 				return MODEL_REQUIREMENTS_EDEFAULT == null ? getModelRequirements() != null : !MODEL_REQUIREMENTS_EDEFAULT.equals(getModelRequirements());
+			case RequirementsPackage.RG_MODEL__MODEL_MAPPING:
+				return !getModelMapping().isEmpty();
+			case RequirementsPackage.RG_MODEL__CHUNKS:
+				return !getChunks().isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

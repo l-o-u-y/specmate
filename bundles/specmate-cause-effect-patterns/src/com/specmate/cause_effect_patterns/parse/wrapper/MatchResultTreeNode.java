@@ -3,7 +3,29 @@ package com.specmate.cause_effect_patterns.parse.wrapper;
 public abstract class MatchResultTreeNode {
 	public static enum RuleType {
 		LIMITED_CONDITION, CONDITION, CONJUNCTION_AND, CONJUNCTION_OR, CONJUNCTION_NOR, CONJUNCTION_XOR, NEGATION,
-		CONDITION_VARIABLE, VERB_OBJECT, VERB_PREPOSITION;
+		CONDITION_VARIABLE, VERB_OBJECT, VERB_PREPOSITION, COMPOSITION, INHERITANCE, ACTION, REPLACE, REMOVE;
+
+		public boolean isComposition() {
+			return equals(COMPOSITION);
+		}
+		
+		public boolean isInheritance() {
+			return equals(INHERITANCE);
+		}
+
+		public boolean isAction() {
+			return equals(ACTION);
+		}
+		public boolean isUpdate() {
+			return isRemove() || isReplace();
+		}
+
+		public boolean isReplace() {
+			return equals(REPLACE);
+		}
+		public boolean isRemove() {
+			return equals(REMOVE);
+		}
 
 		public boolean isCondition() {
 			return equals(CONDITION);
@@ -36,24 +58,35 @@ public abstract class MatchResultTreeNode {
 
 		public int getPriority() {
 			switch (this) {
-			case LIMITED_CONDITION:
-				return 0;
-			case CONDITION:
+			// TODO MA subtree order
+			case COMPOSITION:
 				return 1;
-			case CONJUNCTION_XOR:
+			case INHERITANCE:
 				return 2;
-			case CONJUNCTION_NOR:
+			case ACTION:
 				return 3;
-			case CONJUNCTION_OR:
+			case REPLACE:
 				return 4;
-			case CONJUNCTION_AND:
+			case REMOVE:
+				return 4;
+			case LIMITED_CONDITION:
 				return 5;
-			case CONDITION_VARIABLE:
+			case CONDITION:
 				return 6;
-			case VERB_OBJECT:
+			case CONJUNCTION_XOR:
 				return 7;
-			case VERB_PREPOSITION:
+			case CONJUNCTION_NOR:
 				return 8;
+			case CONJUNCTION_OR:
+				return 9;
+			case CONJUNCTION_AND:
+				return 10;
+			case CONDITION_VARIABLE:
+				return 11;
+			case VERB_OBJECT:
+				return 12;
+			case VERB_PREPOSITION:
+				return 13;
 			default: // Negation should not be moved
 				return -1;
 			}

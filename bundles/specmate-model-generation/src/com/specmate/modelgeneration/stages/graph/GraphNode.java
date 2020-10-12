@@ -4,10 +4,14 @@ import java.util.List;
 import java.util.Vector;
 
 import com.specmate.model.requirements.NodeType;
+import com.specmate.model.requirements.RGConnectionType;
 
 public class GraphNode {
 	private String condition;
 	private String variable;
+	private String component;
+	private String id;
+	private boolean markedForDeletion;
 	private NodeType type;
 	private Graph graph;
 
@@ -19,16 +23,18 @@ public class GraphNode {
 	}
 
 	GraphNode(Graph graph, NodeType type) {
-		this(graph, null, null, type);
-	}
-
-	GraphNode(Graph graph, String condition, String variable, NodeType type) {
 		this.type = type;
-		this.condition = condition;
-		this.variable = variable;
 		this.graph = graph;
 		childEdges = new Vector<GraphEdge>();
 		parentEdges = new Vector<GraphEdge>();
+	}
+	
+	public List<GraphEdge> getChildEdges() {
+		return childEdges;
+	}
+	public void removeEdge(GraphEdge edge) {
+		parentEdges.remove(edge);
+		childEdges.remove(edge);
 	}
 
 
@@ -39,6 +45,14 @@ public class GraphNode {
 		graph.edges.add(edge);
 	}
 
+	public void connectTo(GraphNode node, RGConnectionType type, boolean negateEdge, String label) {
+		GraphEdge edge = new GraphEdge(this, node, type, negateEdge, label);
+		childEdges.add(edge);
+		node.parentEdges.add(edge);
+		graph.edges.add(edge);
+	}
+
+	
 	public NodeType getType() {
 		return type;
 	}
@@ -51,12 +65,24 @@ public class GraphNode {
 		return variable;
 	}
 
+	public String getComponent() {
+		return component;
+	}
+
 	public void setCondition(String condition) {
 		this.condition = condition;
 	}
 
 	public void setVariable(String variable) {
 		this.variable = variable;
+	}
+
+	public void setComponent(String component) {
+		this.component = component;
+	}
+
+	public void setType(NodeType type) {
+		this.type = type;
 	}
 
 	public boolean isRoot() {
@@ -93,5 +119,21 @@ public class GraphNode {
 			minHeight = Math.min(minHeight, depth);
 		}
 		return minHeight - 1;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public boolean isMarkedForDeletion() {
+		return markedForDeletion;
+	}
+
+	public void setMarkedForDeletion(boolean markedForDeletion) {
+		this.markedForDeletion = markedForDeletion;
 	}
 }

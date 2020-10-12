@@ -2,10 +2,10 @@
  */
 package com.specmate.model.processes.impl;
 
+import org.eclipse.emf.ecore.EClass;
+
 import com.specmate.model.processes.ProcessEnd;
 import com.specmate.model.processes.ProcessesPackage;
-
-import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->

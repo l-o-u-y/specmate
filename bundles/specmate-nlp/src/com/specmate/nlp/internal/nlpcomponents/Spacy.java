@@ -105,9 +105,9 @@ public class Spacy extends JCasAnnotator_ImplBase {
 			// Set model parameters
 			JSONObject request = new JSONObject();
 			request.put("text", requirement);
-			request.put("model", spacyModel);
+			request.put("model", "en");
 			request.put("collapse_punctuation", 0);
-			request.put("collapse_phrases", 0);
+			request.put("collapse_phrases", 1);
 
 			RestResult<JSONArray> result = restClient.postList("/sents_dep", request);
 			if (result.getResponse().getStatus() == Status.OK.getStatusCode()) {
