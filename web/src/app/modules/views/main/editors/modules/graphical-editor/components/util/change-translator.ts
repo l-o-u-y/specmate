@@ -1,11 +1,11 @@
 import { mxgraph } from 'mxgraph';
-import { CEGConnection } from '../../../../../../../../../app/model/CEGConnection';
-import { CEGNode } from '../../../../../../../../../app/model/CEGNode';
-import { ProcessConnection } from '../../../../../../../../../app/model/ProcessConnection';
-import { Type } from '../../../../../../../../../app/util/type';
+import { CEGConnection } from '../../../../../../../../model/CEGConnection';
+import { CEGNode } from '../../../../../../../../model/CEGNode';
+import { ProcessConnection } from '../../../../../../../../model/ProcessConnection';
+import { Type } from '../../../../../../../../util/type';
 import { CEGModel } from '../../../../../../../../model/CEGModel';
-import { RGConnection } from '../../../../../../../../../app/model/RGConnection';
-import { RGNode } from '../../../../../../../../../app/model/RGNode';
+import { RGConnection } from '../../../../../../../../model/RGConnection';
+import { RGNode } from '../../../../../../../../model/RGNode';
 import { RGModel } from '../../../../../../../../model/RGModel';
 import { IContainer } from '../../../../../../../../model/IContainer';
 import { IModelConnection } from '../../../../../../../../model/IModelConnection';

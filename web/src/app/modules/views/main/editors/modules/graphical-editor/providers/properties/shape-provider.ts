@@ -1,5 +1,5 @@
-import { CEGConnection } from '../../../../../../../../../app/model/CEGConnection';
-import { Type } from '../../../../../../../../../app/util/type';
+import { CEGConnection } from '../../../../../../../../model/CEGConnection';
+import { Type } from '../../../../../../../../util/type';
 import { Config } from '../../../../../../../../config/config';
 import { ProcessDecision } from '../../../../../../../../model/ProcessDecision';
 import { ProcessEnd } from '../../../../../../../../model/ProcessEnd';

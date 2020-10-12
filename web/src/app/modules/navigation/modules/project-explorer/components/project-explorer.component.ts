@@ -3,7 +3,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { Subject } from 'rxjs/Subject';
-import { TranslateService } from '../../../../../../../node_modules/@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Config } from '../../../../../config/config';
 import { Folder } from '../../../../../model/Folder';
 import { IContainer } from '../../../../../model/IContainer';

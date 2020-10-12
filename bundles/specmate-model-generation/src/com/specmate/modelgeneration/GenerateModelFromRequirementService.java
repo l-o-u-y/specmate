@@ -23,6 +23,8 @@ import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.RGModel;
+import com.specmate.modelgeneration.legacy.EnglishCEGFromRequirementGenerator;
+import com.specmate.modelgeneration.legacy.GermanCEGFromRequirementGenerator;
 import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
 import com.specmate.nlp.util.NLPUtil;
@@ -67,26 +69,22 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 		ISpecmateModelObject model;
 		if (parent instanceof CEGModel) {
 			model = (CEGModel) parent;
-		}
-		else { // if (parent instanceof RGModel) {
+
+			model.getContents().clear(); // Delete Contents
+			try {
+				logService.log(LogService.LOG_INFO, "Model Generation STARTED");
+				model = generateModelFromDescription(model);
+				logService.log(LogService.LOG_INFO, "Model Generation FINISHED");
+				modelGenCounter.inc();
+			} catch (SpecmateException e) {
+				logService.log(LogService.LOG_ERROR,
+						"Model Generation failed with following error:\n" + e.getMessage());
+				return new RestResult<>(Response.Status.INTERNAL_SERVER_ERROR);
+			}
+		} else {
+		// if (parent instanceof RGModel) {
 			model = (RGModel) parent;
 			((RGModel)model).getModelMapping().clear();
-		}
-
-		model.getContents().clear(); // Delete Contents
-		try {
-			logService.log(LogService.LOG_INFO, "Model Generation STARTED");
-			model = generateModelFromDescription(model);
-			logService.log(LogService.LOG_INFO, "Model Generation FINISHED");
-			modelGenCounter.inc();
-		} catch (SpecmateException e) {
-			logService.log(LogService.LOG_ERROR,
-					"Model Generation failed with following error:\n" + e.getMessage());
-			return new RestResult<>(Response.Status.INTERNAL_SERVER_ERROR);
-		}
-
-		if (parent instanceof RGModel) {
-			model = (RGModel) parent;
 			model.getContents().clear(); // Delete Contents
 			try {
 				logService.log(LogService.LOG_INFO, "Model Generation STARTED");
@@ -147,6 +145,13 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 				logService.log(LogService.LOG_INFO,
 						"NLP model generation failed with the following error: \"" + e.getMessage() + "\"");
 				logService.log(LogService.LOG_INFO, "Backing off to rule based generation...");
+
+				if (lang == ELanguage.DE) {
+					generator = new GermanCEGFromRequirementGenerator(logService, tagger);
+				} else {
+					generator = new EnglishCEGFromRequirementGenerator(logService, tagger);
+				}
+				generator.createModel((CEGModel)model, text);
 			}
 		}
 		else { // if (parent instanceof RGModel) {

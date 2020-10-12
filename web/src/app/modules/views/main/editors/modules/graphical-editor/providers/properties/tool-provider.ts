@@ -18,7 +18,7 @@ import { CEGConnectionTool } from '../../../tool-pallette/tools/ceg/ceg-connecti
 import { CEGDeleteTool } from '../../../tool-pallette/tools/ceg/ceg-delete-tool';
 import { RGConnectionTool } from '../../../tool-pallette/tools/rg/rg-connection-tool';
 import { RGDeleteTool } from '../../../tool-pallette/tools/rg/rg-delete-tool';
-import { ConfirmationModal } from '../../../../../../../../../app/modules/notification/modules/modals/services/confirmation-modal.service';
+import { ConfirmationModal } from '../../../../../../../notification/modules/modals/services/confirmation-modal.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ProcessLayoutTool } from '../../../tool-pallette/tools/process/process-layout-tool';
 import {RgDescriptionTool} from '../../../tool-pallette/tools/rg/rg-description-tool';

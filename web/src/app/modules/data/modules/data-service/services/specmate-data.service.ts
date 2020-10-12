@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { SimpleModal } from 'src/app/modules/notification/modules/modals/services/simple-modal.service';
+import { SimpleModal } from '../../../../notification/modules/modals/services/simple-modal.service';
 import { CEGConnection } from '../../../../../model/CEGConnection';
 import { IContainer } from '../../../../../model/IContainer';
 import { IModelConnection } from '../../../../../model/IModelConnection';
