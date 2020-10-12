@@ -63,7 +63,7 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 
 	@Override
 	public RestResult<?> post(Object parent, Object child, String token) {
-		// TODO MA make CEG and RG Model inherit from Model then polymorph
+		// TODO MA misc: make CEG and RG Model inherit from Model then polymorph
 		ISpecmateModelObject model;
 		if (parent instanceof CEGModel) {
 			model = (CEGModel) parent;
@@ -134,7 +134,7 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 //			}
 		}
 		else { // if (parent instanceof RGModel) {
-			// TODO MA ggf. just have a separate input field in FE
+			// TODO MA misc: ggf. just have a separate input field in FE
 			if (text.matches("(.*)https:\\/\\/github.com\\/(.*)\\/(.*)\\/issues\\/(\\d*)(.*)")) {
 				String apiUrl = text.replaceAll("(.*)https:\\/\\/github.com\\/(.*)\\/(.*)\\/issues\\/(\\d*)(.*)", 
 						"https://api.github.com/repos/$2/$3/issues/$4");

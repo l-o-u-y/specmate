@@ -3,7 +3,7 @@ package com.specmate.cause_effect_patterns.parse.wrapper;
 public abstract class MatchResultTreeNode {
 	public static enum RuleType {
 		LIMITED_CONDITION, CONDITION, CONJUNCTION_AND, CONJUNCTION_OR, CONJUNCTION_NOR, CONJUNCTION_XOR, NEGATION,
-		CONDITION_VARIABLE, VERB_OBJECT, VERB_PREPOSITION, COMPOSITION, INHERITANCE, ACTION, REPLACE, ADD, REMOVE;
+		CONDITION_VARIABLE, VERB_OBJECT, VERB_PREPOSITION, COMPOSITION, INHERITANCE, ACTION, REPLACE, REMOVE;
 
 		public boolean isComposition() {
 			return equals(COMPOSITION);
@@ -17,14 +17,11 @@ public abstract class MatchResultTreeNode {
 			return equals(ACTION);
 		}
 		public boolean isUpdate() {
-			return isRemove() || isReplace() || isAdd();
+			return isRemove() || isReplace();
 		}
 
 		public boolean isReplace() {
 			return equals(REPLACE);
-		}
-		public boolean isAdd() {
-			return equals(ADD);
 		}
 		public boolean isRemove() {
 			return equals(REMOVE);
@@ -61,7 +58,7 @@ public abstract class MatchResultTreeNode {
 
 		public int getPriority() {
 			switch (this) {
-			// TODO MA order
+			// TODO MA subtree order
 			case COMPOSITION:
 				return 1;
 			case INHERITANCE:
@@ -69,6 +66,7 @@ public abstract class MatchResultTreeNode {
 			case ACTION:
 				return 3;
 			case REPLACE:
+				return 4;
 			case REMOVE:
 				return 4;
 			case LIMITED_CONDITION:

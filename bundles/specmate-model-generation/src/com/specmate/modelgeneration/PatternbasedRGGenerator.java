@@ -133,7 +133,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 					j = j + diffTextArray.length;
 				}
 			} else if (diffs.get(i).operation.equals(Operation.INSERT)) {
-				//TODO MA
+				//TODO MA TextGenerator: sometimes we do need insert. e.g. insert period after list item
 				log.log(LogService.LOG_ERROR,
 						"This case should never happen. Something went wrong. Diff: " + 
 						diffs.get(i).toString());
@@ -147,7 +147,6 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		Iterable<Token> iterable = JCasUtil.select(tagResult, Token.class);
 		for (Token p:iterable) {
 			String chunkText = trimSpace(p.getCoveredText());
-			System.out.println();
 			String[] chunkTextArray = chunkText.split(" ");
 			RGChunk c = RequirementsFactory.eINSTANCE.createRGChunk();
 			c.setId(p.getEnd()  + "");
@@ -157,9 +156,9 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			
 			j = 0; // counter for chunkTextArray
 			// for punctuation or replacements
-			System.out.println("===================");
-			System.out.println(chunkText);
-			System.out.println(i);
+//			System.out.println("===================");
+//			System.out.println(chunkText);
+//			System.out.println(i);
 			if (i >= rgObjects.size()) return model;
 			System.out.println(rgObjects.get(i).getOriginalText());
 			System.out.println(rgObjects.get(i).getProcessedText());
@@ -168,9 +167,9 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			while (i < rgObjects.size() && rgObjects.get(i).getProcessedText() == null || 
 					!chunkTextArray[j].equals(rgObjects.get(i).getProcessedText())) {
 				i++;
-				System.out.println(i);
-				System.out.println(rgObjects.get(i).getOriginalText());
-				System.out.println(rgObjects.get(i).getProcessedText());
+//				System.out.println(i);
+//				System.out.println(rgObjects.get(i).getOriginalText());
+//				System.out.println(rgObjects.get(i).getProcessedText());
 			}
 			while (i < rgObjects.size() && rgObjects.get(i).getProcessedText() != null && 
 					j < chunkTextArray.length &&
@@ -179,11 +178,6 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 				chunkObjects.add(rgObjects.get(i));
 				i++;
 				j++;
-//				System.out.println(i);
-//				System.out.println(rgObjects.get(i).getOriginalText());
-//				System.out.println(rgObjects.get(i).getProcessedText());
-//				System.out.println(j);
-//				System.out.println(chunkTextArray[j]);
 			}
 		}
 		return model;
@@ -216,7 +210,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		EObject parent = originalModel.eContainer();
 		return createModel(originalModel, parent, input);
 	}
-	// TODO MA multiple texts
+	// TODO MA misc: multiple texts
 	public RGModel createModel(RGModel originalModel, EObject parent, String input) throws SpecmateException {
 
 		// Fixes some issues with the dkpro/spacy backoff.
@@ -249,7 +243,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			model.getModelMapping().addAll(curModel.getModelMapping());
 			model.getChunks().addAll(curModel.getChunks());
 			
-			// TODO MA
+			// TODO MA nouns: add to creation
 			// addNounsToCreation(model, tagResult);
 
 			final List<MatchResult> results = matcher.matchText(text, true);

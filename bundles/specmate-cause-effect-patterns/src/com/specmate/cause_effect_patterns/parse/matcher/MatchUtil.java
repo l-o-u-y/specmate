@@ -5,6 +5,7 @@ import java.util.Vector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.specmate.cause_effect_patterns.parse.DependencyNode;
 import com.specmate.cause_effect_patterns.parse.DependencyParsetree;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
@@ -26,7 +27,8 @@ public class MatchUtil {
 		List<MatchResult> result = new Vector<MatchResult>();
 		for(Token head: data.getHeads()) {
 			result.add(MatchUtil.evaluateRuleset(rules, data, head));
-			if (matchAll) {
+			// TODO MA does this even work? 
+			/* if (matchAll) {
 				if (data.getDependencyNode(head)==null) {
 					return result;
 				}
@@ -36,7 +38,7 @@ public class MatchUtil {
                     .collect(Collectors.toList());
 					result = newList;
 				}
-			}
+			} */
 		}
 		return result; 
 	}

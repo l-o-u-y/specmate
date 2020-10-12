@@ -22,7 +22,7 @@ public class TextPreProcessor {
 	}
 
 	public List<String> preProcess(String text) throws SpecmateException {
-		// TODO MA
+		// TODO MA misc: sentence unfolder
 		text = generalGithubPreprocessing(text);
 		SentenceUnfolderBase unfolder;
 		if (language == ELanguage.DE) {

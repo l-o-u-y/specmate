@@ -252,7 +252,6 @@ public abstract class SpecmateResource {
 			RGChunk prevChunk = i > 0 ? rgObjects.get(i-1).getChunk() : null;
 			RGObject object = rgObjects.get(i);
 			boolean isVisited = prevChunk != null && object.getChunk() == prevChunk;
-			// TODO MA sometimes it doesnt parse the chunks correctly somewhere -> duplicate text
 			String s = object.getOriginalText();
 			String t = object.getProcessedText();
 			String ct = object.getChunk() != null ? object.getChunk().getText() : "";
@@ -267,7 +266,7 @@ public abstract class SpecmateResource {
 					String nt = object.getChunk().getNode().getComponent();
 					if (pct.equals(nt)) {
 						s = ct;
-						// TODO MA if original text.preprocess == processed text -> replace
+						// TODO MA TextGenerator: if original text.preprocess == processed text -> replace
 					} else {
 						s = ct.trim().replaceAll(m, "$1"+nt).trim();
 

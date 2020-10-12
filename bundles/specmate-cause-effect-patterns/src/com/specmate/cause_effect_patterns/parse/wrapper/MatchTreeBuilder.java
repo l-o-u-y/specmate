@@ -39,7 +39,6 @@ public class MatchTreeBuilder {
 		public static final String ACTION = "Action";
 		public static final String UPDATE = "Update";
 		public static final String REPLACE = "Replace";
-		public static final String ADD = "Add";
 		public static final String REMOVE = "Remove";
 		public static final String LIMITED_CONDITION = "LimitedCondition";
 		public static final String CONDITION = "Condition";
@@ -72,29 +71,20 @@ public class MatchTreeBuilder {
 		return name && subMatches;
 	}
 
-	// TODO MA
 	private boolean isUpdate(MatchResult result) {
-		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.UPDATE);
-		boolean subMatches = true;
-		return name && subMatches;
+		return isRemove(result) || isReplace(result);
 	}
 
 	private boolean isReplace(MatchResult result) {
 		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.REPLACE);
 		boolean subMatches = result.hasSubmatch(SubtreeNames.OLD) &&
-							result.hasSubmatch(SubtreeNames.NEW);
-		return name && subMatches;
-	}
-	private boolean isAdd(MatchResult result) {
-		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.ADD);
-		boolean subMatches = result.hasSubmatch(SubtreeNames.PARENT) &&
-							result.hasSubmatch(SubtreeNames.NEW);
+				result.hasSubmatch(SubtreeNames.NEW);
 		return name && subMatches;
 	}
 	private boolean isRemove(MatchResult result) {
 		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.REMOVE);
 		boolean subMatches = // result.hasSubmatch(SubtreeNames.PARENT) &&
-							result.hasSubmatch(SubtreeNames.OLD);
+				result.hasSubmatch(SubtreeNames.OLD);
 		return name && subMatches;
 	}
 
@@ -159,7 +149,7 @@ public class MatchTreeBuilder {
 		boolean subMatches = result.hasSubmatch(SubtreeNames.VERB) && result.hasSubmatch(SubtreeNames.PREPOSITION);
 		return name && subMatches;
 	}
-	
+
 	private String getFirstArgumentName(MatchResult result) {
 		if (isLimitedCondition(result)) {
 			return SubtreeNames.LIMIT;
@@ -177,7 +167,7 @@ public class MatchTreeBuilder {
 			return SubtreeNames.VERB;
 		}
 
-		// TODO MA
+		// TODO MA subtree matchers
 		else if (isInheritance(result)) {
 			return SubtreeNames.PARENT;
 		} else if (isComposition(result)) {
@@ -186,8 +176,6 @@ public class MatchTreeBuilder {
 			return SubtreeNames.SOURCE;
 		} else if (isReplace(result)) {
 			return SubtreeNames.OLD;
-		} else if (isAdd(result)) {
-			return SubtreeNames.PARENT;
 		} else if (isRemove(result)) {
 			return SubtreeNames.OLD;
 		}
@@ -218,7 +206,7 @@ public class MatchTreeBuilder {
 			return SubtreeNames.PREPOSITION;
 		}
 
-		// TODO MA
+		// TODO MA subtree matchers
 		else if (isInheritance(result)) {
 			return SubtreeNames.CHILD;
 		} else if (isComposition(result)) {
@@ -228,8 +216,6 @@ public class MatchTreeBuilder {
 		} else if (isUpdate(result)) {
 			return SubtreeNames.NEW;
 		} else if (isReplace(result)) {
-			return SubtreeNames.NEW;
-		} else if (isAdd(result)) {
 			return SubtreeNames.NEW;
 		}
 		return null;
@@ -246,12 +232,8 @@ public class MatchTreeBuilder {
 	private String getThirdArgumentName(MatchResult result) {
 		if (isAction(result)) {
 			return SubtreeNames.ACTION;
-		} else if (isUpdate(result)) {
-			return SubtreeNames.PARENT;
-		} else if (isReplace(result)) {
-			return SubtreeNames.PARENT;
 		}
-		
+
 		return null;
 	}
 
@@ -263,14 +245,14 @@ public class MatchTreeBuilder {
 		}
 		return Optional.empty();
 	}
-	
+
 	public String getLabel(MatchResult result) {
 		String name = getThirdArgumentName(result);
 		String text = null;
 		if (name != null && result.getSubmatch(name) != null) {
 			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
 			if (tokens.size() == 0) {
-				
+
 			} else {
 				for (Token t: tokens) {
 					text = t.getCoveredText();
@@ -289,7 +271,7 @@ public class MatchTreeBuilder {
 			}
 			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
 			if (tokens.size() == 0) {
-				
+
 			} else {
 				for (Token t: tokens) {
 					text = text + t.getCoveredText();
@@ -300,7 +282,7 @@ public class MatchTreeBuilder {
 		}
 		return text;
 	}
-	
+
 	public RuleType getType(MatchResult result) {
 		if (isLimitedCondition(result)) {
 			return RuleType.LIMITED_CONDITION;
@@ -325,7 +307,7 @@ public class MatchTreeBuilder {
 		}
 
 
-		// TODO MA
+		// TODO MA subtree matchers
 		else if (isInheritance(result)) {
 			return RuleType.INHERITANCE;
 		} else if (isComposition(result)) {
@@ -334,8 +316,6 @@ public class MatchTreeBuilder {
 			return RuleType.ACTION;
 		} else if (isReplace(result)) {
 			return RuleType.REPLACE;
-		} else if (isAdd(result)) {
-			return RuleType.ADD;
 		} else if (isRemove(result)) {
 			return RuleType.REMOVE;
 		}
@@ -357,7 +337,7 @@ public class MatchTreeBuilder {
 		// Binary
 		if (isConditionVarible(result) || isVerbObject(result) || isVerbPreposition(result) || isConjunction(result)
 				|| isCondition(result) || isLimitedCondition(result)
-				
+
 				|| isComposition(result) || isInheritance(result)) {
 			MatchResultTreeNode left = getFirstArgument(result).get();
 			MatchResultTreeNode right = getSecondArgument(result).get();
@@ -365,39 +345,25 @@ public class MatchTreeBuilder {
 			String label = getLabel(result);
 			return Optional.of(new BinaryMatchResultTreeNode(left, right, getType(result), label));
 		}
-		
-		if (isAction(result)) { //TODO MA
+
+		if (isAction(result)) {
 			MatchResultTreeNode right = getSecondArgument(result).get();
-			MatchResultTreeNode left = right;
+			MatchResultTreeNode left = new LeafTreeNode("", "");
 			// no source -> self node
 			if (getFirstArgument(result).isPresent()) {
 				left = getFirstArgument(result).get();
 			}
-			
+
 			String label = getLabel(result);
-			
+
 			return Optional.of(new BinaryMatchResultTreeNode(left, right, getType(result), label));
 		}
 		if (isUpdate(result)) {
 			if (isReplace(result)) {
 				MatchResultTreeNode oldNode = getFirstArgument(result).get();
 				MatchResultTreeNode newNode = getSecondArgument(result).get();
-				
-				// has PARENT
-				if (getThirdArgument(result).isPresent()) {
-					MatchResultTreeNode parentNode = getThirdArgument(result).get();
-					BinaryMatchResultTreeNode oldRel = new BinaryMatchResultTreeNode(parentNode, oldNode, RuleType.COMPOSITION);
-					BinaryMatchResultTreeNode newRel = new BinaryMatchResultTreeNode(parentNode, newNode, RuleType.COMPOSITION);
-					return Optional.of(new BinaryMatchResultTreeNode(oldRel, newRel, getType(result)));
-				} else {
-					return Optional.of(new BinaryMatchResultTreeNode(oldNode, newNode, getType(result)));
-				}
-			} else if (isAdd(result)) {
-				MatchResultTreeNode parentNode = getFirstArgument(result).get();
-				MatchResultTreeNode newNode = getSecondArgument(result).get();
-				// TODO MA relation type? not explicit add -> we prob dont need this case
-				return Optional.of(new BinaryMatchResultTreeNode(parentNode, newNode, getType(result)));
-				
+
+				return Optional.of(new BinaryMatchResultTreeNode(newNode, oldNode, getType(result)));
 			} else if (isRemove(result)) {
 				MatchResultTreeNode oldNode = getFirstArgument(result).get();
 				LeafTreeNode tmp = new LeafTreeNode("", "");
@@ -410,7 +376,7 @@ public class MatchTreeBuilder {
 				result.getMatchTree().getRepresentationString(false), 
 				((Token)result.getMatchTree().getHeads().toArray()[0]).getEnd() + ""
 				);
-		
+
 		return Optional.of(leaf);
 	}
 }

@@ -51,18 +51,18 @@ public class GraphBuilder {
 				p.setType(NodeType.OR);
 			}
 			for (GraphNode c : child.positiveNodes) {
-				// TODO MA this case happens because equality check for action doesnt work
-				if (p == null || p.equals(c) || p.getComponent().equals(c.getComponent())) {
-				} else {
+				// TODO MA ACTION connection w/o source: this happens because equality check for action doesnt work
+//				if (p == null || p.equals(c) || p.getComponent().equals(c.getComponent())) {
+//				} else {
 					p.connectTo(c, getConnectionType(node), false, getLabel(node));
-				}
+//				}
 			}
 			for (GraphNode c : child.negativeNodes) {
-				// TODO MA this case happens because equality check for action doesnt work
-				if (p == null || p.equals(c) || p.getComponent().equals(c.getComponent())) {
-				} else {
+				// TODO MA ACTION connection w/o source: this happens because equality check for action doesnt work
+//				if (p == null || p.equals(c) || p.getComponent().equals(c.getComponent())) {
+//				} else {
 					p.connectTo(c, getConnectionType(node), true, getLabel(node));
-				}
+//				}
 			}
 		}
 	}
@@ -108,9 +108,8 @@ public class GraphBuilder {
 			return second;
 
 		} else if (node.getType().equals(RuleType.ACTION)) {
-			// TODO MA this check always fails because MatchPostProcesser creates new ConditionVariableNodes
-			if (((BinaryMatchResultTreeNode) node).getFirstArgument()
-					.equals(((BinaryMatchResultTreeNode) node).getSecondArgument())) {
+			if (((BinaryMatchResultTreeNode) node).getFirstArgument() instanceof LeafTreeNode &&
+					((LeafTreeNode)((BinaryMatchResultTreeNode) node).getFirstArgument()).getContent().equals("") ) {
 				final RGNodes second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
 				return second;
 			} else {
@@ -119,7 +118,6 @@ public class GraphBuilder {
 
 				connectRGNodes(first, second, node);
 
-				// TODO MA
 				return second;
 			}
 		} else if (node.getType().equals(RuleType.REMOVE)) {
@@ -133,14 +131,14 @@ public class GraphBuilder {
 			return old;
 
 		} else if (node.getType().equals(RuleType.REPLACE)) {
-			final RGNodes old = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
+			final RGNodes old = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
 			for (GraphNode o : old.negativeNodes) {
 				o.setMarkedForDeletion(true);
 			}
 			for (GraphNode o : old.positiveNodes) {
 				o.setMarkedForDeletion(true);
 			}
-			final RGNodes neww = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
+			final RGNodes neww = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
 			connectRGNodes(old, neww, node);
 			return old;
 		}
@@ -181,7 +179,7 @@ public class GraphBuilder {
 		// if (node instanceof LeafTreeNode) {
 		String text = ((LeafTreeNode) node).getContent();
 
-		// TODO MA
+		// TODO MA misc: maybe parse "no xx" and ¡°xx or yy¡±
 		/* if (text.startsWith("no") && text.matches("no\\s(.*)")) { // ex: no items
 				final GraphNode n = currentGraph.createInnerNode(NodeType.AND);
 				n.setComponent(text.replaceAll("no\\s(.*)", "$1"));

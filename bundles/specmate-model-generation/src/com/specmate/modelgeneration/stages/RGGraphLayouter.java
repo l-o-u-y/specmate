@@ -103,13 +103,7 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 				if (old != null) {
 					if (from.equals(to)) {
 						// tmp --> tmp means, node should be DELETEd/REPLACEd from all parents of old
-						List<RGNode> parentsOfOld = new ArrayList<RGNode>();
-						for (IModelConnection c : old.getIncomingConnections()) {
-							parentsOfOld.add((RGNode) c.getSource());
-						}
-						for (RGNode parentOfOld : parentsOfOld) {
-							rgCreation.replaceConnection(model, parentOfOld, old, to);
-						}
+						rgCreation.replaceConnection(model, null, old, to);
 					} else {
 						// only DELETE/REPLACE from parent "from"
 						rgCreation.replaceConnection(model, from, old, to);

@@ -53,6 +53,10 @@ def rule Update_Replace_3 {
 	'(replace)|(replaces)|(replacing)':[TMP] - dobj -> [Old]
 	[TMP] - prep -> IN:'with' - pobj -> [New]
 }
+// ex: replace the rectangle with a circle
+def rule Update_Replace_3_2 {
+	'(replace)|(replaces)|(replacing)':[TMP] - dobj -> [Old]  - prep -> IN:'with' - pobj -> [New]
+}
 
 def rule Update_Remove_1 {
 	'(remove)|(removes)|(removing)' - dobj -> [Old]
@@ -71,10 +75,11 @@ def rule Composition_3 {
 }
 
 // ex: QBtn also has the material ripple effect baked in
-def rule Composition_4_acl {
+/*def rule Composition_4_acl {
 	'has':[Label] - nsubj -> noun:[Parent]
 	[Label] - dobj -> noun:[Child] - acl -> [TMP]
-}
+}*/
+
 def rule Composition_4 {
 	'has':[Label] - nsubj -> noun:[Parent]
 	[Label] - dobj -> noun:[Child]
@@ -117,6 +122,12 @@ def rule Action_Explicit_Prep_1 {
 def rule Action_Prep_1 {
 	verb:[Action] - prep -> [Label] - pobj -> noun:[Target]
 }
+
+
+def rule TMP {
+	[TMP] - acl -> [TMP2]
+}
+
 def subtrees  PartA, PartB, Head, Head_tmp
 def subtrees  PartA_SubA, PartB_SubA
 
