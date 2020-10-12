@@ -137,6 +137,9 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 				generator = new PatternbasedCEGGenerator(lang, tagger, configService, logService);
 			}
 
+			// Fixes some issues with the dkpro/spacy backoff.
+			text = text.replaceAll("[^,.!? ](?=[,.!?])", "$0 ").replaceAll("\\s+", " ");
+			
 			try {
 				generator.createModel((CEGModel)model, text);
 			} catch (SpecmateException e) {
@@ -144,27 +147,7 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 				logService.log(LogService.LOG_INFO,
 						"NLP model generation failed with the following error: \"" + e.getMessage() + "\"");
 				logService.log(LogService.LOG_INFO, "Backing off to rule based generation...");
-				if (lang == ELanguage.DE) {
-					generator = new GermanCEGFromRequirementGenerator(logService, tagger);
-				} else {
-					generator = new EnglishCEGFromRequirementGenerator(logService, tagger);
-				}
-			// Fixes some issues with the dkpro/spacy backoff.
-			text = text.replaceAll("[^,.!? ](?=[,.!?])", "$0 ").replaceAll("\\s+", " ");
-//			try {
-				generator.createModel((CEGModel)model, text);
-//			} catch (SpecmateException e) {
-//				// Generation Backof
-//				this.logService.log(LogService.LOG_INFO,
-//						"NLP model generation failed with the following error: \"" + e.getMessage() + "\"");
-//				this.logService.log(LogService.LOG_INFO, "Backing off to rule based generation...");
-//				if (lang == ELanguage.DE) {
-//					generator = new GermanCEGFromRequirementGenerator(logService, tagger);
-//				} else {
-//					generator = new EnglishCEGFromRequirementGenerator(logService, tagger);
-//				}
-//				generator.createModel((CEGModel)model, text);
-//			}
+			}
 		}
 		else { // if (parent instanceof RGModel) {
 			// TODO MA misc: ggf. just have a separate input field in FE

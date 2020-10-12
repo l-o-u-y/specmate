@@ -2,6 +2,7 @@
  */
 package com.specmate.model.base.util;
 
+import com.specmate.model.base.*;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;

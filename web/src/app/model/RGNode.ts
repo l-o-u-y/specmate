@@ -20,6 +20,7 @@
 		public height: EDouble;
 		public type: NodeType;
 		public component: EString;
+		public temporary: EBoolean;
 
 		// References
 		

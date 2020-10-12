@@ -4,7 +4,7 @@
 
 	export class RGObject  {
 
-		___nsuri: string = "http://specmate.com/20200611/model/requirements";
+		___nsuri: string = "http://specmate.com/20201010/model/requirements";
 		public url: string;
 		public className: string = "RGObject";
 		public static className: string = "RGObject";

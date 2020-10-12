@@ -2,6 +2,7 @@
  */
 package com.specmate.model.base.impl;
 
+import com.specmate.model.base.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
