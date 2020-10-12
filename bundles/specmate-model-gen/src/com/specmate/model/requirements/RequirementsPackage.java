@@ -40,7 +40,7 @@ public interface RequirementsPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20200611/model/requirements";
+	String eNS_URI = "http://specmate.com/20201010/model/requirements";
 
 	/**
 	 * The package namespace name.
@@ -385,26 +385,6 @@ public interface RequirementsPackage extends EPackage {
 	int CEG_MODEL_OPERATION_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link com.specmate.model.requirements.impl.CEGNodeImpl <em>CEG Node</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see com.specmate.model.requirements.impl.CEGNodeImpl
-	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getCEGNode()
-	 * @generated
-	 */
-	int CEG_NODE = 3;
-
-	/**
-	 * The meta object id for the '{@link com.specmate.model.requirements.impl.CEGConnectionImpl <em>CEG Connection</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see com.specmate.model.requirements.impl.CEGConnectionImpl
-	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getCEGConnection()
-	 * @generated
-	 */
-	int CEG_CONNECTION = 5;
-
-	/**
 	 * The meta object id for the '{@link com.specmate.model.requirements.impl.RGModelImpl <em>RG Model</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -512,6 +492,16 @@ public interface RequirementsPackage extends EPackage {
 	 * @ordered
 	 */
 	int RG_MODEL_OPERATION_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link com.specmate.model.requirements.impl.CEGNodeImpl <em>CEG Node</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.requirements.impl.CEGNodeImpl
+	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getCEGNode()
+	 * @generated
+	 */
+	int CEG_NODE = 3;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -866,6 +856,16 @@ public interface RequirementsPackage extends EPackage {
 	int RG_NODE_OPERATION_COUNT = BasePackage.IMODEL_NODE_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link com.specmate.model.requirements.impl.CEGConnectionImpl <em>CEG Connection</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.requirements.impl.CEGConnectionImpl
+	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getCEGConnection()
+	 * @generated
+	 */
+	int CEG_CONNECTION = 5;
+
+	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1118,7 +1118,6 @@ public interface RequirementsPackage extends EPackage {
 	 */
 	int RG_CONNECTION_OPERATION_COUNT = BasePackage.IMODEL_CONNECTION_OPERATION_COUNT + 0;
 
-	
 	/**
 	 * The meta object id for the '{@link com.specmate.model.requirements.NodeType <em>Node Type</em>}' enum.
 	 * <!-- begin-user-doc -->
@@ -1129,6 +1128,7 @@ public interface RequirementsPackage extends EPackage {
 	 */
 	int NODE_TYPE = 7;
 
+
 	/**
 	 * The meta object id for the '{@link com.specmate.model.requirements.RGConnectionType <em>RG Connection Type</em>}' enum.
 	 * <!-- begin-user-doc -->
@@ -1138,6 +1138,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 */
 	int RG_CONNECTION_TYPE = 8;
+
 
 	/**
 	 * Returns the meta object for class '{@link com.specmate.model.requirements.Requirement <em>Requirement</em>}'.
@@ -1270,6 +1271,27 @@ public interface RequirementsPackage extends EPackage {
 	EAttribute getCEGModel_ModelRequirements();
 
 	/**
+	 * Returns the meta object for class '{@link com.specmate.model.requirements.RGModel <em>RG Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>RG Model</em>'.
+	 * @see com.specmate.model.requirements.RGModel
+	 * @generated
+	 */
+	EClass getRGModel();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGModel#getModelRequirements <em>Model Requirements</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Model Requirements</em>'.
+	 * @see com.specmate.model.requirements.RGModel#getModelRequirements()
+	 * @see #getRGModel()
+	 * @generated
+	 */
+	EAttribute getRGModel_ModelRequirements();
+
+	/**
 	 * Returns the meta object for class '{@link com.specmate.model.requirements.CEGNode <em>CEG Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1313,49 +1335,6 @@ public interface RequirementsPackage extends EPackage {
 	EAttribute getCEGNode_Condition();
 
 	/**
-	 * Returns the meta object for class '{@link com.specmate.model.requirements.CEGConnection <em>CEG Connection</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>CEG Connection</em>'.
-	 * @see com.specmate.model.requirements.CEGConnection
-	 * @generated
-	 */
-	EClass getCEGConnection();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.CEGConnection#isNegate <em>Negate</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Negate</em>'.
-	 * @see com.specmate.model.requirements.CEGConnection#isNegate()
-	 * @see #getCEGConnection()
-	 * @generated
-	 */
-	EAttribute getCEGConnection_Negate();
-	
-
-	/**
-	 * Returns the meta object for class '{@link com.specmate.model.requirements.RGModel <em>RG Model</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>RG Model</em>'.
-	 * @see com.specmate.model.requirements.RGModel
-	 * @generated
-	 */
-	EClass getRGModel();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGModel#getModelRequirements <em>Model Requirements</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Model Requirements</em>'.
-	 * @see com.specmate.model.requirements.RGModel#getModelRequirements()
-	 * @see #getRGModel()
-	 * @generated
-	 */
-	EAttribute getRGModel_ModelRequirements();
-
-	/**
 	 * Returns the meta object for class '{@link com.specmate.model.requirements.RGNode <em>RG Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1397,6 +1376,27 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getRGNode_Modifier();
+
+	/**
+	 * Returns the meta object for class '{@link com.specmate.model.requirements.CEGConnection <em>CEG Connection</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>CEG Connection</em>'.
+	 * @see com.specmate.model.requirements.CEGConnection
+	 * @generated
+	 */
+	EClass getCEGConnection();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.CEGConnection#isNegate <em>Negate</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Negate</em>'.
+	 * @see com.specmate.model.requirements.CEGConnection#isNegate()
+	 * @see #getCEGConnection()
+	 * @generated
+	 */
+	EAttribute getCEGConnection_Negate();
 
 	/**
 	 * Returns the meta object for class '{@link com.specmate.model.requirements.RGConnection <em>RG Connection</em>}'.
@@ -1574,6 +1574,24 @@ public interface RequirementsPackage extends EPackage {
 		EAttribute CEG_MODEL__MODEL_REQUIREMENTS = eINSTANCE.getCEGModel_ModelRequirements();
 
 		/**
+		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.RGModelImpl <em>RG Model</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.requirements.impl.RGModelImpl
+		 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getRGModel()
+		 * @generated
+		 */
+		EClass RG_MODEL = eINSTANCE.getRGModel();
+
+		/**
+		 * The meta object literal for the '<em><b>Model Requirements</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RG_MODEL__MODEL_REQUIREMENTS = eINSTANCE.getRGModel_ModelRequirements();
+
+		/**
 		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.CEGNodeImpl <em>CEG Node</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1608,43 +1626,6 @@ public interface RequirementsPackage extends EPackage {
 		EAttribute CEG_NODE__CONDITION = eINSTANCE.getCEGNode_Condition();
 
 		/**
-		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.CEGConnectionImpl <em>CEG Connection</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see com.specmate.model.requirements.impl.CEGConnectionImpl
-		 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getCEGConnection()
-		 * @generated
-		 */
-		EClass CEG_CONNECTION = eINSTANCE.getCEGConnection();
-
-		/**
-		 * The meta object literal for the '<em><b>Negate</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CEG_CONNECTION__NEGATE = eINSTANCE.getCEGConnection_Negate();
-
-
-		/**
-		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.RGModelImpl <em>RG Model</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see com.specmate.model.requirements.impl.RGModelImpl
-		 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getRGModel()
-		 * @generated
-		 */
-		EClass RG_MODEL = eINSTANCE.getRGModel();
-
-		/**
-		 * The meta object literal for the '<em><b>Model Requirements</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute RG_MODEL__MODEL_REQUIREMENTS = eINSTANCE.getRGModel_ModelRequirements();
-
-		/**
 		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.RGNodeImpl <em>RG Node</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1677,6 +1658,24 @@ public interface RequirementsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute RG_NODE__MODIFIER = eINSTANCE.getRGNode_Modifier();
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.CEGConnectionImpl <em>CEG Connection</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.requirements.impl.CEGConnectionImpl
+		 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getCEGConnection()
+		 * @generated
+		 */
+		EClass CEG_CONNECTION = eINSTANCE.getCEGConnection();
+
+		/**
+		 * The meta object literal for the '<em><b>Negate</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CEG_CONNECTION__NEGATE = eINSTANCE.getCEGConnection_Negate();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.RGConnectionImpl <em>RG Connection</em>}' class.

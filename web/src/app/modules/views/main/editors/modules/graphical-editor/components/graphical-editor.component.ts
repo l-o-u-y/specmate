@@ -25,6 +25,8 @@ import { EditorStyle } from './editor-components/editor-style';
 import { ChangeTranslator } from './util/change-translator';
 import { StyleChanger } from './util/style-changer';
 import { GraphicalEditorService } from '../services/graphical-editor.service';
+import { Process } from 'src/app/model/Process';
+import { ConfirmationModal } from 'src/app/modules/notification/modules/modals/services/confirmation-modal.service';
 import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
 import { UndoService } from '../../../../../../actions/modules/common-controls/services/undo.service';
 import { CEGModel } from '../../../../../../../model/CEGModel';
@@ -64,8 +66,9 @@ export class GraphicalEditor {
 
     private isInGraphTransition = false;
 
-    private _model: IContainer;
+    private _model: CEGModel | Process;
     private _contents: IContainer[];
+    private zoomFactor = 1.0;
 
     private graphMouseMove: (evt: any) => void;
 
@@ -77,6 +80,7 @@ export class GraphicalEditor {
         private validationService: ValidationService,
         private translate: TranslateService,
         private undoService: UndoService,
+        private modal: ConfirmationModal,
         private graphicalEditorService: GraphicalEditorService) {
 
         this.navigator.navigationStart.subscribe(() => {
@@ -144,20 +148,26 @@ export class GraphicalEditor {
             this.destroyGraph();
         }
 
+
         await this.createGraph();
 
         this.isInGraphTransition = false;
         this.updateValidities();
         this.undoManager.clear();
+        this.graphicalEditorService.triggerGraphicalModelInitFinish();
     }
 
     private async createGraph(): Promise<void> {
         mx.mxConnectionHandler.prototype.connectImage = new mx.mxImage('/assets/img/editor-tools/connector.png', 16, 16);
         mx.mxGraph.prototype.warningImage = new mx.mxImage('/assets/img/editor-tools/error_red.png', 19, 19);
+        mx.mxGraph.prototype.foldingEnabled = false;
         mx.mxGraphHandler.prototype['guidesEnabled'] = true;
         mx.mxGraph.prototype.centerZoom = false;
         mx.mxGraph.prototype.allowNegativeCoordinates = false;
         mx.mxGraph.prototype.border = 25;
+        mx.mxGraph.prototype.validationAlert = (message: string) => {
+            this.modal.openOk(this.translate.instant('graphicalEditorErrorTitle'), message);
+        };
 
         mx.mxEvent.disableContextMenu(this.graphContainerElement.nativeElement);
 
@@ -182,6 +192,7 @@ export class GraphicalEditor {
         this.graph.setMultigraph(false);
         this.graph.setDropEnabled(false);
         this.graph.setAllowDanglingEdges(false);
+        this.graph.zoomTo(this.zoomFactor, undefined);
         const rubberBand = new mx.mxRubberband(this.graph);
         rubberBand.reset();
 
@@ -570,7 +581,7 @@ export class GraphicalEditor {
     }
 
     /*********************** Editor Options ***********************/
-    public get model(): IContainer {
+    public get model(): RGModel | CEGModel | Process {
         return this._model;
     }
 
@@ -603,7 +614,7 @@ export class GraphicalEditor {
         return EditorStyle.CAUSE_STYLE_NAME;
     }
 
-    private resetProviders(model: IContainer): void {
+    private resetProviders(model: RGModel | CEGModel | Process): void {
         this.shapeProvider = new ShapeProvider(model);
         this.nameProvider = new NameProvider(model, this.translate);
         this.editorToolsService.init(model);
@@ -611,7 +622,7 @@ export class GraphicalEditor {
     }
 
     @Input()
-    public set model(model: IContainer) {
+    public set model(model: RGModel | CEGModel | Process) {
         this.resetProviders(model);
         this._model = model;
         this.dataService.readContents(model.url, true).then((contents) => {
@@ -634,14 +645,17 @@ export class GraphicalEditor {
 
     public zoomIn(): void {
         this.graph.zoomIn();
+        this.zoomFactor = this.zoomFactor * this.graph.zoomFactor;
     }
 
     public zoomOut(): void {
         this.graph.zoomOut();
+        this.zoomFactor = this.zoomFactor / this.graph.zoomFactor;
     }
 
     public resetZoom(): void {
         this.graph.zoomActual();
+        this.zoomFactor = 1.0;
     }
 
     public get connections(): IContainer[] {

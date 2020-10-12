@@ -4,7 +4,7 @@
 
 	export class Folder  {
 
-		___nsuri: string = "http://specmate.com/20200611/model/base";
+		___nsuri: string = "http://specmate.com/20201010/model/base";
 		public url: string;
 		public className: string = "Folder";
 		public static className: string = "Folder";

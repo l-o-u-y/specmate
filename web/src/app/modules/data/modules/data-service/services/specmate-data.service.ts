@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { SimpleModal } from 'src/app/modules/notification/modules/modals/services/simple-modal.service';
 import { CEGConnection } from '../../../../../model/CEGConnection';
 import { IContainer } from '../../../../../model/IContainer';
 import { IModelConnection } from '../../../../../model/IModelConnection';
@@ -65,6 +66,7 @@ export class SpecmateDataService {
         private auth: AuthenticationService,
         private logger: LoggingService,
         private translate: TranslateService,
+        private simpleModal: SimpleModal,
         private connectionService: ServerConnectionService) {
 
         this.serviceInterface = new ServiceInterface(http);
@@ -171,7 +173,7 @@ export class SpecmateDataService {
             .then((element: IContainer) => this.readElementComplete(element));
     }
 
-    private readElementComplete(element: IContainer): IContainer {
+    public readElementComplete(element: IContainer): IContainer {
         this.busy = false;
         this.scheduler.initElement(element);
         return element;
@@ -231,14 +233,19 @@ export class SpecmateDataService {
     }
 
     public async commit(taskName: string): Promise<void> {
-        this.busy = true;
-        this.currentTaskName = taskName;
-        const batchOperation = this.scheduler.toBatchOperation();
-        await this.serviceInterface.performBatchOperation(batchOperation, this.auth.token);
-        this.scheduler.resolveBatchOperation(batchOperation);
-        this.scheduler.clearCommits();
-        this.busy = false;
-        this.committed.emit();
+        try {
+            this.busy = true;
+            this.currentTaskName = taskName;
+            const batchOperation = this.scheduler.toBatchOperation();
+            await this.serviceInterface.performBatchOperation(batchOperation, this.auth.token);
+            this.scheduler.resolveBatchOperation(batchOperation);
+            this.scheduler.clearCommits();
+            this.busy = false;
+            this.committed.emit();
+        } catch (error) {
+            this.simpleModal.openOk(this.translate.instant('saveError.title'), this.translate.instant('saveError.retry'));
+        }
+
     }
 
     public undo(): void {
@@ -363,17 +370,23 @@ export class SpecmateDataService {
             });
     }
 
-    public performOperations(url: string, operation: string, payload?: any): Promise<any> {
+    public performOperations(url: string, operation: string, payload?: any, httpGET?: boolean): Promise<any> {
         if (!this.auth.isAuthenticatedForUrl(url)) {
             return Promise.resolve(false);
         }
         this.busy = true;
-        return this.serviceInterface.performOperation(url, operation, payload, this.auth.token)
-            .then((result) => {
+        let performFunction;
+        if (httpGET) {
+            performFunction = this.serviceInterface.performOperationGET;
+        } else {
+            performFunction = this.serviceInterface.performOperationPOST;
+        }
+        return performFunction.apply(this.serviceInterface, [url, operation, payload, this.auth.token])
+            .then((result: any) => {
                 this.busy = false;
                 return result;
             })
-            .catch((error) => {
+            .catch((error: any) => {
                 this.busy = false;
                 this.handleError(this.translate.instant('operationCouldNotBePerformed') +
                     ' ' + this.translate.instant('operation') + ': ' + operation + ' ' +
@@ -434,6 +447,9 @@ export class SpecmateDataService {
 
     private handleError(message: string, url: string, error: any): Promise<any> {
         console.error(message);
+        if (error.status === 401) {
+            this.auth.deauthenticate();
+        }
         this.connectionService.handleErrorResponse(error, url);
         return Promise.resolve(undefined);
     }
@@ -455,4 +471,6 @@ export class SpecmateDataService {
             await this.readElement(parent, false);
         }
     }
+
+
 }

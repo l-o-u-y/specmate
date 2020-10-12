@@ -13,6 +13,8 @@ import { AdditionalInformationService } from '../../../../../side/modules/links-
 import { ClipboardService } from '../../tool-pallette/services/clipboard-service';
 import { TestSpecificationContentContainerBase } from '../base/testspecification-generatable-content-container-base';
 import { ContentsContainerService } from '../services/content-container.service';
+import { GraphicalEditorService } from '../../graphical-editor/services/graphical-editor.service';
+import { ModelImageService } from '../../graphical-editor/services/model-image.service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -23,13 +25,16 @@ import { ContentsContainerService } from '../services/content-container.service'
 export class CEGModelContainer extends TestSpecificationContentContainerBase<CEGModel> {
 
     constructor(dataService: SpecmateDataService,
-                navigator: NavigatorService,
-                translate: TranslateService,
-                modal: ConfirmationModal,
-                clipboardService: ClipboardService,
-                contentService: ContentsContainerService,
-                additionalInformationService: AdditionalInformationService) {
-        super(dataService, navigator, translate, modal, clipboardService, contentService, additionalInformationService);
+        navigator: NavigatorService,
+        translate: TranslateService,
+        modal: ConfirmationModal,
+        clipboardService: ClipboardService,
+        contentService: ContentsContainerService,
+        additionalInformationService: AdditionalInformationService,
+        graphicalEditorService: GraphicalEditorService,
+        modelImageService: ModelImageService) {
+        super(dataService, navigator, translate, modal,
+            clipboardService, contentService, additionalInformationService, graphicalEditorService, modelImageService);
     }
 
     modelDescription: string;
@@ -49,21 +54,29 @@ export class CEGModelContainer extends TestSpecificationContentContainerBase<CEG
 
         if (description.length > 0) {
             element.modelRequirements = description;
-            await this.dataService.updateElement(element, true, Id.uuid);
-            await this.dataService.commit(this.translate.instant('save'));
-            await this.dataService.performOperations(element.url, 'generateModel');
-            await this.dataService.deleteCachedContent(element.url);
-            await this.dataService.readElement(element.url, false);
-            const content = await this.dataService.readContents(element.url, false);
-            if (content.length == 0) {
-                // Nothing was generated --> Delete the empty model
-                await this.dataService.deleteElement(element.url, true, Id.uuid);
+            try {
+                await this.dataService.updateElement(element, true, Id.uuid);
                 await this.dataService.commit(this.translate.instant('save'));
+                await this.dataService.performOperations(element.url, 'generateModel');
                 await this.dataService.deleteCachedContent(element.url);
-                await this.modal.openOk(this.translate.instant('CEGGenerator.couldNotGenerateTitle'),
-                                        this.translate.instant('CEGGenerator.couldNotGenerate'));
-                return undefined;
+                await this.dataService.readElement(element.url, false);
+                const content = await this.dataService.readContents(element.url, false);
+                if (content.length == 0) {
+                    // Nothing was generated --> Delete the empty model
+                    await this.dataService.deleteElement(element.url, true, Id.uuid);
+                    await this.dataService.commit(this.translate.instant('save'));
+                    await this.dataService.deleteCachedContent(element.url);
+
+                    await this.modal.openOk(this.translate.instant('CEGGenerator.couldNotGenerateTitle'),
+                        this.translate.instant('CEGGenerator.couldNotGenerate'));
+
+                    return undefined;
+                }
+            } catch (e) {
+                this.modal.openOk(this.translate.instant('CEGGenerator.couldNotGenerateTitleError'),
+                    this.translate.instant('CEGGenerator.couldNotGenerate'));
             }
+
         }
         return element;
     }

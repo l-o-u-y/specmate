@@ -4,7 +4,7 @@
 
 	export class RGNode  {
 
-		___nsuri: string = "http://specmate.com/20200611/model/requirements";
+		___nsuri: string = "http://specmate.com/20201010/model/requirements";
 		public url: string;
 		public className: string = "RGNode";
 		public static className: string = "RGNode";

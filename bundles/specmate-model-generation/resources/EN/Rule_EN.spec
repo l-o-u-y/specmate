@@ -1,58 +1,7 @@
 import EN.DEP.STANFORD.*
 import EN.POS.PTB.*
 
-def subtrees Limit, Conditional, Source, Action, Target, Parent, Child, TMP
-
-def rule Inheritance_1_var1 {
-	'is':[TMP] - nsubj -> [Parent]
-	[TMP] - dobj -> [Child]
-}
-
-def rule Inheritance_1_var2 {
-	/* 'is':[TMP] - cop -> [Parent] */
-	[Child] - nsubj -> [Parent]
-}
-
-def rule Composition_1 {
-	'has':[TMP] - nsubj -> [Parent]
-	[TMP] - obj -> [Child]
-}
-
-/* def rule Composition_2 {
-	'has':[TMP] - nsubj -> [Parent]
-	[TMP] - obj -> 'component' - acl -> 'called' - obj -> [Child]
-} */
-
-def rule Composition_3_var1 {
-	'is':[TMP] - nsubj -> [Child]
-	[TMP] - dobj -> 'component' - prep -> 'of' - pobj -> [Parent]
-}
-
-/* def rule Composition_3_var2 {
-	'component':[TMP] - cop -> 'is'
-	[TMP] - nsubj -> [Child]
-	[TMP] - nmod -> [Parent]
-} */
-
-/* def rule Composition_4 {
-	'has':[TMP] - nsubj -> [Child]
-	[TMP] - obj -> 'parent' - acl -> 'called' - obj -> [Parent]
-	/* 'has':[TMP] - nsubj -> [Child]
-	[TMP] - dobj -> 'parent' - acl -> 'called' - oprd -> [Parent] * /
-}*/
-
-def rule Composition_5_var1 {
-	'is':[TMP] - nsubj -> [Parent]
-	[TMP] - dobj -> 'parent' - prep -> 'of' - pobj -> [Child]
-}
-
-
-/* def rule Composition_5_var2 {
-	'parent':[TMP] - cop -> 'is'
-	[TMP] - nsubj -> [Parent]
-	[TMP] - nmod -> [Child]
-} */
-
+def subtrees Limit, Conditional
 
 def rule LimitedCondition_1 {
 	[Limit] - nsubjpass -> [Conditional] - prep -> IN:'until'
@@ -63,7 +12,7 @@ def rule LimitedCondition_2 {
 }
 
 
-def subtrees Cause, Effect, Effect_SubA, Cause_SubA
+def subtrees Cause, Effect, TMP, Effect_SubA, Cause_SubA, Cause_SubB, Cause_SubC, Cause_SubD
 
 //  If the tool detects an error then the tool beeps.
 def rule Condition1_1 {
@@ -105,38 +54,63 @@ def rule Condition2_2 {
 	[Cause] - advmod -> RB: 'then'
 }
 
+
 def rule Condition2_3 {
 	[Cause] - advcl -> [Effect]
 	[Cause] - advmod -> RB: 'then'
 	[Cause] - advmod -> WRB:'when'
 }
 
+
 def rule Condition2_4 {
 	[Cause] - ccomp -> [Effect]
 	[Cause] - mark -> IN:'If'
 }
 
-// When the tool detects an error, the tool beeps.
-def rule Condition2_4 {
-	[Effect] - dep -> [Cause] - advmod -> WRB:'when'
-}
-// The tool beeps when the tool detects an error.
+
 def rule Condition2_5 {
-	[Effect] - advcl -> [Cause] - advmod -> WRB:'when'
+	[Cause] - mark -> IN:'If'
+	[Cause] - advmod -> RB:'then'
+	[Cause] - dep -> [Effect]
 }
 
 def rule Condition2_6 {
+	[Cause] - mark -> IN:'If'
+	[Cause] - dobj -> [Cause_SubA] - prep -> [Cause_SubB] - pobj -> [Cause_SubC] - advmod -> RB:'then'
+	[Cause_SubC] - dep -> [Effect]
+}
+
+def rule Condition2_7 {
+	[Cause] - mark -> IN:'If'
+	[Cause] - dobj -> [Cause_SubA] - dep -> [Cause_SubB] - dep -> [Cause_SubC] - prep -> [Cause_SubD]  - advmod -> RB:'then'
+	[Cause_SubD] - dep -> [Effect]
+}
+
+// When the tool detects an error, the tool beeps.
+def rule Condition2_8 {
+	[Effect] - dep -> [Cause] - advmod -> WRB:'when'
+}
+
+// The tool beeps when the tool detects an error.
+def rule Condition2_9 {
+	[Effect] - advcl -> [Cause] - advmod -> WRB:'when'
+}
+
+def rule Condition2_10 {
 	[Cause] - advmod -> WRB: 'when'
 	[Cause] - parataxis -> [Effect]
 }
 
-// The tool detects an error for this reason the tool beeps .
+
+
+// The tool detects an error and for this reason the tool beeps .
 def rule Condition3_1 {
-	[Cause] - advcl -> [Effect] - mark -> IN:'for'
-	[Effect] - nsubj -> NN:'reason' - det -> DT:'this'
+	[Cause] - conj -> [Effect]
+	[Cause] - cc -> 'and'
+	[Effect] - prep -> 'for' - pobj -> 'reason' - det -> 'this'
 }
 
-// The tool detects an error as a result the tool beeps.
+// The tool detects an error and as a result the tool beeps.
 def rule Condition4_1 {
 	[Cause] - advcl -> [Effect] - mark -> IN:'as'
 	[Effect] - nsubj -> NN:'result' - det -> DT:'a'
@@ -161,7 +135,7 @@ def rule Condition4_5 {
 
 // The tool beeps due to the tool detecting an error.
 def rule Condition5_1 {
-	[Cause] - amod -> JJ:'due' - prep -> TO:'to' - pobj -> [Effect]
+	[Cause] - prep -> 'due' - pcomp -> TO:'to' - pobj -> [Effect]
 }
 // Due to the tool detecting an error, the tool beeps.
 def rule Condition5_2 {
@@ -358,7 +332,7 @@ def rule Negation {
 }
 
 def rule Negation_2 {
-	[Head] -dobj-> [Head_tmp] - neg -> DT:*
+	[Head] - dobj -> [Head_tmp] - neg -> DT:*
 }
 
 def rule Negation_3 {
@@ -379,4 +353,10 @@ def subtrees Verb, Object
 
 def rule VerbObject {
 	[Verb] - dobj -> [Object]
+}
+	
+def subtrees Preposition
+
+def rule VerbPreposition {
+	[Verb] - prep -> [Preposition]
 }
