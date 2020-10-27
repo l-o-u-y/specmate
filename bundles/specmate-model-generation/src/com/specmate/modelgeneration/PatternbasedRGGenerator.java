@@ -55,11 +55,11 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 	private final RuleMatcher matcher;
 	private final LogService log;
 
-	//	private static final int XSTART = 225;
-	//	private static final int YSTART = 225;
+	// private static final int XSTART = 225;
+	// private static final int YSTART = 225;
 	//
-	//	private static final int XOFFSET = 300;
-	//	private static final int YOFFSET = 150;
+	// private static final int XOFFSET = 300;
+	// private static final int YOFFSET = 150;
 
 	public PatternbasedRGGenerator(ELanguage lang, INLPService tagger, IConfigService configService,
 			LogService logService) throws SpecmateException {
@@ -84,7 +84,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		/* save original text words */
 		// split text by space, and save each word individually
 		String[] textArray = original.split(" ");
-		for (String t:textArray) {
+		for (String t : textArray) {
 			if (!t.isEmpty()) {
 				RGObject tmp = RequirementsFactory.eINSTANCE.createRGObject();
 				tmp.setId(SpecmateEcoreUtil.getIdForChild());
@@ -116,20 +116,20 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 
 			// if equal, copy words
 			if (diff.operation.equals(Operation.EQUAL)) {
-				for (String diffText:diffTextArray) {
+				for (String diffText : diffTextArray) {
 					object = rgObjects.get(j);
 					object.setProcessedText(diffText);
 					j++;
 				}
 			} else if (diff.operation.equals(Operation.DELETE)) {
-				Diff next = diffs.get(i+1);
+				Diff next = diffs.get(i + 1);
 				String[] nextTextArray = trimSpace(next.text).split(" ");
 
 				// delete + insert = replace
 				if (next.operation.equals(Operation.INSERT)) {
 					// replace words with new words
 					// this only works if #insertedWords <= #deletedWords
-					for (int k=0; k<diffTextArray.length; k++) {
+					for (int k = 0; k < diffTextArray.length; k++) {
 						if (nextTextArray.length > k) {
 							object = rgObjects.get(j);
 							object.setProcessedText(nextTextArray[k]);
@@ -143,47 +143,47 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 					j = j + diffTextArray.length;
 				}
 			} else if (diffs.get(i).operation.equals(Operation.INSERT)) {
-				//TODO MA TextGenerator: sometimes we do need insert. e.g. insert period after list item
+				// TODO MA TextGenerator: sometimes we do need insert. e.g. insert period after
+				// list item
 				log.log(LogService.LOG_ERROR,
-						"This case should never happen. Something went wrong. Diff: " + 
-								diffs.get(i).toString());
+						"This case should never happen. Something went wrong. Diff: " + diffs.get(i).toString());
 
 			}
 		}
 
 		/* save text chunks */
-		int i = 0; //rgObjects counter
+		int i = 0; // rgObjects counter
 
 		Iterable<Token> iterable = JCasUtil.select(tagResult, Token.class);
-		for (Token p:iterable) {
+		for (Token p : iterable) {
 			String chunkText = trimSpace(p.getCoveredText());
 			String[] chunkTextArray = chunkText.split(" ");
 			RGChunk c = RequirementsFactory.eINSTANCE.createRGChunk();
-			c.setId(p.getEnd()  + "");
+			c.setId(p.getEnd() + "");
 			c.setText(chunkText);
 			model.getChunks().add(c);
 			EList<RGObject> chunkObjects = c.getObjects();
 
 			j = 0; // counter for chunkTextArray
 			// for punctuation or replacements
-			//			System.out.println("===================");
-			//			System.out.println(chunkText);
-			//			System.out.println(i);
-			if (i >= rgObjects.size()) return model;
+			// System.out.println("===================");
+			// System.out.println(chunkText);
+			// System.out.println(i);
+			if (i >= rgObjects.size())
+				return model;
 			System.out.println(rgObjects.get(i).getOriginalText());
 			System.out.println(rgObjects.get(i).getProcessedText());
 			System.out.println(j);
 			System.out.println(chunkTextArray[j]);
-			while (i < rgObjects.size() && rgObjects.get(i).getProcessedText() == null || 
-					!chunkTextArray[j].equals(rgObjects.get(i).getProcessedText())) {
+			while (i < rgObjects.size() && rgObjects.get(i).getProcessedText() == null
+					|| !chunkTextArray[j].equals(rgObjects.get(i).getProcessedText())) {
 				i++;
-				//				System.out.println(i);
-				//				System.out.println(rgObjects.get(i).getOriginalText());
-				//				System.out.println(rgObjects.get(i).getProcessedText());
+				// System.out.println(i);
+				// System.out.println(rgObjects.get(i).getOriginalText());
+				// System.out.println(rgObjects.get(i).getProcessedText());
 			}
-			while (i < rgObjects.size() && rgObjects.get(i).getProcessedText() != null && 
-					j < chunkTextArray.length &&
-					chunkTextArray[j].equals(rgObjects.get(i).getProcessedText())) {
+			while (i < rgObjects.size() && rgObjects.get(i).getProcessedText() != null && j < chunkTextArray.length
+					&& chunkTextArray[j].equals(rgObjects.get(i).getProcessedText())) {
 				rgObjects.get(i).setChunk(c);
 				chunkObjects.add(rgObjects.get(i));
 				i++;
@@ -196,7 +196,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 	public void addNounsToCreation(RGModel model, JCas tagResult) {
 		HashSet<String> nouns = new HashSet<String>();
 		Iterable<Chunk> iterable = JCasUtil.select(tagResult, Chunk.class);
-		for (Chunk p:iterable) {
+		for (Chunk p : iterable) {
 			if (p.getChunkValue().equals("NP")) {
 				nouns.add(p.getCoveredText());
 			}
@@ -207,19 +207,18 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			for (String noun : nouns) {
 				// don't add nouns with abstract rating of 3 or lower "In an effort to..."
 				if (this.creation.isConcrete(noun)) {
-					this.creation.createNodeIfNotExist(model, noun, "", 100 * (i), 100 * (i),
-							NodeType.AND);
+					this.creation.createNodeIfNotExist(model, noun, "", 100 * (i), 100 * (i), NodeType.AND);
 					i++;
 				}
 			}
 		}
 	}
 
-
 	public RGModel createModel(RGModel originalModel, String input) throws SpecmateException {
 		EObject parent = originalModel.eContainer();
 		return createModel(originalModel, parent, input);
 	}
+
 	// TODO MA misc: multiple texts
 	public RGModel createModel(RGModel originalModel, EObject parent, String input) throws SpecmateException {
 
@@ -260,8 +259,8 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			final MatchTreeBuilder builder = new MatchTreeBuilder();
 
 			System.out.println(NLPUtil.printPOSTags(tagResult));
-			//			System.out.println(NLPUtil.printChunks(tagResult));
-			//			System.out.println(NLPUtil.printParse(tagResult));
+			// System.out.println(NLPUtil.printChunks(tagResult));
+			// System.out.println(NLPUtil.printParse(tagResult));
 			System.out.println(NLPUtil.printDependencies(tagResult));
 			for (MatchResult result : results) {
 				System.out.println(result.getRuleName());
@@ -279,15 +278,12 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			for (MatchResultTreeNode tree : trees) {
 				try {
 					matchPostProcesser.process(tree);
-					if (tree.getType().isComposition() || 
-							tree.getType().isInheritance() || 
-							tree.getType().isAction() ||
-							//							tree.getType().isConjunction() ||
-							//							tree.getType().isNorConjunction() ||
-							//							tree.getType().isOrConjunction() ||
-							//							tree.getType().isNegation() ||
-							tree.getType().isUpdate()
-							) {
+					if (tree.getType().isComposition() || tree.getType().isInheritance() || tree.getType().isAction() ||
+					// tree.getType().isConjunction() ||
+					// tree.getType().isNorConjunction() ||
+					// tree.getType().isOrConjunction() ||
+					// tree.getType().isNegation() ||
+							tree.getType().isUpdate()) {
 						Graph graph = graphBuilder.buildRGGraph((BinaryMatchResultTreeNode) tree);
 						model = (RGModel) graphLayouter.createModel(graph, model);
 						candidates.add(Pair.of(text, model));
@@ -325,39 +321,17 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		originalModel.getContents().addAll(candidates.get(0).getRight().getContents());
 		originalModel.getModelMapping().addAll(candidates.get(0).getRight().getModelMapping());
 		originalModel.getChunks().addAll(candidates.get(0).getRight().getChunks());
+		
+		// we needed to have chunk.id == position in text so we could assign nodes
+		// since we already assigned nodes we can randomize the chunk.ids
+		// we also need to do that to ensure there won't be any duplicates
 		for (RGChunk c : originalModel.getChunks()) {
 			c.setId(SpecmateEcoreUtil.getIdForChild());
 		}
 		cleanupText(originalModel);
 
-		//		for (RGObject r : originalModel.getModelMapping()) {
-		//			String tmp = r.getOriginalText() + "; ";
-		//					
-		//			if (r.getProcessedText() != null) {
-		//				tmp = tmp + r.getProcessedText() + "; ";
-		//				
-		//			} else {
-		//				tmp = tmp + "(no associated processed text); ";
-		//			}
-		//			
-		//			if (r.getChunk() != null) {
-		//				tmp = tmp + r.getChunk().getText() + "; " +
-		//						r.getChunk().getId() + "; ";
-		//				EList<IContentElement> list = originalModel.getContents();
-		//				for (IContentElement rgNode : list) {
-		//					if (rgNode instanceof RGNode) {
-		//						if (((RGNode)rgNode).equals(r.getChunk().getNode())) {
-		//							tmp = tmp + ((RGNode)rgNode).getComponent() + "; ";
-		//							break;
-		//						}
-		//					}
-		//				}
-		//			}
-		//			else {
-		//				tmp = tmp + "(no associated chunk); ";
-		//			}
-		//			System.out.println(tmp);
-		//		}
+		// printModelMapping(originalModel);
+
 		return originalModel;
 
 	}
@@ -368,20 +342,16 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		int index = 0;
 		// remove text parts that should be removed
 		List<RGObject> o = originalModel.getModelMapping().stream().collect(Collectors.toList());
-		for (int i = 0; i<o.size(); i++) {
+		for (int i = 0; i < o.size(); i++) {
 			if (o.get(i).getOriginalText().equals(".") || o.get(i).getOriginalText().equals(";")) {
-				System.out.println(o.get(i).getOriginalText());
 				if (isDeleted && hasNode) {
-					System.out.println("DELETE");
-					for (int j = index; j<i+1; j++) {
+					for (int j = index; j < i + 1; j++) {
 						RGObject obj = o.get(j);
 						RGChunk cnk = obj.getChunk();
-						//						System.out.println(obj.getOriginalText());
-						//						System.out.println(obj.getProcessedText());
 						// rmv from container
 						originalModel.getModelMapping().remove(obj);
 						if (cnk != null) {
-							//							System.out.println(cnk.getText());
+							// System.out.println(cnk.getText());
 							RGNode node = cnk.getNode();
 							// rmv from container
 							originalModel.getChunks().remove(cnk);
@@ -395,28 +365,18 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 								c.getIncomingChunks().remove(cnk);
 							}
 							if (node != null) {
-								//								System.out.println(node.getComponent());
 								// rmv from chunk (bidirectional)
-								System.out.println(node.getChunks().size());
 								node.getChunks().remove(cnk);
-								System.out.println(node.getChunks().size());
 								cnk.setNode(null);
-								System.out.println(node.getComponent());
-								for (RGChunk x : node.getChunks()) {
-									System.out.println(x.getText());
-									System.out.println(x.getObjects().size());
-									for (RGObject z : x.getObjects()) {
-										System.out.println(z.getOriginalText());
-									}
-								}
 							}
 							o.get(j).setChunk(null);
 						}
 
-						for (RGNode node : originalModel.getContents().stream().filter(e -> e instanceof RGNode).map(e -> (RGNode)e).collect(Collectors.toList())) {
+						for (RGNode node : originalModel.getContents().stream().filter(e -> e instanceof RGNode)
+								.map(e -> (RGNode) e).collect(Collectors.toList())) {
 							if (node.getChunks().size() == 0) {
 								// rmv from container
-								originalModel.getContents().remove(node);									
+								originalModel.getContents().remove(node);
 								originalModel.getContents().removeAll(node.getIncomingConnections());
 								originalModel.getContents().removeAll(node.getOutgoingConnections());
 								for (IModelConnection c : node.getIncomingConnections()) {
@@ -432,35 +392,62 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 						}
 
 					}
-					List<RGNode> removeNodes = originalModel.getContents().stream()
-							.filter (c -> c instanceof RGNode)
-							.map(c -> (RGNode)c)
-							.filter(c -> 
-							c.getChunks().size() == 0)
-							.collect(Collectors.toList());
-					originalModel.getContents().removeAll(removeNodes);
-
-					List<RGConnection> removeConnections = originalModel.getContents().stream()
-							.filter(c -> c instanceof RGConnection)
-							.map(c -> (RGConnection)c)
-							.filter(c -> 
-							!originalModel.getContents().contains(c.getTarget())
-							|| !originalModel.getContents().contains(c.getSource()) )
-							.collect(Collectors.toList());
-
-					for (RGConnection connection:removeConnections) {
-						creation.removeConnection(originalModel, connection);
-					}
 				}
-				index = i+1;
+				index = i + 1;
 				isDeleted = true;
 				hasNode = false;
-			} else if (o.get(i).getChunk()!=null && o.get(i).getChunk().getNode()!=null && !o.get(i).getChunk().isRemoved()) {
+			} else if (o.get(i).getChunk() != null && o.get(i).getChunk().getNode() != null
+					&& !o.get(i).getChunk().isRemoved()) {
 				isDeleted = false;
 			}
-			if (o.get(i).getChunk()!=null && o.get(i).getChunk().getNode()!=null) {
+			if (o.get(i).getChunk() != null && o.get(i).getChunk().getNode() != null) {
 				hasNode = true;
 			}
+		}
+
+		// remove residuals (nodes with no corresponding chunks + connections)
+		List<RGNode> removeNodes = originalModel.getContents().stream().filter(c -> c instanceof RGNode)
+				.map(c -> (RGNode) c).filter(c -> c.getChunks().size() == 0).collect(Collectors.toList());
+		originalModel.getContents().removeAll(removeNodes);
+
+		List<RGConnection> removeConnections = originalModel.getContents().stream()
+				.filter(c -> c instanceof RGConnection).map(c -> (RGConnection) c)
+				.filter(c -> !originalModel.getContents().contains(c.getTarget())
+						|| !originalModel.getContents().contains(c.getSource()))
+				.collect(Collectors.toList());
+
+		for (RGConnection connection : removeConnections) {
+			creation.removeConnection(originalModel, connection);
+		}
+
+	}
+
+	private void printModelMapping(RGModel originalModel) {
+		for (RGObject r : originalModel.getModelMapping()) {
+			String tmp = r.getOriginalText() + "; ";
+
+			if (r.getProcessedText() != null) {
+				tmp = tmp + r.getProcessedText() + "; ";
+
+			} else {
+				tmp = tmp + "(no associated processed text); ";
+			}
+
+			if (r.getChunk() != null) {
+				tmp = tmp + r.getChunk().getText() + "; " + r.getChunk().getId() + "; ";
+				EList<IContentElement> list = originalModel.getContents();
+				for (IContentElement rgNode : list) {
+					if (rgNode instanceof RGNode) {
+						if (((RGNode) rgNode).equals(r.getChunk().getNode())) {
+							tmp = tmp + ((RGNode) rgNode).getComponent() + "; ";
+							break;
+						}
+					}
+				}
+			} else {
+				tmp = tmp + "(no associated chunk); ";
+			}
+			System.out.println(tmp);
 		}
 
 	}
