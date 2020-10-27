@@ -33,6 +33,7 @@ import com.specmate.model.requirements.RequirementsPackage;
  *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#getIncomingChunks <em>Incoming Chunks</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#getOutgoingChunks <em>Outgoing Chunks</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#getObjects <em>Objects</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#isRemoved <em>Removed</em>}</li>
  * </ul>
  *
  * @generated
@@ -87,6 +88,16 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 	 * @ordered
 	 */
 	protected static final String TEXT_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #isRemoved() <em>Removed</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isRemoved()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean REMOVED_EDEFAULT = false;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -285,6 +296,26 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 	 * @generated
 	 */
 	@Override
+	public boolean isRemoved() {
+		return (Boolean)eDynamicGet(RequirementsPackage.RG_CHUNK__REMOVED, RequirementsPackage.Literals.RG_CHUNK__REMOVED, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setRemoved(boolean newRemoved) {
+		eDynamicSet(RequirementsPackage.RG_CHUNK__REMOVED, RequirementsPackage.Literals.RG_CHUNK__REMOVED, newRemoved);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case RequirementsPackage.RG_CHUNK__ID:
@@ -306,6 +337,8 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 				return getOutgoingChunks();
 			case RequirementsPackage.RG_CHUNK__OBJECTS:
 				return getObjects();
+			case RequirementsPackage.RG_CHUNK__REMOVED:
+				return isRemoved();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -349,6 +382,9 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 				getObjects().clear();
 				getObjects().addAll((Collection<? extends RGObject>)newValue);
 				return;
+			case RequirementsPackage.RG_CHUNK__REMOVED:
+				setRemoved((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -388,6 +424,9 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 			case RequirementsPackage.RG_CHUNK__OBJECTS:
 				getObjects().clear();
 				return;
+			case RequirementsPackage.RG_CHUNK__REMOVED:
+				setRemoved(REMOVED_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -418,6 +457,8 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 				return !getOutgoingChunks().isEmpty();
 			case RequirementsPackage.RG_CHUNK__OBJECTS:
 				return !getObjects().isEmpty();
+			case RequirementsPackage.RG_CHUNK__REMOVED:
+				return isRemoved() != REMOVED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

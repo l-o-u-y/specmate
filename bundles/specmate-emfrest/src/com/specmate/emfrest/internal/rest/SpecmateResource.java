@@ -265,11 +265,20 @@ public abstract class SpecmateResource {
 					String pct = ct.trim().replaceAll(m, "$5").trim().toLowerCase();
 					String nt = object.getChunk().getNode().getComponent();
 					if (pct.equals(nt)) {
-						s = ct;
+						if (object.getChunk().isRemoved()) {
+							s = ct.trim().replaceAll(m, "no $5").trim();
+						} else {
+							s = ct;
+						}
 						// TODO MA TextGenerator: if original text.preprocess == processed text -> replace
 					} else {
-						s = ct.trim().replaceAll(m, "$1"+nt).trim();
-
+						if (object.getChunk().isRemoved()) {
+							s = ct.trim().replaceAll(m, "no "+nt).trim();
+							
+						} else {
+							s = ct.trim().replaceAll(m, "$1"+nt).trim();
+						}
+						
 						// capitalize first word of sentence
 						if (string.trim().endsWith(".")) {
 							s = s.substring(0, 1).toUpperCase() + nt.substring(1);

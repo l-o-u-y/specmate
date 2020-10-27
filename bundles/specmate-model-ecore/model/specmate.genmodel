@@ -118,6 +118,7 @@
             ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGChunk/outgoingChunks"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGChunk/objects"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGChunk/removed"/>
       </genClasses>
       <genClasses ecoreClass="specmate.ecore#//requirements/RGNode">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGNode/type"/>

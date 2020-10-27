@@ -706,13 +706,22 @@ public interface RequirementsPackage extends EPackage {
 	int RG_CHUNK__OBJECTS = BasePackage.IID_FEATURE_COUNT + 7;
 
 	/**
+	 * The feature id for the '<em><b>Removed</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_CHUNK__REMOVED = BasePackage.IID_FEATURE_COUNT + 8;
+
+	/**
 	 * The number of structural features of the '<em>RG Chunk</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RG_CHUNK_FEATURE_COUNT = BasePackage.IID_FEATURE_COUNT + 8;
+	int RG_CHUNK_FEATURE_COUNT = BasePackage.IID_FEATURE_COUNT + 9;
 
 	/**
 	 * The number of operations of the '<em>RG Chunk</em>' class.
@@ -1703,6 +1712,17 @@ public interface RequirementsPackage extends EPackage {
 	EReference getRGChunk_Objects();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGChunk#isRemoved <em>Removed</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Removed</em>'.
+	 * @see com.specmate.model.requirements.RGChunk#isRemoved()
+	 * @see #getRGChunk()
+	 * @generated
+	 */
+	EAttribute getRGChunk_Removed();
+
+	/**
 	 * Returns the meta object for class '{@link com.specmate.model.requirements.RGNode <em>RG Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2114,6 +2134,14 @@ public interface RequirementsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference RG_CHUNK__OBJECTS = eINSTANCE.getRGChunk_Objects();
+
+		/**
+		 * The meta object literal for the '<em><b>Removed</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RG_CHUNK__REMOVED = eINSTANCE.getRGChunk_Removed();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.RGNodeImpl <em>RG Node</em>}' class.

@@ -14,6 +14,7 @@
 		public recycled: EBoolean;
 		public hasRecycledChildren: EBoolean;
 		public text: EString;
+		public removed: EBoolean;
 
 		// References
 		public node: Proxy;

@@ -195,7 +195,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		return null;
 	}
 
-	private void removeConnection(RGModel model, RGConnection connection) {
+	public void removeConnection(RGModel model, RGConnection connection) {
 		if (connection == null) return;
 		EList<IContentElement> list = model.getContents();
 		list.remove(connection);
@@ -225,8 +225,10 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		if (!r.isEmpty()) {
 			replacementCon = r.get();
 			replacementNode = (RGNode) replacementCon.getTarget();
+		} 
+		else {
+			replacementNode = createNode(model, tmpNode.getComponent(), true, 0, 0, tmpNode.getType());
 		}
-		
 		// High lvl algorithm
 		/*
 		1. find chunks c with o node
@@ -240,6 +242,13 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		// 1
 		List<RGChunk> chunks = model.getChunks().stream()
 				.filter(c -> c.getNode() != null && c.getNode().equals(oldNode)).collect(Collectors.toList());
+		List<RGConnection> incomingConnections = oldNode.getIncomingConnections().stream().map(c -> (RGConnection)c).collect(Collectors.toList());
+		List<RGConnection> outgoingConnections = oldNode.getOutgoingConnections().stream().map(c -> (RGConnection)c).collect(Collectors.toList());
+		boolean negateConnection = false;
+		if (r.isEmpty() && incomingConnections.size() == 1 && outgoingConnections.size() == 0) {
+			negateConnection = true;
+		}
+		
 		
 		// 2
 		if (parentNode != null) {
@@ -257,6 +266,8 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		for (RGChunk chunk : chunks) {
 			// 1
 			chunk.setNode(replacementNode);
+			replacementNode.getChunks().add(chunk);
+			oldNode.getChunks().remove(chunk);
 			// 2
 			for (RGChunk parentChunk : chunk.getIncomingChunks()) {
 				parentNodes.add(parentChunk.getNode());
@@ -267,11 +278,14 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		}
 		
 		// 4
-		for (RGConnection c : oldNode.getIncomingConnections().stream().map(c -> (RGConnection)c).collect(Collectors.toList()) ) {
+		for (RGConnection c : incomingConnections) {
 			if (replacementNode != null) {
 				if (parentNodes.contains(c.getSource())) {
 					c.setTarget(replacementNode);
 					oldNode.getIncomingConnections().remove(c);
+					if (negateConnection) {
+						c.setNegate(!c.isNegate());
+					}
 				}
 			} else {
 				if (parentNodes.contains(c.getSource())) {
@@ -281,7 +295,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		}
 
 		// 5
-		for (RGConnection c : oldNode.getOutgoingConnections().stream().map(c -> (RGConnection)c).collect(Collectors.toList()) ) {
+		for (RGConnection c : outgoingConnections ) {
 			if (replacementNode != null) {
 				if (childNodes.contains(c.getTarget())) {
 					c.setSource(replacementNode);
@@ -294,14 +308,50 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 			}
 		}
 		
-		// remove residuals
-		// TODO MA this doesnt work it seems?
-		removeConnection(model, replacementCon);
-		list.remove(tmpNode);
-		if (oldNode.getIncomingConnections().size() == 0 && oldNode.getOutgoingConnections().size() == 0) {
-			list.remove(tmpNode);			
+		// assign chunk of tmp node to replacement node instead
+		for (RGChunk c : tmpNode.getChunks()) {
+			c.setNode(replacementNode);
+			replacementNode.getChunks().add(c);
+			if (replacementCon == null) {
+				c.setRemoved(true);
+			}
 		}
-		list.remove(tmpNode);
+		tmpNode.getChunks().retainAll(new ArrayList<>());
+		
+		// if delete operation
+		if (replacementCon == null) {
+			EList<RGChunk> replacementChunks = replacementNode.getChunks();
+			for (RGChunk c : replacementChunks) {
+				// set chunk as removed
+				System.out.println(c.getText());
+				c.setRemoved(true);
+				EList<RGChunk> childChunks = c.getOutgoingChunks();
+				EList<RGChunk> parentChunks = c.getIncomingChunks();
+				System.out.println("------------");
+				// set child chunks as removed
+				for (RGChunk cc : childChunks) {
+					System.out.println(cc.getText());
+					cc.setRemoved(true);
+				}
+				System.out.println("------------");
+				for (RGChunk pc : parentChunks) {
+					// if only 1 parent -> set parent chunk as removed
+					System.out.println(pc.getText());
+					if (pc.getOutgoingChunks().size() == 1 && pc.getIncomingChunks().size() == 0) {
+						System.out.println(pc.getText());
+						pc.setRemoved(true);
+					}
+				}
+				System.out.println("------------");
+			}
+		}
+
+		// remove residuals
+		removeConnection(model, replacementCon);
+		if (oldNode.getIncomingConnections().size() == 0 && oldNode.getOutgoingConnections().size() == 0) {
+			list.remove(oldNode);			
+		}
+		
 	}
 
 	// TODO MA nouns: concreteness rating

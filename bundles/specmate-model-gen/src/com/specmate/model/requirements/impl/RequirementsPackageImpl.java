@@ -539,6 +539,16 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	@Override
+	public EAttribute getRGChunk_Removed() {
+		return (EAttribute)rgChunkEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getRGNode() {
 		return rgNodeEClass;
 	}
@@ -702,6 +712,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		createEReference(rgChunkEClass, RG_CHUNK__INCOMING_CHUNKS);
 		createEReference(rgChunkEClass, RG_CHUNK__OUTGOING_CHUNKS);
 		createEReference(rgChunkEClass, RG_CHUNK__OBJECTS);
+		createEAttribute(rgChunkEClass, RG_CHUNK__REMOVED);
 
 		rgNodeEClass = createEClass(RG_NODE);
 		createEAttribute(rgNodeEClass, RG_NODE__TYPE);
@@ -804,6 +815,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		initEReference(getRGChunk_IncomingChunks(), this.getRGChunk(), null, "incomingChunks", null, 0, -1, RGChunk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRGChunk_OutgoingChunks(), this.getRGChunk(), null, "outgoingChunks", null, 0, -1, RGChunk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRGChunk_Objects(), this.getRGObject(), null, "objects", null, 0, -1, RGChunk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRGChunk_Removed(), ecorePackage.getEBoolean(), "removed", null, 0, 1, RGChunk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(rgNodeEClass, RGNode.class, "RGNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRGNode_Type(), this.getNodeType(), "type", null, 0, 1, RGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

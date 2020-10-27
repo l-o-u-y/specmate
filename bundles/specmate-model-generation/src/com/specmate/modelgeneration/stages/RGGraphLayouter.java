@@ -95,6 +95,30 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 		for (GraphEdge edge : graph.edges) {
 			RGNode from = nodeMap.get(edge.getFrom());
 			RGNode to = nodeMap.get(edge.getTo());
+
+
+			// connect chunks
+			RGChunk fromChunk = null;
+			RGChunk toChunk = null;
+			for (RGChunk c : from.getChunks()) {
+				if (c.getId().equals(edge.getFrom().getId())) {
+					fromChunk = c;
+				}
+			}
+			for (RGChunk c : to.getChunks()) {
+				if (c.getId().equals(edge.getTo().getId())) {
+					toChunk = c;
+				}
+			}
+
+			if (fromChunk != null && toChunk != null) {
+				fromChunk.getOutgoingChunks().add(toChunk);
+				toChunk.getIncomingChunks().add(fromChunk);
+			} else {
+				log.log(LogService.LOG_ERROR, "This case should never happen. Chunks not found");
+
+			}
+			
 			// Note: this works because DELETE/REPLACE edge is inserted before this
 			// connection edge
 			// if connection xx -> tmp
@@ -111,46 +135,6 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 				}
 			} else {
 				rgCreation.createConnection(model, from, to, edge.getType(), edge.isNegated(), edge.getLabel());
-			}
-
-			// connect chunks
-			RGChunk fromChunk = null;
-			RGChunk toChunk = null;
-			for (RGChunk c : from.getChunks()) {
-				if (c.getId().equals(edge.getFrom().getId())) {
-					fromChunk = c;
-				}
-			}
-
-			for (RGChunk c : to.getChunks()) {
-				if (c.getId().equals(edge.getTo().getId())) {
-					toChunk = c;
-				}
-			}
-			if (fromChunk != null && toChunk != null) {
-				fromChunk.getOutgoingChunks().add(toChunk);
-				toChunk.getIncomingChunks().add(fromChunk);
-			} else {
-				log.log(LogService.LOG_ERROR, "This case should never happen. Chunks not found");
-
-			}
-		}
-
-		// delete tmp nodes
-		EList<IContentElement> list = model.getContents();
-		for (GraphNode markedNode : markedNodes) {
-			RGNode tmpNode = nodeMap.get(markedNode);
-			list.remove(tmpNode);
-			for (IModelConnection c : tmpNode.getIncomingConnections()) {
-				list.remove(c);
-				c.getSource().getOutgoingConnections().remove(c);
-			}
-			for (IModelConnection c : tmpNode.getOutgoingConnections()) {
-				list.remove(c);
-				c.getTarget().getIncomingConnections().remove(c);
-			}
-			for (RGChunk c : tmpNode.getChunks()) {
-				c.setNode(null);
 			}
 		}
 		return model;

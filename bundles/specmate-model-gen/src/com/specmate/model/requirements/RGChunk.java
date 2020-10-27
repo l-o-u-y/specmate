@@ -22,6 +22,7 @@ import com.specmate.model.base.IRecycled;
  *   <li>{@link com.specmate.model.requirements.RGChunk#getIncomingChunks <em>Incoming Chunks</em>}</li>
  *   <li>{@link com.specmate.model.requirements.RGChunk#getOutgoingChunks <em>Outgoing Chunks</em>}</li>
  *   <li>{@link com.specmate.model.requirements.RGChunk#getObjects <em>Objects</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.RGChunk#isRemoved <em>Removed</em>}</li>
  * </ul>
  *
  * @see com.specmate.model.requirements.RequirementsPackage#getRGChunk()
@@ -108,5 +109,27 @@ public interface RGChunk extends IID, IDescribed, IRecycled {
 	 * @generated
 	 */
 	EList<RGObject> getObjects();
+
+	/**
+	 * Returns the value of the '<em><b>Removed</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Removed</em>' attribute.
+	 * @see #setRemoved(boolean)
+	 * @see com.specmate.model.requirements.RequirementsPackage#getRGChunk_Removed()
+	 * @model
+	 * @generated
+	 */
+	boolean isRemoved();
+
+	/**
+	 * Sets the value of the '{@link com.specmate.model.requirements.RGChunk#isRemoved <em>Removed</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Removed</em>' attribute.
+	 * @see #isRemoved()
+	 * @generated
+	 */
+	void setRemoved(boolean value);
 
 } // RGChunk
