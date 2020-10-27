@@ -212,7 +212,6 @@ public abstract class SpecmateResource {
 				} catch (SpecmateException e) {
 					transaction.rollback();
 					logService.log(LogService.LOG_ERROR, e.getMessage());
-					e.printStackTrace();
 
 					Status status = Status.INTERNAL_SERVER_ERROR;
 					ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
@@ -262,28 +261,11 @@ public abstract class SpecmateResource {
 			if (object.getProcessedText() != null 
 					&& object.getChunk() != null) {
 				if (object.getChunk().getNode() != null) {
-					String m = "^(?i)((a )|(an )|(the ))?(?-i)(.*)";
-					String pct = ct.trim().replaceAll(m, "$5").trim().toLowerCase();
-					String nt = object.getChunk().getNode().getComponent();
-					if (pct.equals(nt)) {
-						if (object.getChunk().isRemoved()) {
-							s = ct.trim().replaceAll(m, "no $5").trim();
-						} else {
-							s = ct;
-						}
-						// TODO MA TextGenerator: if original text.preprocess == processed text -> replace
-					} else {
-						if (object.getChunk().isRemoved()) {
-							s = ct.trim().replaceAll(m, "no "+nt).trim();
-							
-						} else {
-							s = ct.trim().replaceAll(m, "$1"+nt).trim();
-						}
-						
-						// capitalize first word of sentence
-						if (string.trim().endsWith(".")) {
-							s = s.substring(0, 1).toUpperCase() + nt.substring(1);
-						}
+					s = ct;
+
+					// capitalize first word of sentence
+					if (string.trim().endsWith(".")) {
+						s = s.substring(0, 1).toUpperCase() + s.substring(1);
 					}
 				} else {
 					s = object.getChunk().getText();
@@ -291,7 +273,11 @@ public abstract class SpecmateResource {
 					
 			}
 			if (!isVisited) {
-				string = string + ' ' + s;
+				if (s.matches("[\\.,\\:;\\!\\?]")) {
+					string = string + s;
+				} else {
+					string = string + ' ' + s;
+				}
 			}
 		}
 		InstanceResource resource = resourceContext.getResource(InstanceResource.class);

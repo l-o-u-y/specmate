@@ -42,6 +42,55 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	/**
+	 * Create a new object and add it to the RGModel
+	 *
+	 * @param model
+	 * @param text
+	 * @return the created object
+	 */
+	public RGObject createObject(RGModel model, String originalText) {
+		RGObject obj = RequirementsFactory.eINSTANCE.createRGObject();
+		obj.setId(SpecmateEcoreUtil.getIdForChild());
+		obj.setOriginalText(originalText);
+		model.getModelMapping().add(obj);
+		return obj;
+	}
+
+	/**
+	 * Create a new object and add it to the RGModel
+	 *
+	 * @param model
+	 * @param text
+	 * @return the created object
+	 */
+	public RGObject createObject(RGModel model, String processedText, int index) {
+		RGObject obj = RequirementsFactory.eINSTANCE.createRGObject();
+		obj.setId(SpecmateEcoreUtil.getIdForChild());
+		obj.setProcessedText(processedText);
+		model.getModelMapping().add(index, obj);
+		return obj;
+	}
+	
+
+	/**
+	 * Create a new chunk and add it to the RGModel
+	 *
+	 * @param model
+	 * @param text
+	 * @param id
+	 * @return the created chunk
+	 */
+	public RGChunk createChunk(RGModel model, String text, String id) {
+		RGChunk chunk = RequirementsFactory.eINSTANCE.createRGChunk();
+		chunk.setId(id);
+		chunk.setName("New Chunk " + dateFormat.format(new Date()));
+		chunk.setText(text);
+		model.getContents().add(chunk);
+		return chunk;
+	}
+	
+
+	/**
 	 * Create a new node and add it to the RGModel
 	 *
 	 * @param model
@@ -52,11 +101,13 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 * @return the created node
 	 */
 	public RGNode createNode(RGModel model, String component, boolean temporary, int x, int y, NodeType type) {
-		component = this.processWord(component);
-		component = component.toLowerCase();
 		RGNode node = RequirementsFactory.eINSTANCE.createRGNode();
 		node.setId(SpecmateEcoreUtil.getIdForChild());
-		node.setName("New RGNode " + dateFormat.format(new Date()));
+		// node.setName("New RGNode " + dateFormat.format(new Date()));
+
+		component = this.processWord(component);
+		node.setName(component);
+		component = component.toLowerCase();
 		node.setComponent(component);
 		node.setTemporary(temporary);
 		node.setY(y);
@@ -155,12 +206,11 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 */
 	public RGNode createNodeIfNotExist(RGModel model, String component, int x, int y, NodeType type) {
 		component = this.processWord(component);
-		component = component.toLowerCase();
 		EList<IContentElement> list = model.getContents();
 
 		for (IContentElement rgNode : list) {
 			if (rgNode instanceof RGNode) {
-				if (((RGNode) rgNode).getComponent().equals(component) && ((RGNode) rgNode).getType().equals(type)
+				if (((RGNode) rgNode).getComponent().equals(component.toLowerCase()) && ((RGNode) rgNode).getType().equals(type)
 						&& !((RGNode) rgNode).isTemporary()) {
 					return (RGNode) rgNode;
 				}
@@ -269,6 +319,16 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 			chunk.setNode(replacementNode);
 			replacementNode.getChunks().add(chunk);
 			oldNode.getChunks().remove(chunk);
+			
+			String m = "^(?i)((a )|(an )|(the ))?(?-i)(.*)";
+			String ct = chunk.getText().trim();
+			String nt = replacementNode.getName();
+			String tmp = ct.replaceAll(m, "$1"+nt);
+			if (replacementCon == null) {
+				tmp = tmp.replaceAll(m, "no $5");
+			}
+			chunk.setText(tmp);
+			
 			// 2
 			for (RGChunk parentChunk : chunk.getIncomingChunks()) {
 				parentNodes.add(parentChunk.getNode());

@@ -34,6 +34,7 @@ public class MatchTreeBuilder {
 	}
 
 	private static class RuleNames {
+		public static final String TMP = "TMP";
 		public static final String INHERITANCE = "Inheritance";
 		public static final String COMPOSITION = "Composition";
 		public static final String ACTION = "Action";
@@ -51,6 +52,12 @@ public class MatchTreeBuilder {
 		public static final String NOR = "_NOR";
 		public static final String OR = "_OR";
 		public static final String AND = "_AND";
+	}
+	
+	private boolean isTmp(MatchResult result) {
+		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.TMP);
+		boolean subMatches = result.hasSubmatch(SubtreeNames.HEAD);
+		return name && subMatches;
 	}
 
 	private boolean isInheritance(MatchResult result) {
@@ -168,7 +175,9 @@ public class MatchTreeBuilder {
 		}
 
 		// TODO MA subtree matchers
-		else if (isInheritance(result)) {
+		else if (isTmp(result)) {
+			return SubtreeNames.HEAD;
+		} else if (isInheritance(result)) {
 			return SubtreeNames.PARENT;
 		} else if (isComposition(result)) {
 			return SubtreeNames.CHILD;
@@ -326,6 +335,13 @@ public class MatchTreeBuilder {
 	public Optional<MatchResultTreeNode> buildTree(MatchResult result) {
 		if (!result.isSuccessfulMatch()) {
 			return Optional.empty();
+		}
+
+		if (isTmp(result)) {
+			String name = getFirstArgumentName(result);
+			if (name != null) {
+				return buildTree(result.getSubmatch(name));
+			}
 		}
 
 		// Unary

@@ -36,7 +36,7 @@ public class TextPreProcessor {
 		return t; // unfolder.unfold(text);
 	}
 
-	private String generalGithubPreprocessing(String text) {
+	public String generalGithubPreprocessing(String text) {
 		// https://regex101.com/
 		// remove "Describe your problem and - if possible - how to reproduce it"
 		// standard github issue text

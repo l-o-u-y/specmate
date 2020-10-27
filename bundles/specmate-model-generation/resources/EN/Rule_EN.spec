@@ -125,7 +125,7 @@ def rule Action_Prep_1 {
 
 
 def rule TMP {
-	[TMP] - acl -> [TMP2]
+	[Head] - acl -> [TMP]
 }
 
 def subtrees  PartA, PartB, Head, Head_tmp
