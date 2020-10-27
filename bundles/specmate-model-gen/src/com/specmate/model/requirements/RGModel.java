@@ -17,7 +17,6 @@ import com.specmate.model.base.ISpecmateModelObject;
  * <ul>
  *   <li>{@link com.specmate.model.requirements.RGModel#getModelRequirements <em>Model Requirements</em>}</li>
  *   <li>{@link com.specmate.model.requirements.RGModel#getModelMapping <em>Model Mapping</em>}</li>
- *   <li>{@link com.specmate.model.requirements.RGModel#getChunks <em>Chunks</em>}</li>
  * </ul>
  *
  * @see com.specmate.model.requirements.RequirementsPackage#getRGModel()
@@ -59,17 +58,5 @@ public interface RGModel extends ISpecmateModelObject {
 	 * @generated
 	 */
 	EList<RGObject> getModelMapping();
-
-	/**
-	 * Returns the value of the '<em><b>Chunks</b></em>' containment reference list.
-	 * The list contents are of type {@link com.specmate.model.requirements.RGChunk}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Chunks</em>' containment reference list.
-	 * @see com.specmate.model.requirements.RequirementsPackage#getRGModel_Chunks()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<RGChunk> getChunks();
 
 } // RGModel

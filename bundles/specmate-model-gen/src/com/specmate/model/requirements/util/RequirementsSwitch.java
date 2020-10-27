@@ -18,6 +18,7 @@ import com.specmate.model.base.IRecycled;
 import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.base.ISpecmatePositionableModelObject;
 import com.specmate.model.base.ITracingElement;
+import com.specmate.model.requirements.*;
 import com.specmate.model.requirements.CEGConnection;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
@@ -141,7 +142,9 @@ public class RequirementsSwitch<T> extends Switch<T> {
 			case RequirementsPackage.RG_CHUNK: {
 				RGChunk rgChunk = (RGChunk)theEObject;
 				T result = caseRGChunk(rgChunk);
+				if (result == null) result = caseIContentElement(rgChunk);
 				if (result == null) result = caseIID(rgChunk);
+				if (result == null) result = caseINamed(rgChunk);
 				if (result == null) result = caseIDescribed(rgChunk);
 				if (result == null) result = caseIRecycled(rgChunk);
 				if (result == null) result = defaultCase(theEObject);

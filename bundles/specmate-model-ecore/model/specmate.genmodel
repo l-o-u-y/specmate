@@ -100,7 +100,6 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGModel/modelRequirements"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGModel/modelMapping"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGModel/chunks"/>
       </genClasses>
       <genClasses ecoreClass="specmate.ecore#//requirements/RGObject">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGObject/originalText"/>

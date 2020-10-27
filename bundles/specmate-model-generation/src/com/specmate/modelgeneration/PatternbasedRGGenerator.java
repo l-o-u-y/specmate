@@ -1,6 +1,9 @@
 package com.specmate.modelgeneration;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -54,6 +57,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 	private final TextPreProcessor preProcessor;
 	private final RuleMatcher matcher;
 	private final LogService log;
+	private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	// private static final int XSTART = 225;
 	// private static final int YSTART = 225;
@@ -122,32 +126,35 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 					j++;
 				}
 			} else if (diff.operation.equals(Operation.DELETE)) {
-				Diff next = diffs.get(i + 1);
-				String[] nextTextArray = trimSpace(next.text).split(" ");
+				j = j + diffTextArray.length;
 
-				// delete + insert = replace
-				if (next.operation.equals(Operation.INSERT)) {
-					// replace words with new words
-					// this only works if #insertedWords <= #deletedWords
-					for (int k = 0; k < diffTextArray.length; k++) {
-						if (nextTextArray.length > k) {
-							object = rgObjects.get(j);
-							object.setProcessedText(nextTextArray[k]);
-						}
-						// when all new words are added, skip
-						j++;
-					}
-					i++;
-				} else {
-					// is actual delete, skip
-					j = j + diffTextArray.length;
-				}
+//				// delete + insert = replace
+//				if (next.operation.equals(Operation.INSERT)) {
+//					// replace words with new words
+//					// this only works if #insertedWords <= #deletedWords
+//					for (int k = 0; k < diffTextArray.length; k++) {
+//						if (nextTextArray.length > k) {
+//							object = rgObjects.get(j);
+//							object.setProcessedText(nextTextArray[k]);
+//						}
+//						// when all new words are added, skip
+//						j++;
+//					}
+//					i++;
+//				} else {
+//					// is actual delete, skip
+//					j = j + diffTextArray.length;
+//				}
 			} else if (diffs.get(i).operation.equals(Operation.INSERT)) {
-				// TODO MA TextGenerator: sometimes we do need insert. e.g. insert period after
-				// list item
-				log.log(LogService.LOG_ERROR,
-						"This case should never happen. Something went wrong. Diff: " + diffs.get(i).toString());
-
+//				Diff next = diffs.get(i + 1);
+//				String[] nextTextArray = trimSpace(next.text).split(" ");
+				for (int k = 0; k < diffTextArray.length; k++) {
+					object = RequirementsFactory.eINSTANCE.createRGObject();
+					object.setId(SpecmateEcoreUtil.getIdForChild());
+					object.setProcessedText(diffTextArray[k]);
+					rgObjects.add(j, object);
+					j++;
+				}
 			}
 		}
 
@@ -160,8 +167,9 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			String[] chunkTextArray = chunkText.split(" ");
 			RGChunk c = RequirementsFactory.eINSTANCE.createRGChunk();
 			c.setId(p.getEnd() + "");
+			c.setName("New Chunk " + dateFormat.format(new Date()));
 			c.setText(chunkText);
-			model.getChunks().add(c);
+			model.getContents().add(c);
 			EList<RGObject> chunkObjects = c.getObjects();
 
 			j = 0; // counter for chunkTextArray
@@ -248,9 +256,11 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			RGModel model = RequirementsFactory.eINSTANCE.createRGModel();
 			model.getContents().addAll(prevModel.getContents());
 			model.getModelMapping().addAll(prevModel.getModelMapping());
-			model.getChunks().addAll(prevModel.getChunks());
+			// model.getChunks().addAll(prevModel.getChunks());
+
+			model.getContents().addAll(curModel.getContents());
 			model.getModelMapping().addAll(curModel.getModelMapping());
-			model.getChunks().addAll(curModel.getChunks());
+			//model.getChunks().addAll(curModel.getChunks());
 
 			// TODO MA nouns: add to creation
 			// addNounsToCreation(model, tagResult);
@@ -320,12 +330,12 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 
 		originalModel.getContents().addAll(candidates.get(0).getRight().getContents());
 		originalModel.getModelMapping().addAll(candidates.get(0).getRight().getModelMapping());
-		originalModel.getChunks().addAll(candidates.get(0).getRight().getChunks());
-		
+//		originalModel.getChunks().addAll(candidates.get(0).getRight().getChunks());
+
 		// we needed to have chunk.id == position in text so we could assign nodes
 		// since we already assigned nodes we can randomize the chunk.ids
 		// we also need to do that to ensure there won't be any duplicates
-		for (RGChunk c : originalModel.getChunks()) {
+		for (RGChunk c : originalModel.getContents().stream().filter(c -> c instanceof RGChunk).map(c -> (RGChunk)c).collect(Collectors.toList())) {
 			c.setId(SpecmateEcoreUtil.getIdForChild());
 		}
 		cleanupText(originalModel);
@@ -343,7 +353,8 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		// remove text parts that should be removed
 		List<RGObject> o = originalModel.getModelMapping().stream().collect(Collectors.toList());
 		for (int i = 0; i < o.size(); i++) {
-			if (o.get(i).getOriginalText().equals(".") || o.get(i).getOriginalText().equals(";")) {
+			if (o.get(i).getOriginalText() != null
+					&& (o.get(i).getOriginalText().equals(".") || o.get(i).getOriginalText().equals(";"))) {
 				if (isDeleted && hasNode) {
 					for (int j = index; j < i + 1; j++) {
 						RGObject obj = o.get(j);
@@ -354,7 +365,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 							// System.out.println(cnk.getText());
 							RGNode node = cnk.getNode();
 							// rmv from container
-							originalModel.getChunks().remove(cnk);
+							originalModel.getContents().remove(cnk);
 							// rmv from obj (bidirectional)
 							obj.setChunk(null);
 							cnk.getObjects().remove(obj);

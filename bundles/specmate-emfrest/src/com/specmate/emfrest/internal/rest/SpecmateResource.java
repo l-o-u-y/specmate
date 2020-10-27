@@ -212,6 +212,7 @@ public abstract class SpecmateResource {
 				} catch (SpecmateException e) {
 					transaction.rollback();
 					logService.log(LogService.LOG_ERROR, e.getMessage());
+					e.printStackTrace();
 
 					Status status = Status.INTERNAL_SERVER_ERROR;
 					ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
@@ -251,12 +252,12 @@ public abstract class SpecmateResource {
 		for (int i = 0; i < rgObjects.size(); i++) {
 			RGChunk prevChunk = i > 0 ? rgObjects.get(i-1).getChunk() : null;
 			RGObject object = rgObjects.get(i);
-			boolean isVisited = prevChunk != null && object.getChunk() == prevChunk;
 			String s = object.getOriginalText();
 			String t = object.getProcessedText();
 			String ct = object.getChunk() != null ? object.getChunk().getText() : "";
 			RGNode no = object.getChunk() != null && object.getChunk().getNode() != null ? object.getChunk().getNode() : null;
 			String n = object.getChunk() != null && object.getChunk().getNode() != null ? object.getChunk().getNode().getComponent() : "";
+			boolean isVisited = s == null || (prevChunk != null && object.getChunk() == prevChunk);
 			
 			if (object.getProcessedText() != null 
 					&& object.getChunk() != null) {

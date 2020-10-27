@@ -2,6 +2,7 @@
  */
 package com.specmate.model.requirements;
 
+import com.specmate.model.base.IContentElement;
 import org.eclipse.emf.common.util.EList;
 
 import com.specmate.model.base.IDescribed;
@@ -29,7 +30,7 @@ import com.specmate.model.base.IRecycled;
  * @model
  * @generated
  */
-public interface RGChunk extends IID, IDescribed, IRecycled {
+public interface RGChunk extends IContentElement, IID, IDescribed, IRecycled {
 	/**
 	 * Returns the value of the '<em><b>Text</b></em>' attribute.
 	 * <!-- begin-user-doc -->

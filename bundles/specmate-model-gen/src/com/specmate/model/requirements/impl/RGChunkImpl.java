@@ -10,6 +10,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.IDescribed;
+import com.specmate.model.base.INamed;
 import com.specmate.model.base.IRecycled;
 import com.specmate.model.requirements.RGChunk;
 import com.specmate.model.requirements.RGNode;
@@ -25,6 +26,7 @@ import com.specmate.model.requirements.RequirementsPackage;
  * </p>
  * <ul>
  *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#getId <em>Id</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#isRecycled <em>Recycled</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGChunkImpl#isHasRecycledChildren <em>Has Recycled Children</em>}</li>
@@ -48,6 +50,16 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 	 * @ordered
 	 */
 	protected static final String ID_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String NAME_EDEFAULT = null;
 
 	/**
 	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
@@ -146,6 +158,26 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 	@Override
 	public void setId(String newId) {
 		eDynamicSet(RequirementsPackage.RG_CHUNK__ID, BasePackage.Literals.IID__ID, newId);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String getName() {
+		return (String)eDynamicGet(RequirementsPackage.RG_CHUNK__NAME, BasePackage.Literals.INAMED__NAME, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setName(String newName) {
+		eDynamicSet(RequirementsPackage.RG_CHUNK__NAME, BasePackage.Literals.INAMED__NAME, newName);
 	}
 
 	/**
@@ -320,6 +352,8 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 		switch (featureID) {
 			case RequirementsPackage.RG_CHUNK__ID:
 				return getId();
+			case RequirementsPackage.RG_CHUNK__NAME:
+				return getName();
 			case RequirementsPackage.RG_CHUNK__DESCRIPTION:
 				return getDescription();
 			case RequirementsPackage.RG_CHUNK__RECYCLED:
@@ -354,6 +388,9 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 		switch (featureID) {
 			case RequirementsPackage.RG_CHUNK__ID:
 				setId((String)newValue);
+				return;
+			case RequirementsPackage.RG_CHUNK__NAME:
+				setName((String)newValue);
 				return;
 			case RequirementsPackage.RG_CHUNK__DESCRIPTION:
 				setDescription((String)newValue);
@@ -400,6 +437,9 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 			case RequirementsPackage.RG_CHUNK__ID:
 				setId(ID_EDEFAULT);
 				return;
+			case RequirementsPackage.RG_CHUNK__NAME:
+				setName(NAME_EDEFAULT);
+				return;
 			case RequirementsPackage.RG_CHUNK__DESCRIPTION:
 				setDescription(DESCRIPTION_EDEFAULT);
 				return;
@@ -441,6 +481,8 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 		switch (featureID) {
 			case RequirementsPackage.RG_CHUNK__ID:
 				return ID_EDEFAULT == null ? getId() != null : !ID_EDEFAULT.equals(getId());
+			case RequirementsPackage.RG_CHUNK__NAME:
+				return NAME_EDEFAULT == null ? getName() != null : !NAME_EDEFAULT.equals(getName());
 			case RequirementsPackage.RG_CHUNK__DESCRIPTION:
 				return DESCRIPTION_EDEFAULT == null ? getDescription() != null : !DESCRIPTION_EDEFAULT.equals(getDescription());
 			case RequirementsPackage.RG_CHUNK__RECYCLED:
@@ -470,6 +512,12 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == INamed.class) {
+			switch (derivedFeatureID) {
+				case RequirementsPackage.RG_CHUNK__NAME: return BasePackage.INAMED__NAME;
+				default: return -1;
+			}
+		}
 		if (baseClass == IDescribed.class) {
 			switch (derivedFeatureID) {
 				case RequirementsPackage.RG_CHUNK__DESCRIPTION: return BasePackage.IDESCRIBED__DESCRIPTION;
@@ -493,6 +541,12 @@ public class RGChunkImpl extends CDOObjectImpl implements RGChunk {
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == INamed.class) {
+			switch (baseFeatureID) {
+				case BasePackage.INAMED__NAME: return RequirementsPackage.RG_CHUNK__NAME;
+				default: return -1;
+			}
+		}
 		if (baseClass == IDescribed.class) {
 			switch (baseFeatureID) {
 				case BasePackage.IDESCRIBED__DESCRIPTION: return RequirementsPackage.RG_CHUNK__DESCRIPTION;

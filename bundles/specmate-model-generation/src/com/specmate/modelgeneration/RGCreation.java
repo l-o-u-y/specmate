@@ -240,7 +240,8 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		*/
 
 		// 1
-		List<RGChunk> chunks = model.getChunks().stream()
+		List<RGChunk> chunks = model.getContents().stream()
+				.filter(c -> c instanceof RGChunk).map(c -> (RGChunk)c)
 				.filter(c -> c.getNode() != null && c.getNode().equals(oldNode)).collect(Collectors.toList());
 		List<RGConnection> incomingConnections = oldNode.getIncomingConnections().stream().map(c -> (RGConnection)c).collect(Collectors.toList());
 		List<RGConnection> outgoingConnections = oldNode.getOutgoingConnections().stream().map(c -> (RGConnection)c).collect(Collectors.toList());
