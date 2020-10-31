@@ -376,6 +376,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 			if (replacementCon == null) {
 				c.setRemoved(true);
 			}
+				System.out.println(c.getText());
 		}
 		tmpNode.getChunks().retainAll(new ArrayList<>());
 		

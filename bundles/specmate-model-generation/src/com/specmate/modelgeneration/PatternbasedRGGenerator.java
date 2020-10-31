@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -119,12 +120,11 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 					j++;
 				}
 			} else if (diff.operation.equals(Operation.DELETE)) {
-				Diff next = diffs.get(i+1);
+				Diff next = diffs.get(i + 1);
 				String[] nextTextArray = trimSpace(next.text).split(" ");
-				
+
 				// delete + insert = replace
-				if (next.operation.equals(Operation.INSERT) 
-						&& diffTextArray.length == nextTextArray.length) {
+				if (next.operation.equals(Operation.INSERT) && diffTextArray.length == nextTextArray.length) {
 					// replace words with new words
 					// only if #insertedWords == #deletedWords
 					for (int k = 0; k < diffTextArray.length; k++) {
@@ -183,17 +183,14 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 				i++;
 				j++;
 			}
-			
-			
+
 			// replace chunk text with original text
 			// if we notice that chunk text = process(original text)
-			String text = chunkObjects.stream()
-			.filter(o -> o.getOriginalText()!=null)
-			.map(o -> o.getOriginalText())
-			.reduce("", (subtotal, element) -> subtotal + " " + element);
-			
+			String text = chunkObjects.stream().filter(o -> o.getOriginalText() != null).map(o -> o.getOriginalText())
+					.reduce("", (subtotal, element) -> subtotal + " " + element);
+
 			if (preProcessor.generalGithubPreprocessing(text).equals(c.getText())
-					|| preProcessor.generalGithubPreprocessing(text).equals(c.getText()+'.')) {
+					|| preProcessor.generalGithubPreprocessing(text).equals(c.getText() + '.')) {
 				c.setText(trimSpace(text));
 			}
 		}
@@ -331,9 +328,11 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		// we needed to have chunk.id == position in text so we could assign nodes
 		// since we already assigned nodes we can randomize the chunk.ids
 		// we also need to do that to ensure there won't be any duplicates
-		for (RGChunk c : originalModel.getContents().stream().filter(c -> c instanceof RGChunk).map(c -> (RGChunk)c).collect(Collectors.toList())) {
+		for (RGChunk c : originalModel.getContents().stream().filter(c -> c instanceof RGChunk).map(c -> (RGChunk) c)
+				.collect(Collectors.toList())) {
 			c.setId(SpecmateEcoreUtil.getIdForChild());
 		}
+		
 		cleanupText(originalModel);
 
 		// printModelMapping(originalModel);
@@ -343,15 +342,18 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 	}
 
 	private void cleanupText(RGModel originalModel) {
-		boolean isDeleted = true;
-		boolean hasNode = false;
+		Set<RGNode> delNodes = new HashSet<RGNode>();
+		Set<RGNode> nodes = new HashSet<RGNode>();
+//		int numOfDelNodes = 0;
+//		int numOfNodes = 0;
 		int index = 0;
 		// remove text parts that should be removed
 		List<RGObject> o = originalModel.getModelMapping().stream().collect(Collectors.toList());
 		for (int i = 0; i < o.size(); i++) {
 			if (o.get(i).getOriginalText() != null
 					&& (o.get(i).getOriginalText().equals(".") || o.get(i).getOriginalText().equals(";"))) {
-				if (isDeleted && hasNode) {
+				// sentence has nodes + all or all except 1 are deleted
+				if (nodes.size() > 0 && nodes.size() <= delNodes.size() + 1) {
 					for (int j = index; j < i + 1; j++) {
 						RGObject obj = o.get(j);
 						RGChunk cnk = obj.getChunk();
@@ -379,43 +381,44 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 							o.get(j).setChunk(null);
 						}
 
-						for (RGNode node : originalModel.getContents().stream().filter(e -> e instanceof RGNode)
-								.map(e -> (RGNode) e).collect(Collectors.toList())) {
-							if (node.getChunks().size() == 0) {
-								// rmv from container
-								originalModel.getContents().remove(node);
-								originalModel.getContents().removeAll(node.getIncomingConnections());
-								originalModel.getContents().removeAll(node.getOutgoingConnections());
-								for (IModelConnection c : node.getIncomingConnections()) {
-									c.getSource().getOutgoingConnections().remove(c);
-								}
-								for (IModelConnection c : node.getOutgoingConnections()) {
-									c.getSource().getIncomingConnections().remove(c);
-								}
-								node.getIncomingConnections().retainAll(new ArrayList<RGConnection>());
-								node.getOutgoingConnections().retainAll(new ArrayList<RGConnection>());
-							}
-
-						}
-
 					}
 				}
 				index = i + 1;
-				isDeleted = true;
-				hasNode = false;
-			} else if (o.get(i).getChunk() != null && o.get(i).getChunk().getNode() != null
-					&& !o.get(i).getChunk().isRemoved()) {
-				isDeleted = false;
-			}
-			if (o.get(i).getChunk() != null && o.get(i).getChunk().getNode() != null) {
-				hasNode = true;
+				delNodes.retainAll(new ArrayList<RGNode>());
+				nodes.retainAll(new ArrayList<RGNode>());
+			} else if (o.get(i).getChunk() != null && o.get(i).getChunk().getNode() != null) {
+				if (o.get(i).getChunk().isRemoved()) {
+					delNodes.add(o.get(i).getChunk().getNode());
+//					numOfDelNodes = numOfDelNodes + 1;
+				}
+				nodes.add(o.get(i).getChunk().getNode());
+				if (o.get(i).getChunk().getText().equals("the circle")) {
+
+					System.out.println(o.get(i).getChunk().getText());
+				}
+//				numOfNodes = numOfNodes + 1;
 			}
 		}
 
 		// remove residuals (nodes with no corresponding chunks + connections)
 		List<RGNode> removeNodes = originalModel.getContents().stream().filter(c -> c instanceof RGNode)
 				.map(c -> (RGNode) c).filter(c -> c.getChunks().size() == 0).collect(Collectors.toList());
-		originalModel.getContents().removeAll(removeNodes);
+		//originalModel.getContents().removeAll(removeNodes);
+
+		for (RGNode node : removeNodes) {
+			// rmv from container
+			originalModel.getContents().remove(node);
+			originalModel.getContents().removeAll(node.getIncomingConnections());
+			originalModel.getContents().removeAll(node.getOutgoingConnections());
+			for (IModelConnection c : node.getIncomingConnections()) {
+				c.getSource().getOutgoingConnections().remove(c);
+			}
+			for (IModelConnection c : node.getOutgoingConnections()) {
+				c.getTarget().getIncomingConnections().remove(c);
+			}
+			node.getIncomingConnections().retainAll(new ArrayList<RGConnection>());
+			node.getOutgoingConnections().retainAll(new ArrayList<RGConnection>());
+		}
 
 		List<RGConnection> removeConnections = originalModel.getContents().stream()
 				.filter(c -> c instanceof RGConnection).map(c -> (RGConnection) c)

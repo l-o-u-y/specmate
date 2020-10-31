@@ -60,6 +60,7 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 				if (m.getChunk() != null) {
 					if (m.getChunk().getId().equals(node.getId())) {
 						if (m.getChunk().getNode() == null) {
+//							System.out.println(m.getChunk().getText());
 							m.getChunk().setNode(n);
 							n.getChunks().add(m.getChunk());
 						}
