@@ -61,7 +61,10 @@ export class VertexProvider extends ProviderBase {
 
     public provideRGNode(url: string, x: number, y: number, width: number, height: number, data: RGmxModelNode): mxgraph.mxCell {
         const value: string = null;
-        const style = this.shapeProvider.getStyle(new RGNode());
+        let n: RGNode = new RGNode();
+        n.component = data.component
+        n.type = data.type
+        const style = this.shapeProvider.getStyle(n);
         const parent = this.graph.getDefaultParent();
         this.graph.getModel().beginUpdate();
         const vertex = this.graph.insertVertex(parent, url, value, x, y, width, height, style);
@@ -126,7 +129,7 @@ export class VertexProvider extends ProviderBase {
                 }
 
                 let dropdown = document.createElement('select');
-                let options = ['AND', 'OR'];
+                let options = ['AND', 'OR', 'ACTION'];
                 let optionElements: HTMLOptionElement[] = [];
                 for (const option of options) {
                     let optionElem = document.createElement('option');

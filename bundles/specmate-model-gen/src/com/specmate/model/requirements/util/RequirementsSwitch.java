@@ -18,7 +18,6 @@ import com.specmate.model.base.IRecycled;
 import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.base.ISpecmatePositionableModelObject;
 import com.specmate.model.base.ITracingElement;
-import com.specmate.model.requirements.*;
 import com.specmate.model.requirements.CEGConnection;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;

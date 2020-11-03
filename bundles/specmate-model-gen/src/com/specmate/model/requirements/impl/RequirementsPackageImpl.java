@@ -829,6 +829,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		initEEnum(nodeTypeEEnum, NodeType.class, "NodeType");
 		addEEnumLiteral(nodeTypeEEnum, NodeType.AND);
 		addEEnumLiteral(nodeTypeEEnum, NodeType.OR);
+		addEEnumLiteral(nodeTypeEEnum, NodeType.ACTION);
 
 		initEEnum(rgConnectionTypeEEnum, RGConnectionType.class, "RGConnectionType");
 		addEEnumLiteral(rgConnectionTypeEEnum, RGConnectionType.INHERITANCE);
@@ -890,7 +891,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 			   "longDesc", "The type of a node",
 			   "required", "true",
 			   "type", "singleSelection",
-			   "values", "[\"AND\", \"OR\"]",
+			   "values", "[\"AND\", \"OR\", \"ACTION\"]",
 			   "position", "3"
 		   });
 		addAnnotation

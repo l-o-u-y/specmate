@@ -22,6 +22,10 @@ export class DuplicateComponentValidator extends ElementValidatorBase<RGModel> {
                 continue;
             }
 
+            if ((content as RGNode).type == 'ACTION') {
+                continue;
+            }
+
             const node: RGNode = content as RGNode;
 
             let type: IO;

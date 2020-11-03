@@ -27,8 +27,8 @@ public class MatchUtil {
 		List<MatchResult> result = new Vector<MatchResult>();
 		for(Token head: data.getHeads()) {
 			result.add(MatchUtil.evaluateRuleset(rules, data, head));
-			// TODO MA does this even work? 
-			/* if (matchAll) {
+			// TODO MA this does seem necessary, and it works
+			if (matchAll) {
 				if (data.getDependencyNode(head)==null) {
 					return result;
 				}
@@ -38,7 +38,7 @@ public class MatchUtil {
                     .collect(Collectors.toList());
 					result = newList;
 				}
-			} */
+			}
 		}
 		return result; 
 	}

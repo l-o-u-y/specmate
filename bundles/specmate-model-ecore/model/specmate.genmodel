@@ -74,6 +74,7 @@
       <genEnums typeSafeEnumCompatible="false" ecoreEnum="specmate.ecore#//requirements/NodeType">
         <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/NodeType/AND"/>
         <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/NodeType/OR"/>
+        <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/NodeType/ACTION"/>
       </genEnums>
       <genEnums typeSafeEnumCompatible="false" ecoreEnum="specmate.ecore#//requirements/RGConnectionType">
         <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/RGConnectionType/Inheritance"/>

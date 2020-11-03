@@ -13,6 +13,7 @@ import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultTreeNode.Rule
 import com.specmate.cause_effect_patterns.parse.wrapper.NegationTreeNode;
 import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RGConnectionType;
+import com.specmate.model.requirements.RGNode;
 import com.specmate.modelgeneration.stages.graph.Graph;
 import com.specmate.modelgeneration.stages.graph.GraphNode;
 import com.specmate.modelgeneration.stages.processors.ConditionVariableNode;
@@ -45,11 +46,8 @@ public class GraphBuilder {
 
 	public synchronized void connectRGNodes(RGNodes parent, RGNodes child, MatchResultTreeNode node) {
 		for (GraphNode p : parent.positiveNodes) {
-			if (child.nodeType.equals(NodeType.AND)) {
-				p.setType(NodeType.AND);
-			} else {
-				p.setType(NodeType.OR);
-			}
+//			p.setType(child.nodeType);
+			
 			for (GraphNode c : child.positiveNodes) {
 				// TODO MA ACTION connection w/o source: this happens because equality check for action doesnt work
 //				if (p == null || p.equals(c) || p.getComponent().equals(c.getComponent())) {
@@ -79,7 +77,7 @@ public class GraphBuilder {
 	public synchronized RGConnectionType getConnectionType(MatchResultTreeNode node) {
 		if (node == null) {
 			return null;
-		} else if (node.getType().equals(RuleType.ACTION)) {
+		} else if (node.getType().equals(RuleType.ACTION_PRE) || node.getType().equals(RuleType.ACTION_POST)) {
 			return RGConnectionType.ACTION;
 		} else if (node.getType().equals(RuleType.COMPOSITION)) {
 			return RGConnectionType.COMPOSITION;
@@ -95,6 +93,8 @@ public class GraphBuilder {
 	public synchronized RGNodes buildRGNode(MatchResultTreeNode node) {
 		if (node.getType() == null) {
 			//LeafNode
+		}  else if (node.getType().equals(RuleType.CONDITION)) {
+			// TODO MA see CEG stuff
 		} else if (node.getType().equals(RuleType.COMPOSITION) || node.getType().equals(RuleType.INHERITANCE)) {
 			final RGNodes first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
 			final RGNodes second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
@@ -107,19 +107,29 @@ public class GraphBuilder {
 
 			return second;
 
-		} else if (node.getType().equals(RuleType.ACTION)) {
-			if (((BinaryMatchResultTreeNode) node).getFirstArgument() instanceof LeafTreeNode &&
-					((LeafTreeNode)((BinaryMatchResultTreeNode) node).getFirstArgument()).getContent().equals("") ) {
-				final RGNodes second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
-				return second;
-			} else {
+		} else if (node.getType().equals(RuleType.ACTION_PRE) || node.getType().equals(RuleType.ACTION_POST)) {
 				final RGNodes first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
 				final RGNodes second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
+				if (node.getType().equals(RuleType.ACTION_PRE)) {
+					for (GraphNode n : second.positiveNodes) {
+						n.setType(NodeType.ACTION);
+					}
+					for (GraphNode n : second.negativeNodes) {
+						n.setType(NodeType.ACTION);
+					}
+				} else {
+					for (GraphNode n : first.positiveNodes) {
+						n.setType(NodeType.ACTION);
+					}
+					for (GraphNode n : first.negativeNodes) {
+						n.setType(NodeType.ACTION);
+					}
+				}
 
 				connectRGNodes(first, second, node);
 
 				return second;
-			}
+//			}
 		} else if (node.getType().equals(RuleType.REMOVE)) {
 			final RGNodes old = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
 			for (GraphNode o : old.negativeNodes) {
@@ -337,7 +347,7 @@ public class GraphBuilder {
 			// Create Direct Node
 			ConditionVariableNode cvNode = (ConditionVariableNode) cause;
 
-			GraphNode node = currentGraph.createNode(cvNode.getCondition(), cvNode.getVariable(), NodeType.AND);
+			GraphNode node = currentGraph.createNode(cvNode.getSecondary(), cvNode.getPrimary(), NodeType.AND);
 			result.positiveCauses.add(node);
 		}
 		return result;
@@ -371,7 +381,7 @@ public class GraphBuilder {
 			resolveEffect(cause.swapPosNegCauses(), ((NegationTreeNode) effect).getClause());
 		} else {
 			ConditionVariableNode cvNode = (ConditionVariableNode) effect;
-			GraphNode node = currentGraph.createNode(cvNode.getCondition(), cvNode.getVariable(), cause.effectType);
+			GraphNode node = currentGraph.createNode(cvNode.getSecondary(), cvNode.getPrimary(), cause.effectType);
 			fullyConnect(cause, node);
 		}
 	}

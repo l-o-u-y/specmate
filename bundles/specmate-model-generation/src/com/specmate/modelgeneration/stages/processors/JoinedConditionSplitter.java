@@ -71,9 +71,9 @@ public class JoinedConditionSplitter {
 			if (node instanceof ConditionVariableNode) {
 				final ConditionVariableNode cvNode = (ConditionVariableNode) node;
 
-				Matcher matcher = CONDITION_PATTERN.matcher(cvNode.getCondition());
+				Matcher matcher = CONDITION_PATTERN.matcher(cvNode.getSecondary());
 				if(matcher.matches()) {
-					String firstBound  = cvNode.getVariable();
+					String firstBound  = cvNode.getPrimary();
 					String firstOp	   = cleanOperator(matcher.group(1));
 					firstOp 	   	   = pseudoInvertOperator(firstOp);
 					String variable    = matcher.group(2);

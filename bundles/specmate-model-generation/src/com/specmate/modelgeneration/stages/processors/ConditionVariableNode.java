@@ -3,39 +3,39 @@ package com.specmate.modelgeneration.stages.processors;
 import com.specmate.cause_effect_patterns.parse.wrapper.LeafTreeNode;
 
 public class ConditionVariableNode extends LeafTreeNode {
-	private String condition;
-	private String variable;
+	private String primaryText;
+	private String secondaryText;
 
-	public ConditionVariableNode(String condition, String variable) {
-		super(variable + " " + condition);
-		this.condition = condition;
-		this.variable = variable;
+	public ConditionVariableNode(String sec, String prim) {
+		super(prim + (sec.equals("") ? "" : " " + sec));
+		this.primaryText = prim;
+		this.secondaryText = sec;
 	}
 
-	public String getCondition() {
-		return condition;
+	public String getSecondary() {
+		return secondaryText;
 	}
 
-	public String getVariable() {
-		return variable;
+	public String getPrimary() {
+		return primaryText;
 	}
 
-	public void setCondition(String newCondition) {
-		if(newCondition == null) {
-			throw new NullPointerException("Condition can not be null");
+	public void setSecondary(String newSec) {
+		if(newSec == null) {
+			throw new NullPointerException("Secondary text can not be null");
 		}
-		condition = newCondition;
+		secondaryText = newSec;
 	}
 
-	public void setVariable(String newVariable) {
-		if(newVariable == null) {
-			throw new NullPointerException("Variable can not be null");
+	public void setPrimary(String newPrim) {
+		if(newPrim == null) {
+			throw new NullPointerException("Primary text can not be null");
 		}
-		variable = newVariable;
+		primaryText = newPrim;
 	}
 
 	@Override
 	public RuleType getType() {
-		return RuleType.CONDITION_VARIABLE;
+		return null; // RuleType.LEAF;
 	}
 }

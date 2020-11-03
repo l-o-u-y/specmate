@@ -468,12 +468,6 @@ export class GraphicalEditor {
                     StyleChanger.addStyle(vertex, this.graph, type);
                 }
             }
-            if (Type.is(this.model, RGModel)) {
-                for (const url in vertexCache) {
-                    const vertex = vertexCache[url];
-                    // StyleChanger.addStyle(vertex, this.graph, EditorStyle.COMPONENT_STYLE_NAME);
-                }
-            }
         } finally {
             this.graph.getModel().endUpdate();
             this.changeTranslator.preventDataUpdates = false;
@@ -575,13 +569,6 @@ export class GraphicalEditor {
                 StyleChanger.removeStyle(vertex, this.graph, EditorStyle.EFFECT_STYLE_NAME);
                 StyleChanger.removeStyle(vertex, this.graph, EditorStyle.INNER_STYLE_NAME);
                 StyleChanger.addStyle(vertex, this.graph, this.getNodeType(vertex));
-            }
-        } else if (Type.is(this.model, RGModel)) {
-            for (const vertex of vertices) {
-                StyleChanger.removeStyle(vertex, this.graph, EditorStyle.CAUSE_STYLE_NAME);
-                StyleChanger.removeStyle(vertex, this.graph, EditorStyle.EFFECT_STYLE_NAME);
-                StyleChanger.removeStyle(vertex, this.graph, EditorStyle.INNER_STYLE_NAME);
-                // StyleChanger.addStyle(vertex, this.graph, EditorStyle.COMPONENT_STYLE_NAME);
             }
         }
     }

@@ -17,14 +17,14 @@ public class ConditionVariableTextCleaner extends MatchTreeVisitor {
 	public void visit(LeafTreeNode node) {
 		if (node instanceof ConditionVariableNode) {
 			ConditionVariableNode cvNode = (ConditionVariableNode) node;
-			String condition = cvNode.getCondition();
+			String condition = cvNode.getSecondary();
 			if (condition.startsWith("If") || condition.startsWith("if")) {
 				condition = condition.replaceFirst("(I|i)f", "").trim();
 			}
 			if (condition.startsWith("then")) {
 				condition = condition.replaceFirst("then", "").trim();
 			}
-			cvNode.setCondition(condition);
+			cvNode.setSecondary(condition);
 		}
 
 	}

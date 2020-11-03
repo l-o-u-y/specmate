@@ -123,9 +123,22 @@ def rule Action_Prep_1 {
 	verb:[Action] - prep -> [Label] - pobj -> noun:[Target]
 }
 
+def rule Action_Passive_1 {
+	verb:[Action] - nsubjpass -> noun:[Target]
+}
 
-def rule TMP {
+
+def rule TMP_1 {
 	[Head] - acl -> [TMP]
+}
+def rule TMP_2 {
+	[Head] - advmod -> [TMP]
+}
+def rule TMP_3 {
+	[Head] - advcl -> [TMP]
+}
+def rule TMP_3 {
+	[Head] - mark -> [TMP]
 }
 
 def subtrees  PartA, PartB, Head, Head_tmp

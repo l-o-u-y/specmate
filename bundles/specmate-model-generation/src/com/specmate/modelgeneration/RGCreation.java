@@ -207,7 +207,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	public RGNode createNodeIfNotExist(RGModel model, String component, int x, int y, NodeType type) {
 		component = this.processWord(component);
 		EList<IContentElement> list = model.getContents();
-
+		
 		for (IContentElement rgNode : list) {
 			if (rgNode instanceof RGNode) {
 				if (((RGNode) rgNode).getComponent().equals(component.toLowerCase()) && ((RGNode) rgNode).getType().equals(type)

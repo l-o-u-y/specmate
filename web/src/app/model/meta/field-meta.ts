@@ -252,6 +252,14 @@ export class MetaInfo {
 		}	];
 	public static RGChunk: FieldMetaItem[] = [
 			{
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: '',
+			required: true,
+			type: 'text',
+			position: '0',
+			allowedPattern: '^[^,;|]*$'		
+		},			{
 			name: "description",
 			shortDesc: 'Description',
 			longDesc: '',
@@ -267,7 +275,7 @@ export class MetaInfo {
 			longDesc: 'The type of a node',
 			required: true,
 			type: 'singleSelection',
-			values: '["AND", "OR"]',
+			values: '["AND", "OR", "ACTION"]',
 			position: '3'		
 		},			{
 			name: "component",

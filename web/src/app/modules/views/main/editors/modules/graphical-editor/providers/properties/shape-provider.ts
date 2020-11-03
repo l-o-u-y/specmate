@@ -14,6 +14,7 @@ import { CEGNode } from '../../../../../../../../model/CEGNode';
 import { RGmxModelNode } from './rg-mx-model-node';
 import { RGConnection } from '../../../../../../../../model/RGConnection';
 import {RGConnectionType} from '../../../../../../../../model/RGConnectionType';
+import {NodeType} from '../../../../../../../../model/NodeType';
 
 export type ShapeData = {
     style: string,
@@ -96,6 +97,19 @@ export class ShapeProvider extends ProviderBase {
         };
 
         this.styles.push((element: { className: string }) => this.shapeMap[element.className]);
+
+        this.styles.push((element: { className: string }) => {
+            if (Type.is(element, RGNode)) {
+                if ((element as RGNode).type == 'ACTION') {
+                    return {
+                        size: undefined,
+                        style: EditorStyle.BASE_ACTION_NODE_STYLE,
+                        text: undefined
+                    };
+                }
+            }
+        });
+
 
         this.styles.push((element: { className: string }) => {
             if (Type.is(element, RGConnection)) {

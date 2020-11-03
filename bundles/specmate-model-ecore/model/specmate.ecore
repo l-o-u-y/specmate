@@ -181,7 +181,7 @@
           <details key="longDesc" value="The type of a node"/>
           <details key="required" value="true"/>
           <details key="type" value="singleSelection"/>
-          <details key="values" value="[&quot;AND&quot;, &quot;OR&quot;]"/>
+          <details key="values" value="[&quot;AND&quot;, &quot;OR&quot;, &quot;ACTION&quot;]"/>
           <details key="position" value="3"/>
         </eAnnotations>
       </eStructuralFeatures>
@@ -242,6 +242,7 @@
     <eClassifiers xsi:type="ecore:EEnum" name="NodeType">
       <eLiterals name="AND"/>
       <eLiterals name="OR" value="1"/>
+      <eLiterals name="ACTION" value="2"/>
     </eClassifiers>
 
     <eClassifiers xsi:type="ecore:EClass" name="CEGConnection" eSuperTypes="#//base/IModelConnection">

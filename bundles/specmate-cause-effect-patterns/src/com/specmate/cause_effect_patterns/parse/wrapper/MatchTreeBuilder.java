@@ -139,7 +139,7 @@ public class MatchTreeBuilder {
 		return name && subMatches;
 	}
 
-	private boolean isConditionVarible(MatchResult result) {
+	private boolean isConditionVariable(MatchResult result) {
 		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.CONDITION_VARIABLE);
 		boolean subMatches = result.hasSubmatch(SubtreeNames.VARIABLE) && result.hasSubmatch(SubtreeNames.CONDITION);
 		return name && subMatches;
@@ -166,7 +166,7 @@ public class MatchTreeBuilder {
 			return SubtreeNames.PART_A;
 		} else if (isNegation(result)) {
 			return SubtreeNames.HEAD;
-		} else if (isConditionVarible(result)) {
+		} else if (isConditionVariable(result)) {
 			return SubtreeNames.VARIABLE;
 		} else if (isVerbObject(result)) {
 			return SubtreeNames.VERB;
@@ -207,7 +207,7 @@ public class MatchTreeBuilder {
 			return SubtreeNames.EFFECT;
 		} else if (isConjunction(result)) {
 			return SubtreeNames.PART_B;
-		} else if (isConditionVarible(result)) {
+		} else if (isConditionVariable(result)) {
 			return SubtreeNames.CONDITION;
 		} else if (isVerbObject(result)) {
 			return SubtreeNames.OBJECT;
@@ -256,28 +256,10 @@ public class MatchTreeBuilder {
 	}
 
 	public String getLabel(MatchResult result) {
-		String name = getThirdArgumentName(result);
-		String text = null;
-		if (name != null && result.getSubmatch(name) != null) {
-			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
-			if (tokens.size() == 0) {
-
-			} else {
-				for (Token t: tokens) {
-					text = t.getCoveredText();
-					break;
-				}
-			}
-
-		}
-		name = SubtreeNames.LABEL;
+		String text = "";
+		String name = SubtreeNames.LABEL;
 
 		if (result.getSubmatch(name) != null) {
-			if (text == null) {
-				text = "";
-			} else {
-				text = text + " ";
-			}
 			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
 			if (tokens.size() == 0) {
 
@@ -309,7 +291,7 @@ public class MatchTreeBuilder {
 			return RuleType.NEGATION;
 		} else if (isVerbObject(result)) {
 			return RuleType.VERB_OBJECT;
-		} else if (isConditionVarible(result)) {
+		} else if (isConditionVariable(result)) {
 			return RuleType.CONDITION_VARIABLE;
 		} else if (isVerbPreposition(result)) {
 			return RuleType.VERB_PREPOSITION;
@@ -322,7 +304,7 @@ public class MatchTreeBuilder {
 		} else if (isComposition(result)) {
 			return RuleType.COMPOSITION;
 		} else if (isAction(result)) {
-			return RuleType.ACTION;
+			return RuleType.ACTION_PRE;
 		} else if (isReplace(result)) {
 			return RuleType.REPLACE;
 		} else if (isRemove(result)) {
@@ -351,7 +333,7 @@ public class MatchTreeBuilder {
 		}
 
 		// Binary
-		if (isConditionVarible(result) || isVerbObject(result) || isVerbPreposition(result) || isConjunction(result)
+		if (isConditionVariable(result) || isVerbObject(result) || isVerbPreposition(result) || isConjunction(result)
 				|| isCondition(result) || isLimitedCondition(result)
 
 				|| isComposition(result) || isInheritance(result)) {
@@ -364,15 +346,17 @@ public class MatchTreeBuilder {
 
 		if (isAction(result)) {
 			MatchResultTreeNode right = getSecondArgument(result).get();
-			MatchResultTreeNode left = new LeafTreeNode("", "");
-			// no source -> self node
-			if (getFirstArgument(result).isPresent()) {
-				left = getFirstArgument(result).get();
-			}
+			MatchResultTreeNode action = getThirdArgument(result).get();
+			MatchResultTreeNode left = getFirstArgument(result).isPresent() ? getFirstArgument(result).get() : null;
 
 			String label = getLabel(result);
-
-			return Optional.of(new BinaryMatchResultTreeNode(left, right, getType(result), label));
+			
+			if (left == null) {
+				return Optional.of(new BinaryMatchResultTreeNode(action, right, RuleType.ACTION_POST, label));
+			} else {
+				MatchResultTreeNode node = new BinaryMatchResultTreeNode(left, action, RuleType.ACTION_PRE, "");
+				return Optional.of(new BinaryMatchResultTreeNode(node, right, RuleType.ACTION_POST, label));	
+			}			
 		}
 		if (isUpdate(result)) {
 			if (isReplace(result)) {

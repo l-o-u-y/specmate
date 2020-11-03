@@ -10,6 +10,7 @@
 		public static className: string = "RGChunk";
 		// Attributes
 		public id: EString;
+		public name: EString;
 		public description: EString;
 		public recycled: EBoolean;
 		public hasRecycledChildren: EBoolean;

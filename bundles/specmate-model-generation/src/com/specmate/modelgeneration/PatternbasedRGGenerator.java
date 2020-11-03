@@ -281,7 +281,8 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			for (MatchResultTreeNode tree : trees) {
 				try {
 					matchPostProcesser.process(tree);
-					if (tree.getType().isComposition() || tree.getType().isInheritance() || tree.getType().isAction() ||
+					if (tree.getType() == null) {
+					} else if (tree.getType().isComposition() || tree.getType().isInheritance() || tree.getType().isAction() ||
 					// tree.getType().isConjunction() ||
 					// tree.getType().isNorConjunction() ||
 					// tree.getType().isOrConjunction() ||
@@ -344,8 +345,6 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 	private void cleanupText(RGModel originalModel) {
 		Set<RGNode> delNodes = new HashSet<RGNode>();
 		Set<RGNode> nodes = new HashSet<RGNode>();
-//		int numOfDelNodes = 0;
-//		int numOfNodes = 0;
 		int index = 0;
 		// remove text parts that should be removed
 		List<RGObject> o = originalModel.getModelMapping().stream().collect(Collectors.toList());
