@@ -90,6 +90,8 @@ export class EditorPopup {
                     StyleChanger.addStyle(cell, this.graph, EditorStyle.RG_CONNECTION_INHERITANCE_STYLE);
                 } else if ((element as RGConnection).type == 'Action') {
                     StyleChanger.addStyle(cell, this.graph, EditorStyle.RG_CONNECTION_ACTION_STYLE);
+                } else if ((element as RGConnection).type == 'Condition') {
+                    StyleChanger.addStyle(cell, this.graph, EditorStyle.RG_CONNECTION_CONDITION_STYLE);
                 }
                 this.graph.getModel().endUpdate();
             }, undefined, icon, undefined, undefined);

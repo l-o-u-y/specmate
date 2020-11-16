@@ -25,8 +25,8 @@ import { EditorStyle } from './editor-components/editor-style';
 import { ChangeTranslator } from './util/change-translator';
 import { StyleChanger } from './util/style-changer';
 import { GraphicalEditorService } from '../services/graphical-editor.service';
-import { Process } from 'src/app/model/Process';
-import { ConfirmationModal } from 'src/app/modules/notification/modules/modals/services/confirmation-modal.service';
+import { Process } from '../../../../../../../model/Process';
+import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
 import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
 import { UndoService } from '../../../../../../actions/modules/common-controls/services/undo.service';
 import { CEGModel } from '../../../../../../../model/CEGModel';
@@ -567,6 +567,7 @@ export class GraphicalEditor {
                 StyleChanger.removeStyle(vertex, this.graph, EditorStyle.EFFECT_STYLE_NAME);
                 StyleChanger.removeStyle(vertex, this.graph, EditorStyle.INNER_STYLE_NAME);
             } else if (Type.is(this.model, RGModel)) {
+                StyleChanger.removeStyle(vertex, this.graph, EditorStyle.CAUSE_STYLE_NAME);
                 StyleChanger.removeStyle(vertex, this.graph, EditorStyle.INNER_STYLE_NAME);
                 StyleChanger.removeStyle(vertex, this.graph, EditorStyle.EFFECT_STYLE_NAME);
 

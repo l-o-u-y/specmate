@@ -13,8 +13,6 @@ import { RGNode } from '../../../../../../../../model/RGNode';
 import { CEGNode } from '../../../../../../../../model/CEGNode';
 import { RGmxModelNode } from './rg-mx-model-node';
 import { RGConnection } from '../../../../../../../../model/RGConnection';
-import {RGConnectionType} from '../../../../../../../../model/RGConnectionType';
-import {NodeType} from '../../../../../../../../model/NodeType';
 
 export type ShapeData = {
     style: string,

@@ -85,33 +85,32 @@ export class EditorStyle {
     private static readonly RG_CONNECTION_ACTION_STYLE_STR = 'endArrow=open;startArrow=undefined;';
     private static readonly RG_CONNECTION_ACTION_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.RG_CONNECTION_ACTION_STYLE_STR);
     public static readonly RG_CONNECTION_CONDITION_STYLE = 'RG_CONNECTION_CONDITION_STYLE';
-    private static readonly RG_CONNECTION_CONDITION_STYLE_STR = 'endArrow=classic;startArrow=undefined;';
+    private static readonly RG_CONNECTION_CONDITION_STYLE_STR = 'endArrow=classic;startArrow=undefined;stroke=#7DB2FF;';
     private static readonly RG_CONNECTION_CONDITION_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.RG_CONNECTION_CONDITION_STYLE_STR);
 
 
 
     private static initStyles() {
 
-        EditorStyle.VALID_STYLE[mx.mxConstants.STYLE_STROKEWIDTH] = '2';
         EditorStyle.VALID_STYLE[mx.mxConstants.STYLE_STROKE_OPACITY] = '100';
-        EditorStyle.VALID_STYLE[mx.mxConstants.STYLE_STROKECOLOR] = '#000000';
+        EditorStyle.VALID_STYLE[mx.mxConstants.STYLE_STROKEWIDTH] = '2';
+        // EditorStyle.VALID_STYLE[mx.mxConstants.STYLE_STROKECOLOR] = '#000000';
 
-        EditorStyle.INVALID_STYLE[mx.mxConstants.STYLE_STROKEWIDTH] = '2';
         EditorStyle.INVALID_STYLE[mx.mxConstants.STYLE_STROKE_OPACITY] = '100';
+        EditorStyle.INVALID_STYLE[mx.mxConstants.STYLE_STROKEWIDTH] = '2';
         EditorStyle.INVALID_STYLE[mx.mxConstants.STYLE_STROKECOLOR] = '#ff0000';
 
         EditorStyle.CAUSE_STYLE[mx.mxConstants.STYLE_FILLCOLOR] = '#c3d9ff';
         EditorStyle.EFFECT_STYLE[mx.mxConstants.STYLE_FILLCOLOR] = '#f0a029';
         EditorStyle.INNER_STYLE[mx.mxConstants.STYLE_FILLCOLOR] = '#d8d8d8';
 
-        EditorStyle.EDGE_HIGHLIGHT_STYLE[mx.mxConstants.STYLE_STROKECOLOR] = '#000000';
+        EditorStyle.EDGE_HIGHLIGHT_STYLE[mx.mxConstants.STYLE_STROKE_OPACITY] = '100';
         EditorStyle.EDGE_HIGHLIGHT_STYLE[mx.mxConstants.STYLE_STROKEWIDTH] = '3';
 
-        EditorStyle.EDGE_DIM_STYLE[mx.mxConstants.STYLE_STROKECOLOR] = '#858585';
+        EditorStyle.EDGE_HIGHLIGHT_STYLE[mx.mxConstants.STYLE_STROKE_OPACITY] = '80';
         EditorStyle.EDGE_DIM_STYLE[mx.mxConstants.STYLE_STROKEWIDTH] = '2';
 
-        EditorStyle.RG_CONNECTION_CONDITION_STYLE[mx.mxConstants.STYLE_STROKECOLOR] = '#7DB2FF';
-        EditorStyle.RG_CONNECTION_CONDITION_STYLE[mx.mxConstants.STYLE_STROKEWIDTH] = '2';
+        EditorStyle.RG_CONNECTION_CONDITION_STYLE_OBJ[mx.mxConstants.STYLE_STROKECOLOR] = '#1ca0e9';
     }
 
     public static initEditorStyles(graph: mxgraph.mxGraph) {
@@ -151,7 +150,8 @@ export class EditorStyle {
         stylesheet.putCellStyle(EditorStyle.EDGE_HIGHLIGHT_STYLE_NAME, EditorStyle.EDGE_HIGHLIGHT_STYLE);
 
         const edgeStyle = graph.getStylesheet().getDefaultEdgeStyle();
-        edgeStyle[mx.mxConstants.STYLE_STROKECOLOR] = EditorStyle.EDGE_DIM_STYLE[mx.mxConstants.STYLE_STROKECOLOR];
+        edgeStyle[mx.mxConstants.STYLE_STROKE_OPACITY] = EditorStyle.EDGE_DIM_STYLE[mx.mxConstants.STYLE_STROKE_OPACITY];
+        edgeStyle[mx.mxConstants.STYLE_STROKECOLOR] = '#000000';
         edgeStyle[mx.mxConstants.STYLE_STROKEWIDTH] = EditorStyle.EDGE_DIM_STYLE[mx.mxConstants.STYLE_STROKEWIDTH];
     }
 }

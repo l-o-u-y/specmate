@@ -8,7 +8,7 @@ import { NavigatorService } from '../../../../../../navigation/modules/navigator
 import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
 import { SpecmateViewBase } from '../../../base/specmate-view-base';
 import { GraphicalEditor } from '../../graphical-editor/components/graphical-editor.component';
-import { CEGModel } from 'src/app/model/CEGModel';
+import { CEGModel } from '../../../../../../../model/CEGModel';
 
 @Component({
     moduleId: module.id.toString(),
