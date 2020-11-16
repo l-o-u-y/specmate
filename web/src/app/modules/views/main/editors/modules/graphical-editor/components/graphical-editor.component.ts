@@ -461,13 +461,11 @@ export class GraphicalEditor {
                 }
             }
 
-            if (Type.is(this.model, CEGModel)) {
                 for (const url in vertexCache) {
                     const vertex = vertexCache[url];
                     const type = this.getNodeType(vertex);
                     StyleChanger.addStyle(vertex, this.graph, type);
                 }
-            }
         } finally {
             this.graph.getModel().endUpdate();
             this.changeTranslator.preventDataUpdates = false;
@@ -563,13 +561,17 @@ export class GraphicalEditor {
         }
         this.graph.getView().revalidate();
 
-        if (Type.is(this.model, CEGModel)) {
-            for (const vertex of vertices) {
+        for (const vertex of vertices) {
+            if (Type.is(this.model, CEGModel)) {
                 StyleChanger.removeStyle(vertex, this.graph, EditorStyle.CAUSE_STYLE_NAME);
                 StyleChanger.removeStyle(vertex, this.graph, EditorStyle.EFFECT_STYLE_NAME);
                 StyleChanger.removeStyle(vertex, this.graph, EditorStyle.INNER_STYLE_NAME);
-                StyleChanger.addStyle(vertex, this.graph, this.getNodeType(vertex));
+            } else if (Type.is(this.model, RGModel)) {
+                StyleChanger.removeStyle(vertex, this.graph, EditorStyle.INNER_STYLE_NAME);
+                StyleChanger.removeStyle(vertex, this.graph, EditorStyle.EFFECT_STYLE_NAME);
+
             }
+            StyleChanger.addStyle(vertex, this.graph, this.getNodeType(vertex));
         }
     }
 
@@ -579,32 +581,60 @@ export class GraphicalEditor {
     }
 
     private getNodeType(cell: mxgraph.mxCell) {
-        if (cell.edges === undefined || cell.edge) {
-            // The cell is an edge
-            return '';
-        }
-
-        if (cell.edges === null) {
-            // Node without Edges
-            return EditorStyle.CAUSE_STYLE_NAME;
-        }
-
-        let hasIncommingEdges = false;
-        let hasOutgoingEdges = false;
-        for (const edge of cell.edges) {
-            if (edge.source.id === cell.id) {
-                hasOutgoingEdges = true;
-            } else if (edge.target.id === cell.id) {
-                hasIncommingEdges = true;
+        if (cell.style.includes('BASE_CEG_NODE')) {
+            if (cell.edges === undefined || cell.edge) {
+                // The cell is an edge
+                return '';
             }
+
+            if (cell.edges === null) {
+                // Node without Edges
+                return EditorStyle.CAUSE_STYLE_NAME;
+            }
+
+            let hasIncomingEdges = false;
+            let hasOutgoingEdges = false;
+            for (const edge of cell.edges) {
+                if (edge.source.id === cell.id) {
+                    hasOutgoingEdges = true;
+                } else if (edge.target.id === cell.id) {
+                    hasIncomingEdges = true;
+                }
+            }
+
+            if (hasIncomingEdges && hasOutgoingEdges) {
+                return EditorStyle.INNER_STYLE_NAME;
+            } else if (hasIncomingEdges) {
+                return EditorStyle.EFFECT_STYLE_NAME;
+            }
+            return EditorStyle.CAUSE_STYLE_NAME;
+        } else if (cell.style.includes('BASE_RG_NODE')) {
+                if (cell.edges === undefined || cell.edges === null) {
+                    return '';
+                }
+
+                let incomingEdges = [];
+                let outgoingEdges = [];
+                for (const edge of cell.edges) {
+                    if (edge.source.id === cell.id && edge.style.includes('RG_CONNECTION_CONDITION_STYLE')) {
+                        outgoingEdges.push(edge);
+                    } else if (edge.target.id === cell.id && edge.style.includes('RG_CONNECTION_CONDITION_STYLE')) {
+                        incomingEdges.push(edge);
+                    }
+                }
+
+                if (incomingEdges.length > 0 && outgoingEdges.length > 0) {
+                    return EditorStyle.INNER_STYLE_NAME;
+                } else if (incomingEdges.length > 0) {
+                    return EditorStyle.EFFECT_STYLE_NAME;
+                } else if (outgoingEdges.length > 0) {
+                    return EditorStyle.CAUSE_STYLE_NAME;
+                }
+
         }
 
-        if (hasIncommingEdges && hasOutgoingEdges) {
-            return EditorStyle.INNER_STYLE_NAME;
-        } else if (hasIncommingEdges) {
-            return EditorStyle.EFFECT_STYLE_NAME;
-        }
-        return EditorStyle.CAUSE_STYLE_NAME;
+        return '';
+
     }
 
     private resetProviders(model: RGModel | CEGModel | Process): void {

@@ -20,8 +20,8 @@ public class Graph {
 
 	public GraphNode createNode(String condition, String variable, NodeType type) {
 		GraphNode result = new GraphNode(this, type);
-		result.setCondition(condition);
-		result.setVariable(variable);
+		result.setSecondaryText(condition);
+		result.setPrimaryText(variable);
 		nodes.add(result);
 		return result;
 	}

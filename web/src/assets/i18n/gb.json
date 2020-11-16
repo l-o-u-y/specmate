@@ -287,6 +287,7 @@
 		"errorMissingFields": "Missing fields: {{fields}}",
 		"errorNoEndNode": "No end node.",
 		"errorNoSteps": "No steps in model.",
+		"errorNodeMultipleConditionConnections": "Node has too many condition connections.",
 		"errorNodeWithoutIncomingConnection": "Node without incoming connection.",
 		"errorNodeWithoutOutgoingConnection": "Node without outgoing connection.",
 		"errorNotOneStartNode": "Not exactly one start node.",

@@ -44,6 +44,7 @@ import com.specmate.modelgeneration.stages.RGGraphLayouter;
 import com.specmate.modelgeneration.stages.RuleMatcher;
 import com.specmate.modelgeneration.stages.TextPreProcessor;
 import com.specmate.modelgeneration.stages.graph.Graph;
+import com.specmate.modelgeneration.stages.processors.NodeBuilder;
 import com.specmate.nlp.api.ELanguage;
 import com.specmate.nlp.api.INLPService;
 import com.specmate.nlp.util.NLPUtil;
@@ -71,6 +72,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		this.creation = new RGCreation();
 		this.lang = lang;
 		matcher = new RuleMatcher(this.tagger, configService, lang);
+		matcher.loadRGRessources();
 		preProcessor = new TextPreProcessor(lang, tagger);
 		log = logService;
 	}
@@ -258,49 +260,49 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			// TODO MA nouns: add to creation
 			// addNounsToCreation(model, tagResult);
 
-			final List<MatchResult> results = matcher.matchText(text, true);
-			final MatchTreeBuilder builder = new MatchTreeBuilder();
-
 			System.out.println(NLPUtil.printPOSTags(tagResult));
 			// System.out.println(NLPUtil.printChunks(tagResult));
 			// System.out.println(NLPUtil.printParse(tagResult));
 			System.out.println(NLPUtil.printDependencies(tagResult));
-			for (MatchResult result : results) {
-				System.out.println(result.getRuleName());
-			}
-
-			// Convert all successful match results into an intermediate representation
-			final List<MatchResultTreeNode> trees = results.stream().filter(MatchResult::isSuccessfulMatch)
-					.map(builder::buildTree).filter(Optional::isPresent).map(Optional::get)
-					.collect(Collectors.toList());
-
-			final MatcherPostProcesser matchPostProcesser = new MatcherPostProcesser(lang);
-			GraphBuilder graphBuilder = new GraphBuilder();
-			RGGraphLayouter graphLayouter = new RGGraphLayouter(lang, creation, log);
-
-			for (MatchResultTreeNode tree : trees) {
-				try {
-					matchPostProcesser.process(tree);
-					if (tree.getType() == null) {
-					} else if (tree.getType().isComposition() || tree.getType().isInheritance() || tree.getType().isAction() ||
-					// tree.getType().isConjunction() ||
-					// tree.getType().isNorConjunction() ||
-					// tree.getType().isOrConjunction() ||
-					// tree.getType().isNegation() ||
-							tree.getType().isUpdate()) {
-						Graph graph = graphBuilder.buildRGGraph((BinaryMatchResultTreeNode) tree);
-						model = (RGModel) graphLayouter.createModel(graph, model);
-						candidates.add(Pair.of(text, model));
-					}
-				} catch (Throwable t) {
-					t.printStackTrace();
-					log.log(LogService.LOG_DEBUG,
-							"Error occured processing the dependency parse tree: " + t.getMessage(), t);
-				}
-			}
+			
+			createModelContent(text, model, candidates);
 
 		}
+		
+		addBestCandidateToModel(candidates, originalModel);
 
+		candidates = new ArrayList<>();
+		matcher.loadCEGRessources();
+
+		for (String text : texts) {
+			RGModel model = RequirementsFactory.eINSTANCE.createRGModel();
+			model.getContents().addAll(originalModel.getContents());
+			model.getModelMapping().addAll(originalModel.getModelMapping());
+
+			createModelContent(text, model, candidates);
+		}
+		addBestCandidateToModel(candidates, originalModel);
+		
+
+//		printModelMapping(originalModel);
+		
+		cleanupText(originalModel);
+		
+
+		// we needed to have chunk.id == position in text so we could assign nodes
+		// since we already assigned nodes we can randomize the chunk.ids
+		// we also need to do that to ensure there won't be any duplicates
+		for (RGChunk c : originalModel.getContents().stream().filter(c -> c instanceof RGChunk).map(c -> (RGChunk) c)
+				.collect(Collectors.toList())) {
+			c.setId(SpecmateEcoreUtil.getIdForChild());
+		}
+
+
+		return originalModel;
+
+	}
+	
+	private RGModel addBestCandidateToModel(List<Pair<String, RGModel>> candidates, RGModel originalModel) {
 		candidates.sort((p1, p2) -> {
 			RGModel m1 = p1.getRight();
 			RGModel m2 = p2.getRight();
@@ -324,21 +326,55 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 
 		originalModel.getContents().addAll(candidates.get(0).getRight().getContents());
 		originalModel.getModelMapping().addAll(candidates.get(0).getRight().getModelMapping());
-//		originalModel.getChunks().addAll(candidates.get(0).getRight().getChunks());
-
-		// we needed to have chunk.id == position in text so we could assign nodes
-		// since we already assigned nodes we can randomize the chunk.ids
-		// we also need to do that to ensure there won't be any duplicates
-		for (RGChunk c : originalModel.getContents().stream().filter(c -> c instanceof RGChunk).map(c -> (RGChunk) c)
-				.collect(Collectors.toList())) {
-			c.setId(SpecmateEcoreUtil.getIdForChild());
-		}
-		
-		cleanupText(originalModel);
-
-		// printModelMapping(originalModel);
 
 		return originalModel;
+		
+	}
+
+	private void createModelContent(String text, RGModel model, 
+			List<Pair<String, RGModel>> candidates) throws SpecmateException {
+
+		final List<MatchResult> results = matcher.matchText(text, true);
+		final MatchTreeBuilder builder = new MatchTreeBuilder();
+
+		for (MatchResult result : results) {
+			System.out.println(result.getRuleName());
+		}
+
+		// Convert all successful match results into an intermediate representation
+		final List<MatchResultTreeNode> trees = results.stream().filter(MatchResult::isSuccessfulMatch)
+				.map(builder::buildTree).filter(Optional::isPresent).map(Optional::get)
+				.collect(Collectors.toList());
+
+		final MatcherPostProcesser matchPostProcesser = new MatcherPostProcesser(lang, new NodeBuilder());
+		GraphBuilder graphBuilder = new GraphBuilder();
+		RGGraphLayouter graphLayouter = new RGGraphLayouter(lang, creation, log);
+
+		for (MatchResultTreeNode tree : trees) {
+			try {
+				matchPostProcesser.process(tree);
+				
+				while (tree.getType().isLimitedCondition()) {
+					tree = ((BinaryMatchResultTreeNode) tree).getSecondArgument();
+
+				}
+
+				if (tree.getType() == null) {
+				} else if (tree.getType().isComposition() || 
+						tree.getType().isInheritance() || 
+						tree.getType().isAction() ||
+						tree.getType().isUpdate() ||
+						tree.getType().isCondition()) {
+					Graph graph = graphBuilder.buildRGGraph((BinaryMatchResultTreeNode) tree);
+					model = (RGModel) graphLayouter.createModel(graph, model);
+					 candidates.add(Pair.of(text, model));
+				}
+			} catch (Throwable t) {
+				t.printStackTrace();
+				log.log(LogService.LOG_DEBUG,
+						"Error occured processing the dependency parse tree: " + t.getMessage(), t);
+			}
+		}
 
 	}
 

@@ -256,10 +256,29 @@ public class MatchTreeBuilder {
 	}
 
 	public String getLabel(MatchResult result) {
-		String text = "";
-		String name = SubtreeNames.LABEL;
+				String name = getThirdArgumentName(result);
+				String text = null;
+				if (name != null && result.getSubmatch(name) != null) {
+					Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
+					if (tokens.size() == 0) {
+		
+					} else {
+						for (Token t: tokens) {
+							text = t.getCoveredText();
+							break;
+						}
+					}
+		
+				}
+				name = SubtreeNames.LABEL;
 
 		if (result.getSubmatch(name) != null) {
+						if (text == null) {
+								text = "";
+							} else {
+								text = text + " ";
+							}
+
 			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
 			if (tokens.size() == 0) {
 
@@ -271,7 +290,30 @@ public class MatchTreeBuilder {
 			}
 
 		}
-		return text;
+		return text  + ";" + getLabelPosition(result);
+	}
+	
+	private int getLabelPosition(MatchResult result) {
+		String name = getThirdArgumentName(result);
+		int pos = 0;
+		if (name != null && result.getSubmatch(name) != null) {
+			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
+			if (tokens.size() != 0) {
+				for (Token t: tokens) {
+					return t.getEnd();
+				}
+			}
+		}
+		name = SubtreeNames.LABEL;
+		if (result.getSubmatch(name) != null) {
+			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
+			if (tokens.size() != 0) {
+				for (Token t: tokens) {
+					return t.getEnd();
+				}
+			}
+		}
+		return -1;
 	}
 
 	public RuleType getType(MatchResult result) {
@@ -304,7 +346,7 @@ public class MatchTreeBuilder {
 		} else if (isComposition(result)) {
 			return RuleType.COMPOSITION;
 		} else if (isAction(result)) {
-			return RuleType.ACTION_PRE;
+			return RuleType.ACTION;
 		} else if (isReplace(result)) {
 			return RuleType.REPLACE;
 		} else if (isRemove(result)) {
@@ -335,7 +377,6 @@ public class MatchTreeBuilder {
 		// Binary
 		if (isConditionVariable(result) || isVerbObject(result) || isVerbPreposition(result) || isConjunction(result)
 				|| isCondition(result) || isLimitedCondition(result)
-
 				|| isComposition(result) || isInheritance(result)) {
 			MatchResultTreeNode left = getFirstArgument(result).get();
 			MatchResultTreeNode right = getSecondArgument(result).get();
@@ -343,20 +384,34 @@ public class MatchTreeBuilder {
 			String label = getLabel(result);
 			return Optional.of(new BinaryMatchResultTreeNode(left, right, getType(result), label));
 		}
+		
+//		// TODO MA switch/case CEG/RG for RG we need it this way, the other way around
+//		// because the effect is the main sentence -> effect verb = root
+//		if (isCondition(result)) {
+//			MatchResultTreeNode left = getFirstArgument(result).get();
+//			MatchResultTreeNode right = getSecondArgument(result).get();
+//
+//			String label = getLabel(result);
+//			return Optional.of(new BinaryMatchResultTreeNode(right, left, getType(result), label));
+//			
+//		}
 
 		if (isAction(result)) {
-			MatchResultTreeNode right = getSecondArgument(result).get();
-			MatchResultTreeNode action = getThirdArgument(result).get();
-			MatchResultTreeNode left = getFirstArgument(result).isPresent() ? getFirstArgument(result).get() : null;
+			MatchResultTreeNode obj = getSecondArgument(result).get();
+			MatchResultTreeNode verb = getThirdArgument(result).get();
+			MatchResultTreeNode subj = getFirstArgument(result).isPresent() ? getFirstArgument(result).get() : null;
+
 
 			String label = getLabel(result);
 			
-			if (left == null) {
-				return Optional.of(new BinaryMatchResultTreeNode(action, right, RuleType.ACTION_POST, label));
+			BinaryMatchResultTreeNode node;
+			
+			if (subj != null) {
+				node = new BinaryMatchResultTreeNode(subj, obj, getType(result), label);
 			} else {
-				MatchResultTreeNode node = new BinaryMatchResultTreeNode(left, action, RuleType.ACTION_PRE, "");
-				return Optional.of(new BinaryMatchResultTreeNode(node, right, RuleType.ACTION_POST, label));	
-			}			
+				node = new BinaryMatchResultTreeNode(new LeafTreeNode(""), obj, getType(result), label);	
+			}
+			return Optional.of(node);
 		}
 		if (isUpdate(result)) {
 			if (isReplace(result)) {

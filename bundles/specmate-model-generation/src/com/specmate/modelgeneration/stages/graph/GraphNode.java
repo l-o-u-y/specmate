@@ -7,13 +7,13 @@ import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RGConnectionType;
 
 public class GraphNode {
-	private String condition;
-	private String variable;
-	private String component;
+	private String secondaryText;
+	private String primaryText;
 	private String id;
 	private boolean markedForDeletion;
 	private NodeType type;
 	private Graph graph;
+	private boolean isExclusive = false;
 
 	private List<GraphEdge> parentEdges;
 	private List<GraphEdge> childEdges;
@@ -28,9 +28,12 @@ public class GraphNode {
 		childEdges = new Vector<GraphEdge>();
 		parentEdges = new Vector<GraphEdge>();
 	}
-	
+
 	public List<GraphEdge> getChildEdges() {
 		return childEdges;
+	}
+	public List<GraphEdge> getParentEdges() {
+		return parentEdges;
 	}
 	public void removeEdge(GraphEdge edge) {
 		parentEdges.remove(edge);
@@ -57,28 +60,20 @@ public class GraphNode {
 		return type;
 	}
 
-	public String getCondition() {
-		return condition;
+	public String getSecondaryText() {
+		return secondaryText;
 	}
 
-	public String getVariable() {
-		return variable;
+	public String getPrimaryText() {
+		return primaryText;
 	}
 
-	public String getComponent() {
-		return component;
+	public void setSecondaryText(String text) {
+		this.secondaryText = text;
 	}
 
-	public void setCondition(String condition) {
-		this.condition = condition;
-	}
-
-	public void setVariable(String variable) {
-		this.variable = variable;
-	}
-
-	public void setComponent(String component) {
-		this.component = component;
+	public void setPrimaryText(String text) {
+		this.primaryText = text;
 	}
 
 	public void setType(NodeType type) {
@@ -135,5 +130,13 @@ public class GraphNode {
 
 	public void setMarkedForDeletion(boolean markedForDeletion) {
 		this.markedForDeletion = markedForDeletion;
+	}
+
+	public boolean isExclusive() {
+		return isExclusive;
+	}
+
+	public void setExclusive(boolean isExclusive) {
+		this.isExclusive = isExclusive;
 	}
 }

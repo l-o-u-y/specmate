@@ -62,7 +62,15 @@ public enum RGConnectionType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	REMOVE(4, "Remove", "Remove");
+	REMOVE(4, "Remove", "Remove"), /**
+	 * The '<em><b>Condition</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #CONDITION_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	CONDITION(5, "Condition", "Condition");
 
 	/**
 	 * The '<em><b>Inheritance</b></em>' literal value.
@@ -120,6 +128,17 @@ public enum RGConnectionType implements Enumerator {
 	public static final int REMOVE_VALUE = 4;
 
 	/**
+	 * The '<em><b>Condition</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #CONDITION
+	 * @model name="Condition"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int CONDITION_VALUE = 5;
+
+	/**
 	 * An array of all the '<em><b>RG Connection Type</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -132,6 +151,7 @@ public enum RGConnectionType implements Enumerator {
 			ACTION,
 			REPLACE,
 			REMOVE,
+			CONDITION,
 		};
 
 	/**
@@ -193,6 +213,7 @@ public enum RGConnectionType implements Enumerator {
 			case ACTION_VALUE: return ACTION;
 			case REPLACE_VALUE: return REPLACE;
 			case REMOVE_VALUE: return REMOVE;
+			case CONDITION_VALUE: return CONDITION;
 		}
 		return null;
 	}

@@ -6,6 +6,7 @@ import { ElementValidatorBase } from '../element-validator-base';
 import { ValidationMessage } from '../validation-message';
 import { ValidationResult } from '../validation-result';
 import { Validator } from '../validator-decorator';
+import {RGConnection} from '../../model/RGConnection';
 
 @Validator(RGModel)
 export class SingleNodesValidator extends ElementValidatorBase<RGModel> {
@@ -20,16 +21,6 @@ export class SingleNodesValidator extends ElementValidatorBase<RGModel> {
             let hasIncomingConnections: boolean = node.incomingConnections && node.incomingConnections.length > 0;
             let hasOutgoingConnections: boolean = node.outgoingConnections && node.outgoingConnections.length > 0;
 
-            if ((element as RGNode).type == 'ACTION') {
-                console.log(node.incomingConnections)
-                console.log(node.outgoingConnections)
-                if (node.incomingConnections && node.incomingConnections.length <= 1 &&
-                    node.outgoingConnections && node.outgoingConnections.length == 1 ) {
-
-                } else {
-                    return true;
-                }
-            }
             return !hasIncomingConnections && !hasOutgoingConnections;
         });
 

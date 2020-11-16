@@ -36,15 +36,7 @@ public enum NodeType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	OR(1, "OR", "OR"), /**
-	 * The '<em><b>ACTION</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #ACTION_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	ACTION(2, "ACTION", "ACTION");
+	OR(1, "OR", "OR");
 
 	/**
 	 * The '<em><b>AND</b></em>' literal value.
@@ -69,17 +61,6 @@ public enum NodeType implements Enumerator {
 	public static final int OR_VALUE = 1;
 
 	/**
-	 * The '<em><b>ACTION</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #ACTION
-	 * @model
-	 * @generated
-	 * @ordered
-	 */
-	public static final int ACTION_VALUE = 2;
-
-	/**
 	 * An array of all the '<em><b>Node Type</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -89,7 +70,6 @@ public enum NodeType implements Enumerator {
 		new NodeType[] {
 			AND,
 			OR,
-			ACTION,
 		};
 
 	/**
@@ -148,7 +128,6 @@ public enum NodeType implements Enumerator {
 		switch (value) {
 			case AND_VALUE: return AND;
 			case OR_VALUE: return OR;
-			case ACTION_VALUE: return ACTION;
 		}
 		return null;
 	}

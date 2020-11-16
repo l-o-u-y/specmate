@@ -46,13 +46,17 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 			int y = YSTART + yIndex * YOFFSET;
 
 			RGNode n;
-			String component = node.getComponent();
+			String component = node.getPrimaryText();
 
 			if (node.isMarkedForDeletion()) {
 				markedNodes.add(node);
 				n = rgCreation.createNode(model, component, node.isMarkedForDeletion(), x, y, node.getType());
 			} else {
-				n = rgCreation.createNodeIfNotExist(model, component, x, y, node.getType());
+				if (node.isExclusive()) {
+					n = rgCreation.createNode(model, component, node.isMarkedForDeletion(), x, y, node.getType());
+				} else {
+					n = rgCreation.createNodeIfNotExist(model, component, x, y, node.getType());
+				}
 			}
 
 			// assign chunks based on chunk and node id (position)

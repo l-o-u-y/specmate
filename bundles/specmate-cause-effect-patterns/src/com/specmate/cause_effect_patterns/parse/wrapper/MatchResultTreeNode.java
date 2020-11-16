@@ -3,7 +3,7 @@ package com.specmate.cause_effect_patterns.parse.wrapper;
 public abstract class MatchResultTreeNode {
 	public static enum RuleType {
 		LIMITED_CONDITION, CONDITION, CONJUNCTION_AND, CONJUNCTION_OR, CONJUNCTION_NOR, CONJUNCTION_XOR, NEGATION,
-		CONDITION_VARIABLE, VERB_OBJECT, VERB_PREPOSITION, COMPOSITION, INHERITANCE, ACTION_PRE, ACTION_POST, REPLACE, REMOVE;
+		CONDITION_VARIABLE, VERB_OBJECT, VERB_PREPOSITION, COMPOSITION, INHERITANCE, ACTION, REPLACE, REMOVE;
 
 		public boolean isComposition() {
 			return equals(COMPOSITION);
@@ -14,14 +14,9 @@ public abstract class MatchResultTreeNode {
 		}
 
 		public boolean isAction() {
-			return isActionPost() || isActionPre();
+			return equals(ACTION);
 		}
-		public boolean isActionPre() {
-			return equals(ACTION_PRE);
-		}
-		public boolean isActionPost() {
-			return equals(ACTION_POST);
-		}
+		
 		public boolean isUpdate() {
 			return isRemove() || isReplace();
 		}
@@ -65,30 +60,30 @@ public abstract class MatchResultTreeNode {
 		public int getPriority() {
 			switch (this) {
 			// TODO MA subtree order
-			case COMPOSITION:
-				return 1;
-			case INHERITANCE:
-				return 2;
-			case ACTION_PRE:
-				return 4;
-			case ACTION_POST:
-				return 3;
-			case REPLACE:
-				return 5;
-			case REMOVE:
-				return 5;
+			// smaller value = closer to root
+			// larger value = closer to leaf node
 			case LIMITED_CONDITION:
-				return 6;
+				return 1;
 			case CONDITION:
+				return 2;
+			case COMPOSITION:
+				return 3;
+			case INHERITANCE:
+				return 4;
+			case REPLACE:
 				return 7;
+			case REMOVE:
+				return 7;
+			case ACTION:
+				return 8;
 			case CONJUNCTION_XOR:
 				return 8;
 			case CONJUNCTION_NOR:
-				return 9;
+				return 8;
 			case CONJUNCTION_OR:
-				return 10;
+				return 8;
 			case CONJUNCTION_AND:
-				return 11;
+				return 8;
 			case CONDITION_VARIABLE:
 				return 12;
 			case VERB_OBJECT:

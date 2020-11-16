@@ -36,6 +36,6 @@ public class ConditionVariableNode extends LeafTreeNode {
 
 	@Override
 	public RuleType getType() {
-		return null; // RuleType.LEAF;
+		return RuleType.CONDITION_VARIABLE; // null; // RuleType.LEAF;
 	}
 }

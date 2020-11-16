@@ -3,5 +3,6 @@ export enum RGConnectionType {
 COMPOSITION = 1,
 ACTION = 2,
 REPLACE = 3,
-REMOVE = 4
+REMOVE = 4,
+CONDITION = 5
 }

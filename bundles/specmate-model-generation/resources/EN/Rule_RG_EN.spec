@@ -1,5 +1,4 @@
 import EN.DEP.STANFORD.*
-// import EN.DEP.SPACY.*
 import EN.POS.PTB.*
 import EN.POS.LENA.*
 
@@ -106,12 +105,12 @@ def rule Inheritance_Colon { // it comes in two shapes: green and blue
 }
 
 def rule Action_Explicit_1 {
-	verb:[Action] - nsubj -> noun:[Source]
-	verb:[Action] - dobj -> noun:[Target]
+	[Action] - nsubj -> noun:[Source]
+	[Action] - dobj -> noun:[Target]
 }
 
 def rule Action_1 {
-	verb:[Action] - dobj -> noun:[Target]
+	[Action] - dobj -> noun:[Target]
 }
 
 def rule Action_Explicit_Prep_1 {
@@ -128,7 +127,7 @@ def rule Action_Passive_1 {
 }
 
 
-def rule TMP_1 {
+/* def rule TMP_1 {
 	[Head] - acl -> [TMP]
 }
 def rule TMP_2 {
@@ -139,7 +138,7 @@ def rule TMP_3 {
 }
 def rule TMP_3 {
 	[Head] - mark -> [TMP]
-}
+} */
 
 def subtrees  PartA, PartB, Head, Head_tmp
 def subtrees  PartA_SubA, PartB_SubA
@@ -193,6 +192,7 @@ def rule Conjunction_AND_4 {
 	[PartA_SubA] - cc -> CC:'and'
 }
 
+
 def rule Negation {
 	[Head] - neg -> RB:*
 }
@@ -204,4 +204,15 @@ def rule Negation_2 {
 def rule Negation_3 {
 	[Head] - dobj-> [Head_tmp] - det -> DT:'no'
 }
-// TODO MA file handling for CEG/RG
+
+/* def subtrees Verb, Object
+
+def rule VerbObject {
+	[Verb] - dobj -> [Object]
+}
+	
+def subtrees Preposition
+
+def rule VerbPreposition {
+	[Verb] - prep -> [Preposition]
+} */

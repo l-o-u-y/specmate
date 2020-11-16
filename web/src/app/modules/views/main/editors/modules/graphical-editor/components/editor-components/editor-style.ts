@@ -54,11 +54,8 @@ export class EditorStyle {
     private static readonly BASE_CEG_NODE_STYLE_STR = 'shape=rectangle;rounded=1;arcSize=10;align=center;perimeter=rectanglePerimeter;dashed=0';
     private static readonly BASE_CEG_NODE_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.BASE_CEG_NODE_STYLE_STR);
     public static readonly BASE_RG_NODE_STYLE = 'BASE_RG_NODE';
-    private static readonly BASE_RG_NODE_STYLE_STR = 'shape=rectangle;rounded=1;arcSize=10;align=center;perimeter=rectanglePerimeter;dashed=0';
+    private static readonly BASE_RG_NODE_STYLE_STR = 'shape=rectangle;rounded=1;arcSize=10;align=center;perimeter=rectanglePerimeter;dashed=0;fillColor=#a8ffb9';
     private static readonly BASE_RG_NODE_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.BASE_RG_NODE_STYLE_STR);
-    public static readonly BASE_ACTION_NODE_STYLE = 'BASE_ACTION_NODE';
-    private static readonly BASE_ACTION_NODE_STYLE_STR = 'fillColor=#a8ffb9';
-    private static readonly BASE_ACTION_NODE_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.BASE_ACTION_NODE_STYLE_STR);
     public static readonly BASE_PROCESS_START_STYLE = 'BASE_PROCESS_START_STYLE';
     private static readonly BASE_PROCESS_START_STYLE_STR = 'shape=ellipse;whiteSpace=wrap;html=1;aspect=fixed;align=center;perimeter=ellipsePerimeter;editable=0;dashed=0;fontColor=#000000';
     private static readonly BASE_PROCESS_START_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.BASE_PROCESS_START_STYLE_STR);
@@ -87,6 +84,9 @@ export class EditorStyle {
     public static readonly RG_CONNECTION_ACTION_STYLE = 'RG_CONNECTION_ACTION_STYLE';
     private static readonly RG_CONNECTION_ACTION_STYLE_STR = 'endArrow=open;startArrow=undefined;';
     private static readonly RG_CONNECTION_ACTION_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.RG_CONNECTION_ACTION_STYLE_STR);
+    public static readonly RG_CONNECTION_CONDITION_STYLE = 'RG_CONNECTION_CONDITION_STYLE';
+    private static readonly RG_CONNECTION_CONDITION_STYLE_STR = 'endArrow=classic;startArrow=undefined;';
+    private static readonly RG_CONNECTION_CONDITION_STYLE_OBJ: Style = EditorStyle.createStyle(EditorStyle.RG_CONNECTION_CONDITION_STYLE_STR);
 
 
 
@@ -109,6 +109,9 @@ export class EditorStyle {
 
         EditorStyle.EDGE_DIM_STYLE[mx.mxConstants.STYLE_STROKECOLOR] = '#858585';
         EditorStyle.EDGE_DIM_STYLE[mx.mxConstants.STYLE_STROKEWIDTH] = '2';
+
+        EditorStyle.RG_CONNECTION_CONDITION_STYLE[mx.mxConstants.STYLE_STROKECOLOR] = '#7DB2FF';
+        EditorStyle.RG_CONNECTION_CONDITION_STYLE[mx.mxConstants.STYLE_STROKEWIDTH] = '2';
     }
 
     public static initEditorStyles(graph: mxgraph.mxGraph) {
@@ -121,7 +124,6 @@ export class EditorStyle {
 
         stylesheet.putCellStyle(EditorStyle.BASE_CEG_NODE_STYLE, EditorStyle.BASE_CEG_NODE_STYLE_OBJ);
         stylesheet.putCellStyle(EditorStyle.BASE_RG_NODE_STYLE, EditorStyle.BASE_RG_NODE_STYLE_OBJ);
-        stylesheet.putCellStyle(EditorStyle.BASE_ACTION_NODE_STYLE, EditorStyle.BASE_ACTION_NODE_STYLE_OBJ);
         stylesheet.putCellStyle(EditorStyle.BASE_PROCESS_START_STYLE, EditorStyle.BASE_PROCESS_START_STYLE_OBJ);
         stylesheet.putCellStyle(EditorStyle.BASE_PROCESS_END_STYLE, EditorStyle.BASE_PROCESS_END_STYLE_OBJ);
         stylesheet.putCellStyle(EditorStyle.BASE_PROCESS_STEP_STYLE, EditorStyle.BASE_PROCESS_STEP_STYLE_OBJ);
@@ -132,6 +134,7 @@ export class EditorStyle {
         stylesheet.putCellStyle(EditorStyle.RG_CONNECTION_INHERITANCE_STYLE, EditorStyle.RG_CONNECTION_INHERITANCE_STYLE_OBJ);
         stylesheet.putCellStyle(EditorStyle.RG_CONNECTION_COMPOSITION_STYLE, EditorStyle.RG_CONNECTION_COMPOSITION_STYLE_OBJ);
         stylesheet.putCellStyle(EditorStyle.RG_CONNECTION_ACTION_STYLE, EditorStyle.RG_CONNECTION_ACTION_STYLE_OBJ);
+        stylesheet.putCellStyle(EditorStyle.RG_CONNECTION_CONDITION_STYLE, EditorStyle.RG_CONNECTION_CONDITION_STYLE_OBJ);
 
         stylesheet.putCellStyle(EditorStyle.VALID_STYLE_NAME, EditorStyle.VALID_STYLE);
         stylesheet.putCellStyle(EditorStyle.INVALID_STYLE_NAME, EditorStyle.INVALID_STYLE);

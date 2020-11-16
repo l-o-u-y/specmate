@@ -829,7 +829,6 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		initEEnum(nodeTypeEEnum, NodeType.class, "NodeType");
 		addEEnumLiteral(nodeTypeEEnum, NodeType.AND);
 		addEEnumLiteral(nodeTypeEEnum, NodeType.OR);
-		addEEnumLiteral(nodeTypeEEnum, NodeType.ACTION);
 
 		initEEnum(rgConnectionTypeEEnum, RGConnectionType.class, "RGConnectionType");
 		addEEnumLiteral(rgConnectionTypeEEnum, RGConnectionType.INHERITANCE);
@@ -837,6 +836,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		addEEnumLiteral(rgConnectionTypeEEnum, RGConnectionType.ACTION);
 		addEEnumLiteral(rgConnectionTypeEEnum, RGConnectionType.REPLACE);
 		addEEnumLiteral(rgConnectionTypeEEnum, RGConnectionType.REMOVE);
+		addEEnumLiteral(rgConnectionTypeEEnum, RGConnectionType.CONDITION);
 
 		// Create resource
 		createResource(eNS_URI);
@@ -891,7 +891,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 			   "longDesc", "The type of a node",
 			   "required", "true",
 			   "type", "singleSelection",
-			   "values", "[\"AND\", \"OR\", \"ACTION\"]",
+			   "values", "[\"AND\", \"OR\"]",
 			   "position", "3"
 		   });
 		addAnnotation
@@ -970,7 +970,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 			   "longDesc", "The type of a connection",
 			   "required", "true",
 			   "type", "singleSelection",
-			   "values", "[\"Inheritance\", \"Composition\", \"Action\"]",
+			   "values", "[\"Inheritance\", \"Composition\", \"Action\", \"Condition\"]",
 			   "position", "2"
 		   });
 		addAnnotation

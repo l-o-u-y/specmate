@@ -11,6 +11,7 @@ import { EmptyModelValidator as RGEmptyModelValidator } from './rg/empty-model-v
 import { InvalidNodeComponentValidator } from './rg/invalid-node-component-validator';
 import { NodeCycleValidator as RGNodeCycleValidator } from './rg/node-cycle-validator';
 import { SingleNodesValidator as RGSingleNodesValidator } from './rg/single-nodes-validator';
+import { ConnectionValidator } from './rg/connection-validator';
 import { DecisionMultipleOutgoingConnectionsValidator } from './process/decision-multiple-outgoing-connections-validator';
 import { EndNodeNoOutgoingConnectionValidator } from './process/end-node-no-outgoing-connection-validator';
 import { EndNodeValidator } from './process/end-node-validator';
@@ -48,6 +49,7 @@ import { InvalidConditionTextValidator } from './process/invalid-condition-text'
     CEGSingleNodesValidator,
     RGEmptyModelValidator,
     RGSingleNodesValidator,
+    ConnectionValidator,
     EndNodeValidator,
     EndNodeNoOutgoingConnectionValidator,
     HasStepsValidator,

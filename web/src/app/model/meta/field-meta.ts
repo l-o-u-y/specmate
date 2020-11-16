@@ -275,7 +275,7 @@ export class MetaInfo {
 			longDesc: 'The type of a node',
 			required: true,
 			type: 'singleSelection',
-			values: '["AND", "OR", "ACTION"]',
+			values: '["AND", "OR"]',
 			position: '3'		
 		},			{
 			name: "component",
@@ -364,7 +364,7 @@ export class MetaInfo {
 			longDesc: 'The type of a connection',
 			required: true,
 			type: 'singleSelection',
-			values: '["Inheritance", "Composition", "Action"]',
+			values: '["Inheritance", "Composition", "Action", "Condition"]',
 			position: '2'		
 		},			{
 			name: "label",

@@ -79,17 +79,16 @@ export class EditorPopup {
                 } else {
                     StyleChanger.addStyle(cell, this.graph, EditorStyle.RG_CONNECTION_NEGATED_STYLE);
                 }
+                StyleChanger.removeStyle(cell, this.graph, EditorStyle.RG_CONNECTION_COMPOSITION_STYLE);
+                StyleChanger.removeStyle(cell, this.graph, EditorStyle.RG_CONNECTION_INHERITANCE_STYLE);
+                StyleChanger.removeStyle(cell, this.graph, EditorStyle.RG_CONNECTION_ACTION_STYLE);
+                StyleChanger.removeStyle(cell, this.graph, EditorStyle.RG_CONNECTION_CONDITION_STYLE);
+
                 if ((element as RGConnection).type == 'Composition') {
                     StyleChanger.addStyle(cell, this.graph, EditorStyle.RG_CONNECTION_COMPOSITION_STYLE);
-                    StyleChanger.removeStyle(cell, this.graph, EditorStyle.RG_CONNECTION_INHERITANCE_STYLE);
-                    StyleChanger.removeStyle(cell, this.graph, EditorStyle.RG_CONNECTION_ACTION_STYLE);
                 } else if ((element as RGConnection).type == 'Inheritance') {
-                    StyleChanger.removeStyle(cell, this.graph, EditorStyle.RG_CONNECTION_COMPOSITION_STYLE);
                     StyleChanger.addStyle(cell, this.graph, EditorStyle.RG_CONNECTION_INHERITANCE_STYLE);
-                    StyleChanger.removeStyle(cell, this.graph, EditorStyle.RG_CONNECTION_ACTION_STYLE);
                 } else if ((element as RGConnection).type == 'Action') {
-                    StyleChanger.removeStyle(cell, this.graph, EditorStyle.RG_CONNECTION_COMPOSITION_STYLE);
-                    StyleChanger.removeStyle(cell, this.graph, EditorStyle.RG_CONNECTION_INHERITANCE_STYLE);
                     StyleChanger.addStyle(cell, this.graph, EditorStyle.RG_CONNECTION_ACTION_STYLE);
                 }
                 this.graph.getModel().endUpdate();

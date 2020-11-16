@@ -35,10 +35,17 @@ public class RuleMatcher {
 		tagger = nlpService;
 		lang = language;
 		this.configService = configService;
-		loadRessources();
+	}
+	
+	public void loadCEGRessources() throws SpecmateInternalException {
+		loadRessources("CEG");
 	}
 
-	private void loadRessources() throws SpecmateInternalException {
+	public void loadRGRessources() throws SpecmateInternalException {
+		loadRessources("RG");
+	}
+
+	private void loadRessources(String type) throws SpecmateInternalException {
 		String[] paths = readURIStringsFromConfig();
 		String depPath = paths[0];
 		String posPath = paths[1];
@@ -49,7 +56,7 @@ public class RuleMatcher {
 			URI dep = getURI(depPath,  "resources/"+langCode+"/Dep_"+langCode+".spec");
 			URI pos = getURI(posPath,  "resources/"+langCode+"/Pos_"+langCode+".spec");
 			// TODO MA misc: switch case for RG/CEG
-			URI rule = getURI(rulePath,"resources/"+langCode+"/Rule_"+langCode+".spec");
+			URI rule = getURI(rulePath,"resources/"+langCode+"/Rule_"+type+"_"+langCode+".spec");
 
 			rules = new GenerateMatcherUtil().loadXTextResources(rule, dep, pos);
 		} catch (XTextException e) {

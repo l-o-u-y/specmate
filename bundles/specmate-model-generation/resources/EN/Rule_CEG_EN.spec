@@ -14,7 +14,12 @@ def rule LimitedCondition_2 {
 
 def subtrees Cause, Effect, TMP, Effect_SubA, Cause_SubA, Cause_SubB, Cause_SubC, Cause_SubD
 
-//  If the tool detects an error then the tool beeps.
+//  The button will display a spinning animation as soon as the user clicks the button.
+def rule Condition1_0 {
+	[Effect] - advmod -> RB:'soon':[TMP] - advmod -> RB:'as'
+	[TMP] - advcl -> [Cause] - mark -> IN:'as'
+}
+
 def rule Condition1_1 {
 	[Effect] - advcl -> [Cause]	- mark -> IN:'if'
 	[Effect] - advmod -> RB: 'then'
@@ -47,13 +52,16 @@ def rule Condition2_1 {
 	[Cause] - advmod -> RB: 'then'
 }
 
+def rule Condition2_1_SPACY {
+	[Effect] - advcl -> [Cause] - advmod -> WRB:'when'
+	[Effect] - advmod -> RB: 'then'
+}
 
 def rule Condition2_2 {
 	[Cause] - dobj -> [Effect]
 	[Cause] - advmod -> WRB:'when'
 	[Cause] - advmod -> RB: 'then'
 }
-
 
 def rule Condition2_3 {
 	[Cause] - advcl -> [Effect]
@@ -100,7 +108,6 @@ def rule Condition2_10 {
 	[Cause] - advmod -> WRB: 'when'
 	[Cause] - parataxis -> [Effect]
 }
-
 
 
 // The tool detects an error and for this reason the tool beeps .

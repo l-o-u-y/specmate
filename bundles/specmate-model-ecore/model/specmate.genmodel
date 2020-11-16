@@ -74,7 +74,6 @@
       <genEnums typeSafeEnumCompatible="false" ecoreEnum="specmate.ecore#//requirements/NodeType">
         <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/NodeType/AND"/>
         <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/NodeType/OR"/>
-        <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/NodeType/ACTION"/>
       </genEnums>
       <genEnums typeSafeEnumCompatible="false" ecoreEnum="specmate.ecore#//requirements/RGConnectionType">
         <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/RGConnectionType/Inheritance"/>
@@ -82,6 +81,7 @@
         <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/RGConnectionType/Action"/>
         <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/RGConnectionType/Replace"/>
         <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/RGConnectionType/Remove"/>
+        <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/RGConnectionType/Condition"/>
       </genEnums>
       <genClasses ecoreClass="specmate.ecore#//requirements/Requirement">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/Requirement/numberOfTests"/>

@@ -7,7 +7,7 @@ import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultTreeNode.Rule
 import com.specmate.cause_effect_patterns.parse.wrapper.MatchTreeVisitor;
 import com.specmate.cause_effect_patterns.parse.wrapper.NegationTreeNode;
 
-public class ConditionVariableNodeBuilder {
+public class ConditionVariableNodeBuilder extends NodeBuilder {
 
 	public MatchResultTreeNode buildNodes(MatchResultTreeNode root) {
 		NodeVisitor visitor = new NodeVisitor();
@@ -74,11 +74,8 @@ public class ConditionVariableNodeBuilder {
 
 		@Override
 		public void visit(LeafTreeNode node) {
-			if (node instanceof ConditionVariableNode) {
 				replacementNode = new ConditionVariableNode("", node.getContent());	
-			} else {
-				replacementNode = new LeafTreeNode(node.getContent(), node.getId());
-			}
+			
 			
 		}
 

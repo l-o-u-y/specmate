@@ -51,8 +51,8 @@ public class CEGGraphLayouter extends GraphLayouter<CEGModel, CEGNode, CEGConnec
 
 			IModelNode n;
 
-			String condition = node.getCondition();
-			String variable = node.getVariable();
+			String condition = node.getSecondaryText();
+			String variable = node.getPrimaryText();
 
 			if (graph.isInnerNode(node)) {
 				condition = innerConditionString();

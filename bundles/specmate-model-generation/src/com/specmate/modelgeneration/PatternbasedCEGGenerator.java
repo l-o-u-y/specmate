@@ -24,6 +24,7 @@ import com.specmate.modelgeneration.stages.MatcherPostProcesser;
 import com.specmate.modelgeneration.stages.RuleMatcher;
 import com.specmate.modelgeneration.stages.TextPreProcessor;
 import com.specmate.modelgeneration.stages.graph.Graph;
+import com.specmate.modelgeneration.stages.processors.ConditionVariableNodeBuilder;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.NodeType;
@@ -44,6 +45,7 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 		creation = new CEGCreation();
 		this.lang = lang;
 		matcher = new RuleMatcher(this.tagger, configService, lang);
+		matcher.loadCEGRessources();
 		log = logService;
 		preProcessor = new TextPreProcessor(lang, tagger);
 	}
@@ -65,7 +67,7 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 					.map(builder::buildTree).filter(Optional::isPresent).map(Optional::get)
 					.collect(Collectors.toList());
 
-			final MatcherPostProcesser matchPostProcesser = new MatcherPostProcesser(lang);
+			final MatcherPostProcesser matchPostProcesser = new MatcherPostProcesser(lang, new ConditionVariableNodeBuilder());
 			GraphBuilder graphBuilder = new GraphBuilder();
 			CEGGraphLayouter graphLayouter = new CEGGraphLayouter(lang, creation);
 

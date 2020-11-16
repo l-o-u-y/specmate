@@ -99,19 +99,6 @@ export class ShapeProvider extends ProviderBase {
         this.styles.push((element: { className: string }) => this.shapeMap[element.className]);
 
         this.styles.push((element: { className: string }) => {
-            if (Type.is(element, RGNode)) {
-                if ((element as RGNode).type == 'ACTION') {
-                    return {
-                        size: undefined,
-                        style: EditorStyle.BASE_ACTION_NODE_STYLE,
-                        text: undefined
-                    };
-                }
-            }
-        });
-
-
-        this.styles.push((element: { className: string }) => {
             if (Type.is(element, RGConnection)) {
                 if ((element as RGConnection).type == 'Composition') {
                     return {
@@ -129,6 +116,12 @@ export class ShapeProvider extends ProviderBase {
                     return {
                         size: undefined,
                         style: EditorStyle.RG_CONNECTION_ACTION_STYLE,
+                        text: undefined
+                    };
+                } else if ((element as RGConnection).type == 'Condition') {
+                    return {
+                        size: undefined,
+                        style: EditorStyle.RG_CONNECTION_CONDITION_STYLE,
                         text: undefined
                     };
                 }

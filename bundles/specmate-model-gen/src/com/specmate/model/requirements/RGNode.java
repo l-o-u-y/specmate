@@ -35,7 +35,7 @@ public interface RGNode extends IModelNode {
 	 * @see com.specmate.model.requirements.NodeType
 	 * @see #setType(NodeType)
 	 * @see com.specmate.model.requirements.RequirementsPackage#getRGNode_Type()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Type' longDesc='The type of a node' required='true' type='singleSelection' values='[\"AND\", \"OR\", \"ACTION\"]' position='3'"
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Type' longDesc='The type of a node' required='true' type='singleSelection' values='[\"AND\", \"OR\"]' position='3'"
 	 * @generated
 	 */
 	NodeType getType();
