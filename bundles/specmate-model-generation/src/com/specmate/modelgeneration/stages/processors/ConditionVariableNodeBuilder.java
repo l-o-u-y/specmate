@@ -60,13 +60,13 @@ public class ConditionVariableNodeBuilder extends NodeBuilder {
 			} else {
 				node.getFirstArgument().acceptVisitor(this);
 				if (replacementNode != null) {
-					node.setFirstArguement(replacementNode);
+					node.setFirstArgument(replacementNode);
 					replacementNode = null;
 				}
 
 				node.getSecondArgument().acceptVisitor(this);
 				if (replacementNode != null) {
-					node.setSecondArguement(replacementNode);
+					node.setSecondArgument(replacementNode);
 					replacementNode = null;
 				}
 			}

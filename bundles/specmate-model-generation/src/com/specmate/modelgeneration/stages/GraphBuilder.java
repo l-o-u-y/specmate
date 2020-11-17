@@ -49,15 +49,34 @@ public class GraphBuilder {
 	}
 
 	public synchronized void connectRGNodes(RGNodes parent, RGNodes child, MatchResultTreeNode node) {
+		final RGNodes modifiedChild = new RGNodes();
+		modifiedChild.positiveNodes.addAll(child.positiveNodes.stream()
+				.filter(e -> e.getParentEdges().stream()
+						.filter(f -> f.getType().equals(RGConnectionType.ACTION)
+								|| f.getType().equals(RGConnectionType.COMPOSITION)
+								|| f.getType().equals(RGConnectionType.INHERITANCE))
+						.collect(Collectors.toList()).size() == 0)
+				.collect(Collectors.toList()));
+
+		modifiedChild.negativeNodes.addAll(child.negativeNodes.stream()
+				.filter(e -> e.getParentEdges().stream()
+						.filter(f -> f.getType().equals(RGConnectionType.ACTION)
+								|| f.getType().equals(RGConnectionType.COMPOSITION)
+								|| f.getType().equals(RGConnectionType.INHERITANCE))
+						.collect(Collectors.toList()).size() == 0)
+				.collect(Collectors.toList()));
+		
+		
+		
 		for (GraphNode p : parent.positiveNodes) {
 			// sets parent GraphNode type to child RGNode type
 			p.setType(child.nodeType);
 			String label = getLabel(node).equals("null;-1") ? null : getLabel(node).split(";")[0];
 			if (!p.getPrimaryText().equals("")) {
-				for (GraphNode c : child.positiveNodes) {
+				for (GraphNode c : modifiedChild.positiveNodes) {
 					p.connectTo(c, getConnectionType(node), false, label);
 				}
-				for (GraphNode c : child.negativeNodes) {
+				for (GraphNode c : modifiedChild.negativeNodes) {
 					p.connectTo(c, getConnectionType(node), true, label);
 				}
 			}

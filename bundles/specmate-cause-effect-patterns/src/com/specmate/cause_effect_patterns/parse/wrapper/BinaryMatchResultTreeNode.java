@@ -21,7 +21,7 @@ public class BinaryMatchResultTreeNode extends MatchResultTreeNode {
 		return this.left;
 	}
 
-	public void setFirstArguement(MatchResultTreeNode node) {
+	public void setFirstArgument(MatchResultTreeNode node) {
 		this.left = node;
 	}
 
@@ -29,7 +29,7 @@ public class BinaryMatchResultTreeNode extends MatchResultTreeNode {
 		return this.right;
 	}
 
-	public void setSecondArguement(MatchResultTreeNode node) {
+	public void setSecondArgument(MatchResultTreeNode node) {
 		this.right = node;
 	}
 

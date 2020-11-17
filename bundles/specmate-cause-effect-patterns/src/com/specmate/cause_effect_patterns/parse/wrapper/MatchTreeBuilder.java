@@ -53,7 +53,7 @@ public class MatchTreeBuilder {
 		public static final String OR = "_OR";
 		public static final String AND = "_AND";
 	}
-	
+
 	private boolean isTmp(MatchResult result) {
 		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.TMP);
 		boolean subMatches = result.hasSubmatch(SubtreeNames.HEAD);
@@ -84,10 +84,10 @@ public class MatchTreeBuilder {
 
 	private boolean isReplace(MatchResult result) {
 		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.REPLACE);
-		boolean subMatches = result.hasSubmatch(SubtreeNames.OLD) &&
-				result.hasSubmatch(SubtreeNames.NEW);
+		boolean subMatches = result.hasSubmatch(SubtreeNames.OLD) && result.hasSubmatch(SubtreeNames.NEW);
 		return name && subMatches;
 	}
+
 	private boolean isRemove(MatchResult result) {
 		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.REMOVE);
 		boolean subMatches = // result.hasSubmatch(SubtreeNames.PARENT) &&
@@ -246,7 +246,6 @@ public class MatchTreeBuilder {
 		return null;
 	}
 
-
 	public Optional<MatchResultTreeNode> getThirdArgument(MatchResult result) {
 		String name = getThirdArgumentName(result);
 		if (name != null && result.getSubmatch(name) != null) {
@@ -256,50 +255,50 @@ public class MatchTreeBuilder {
 	}
 
 	public String getLabel(MatchResult result) {
-				String name = getThirdArgumentName(result);
-				String text = null;
-				if (name != null && result.getSubmatch(name) != null) {
-					Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
-					if (tokens.size() == 0) {
-		
-					} else {
-						for (Token t: tokens) {
-							text = t.getCoveredText();
-							break;
-						}
-					}
-		
+		String name = getThirdArgumentName(result);
+		String text = null;
+		if (name != null && result.getSubmatch(name) != null) {
+			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
+			if (tokens.size() == 0) {
+
+			} else {
+				for (Token t : tokens) {
+					text = t.getCoveredText();
+					break;
 				}
-				name = SubtreeNames.LABEL;
+			}
+
+		}
+		name = SubtreeNames.LABEL;
 
 		if (result.getSubmatch(name) != null) {
-						if (text == null) {
-								text = "";
-							} else {
-								text = text + " ";
-							}
+			if (text == null) {
+				text = "";
+			} else {
+				text = text + " ";
+			}
 
 			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
 			if (tokens.size() == 0) {
 
 			} else {
-				for (Token t: tokens) {
+				for (Token t : tokens) {
 					text = text + t.getCoveredText();
 					break;
 				}
 			}
 
 		}
-		return text  + ";" + getLabelPosition(result);
+		return text + ";" + getLabelPosition(result);
 	}
-	
+
 	private int getLabelPosition(MatchResult result) {
 		String name = getThirdArgumentName(result);
 		int pos = 0;
 		if (name != null && result.getSubmatch(name) != null) {
 			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
 			if (tokens.size() != 0) {
-				for (Token t: tokens) {
+				for (Token t : tokens) {
 					return t.getEnd();
 				}
 			}
@@ -308,7 +307,7 @@ public class MatchTreeBuilder {
 		if (result.getSubmatch(name) != null) {
 			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
 			if (tokens.size() != 0) {
-				for (Token t: tokens) {
+				for (Token t : tokens) {
 					return t.getEnd();
 				}
 			}
@@ -338,7 +337,6 @@ public class MatchTreeBuilder {
 		} else if (isVerbPreposition(result)) {
 			return RuleType.VERB_PREPOSITION;
 		}
-
 
 		// TODO MA subtree matchers
 		else if (isInheritance(result)) {
@@ -376,15 +374,15 @@ public class MatchTreeBuilder {
 
 		// Binary
 		if (isConditionVariable(result) || isVerbObject(result) || isVerbPreposition(result) || isConjunction(result)
-				|| isCondition(result) || isLimitedCondition(result)
-				|| isComposition(result) || isInheritance(result)) {
+				|| isCondition(result) || isLimitedCondition(result) || isComposition(result)
+				|| isInheritance(result)) {
 			MatchResultTreeNode left = getFirstArgument(result).get();
 			MatchResultTreeNode right = getSecondArgument(result).get();
 
 			String label = getLabel(result);
 			return Optional.of(new BinaryMatchResultTreeNode(left, right, getType(result), label));
 		}
-		
+
 //		// TODO MA switch/case CEG/RG for RG we need it this way, the other way around
 //		// because the effect is the main sentence -> effect verb = root
 //		if (isCondition(result)) {
@@ -401,15 +399,23 @@ public class MatchTreeBuilder {
 			MatchResultTreeNode verb = getThirdArgument(result).get();
 			MatchResultTreeNode subj = getFirstArgument(result).isPresent() ? getFirstArgument(result).get() : null;
 
-
 			String label = getLabel(result);
-			
+
 			BinaryMatchResultTreeNode node;
-			
+
 			if (subj != null) {
 				node = new BinaryMatchResultTreeNode(subj, obj, getType(result), label);
 			} else {
-				node = new BinaryMatchResultTreeNode(new LeafTreeNode(""), obj, getType(result), label);	
+				node = new BinaryMatchResultTreeNode(new LeafTreeNode(""), obj, getType(result), label);
+			}
+			// TODO MA: this is a hack to preserve the verb subtree BUT it doesn't work for verschachtelte BinaryTrees
+			if (verb instanceof BinaryMatchResultTreeNode) {
+				if (((BinaryMatchResultTreeNode) verb).getFirstArgument() instanceof LeafTreeNode) {
+					((BinaryMatchResultTreeNode) verb).setFirstArgument(node);
+				} else if (((BinaryMatchResultTreeNode) verb).getSecondArgument() instanceof LeafTreeNode) {
+					((BinaryMatchResultTreeNode) verb).setSecondArgument(node);
+				} 
+				return Optional.of(verb);
 			}
 			return Optional.of(node);
 		}
@@ -427,10 +433,8 @@ public class MatchTreeBuilder {
 		}
 
 		// Just Text
-		LeafTreeNode leaf = new LeafTreeNode(
-				result.getMatchTree().getRepresentationString(false), 
-				((Token)result.getMatchTree().getHeads().toArray()[0]).getEnd() + ""
-				);
+		LeafTreeNode leaf = new LeafTreeNode(result.getMatchTree().getRepresentationString(false),
+				((Token) result.getMatchTree().getHeads().toArray()[0]).getEnd() + "");
 
 		return Optional.of(leaf);
 	}

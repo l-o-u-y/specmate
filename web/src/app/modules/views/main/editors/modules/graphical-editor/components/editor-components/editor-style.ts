@@ -92,11 +92,10 @@ export class EditorStyle {
 
     private static initStyles() {
 
-        EditorStyle.VALID_STYLE[mx.mxConstants.STYLE_STROKE_OPACITY] = '100';
+        // EditorStyle.VALID_STYLE[mx.mxConstants.STYLE_STROKE_OPACITY] = '100';
         EditorStyle.VALID_STYLE[mx.mxConstants.STYLE_STROKEWIDTH] = '2';
-        // EditorStyle.VALID_STYLE[mx.mxConstants.STYLE_STROKECOLOR] = '#000000';
 
-        EditorStyle.INVALID_STYLE[mx.mxConstants.STYLE_STROKE_OPACITY] = '100';
+        // EditorStyle.INVALID_STYLE[mx.mxConstants.STYLE_STROKE_OPACITY] = '100';
         EditorStyle.INVALID_STYLE[mx.mxConstants.STYLE_STROKEWIDTH] = '2';
         EditorStyle.INVALID_STYLE[mx.mxConstants.STYLE_STROKECOLOR] = '#ff0000';
 
@@ -105,12 +104,12 @@ export class EditorStyle {
         EditorStyle.INNER_STYLE[mx.mxConstants.STYLE_FILLCOLOR] = '#d8d8d8';
 
         EditorStyle.EDGE_HIGHLIGHT_STYLE[mx.mxConstants.STYLE_STROKE_OPACITY] = '100';
-        EditorStyle.EDGE_HIGHLIGHT_STYLE[mx.mxConstants.STYLE_STROKEWIDTH] = '3';
+        EditorStyle.EDGE_HIGHLIGHT_STYLE[mx.mxConstants.STYLE_STROKEWIDTH] = '4';
 
-        EditorStyle.EDGE_HIGHLIGHT_STYLE[mx.mxConstants.STYLE_STROKE_OPACITY] = '80';
+        EditorStyle.EDGE_DIM_STYLE[mx.mxConstants.STYLE_STROKE_OPACITY] = '50';
         EditorStyle.EDGE_DIM_STYLE[mx.mxConstants.STYLE_STROKEWIDTH] = '2';
 
-        EditorStyle.RG_CONNECTION_CONDITION_STYLE_OBJ[mx.mxConstants.STYLE_STROKECOLOR] = '#1ca0e9';
+        EditorStyle.RG_CONNECTION_CONDITION_STYLE_OBJ[mx.mxConstants.STYLE_STROKECOLOR] = '#0057e9';
     }
 
     public static initEditorStyles(graph: mxgraph.mxGraph) {

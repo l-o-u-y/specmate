@@ -204,15 +204,3 @@ def rule Negation_2 {
 def rule Negation_3 {
 	[Head] - dobj-> [Head_tmp] - det -> DT:'no'
 }
-
-/* def subtrees Verb, Object
-
-def rule VerbObject {
-	[Verb] - dobj -> [Object]
-}
-	
-def subtrees Preposition
-
-def rule VerbPreposition {
-	[Verb] - prep -> [Preposition]
-} */

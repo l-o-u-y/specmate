@@ -364,7 +364,8 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 						tree.getType().isInheritance() || 
 						tree.getType().isAction() ||
 						tree.getType().isUpdate() ||
-						tree.getType().isCondition()) {
+						tree.getType().isCondition() ||
+						tree.getType().isConjunction()) {
 					Graph graph = graphBuilder.buildRGGraph((BinaryMatchResultTreeNode) tree);
 					model = (RGModel) graphLayouter.createModel(graph, model);
 					 candidates.add(Pair.of(text, model));
