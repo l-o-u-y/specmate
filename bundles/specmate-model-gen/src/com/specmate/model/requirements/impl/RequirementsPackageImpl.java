@@ -827,6 +827,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 
 		// Initialize enums and add enum literals
 		initEEnum(nodeTypeEEnum, NodeType.class, "NodeType");
+		addEEnumLiteral(nodeTypeEEnum, NodeType.NONE);
 		addEEnumLiteral(nodeTypeEEnum, NodeType.AND);
 		addEEnumLiteral(nodeTypeEEnum, NodeType.OR);
 

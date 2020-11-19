@@ -33,7 +33,7 @@ public class CEGNodeImpl extends IModelNodeImpl implements CEGNode {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final NodeType TYPE_EDEFAULT = NodeType.AND;
+	protected static final NodeType TYPE_EDEFAULT = NodeType.NONE;
 
 	/**
 	 * The default value of the '{@link #getVariable() <em>Variable</em>}' attribute.

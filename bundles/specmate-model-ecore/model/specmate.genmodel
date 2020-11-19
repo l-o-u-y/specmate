@@ -72,6 +72,7 @@
     </nestedGenPackages>
     <nestedGenPackages prefix="Requirements" disposableProviderFactory="true" ecorePackage="specmate.ecore#//requirements">
       <genEnums typeSafeEnumCompatible="false" ecoreEnum="specmate.ecore#//requirements/NodeType">
+        <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/NodeType/NONE"/>
         <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/NodeType/AND"/>
         <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/NodeType/OR"/>
       </genEnums>

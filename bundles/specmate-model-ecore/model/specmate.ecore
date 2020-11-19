@@ -240,8 +240,9 @@
     </eClassifiers>
 
     <eClassifiers xsi:type="ecore:EEnum" name="NodeType">
-      <eLiterals name="AND"/>
-      <eLiterals name="OR" value="1"/>
+      <eLiterals name="NONE"/>
+      <eLiterals name="AND" value="1"/>
+      <eLiterals name="OR" value="2"/>
     </eClassifiers>
 
     <eClassifiers xsi:type="ecore:EClass" name="CEGConnection" eSuperTypes="#//base/IModelConnection">

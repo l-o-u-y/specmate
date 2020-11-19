@@ -126,20 +126,6 @@ def rule Action_Passive_1 {
 	verb:[Action] - nsubjpass -> noun:[Target]
 }
 
-
-/* def rule TMP_1 {
-	[Head] - acl -> [TMP]
-}
-def rule TMP_2 {
-	[Head] - advmod -> [TMP]
-}
-def rule TMP_3 {
-	[Head] - advcl -> [TMP]
-}
-def rule TMP_3 {
-	[Head] - mark -> [TMP]
-} */
-
 def subtrees  PartA, PartB, Head, Head_tmp
 def subtrees  PartA_SubA, PartB_SubA
 
@@ -203,4 +189,18 @@ def rule Negation_2 {
 
 def rule Negation_3 {
 	[Head] - dobj-> [Head_tmp] - det -> DT:'no'
+}
+
+
+def rule TMP_1 {
+	[Head] - acl -> [TMP]
+}
+def rule TMP_2 {
+	[Head] - advmod -> [TMP]
+}
+def rule TMP_3 {
+	[Head] - advcl -> [TMP]
+}
+def rule TMP_3 {
+	[Head] - mark -> [TMP]
 }

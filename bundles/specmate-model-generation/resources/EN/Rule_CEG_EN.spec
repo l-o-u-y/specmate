@@ -12,7 +12,7 @@ def rule LimitedCondition_2 {
 }
 
 
-def subtrees Cause, Effect, TMP, Effect_SubA, Cause_SubA, Cause_SubB, Cause_SubC, Cause_SubD
+def subtrees Cause, Effect, Head, TMP, Effect_SubA, Cause_SubA, Cause_SubB, Cause_SubC, Cause_SubD
 
 //  The button will display a spinning animation as soon as the user clicks the button.
 def rule Condition1_0 {
@@ -366,4 +366,19 @@ def subtrees Preposition
 
 def rule VerbPreposition {
 	[Verb] - prep -> [Preposition]
+}
+
+
+
+def rule TMP_1 {
+	[Head] - acl -> [TMP]
+}
+def rule TMP_2 {
+	[Head] - advmod -> [TMP]
+}
+def rule TMP_3 {
+	[Head] - advcl -> [TMP]
+}
+def rule TMP_3 {
+	[Head] - mark -> [TMP]
 }

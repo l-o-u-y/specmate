@@ -101,7 +101,6 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 			RGNode from = nodeMap.get(edge.getFrom());
 			RGNode to = nodeMap.get(edge.getTo());
 
-
 			// connect chunks
 			RGChunk fromChunk = null;
 			RGChunk toChunk = null;

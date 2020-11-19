@@ -38,7 +38,7 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final NodeType TYPE_EDEFAULT = NodeType.AND;
+	protected static final NodeType TYPE_EDEFAULT = NodeType.NONE;
 
 	/**
 	 * The default value of the '{@link #getComponent() <em>Component</em>}' attribute.

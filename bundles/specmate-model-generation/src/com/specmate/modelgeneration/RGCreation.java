@@ -208,13 +208,18 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		component = this.processWord(component);
 		EList<IContentElement> list = model.getContents();
 		// TODO MA AND/OR update of nodes
+		System.out.println("----------------");
 		System.out.println(component);
 		System.out.println(type);
 		
 		for (IContentElement rgNode : list) {
 			if (rgNode instanceof RGNode) {
-				if (((RGNode) rgNode).getComponent().equals(component.toLowerCase()) // && ((RGNode) rgNode).getType().equals(type)
-						&& !((RGNode) rgNode).isTemporary()) {
+				System.out.println(((RGNode) rgNode).getComponent());
+				System.out.println(((RGNode) rgNode).getType());
+				if (((RGNode) rgNode).getComponent().equals(component.toLowerCase()) && 
+						(((RGNode) rgNode).getType().equals(NodeType.NONE) || ((RGNode) rgNode).getType().equals(type)) &&
+						!((RGNode) rgNode).isTemporary()) {
+					((RGNode) rgNode).setType(type);
 					return (RGNode) rgNode;
 				}
 			}

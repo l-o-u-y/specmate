@@ -3,7 +3,7 @@ package com.specmate.cause_effect_patterns.parse.wrapper;
 public abstract class MatchResultTreeNode {
 	public static enum RuleType {
 		LIMITED_CONDITION, CONDITION, CONJUNCTION_AND, CONJUNCTION_OR, CONJUNCTION_NOR, CONJUNCTION_XOR, NEGATION,
-		CONDITION_VARIABLE, VERB_OBJECT, VERB_PREPOSITION, COMPOSITION, INHERITANCE, ACTION, REPLACE, REMOVE;
+		CONDITION_VARIABLE, VERB_OBJECT, VERB_PREPOSITION, COMPOSITION, INHERITANCE, ACTION_PRE, ACTION_POST, REPLACE, REMOVE;
 
 		public boolean isComposition() {
 			return equals(COMPOSITION);
@@ -14,8 +14,14 @@ public abstract class MatchResultTreeNode {
 		}
 
 		public boolean isAction() {
-			return equals(ACTION);
-		}
+						return isActionPost() || isActionPre();
+					}
+					public boolean isActionPre() {
+						return equals(ACTION_PRE);
+					}
+					public boolean isActionPost() {
+						return equals(ACTION_POST);
+			 		}
 		
 		public boolean isUpdate() {
 			return isRemove() || isReplace();
@@ -71,21 +77,22 @@ public abstract class MatchResultTreeNode {
 			case INHERITANCE:
 				return 4;
 			case REPLACE:
-				return 5;
 			case REMOVE:
 				return 5;
-			case ACTION:
+			case ACTION_PRE:
+				return 6;
+			case ACTION_POST:
 				return 6;
 			case CONJUNCTION_XOR:
-				return 8;
+				return -1;//7;
 			case CONJUNCTION_NOR:
-				return 9;
+				return -1;//8;
 			case CONJUNCTION_OR:
-				return 10;
+				return -1;//9;
 			case CONJUNCTION_AND:
-				return 11;
+				return -1;//10;
 			case CONDITION_VARIABLE:
-				return 12;
+				return -1;//11;
 			case VERB_OBJECT:
 				return 13;
 			case VERB_PREPOSITION:

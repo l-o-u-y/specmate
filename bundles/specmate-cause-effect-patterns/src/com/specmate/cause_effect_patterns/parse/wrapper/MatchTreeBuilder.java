@@ -344,7 +344,7 @@ public class MatchTreeBuilder {
 		} else if (isComposition(result)) {
 			return RuleType.COMPOSITION;
 		} else if (isAction(result)) {
-			return RuleType.ACTION;
+			return RuleType.ACTION_PRE;
 		} else if (isReplace(result)) {
 			return RuleType.REPLACE;
 		} else if (isRemove(result)) {
@@ -400,24 +400,31 @@ public class MatchTreeBuilder {
 			MatchResultTreeNode subj = getFirstArgument(result).isPresent() ? getFirstArgument(result).get() : null;
 
 			String label = getLabel(result);
+						if (subj == null) {
+								return Optional.of(new BinaryMatchResultTreeNode(obj, verb, RuleType.ACTION_POST, label));
+						
+		} else {
+							MatchResultTreeNode node = new BinaryMatchResultTreeNode(obj, verb, RuleType.ACTION_POST, "");
+							return Optional.of(new BinaryMatchResultTreeNode(subj, node, RuleType.ACTION_PRE, label));	
+						}
 
-			BinaryMatchResultTreeNode node;
-
-			if (subj != null) {
-				node = new BinaryMatchResultTreeNode(subj, obj, getType(result), label);
-			} else {
-				node = new BinaryMatchResultTreeNode(new LeafTreeNode(""), obj, getType(result), label);
-			}
-			// TODO MA: this is a hack to preserve the verb subtree BUT it doesn't work for verschachtelte BinaryTrees
-			if (verb instanceof BinaryMatchResultTreeNode) {
-				if (((BinaryMatchResultTreeNode) verb).getFirstArgument() instanceof LeafTreeNode) {
-					((BinaryMatchResultTreeNode) verb).setFirstArgument(node);
-				} else if (((BinaryMatchResultTreeNode) verb).getSecondArgument() instanceof LeafTreeNode) {
-					((BinaryMatchResultTreeNode) verb).setSecondArgument(node);
-				} 
-				return Optional.of(verb);
-			}
-			return Optional.of(node);
+//			BinaryMatchResultTreeNode node;
+//
+//			if (subj != null) {
+//				node = new BinaryMatchResultTreeNode(subj, obj, getType(result), label);
+//			} else {
+//				node = new BinaryMatchResultTreeNode(new LeafTreeNode(""), obj, getType(result), label);
+//			}
+//			// TODO MA: this is a hack to preserve the verb subtree BUT it doesn't work for verschachtelte BinaryTrees
+//			if (verb instanceof BinaryMatchResultTreeNode) {
+//				if (((BinaryMatchResultTreeNode) verb).getFirstArgument() instanceof LeafTreeNode) {
+//					((BinaryMatchResultTreeNode) verb).setFirstArgument(node);
+//				} else if (((BinaryMatchResultTreeNode) verb).getSecondArgument() instanceof LeafTreeNode) {
+//					((BinaryMatchResultTreeNode) verb).setSecondArgument(node);
+//				} 
+//				return Optional.of(verb);
+//			}
+//			return Optional.of(node);
 		}
 		if (isUpdate(result)) {
 			if (isReplace(result)) {

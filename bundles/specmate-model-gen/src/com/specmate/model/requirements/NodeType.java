@@ -19,6 +19,14 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum NodeType implements Enumerator {
 	/**
+	 * The '<em><b>NONE</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #NONE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	NONE(0, "NONE", "NONE"), /**
 	 * The '<em><b>AND</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -26,7 +34,7 @@ public enum NodeType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	AND(0, "AND", "AND"),
+	AND(1, "AND", "AND"),
 
 	/**
 	 * The '<em><b>OR</b></em>' literal object.
@@ -36,7 +44,18 @@ public enum NodeType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	OR(1, "OR", "OR");
+	OR(2, "OR", "OR");
+
+	/**
+	 * The '<em><b>NONE</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #NONE
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
+	public static final int NONE_VALUE = 0;
 
 	/**
 	 * The '<em><b>AND</b></em>' literal value.
@@ -47,7 +66,7 @@ public enum NodeType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int AND_VALUE = 0;
+	public static final int AND_VALUE = 1;
 
 	/**
 	 * The '<em><b>OR</b></em>' literal value.
@@ -58,7 +77,7 @@ public enum NodeType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int OR_VALUE = 1;
+	public static final int OR_VALUE = 2;
 
 	/**
 	 * An array of all the '<em><b>Node Type</b></em>' enumerators.
@@ -68,6 +87,7 @@ public enum NodeType implements Enumerator {
 	 */
 	private static final NodeType[] VALUES_ARRAY =
 		new NodeType[] {
+			NONE,
 			AND,
 			OR,
 		};
@@ -126,6 +146,7 @@ public enum NodeType implements Enumerator {
 	 */
 	public static NodeType get(int value) {
 		switch (value) {
+			case NONE_VALUE: return NONE;
 			case AND_VALUE: return AND;
 			case OR_VALUE: return OR;
 		}

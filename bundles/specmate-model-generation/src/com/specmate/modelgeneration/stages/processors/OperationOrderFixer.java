@@ -15,14 +15,14 @@ public class OperationOrderFixer extends MatchTreeVisitor {
 		
 		RuleType type 		= node.getType();
 		RuleType typeChild  = node.getFirstArgument().getType();
-		if(typeChild != null && type.getPriority() > typeChild.getPriority() && !typeChild.isNegation()) {
+		if(typeChild != null && type.getPriority() > typeChild.getPriority() && typeChild.getPriority()!=-1) {
 			// Left Swap
 			node.leftSwap();
 			node.getFirstArgument().acceptVisitor(this);
 		}
 		
 		typeChild = node.getSecondArgument().getType();
-		if(typeChild != null && type.getPriority() > typeChild.getPriority() && !typeChild.isNegation()) {
+		if(typeChild != null && type.getPriority() > typeChild.getPriority() && typeChild.getPriority()!=-1) {
 			// Right Swap
 			node.rightSwap();
 			node.acceptVisitor(this);
