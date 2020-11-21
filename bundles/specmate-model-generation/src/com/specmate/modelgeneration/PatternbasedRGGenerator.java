@@ -1,9 +1,6 @@
 package com.specmate.modelgeneration;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -286,7 +283,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 
 //		printModelMapping(originalModel);
 		
-		cleanupText(originalModel);
+//		cleanupText(originalModel);
 		
 
 		// we needed to have chunk.id == position in text so we could assign nodes
@@ -438,7 +435,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 
 		// remove residuals (nodes with no corresponding chunks + connections)
 		List<RGNode> removeNodes = originalModel.getContents().stream().filter(c -> c instanceof RGNode)
-				.map(c -> (RGNode) c).filter(c -> c.getChunks().size() == 0).collect(Collectors.toList());
+				.map(c -> (RGNode) c).filter(c -> !c.getComponent().contains("Inner Node") && c.getChunks().size() == 0).collect(Collectors.toList());
 		//originalModel.getContents().removeAll(removeNodes);
 
 		for (RGNode node : removeNodes) {

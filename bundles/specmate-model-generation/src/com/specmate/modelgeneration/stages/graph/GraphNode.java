@@ -19,7 +19,7 @@ public class GraphNode {
 	private List<GraphEdge> childEdges;
 
 	GraphNode(Graph graph) {
-		this(graph, NodeType.AND);
+		this(graph, NodeType.NONE);
 	}
 
 	GraphNode(Graph graph, NodeType type) {

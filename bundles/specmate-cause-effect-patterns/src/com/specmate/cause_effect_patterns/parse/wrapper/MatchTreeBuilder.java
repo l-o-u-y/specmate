@@ -38,7 +38,6 @@ public class MatchTreeBuilder {
 		public static final String INHERITANCE = "Inheritance";
 		public static final String COMPOSITION = "Composition";
 		public static final String ACTION = "Action";
-		public static final String UPDATE = "Update";
 		public static final String REPLACE = "Replace";
 		public static final String REMOVE = "Remove";
 		public static final String LIMITED_CONDITION = "LimitedCondition";
@@ -294,7 +293,6 @@ public class MatchTreeBuilder {
 
 	private int getLabelPosition(MatchResult result) {
 		String name = getThirdArgumentName(result);
-		int pos = 0;
 		if (name != null && result.getSubmatch(name) != null) {
 			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
 			if (tokens.size() != 0) {

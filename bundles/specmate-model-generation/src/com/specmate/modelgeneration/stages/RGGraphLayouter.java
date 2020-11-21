@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.eclipse.emf.common.util.EList;
 import org.osgi.service.log.LogService;
 
-import com.specmate.model.base.IContentElement;
-import com.specmate.model.base.IModelConnection;
 import com.specmate.model.requirements.RGChunk;
 import com.specmate.model.requirements.RGConnection;
 import com.specmate.model.requirements.RGModel;

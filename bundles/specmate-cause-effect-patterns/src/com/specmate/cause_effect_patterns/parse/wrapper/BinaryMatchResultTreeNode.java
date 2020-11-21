@@ -36,6 +36,10 @@ public class BinaryMatchResultTreeNode extends MatchResultTreeNode {
 	protected void setType(RuleType type) {
 		this.type = type;
 	}
+	
+	public void clearLabel() {
+		this.label = "null;-1";
+	}
 
 	public void leftSwap() {
 		BinaryMatchResultTreeNode left = (BinaryMatchResultTreeNode) getFirstArgument();

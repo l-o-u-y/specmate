@@ -11,6 +11,7 @@ public class Graph {
 	public final List<GraphEdge> edges;
 	public final List<GraphNode> nodes;
 	private final Set<GraphNode> innerNodes;
+	int counter = 0;
 
 	public Graph() {
 		edges = new Vector<>();
@@ -26,8 +27,16 @@ public class Graph {
 		return result;
 	}
 
-	public GraphNode createInnerNode( NodeType type) {
+	public GraphNode createNode(String variable, NodeType type) {
 		GraphNode result = new GraphNode(this, type);
+		result.setPrimaryText(variable);
+		nodes.add(result);
+		return result;
+	}
+
+	public GraphNode createInnerNode(NodeType type) {
+		GraphNode result = new GraphNode(this, type);
+		result.setPrimaryText("Inner Node " + counter++);
 		nodes.add(result);
 		innerNodes.add(result);
 		return result;
