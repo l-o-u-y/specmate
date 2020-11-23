@@ -198,9 +198,14 @@ def rule TMP_1 {
 def rule TMP_2 {
 	[Head] - advmod -> [TMP]
 }
-def rule TMP_3 {
-	[Head] - advcl -> [TMP]
+def rule Conjunction_AND_TEMP_3 {
+	[PartA] - advcl -> [PartB]
 }
 def rule TMP_3 {
 	[Head] - mark -> [TMP]
+}
+// ex: we want (TMP, root) to do (Head) something
+def rule TMP_4 {
+	[TMP] - xcomp -> [Head]
+	[Head] - aux -> TO:'to'
 }

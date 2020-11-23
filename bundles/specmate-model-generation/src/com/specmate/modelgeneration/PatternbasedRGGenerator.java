@@ -24,7 +24,6 @@ import com.specmate.common.exception.SpecmateException;
 import com.specmate.config.api.IConfigService;
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IModelConnection;
-import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RGChunk;
 import com.specmate.model.requirements.RGConnection;
 import com.specmate.model.requirements.RGModel;
@@ -47,7 +46,6 @@ import com.specmate.nlp.api.INLPService;
 import com.specmate.nlp.util.NLPUtil;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
-import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 
 public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 	private INLPService tagger;
@@ -196,34 +194,87 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		return model;
 	}
 
-	public void addNounsToCreation(RGModel model, JCas tagResult) {
-		HashSet<String> nouns = new HashSet<String>();
-		Iterable<Chunk> iterable = JCasUtil.select(tagResult, Chunk.class);
-		for (Chunk p : iterable) {
-			if (p.getChunkValue().equals("NP")) {
-				nouns.add(p.getCoveredText());
-			}
-		}
-
-		if (nouns.size() > 0) {
-			int i = 1;
-			for (String noun : nouns) {
-				// don't add nouns with abstract rating of 3 or lower "In an effort to..."
-				if (this.creation.isConcrete(noun)) {
-					this.creation.createNodeIfNotExist(model, noun, "", 100 * (i), 100 * (i), NodeType.AND);
-					i++;
-				}
-			}
-		}
-	}
-
 	public RGModel createModel(RGModel originalModel, String input) throws SpecmateException {
 		EObject parent = originalModel.eContainer();
 		return createModel(originalModel, parent, input);
 	}
 
+	// Helper function to copy model contents from source to target model
+	// We need this because adding model content to the target removes it from the
+	// source
+	private void copyModelContents(RGModel target, RGModel source) {
+		for (IContentElement e : source.getContents()) {
+			if (e instanceof RGChunk) {
+				RGChunk chunk = creation.createChunk(target, ((RGChunk) e).getText(), e.getId());
+				for (RGChunk c : ((RGChunk) e).getOutgoingChunks()) {
+					RGChunk targetChunk = creation.findChunk(target, c.getId());
+					if (targetChunk != null) {
+						chunk.getOutgoingChunks().add(targetChunk);
+						targetChunk.getIncomingChunks().add(chunk);
+					}
+				}
+				for (RGChunk c : ((RGChunk) e).getIncomingChunks()) {
+					RGChunk sourceChunk = creation.findChunk(target, c.getId());
+					if (sourceChunk != null) {
+						chunk.getIncomingChunks().add(sourceChunk);
+						sourceChunk.getOutgoingChunks().add(chunk);
+					}
+				}
+			} else if (e instanceof RGNode) {
+				RGNode node = creation.createNodeIfNotExist(target, ((RGNode) e).getComponent(),
+						(int) ((RGNode) e).getX(), (int) ((RGNode) e).getY(), ((RGNode) e).getType());
+				node.setTemporary(((RGNode) e).isTemporary());
+
+				for (RGChunk c : ((RGNode) e).getChunks()) {
+					RGChunk chunk = creation.findChunk(target, c.getId());
+					if (chunk != null) {
+						node.getChunks().add(chunk);
+						chunk.setNode(node);
+					} else {
+						System.err.println("Attempted to set Chunk but no Chunk was found");
+					}
+
+				}
+
+			} else if (e instanceof RGConnection) {
+				RGNode nodeFrom = creation.createNodeIfNotExist(target,
+						((RGNode) ((RGConnection) e).getSource()).getComponent(),
+						(int) ((RGNode) ((RGConnection) e).getSource()).getX(),
+						(int) ((RGNode) ((RGConnection) e).getSource()).getY(),
+						((RGNode) ((RGConnection) e).getSource()).getType());
+				RGNode nodeTo = creation.createNodeIfNotExist(target,
+						((RGNode) ((RGConnection) e).getTarget()).getComponent(),
+						(int) ((RGNode) ((RGConnection) e).getTarget()).getX(),
+						(int) ((RGNode) ((RGConnection) e).getTarget()).getY(),
+						((RGNode) ((RGConnection) e).getTarget()).getType());
+				creation.createConnection(target, nodeFrom, nodeTo, ((RGConnection) e).getType(),
+						((RGConnection) e).isNegate(), ((RGConnection) e).getLabel());
+			} else {
+				System.err.println("Attempted to copy IContentElement of unknown type");
+			}
+		}
+
+		for (RGObject o : source.getModelMapping()) {
+			RGChunk chunk = creation.findChunk(target, o.getChunk().getId());
+
+			RGObject object = creation.createObject(target, o.getOriginalText());
+			object.setProcessedText(o.getProcessedText());
+			if (chunk != null) {
+				object.setChunk(chunk);
+				chunk.getObjects().add(object);
+			} else {
+				System.err.println("Attempted to set Chunk but no Chunk was found");
+			}
+		}
+	}
+
+	private void cutModelContents(RGModel target, RGModel source) {
+		target.getContents().addAll(source.getContents());
+		target.getModelMapping().addAll(source.getModelMapping());
+	}
+
 	// TODO MA misc: multiple texts
-	public RGModel createModel(RGModel originalModel, EObject parent, String input) throws SpecmateException {
+	private RGModel createModel(RGModel originalModel, EObject parent, String input) throws SpecmateException {
 
 		// Fixes some issues with the dkpro/spacy backoff.
 		input = input.replaceAll("[^,.!?: ](?=[,.!?:])", "$0 ");
@@ -249,42 +300,42 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			}
 			RGModel curModel = createModelWithMapping(input, text, tagResult);
 			RGModel model = RequirementsFactory.eINSTANCE.createRGModel();
-			model.getContents().addAll(prevModel.getContents());
-			model.getModelMapping().addAll(prevModel.getModelMapping());
-			model.getContents().addAll(curModel.getContents());
-			model.getModelMapping().addAll(curModel.getModelMapping());
-
-			// TODO MA nouns: add to creation
-			// addNounsToCreation(model, tagResult);
+			copyModelContents(model, prevModel);
+			copyModelContents(model, curModel);
 
 			System.out.println(NLPUtil.printPOSTags(tagResult));
 			// System.out.println(NLPUtil.printChunks(tagResult));
 			// System.out.println(NLPUtil.printParse(tagResult));
 			System.out.println(NLPUtil.printDependencies(tagResult));
-			
+
 			createModelContent(text, model, candidates);
 
 		}
-		
-		addBestCandidateToModel(candidates, originalModel);
+
+		Pair<String, RGModel> best = findBestCandidate(candidates);
 
 		candidates = new ArrayList<>();
 		matcher.loadCEGRessources();
 
 		for (String text : texts) {
 			RGModel model = RequirementsFactory.eINSTANCE.createRGModel();
-			model.getContents().addAll(originalModel.getContents());
-			model.getModelMapping().addAll(originalModel.getModelMapping());
+			copyModelContents(model, best.getRight());
 
 			createModelContent(text, model, candidates);
 		}
-		addBestCandidateToModel(candidates, originalModel);
-		
 
+		// if second parse gives no candidates, use best from first parse
+		if (candidates.isEmpty()) {
+			candidates.add(best);
+		}
+
+		Pair<String, RGModel> best2 = findBestCandidate(candidates);
+		if (best2 != null) {
+			cutModelContents(originalModel, best2.getRight());
+		}
 //		printModelMapping(originalModel);
-		
+
 //		cleanupText(originalModel);
-		
 
 		// we needed to have chunk.id == position in text so we could assign nodes
 		// since we already assigned nodes we can randomize the chunk.ids
@@ -294,12 +345,11 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			c.setId(SpecmateEcoreUtil.getIdForChild());
 		}
 
-
 		return originalModel;
 
 	}
-	
-	private RGModel addBestCandidateToModel(List<Pair<String, RGModel>> candidates, RGModel originalModel) {
+
+	private Pair<String, RGModel> findBestCandidate(List<Pair<String, RGModel>> candidates) {
 		candidates.sort((p1, p2) -> {
 			RGModel m1 = p1.getRight();
 			RGModel m2 = p2.getRight();
@@ -318,18 +368,15 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		});
 
 		if (candidates.isEmpty()) {
-			return originalModel;
+			return null;
 		}
 
-		originalModel.getContents().addAll(candidates.get(0).getRight().getContents());
-		originalModel.getModelMapping().addAll(candidates.get(0).getRight().getModelMapping());
+		return candidates.get(0);
 
-		return originalModel;
-		
 	}
 
-	private void createModelContent(String text, RGModel model, 
-			List<Pair<String, RGModel>> candidates) throws SpecmateException {
+	private void createModelContent(String text, RGModel model, List<Pair<String, RGModel>> candidates)
+			throws SpecmateException {
 
 		final List<MatchResult> results = matcher.matchText(text, true);
 		final MatchTreeBuilder builder = new MatchTreeBuilder();
@@ -340,8 +387,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 
 		// Convert all successful match results into an intermediate representation
 		final List<MatchResultTreeNode> trees = results.stream().filter(MatchResult::isSuccessfulMatch)
-				.map(builder::buildTree).filter(Optional::isPresent).map(Optional::get)
-				.collect(Collectors.toList());
+				.map(builder::buildTree).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
 
 		final MatcherPostProcesser matchPostProcesser = new MatcherPostProcesser(lang, new NodeBuilder());
 		GraphBuilder graphBuilder = new GraphBuilder();
@@ -350,30 +396,26 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		for (MatchResultTreeNode tree : trees) {
 			try {
 				matchPostProcesser.process(tree);
-				
+
 				while (tree.getType().isLimitedCondition()) {
 					tree = ((BinaryMatchResultTreeNode) tree).getSecondArgument();
 
 				}
 
 				if (tree.getType() == null) {
-				} else if (tree.getType().isComposition() || 
-						tree.getType().isInheritance() || 
-						tree.getType().isAction() ||
-						tree.getType().isUpdate() ||
-						tree.getType().isCondition() ||
-						tree.getType().isConjunction()) {
+				} else if (tree.getType().isComposition() || tree.getType().isInheritance() || tree.getType().isAction()
+						|| tree.getType().isUpdate() || tree.getType().isCondition()
+						|| tree.getType().isConjunction()) {
 					Graph graph = graphBuilder.buildRGGraph((BinaryMatchResultTreeNode) tree);
 					model = (RGModel) graphLayouter.createModel(graph, model);
-					 candidates.add(Pair.of(text, model));
+					candidates.add(Pair.of(text, model));
 				}
 			} catch (Throwable t) {
 				t.printStackTrace();
-				log.log(LogService.LOG_DEBUG,
-						"Error occured processing the dependency parse tree: " + t.getMessage(), t);
+				log.log(LogService.LOG_DEBUG, "Error occured processing the dependency parse tree: " + t.getMessage(),
+						t);
 			}
 		}
-
 	}
 
 	private void cleanupText(RGModel originalModel) {
@@ -435,8 +477,9 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 
 		// remove residuals (nodes with no corresponding chunks + connections)
 		List<RGNode> removeNodes = originalModel.getContents().stream().filter(c -> c instanceof RGNode)
-				.map(c -> (RGNode) c).filter(c -> !c.getComponent().contains("Inner Node") && c.getChunks().size() == 0).collect(Collectors.toList());
-		//originalModel.getContents().removeAll(removeNodes);
+				.map(c -> (RGNode) c).filter(c -> !c.getComponent().contains("Inner Node") && c.getChunks().size() == 0)
+				.collect(Collectors.toList());
+		// originalModel.getContents().removeAll(removeNodes);
 
 		for (RGNode node : removeNodes) {
 			// rmv from container

@@ -1,11 +1,8 @@
 package com.specmate.modelgeneration;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -13,10 +10,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
 import org.eclipse.emf.common.util.EList;
 
 import com.specmate.model.base.IContentElement;
@@ -32,9 +25,9 @@ import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 
 /**
- * Class creates Node and Edges for a CEG-Graphs
+ * Class creates Node and Edges for a RG-Graphs
  *
- * @author Andreas Wehrle
+ * @author Lena Ouyang
  *
  */
 public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
@@ -45,7 +38,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 * Create a new object and add it to the RGModel
 	 *
 	 * @param model
-	 * @param text
+	 * @param originalText
 	 * @return the created object
 	 */
 	public RGObject createObject(RGModel model, String originalText) {
@@ -57,10 +50,11 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	}
 
 	/**
-	 * Create a new object and add it to the RGModel
+	 * Create a new object and add it to a specific index of the RGModel
 	 *
 	 * @param model
-	 * @param text
+	 * @param processedText
+	 * @param index
 	 * @return the created object
 	 */
 	public RGObject createObject(RGModel model, String processedText, int index) {
@@ -70,7 +64,6 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		model.getModelMapping().add(index, obj);
 		return obj;
 	}
-	
 
 	/**
 	 * Create a new chunk and add it to the RGModel
@@ -88,13 +81,32 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		model.getContents().add(chunk);
 		return chunk;
 	}
-	
+
+	/**
+	 * Find a chunk based on id and return it when found
+	 *
+	 * @param model
+	 * @param id
+	 * @return the found chunk or null
+	 */
+	public RGChunk findChunk(RGModel model, String id) {
+		RGChunk chunk = null;
+		for (IContentElement c : model.getContents()) {
+			if (c instanceof RGChunk) {
+				if (c.getId().equals(id)) {
+					chunk = (RGChunk) c;
+				}
+			}
+		}
+		return chunk;
+	}
 
 	/**
 	 * Create a new node and add it to the RGModel
 	 *
 	 * @param model
 	 * @param component
+	 * @param temporary
 	 * @param x
 	 * @param y
 	 * @param type
@@ -130,38 +142,6 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 */
 	public RGConnection createConnection(RGModel model, RGNode nodeFrom, RGNode nodeTo, RGConnectionType type,
 			boolean negate, String label) {
-		RGConnection conn = createConnection(model, nodeFrom, nodeTo, type, negate);
-		conn.setLabel(label);
-		return conn;
-	}
-
-	/**
-	 * Create a new connection to the RGModel
-	 *
-	 * @param model
-	 * @param nodeFrom
-	 * @param nodeTo
-	 * @param type
-	 * @param negate
-	 * @return
-	 */
-	public RGConnection createConnection(RGModel model, RGNode nodeFrom, RGNode nodeTo, RGConnectionType type,
-			boolean negate) {
-		RGConnection conn = createConnection(model, nodeFrom, nodeTo, negate);
-		conn.setType(type);
-		return conn;
-	}
-
-	/**
-	 * Create a new connection to the RGModel
-	 *
-	 * @param model
-	 * @param nodeFrom
-	 * @param nodeTo
-	 * @param negate
-	 * @return
-	 */
-	public RGConnection createConnection(RGModel model, RGNode nodeFrom, RGNode nodeTo, boolean negate) {
 		Optional<IModelConnection> optCon = nodeFrom.getOutgoingConnections().stream()
 				.filter(conn -> conn.getTarget() == nodeTo).findFirst();
 		if (optCon.isPresent()) {
@@ -174,6 +154,8 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		con.setNegate(negate);
 		con.setName("New Connection " + dateFormat.format(new Date()));
 		con.setType(RGConnectionType.COMPOSITION);
+		con.setType(type);
+		con.setLabel(label);
 		model.getContents().add(con);
 		return con;
 	}
@@ -207,18 +189,13 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	public RGNode createNodeIfNotExist(RGModel model, String component, int x, int y, NodeType type) {
 		component = this.processWord(component);
 		EList<IContentElement> list = model.getContents();
-		// TODO MA AND/OR update of nodes
-		System.out.println("----------------");
-		System.out.println(component);
-		System.out.println(type);
-		
+
 		for (IContentElement rgNode : list) {
 			if (rgNode instanceof RGNode) {
-				System.out.println(((RGNode) rgNode).getComponent());
-				System.out.println(((RGNode) rgNode).getType());
-				if (((RGNode) rgNode).getComponent().equals(component.toLowerCase()) && 
-						(((RGNode) rgNode).getType().equals(NodeType.NONE) || ((RGNode) rgNode).getType().equals(type)) &&
-						!((RGNode) rgNode).isTemporary()) {
+				if (((RGNode) rgNode).getComponent().equals(component.toLowerCase())
+						&& (((RGNode) rgNode).getType().equals(NodeType.NONE)
+								|| ((RGNode) rgNode).getType().equals(type))
+						&& !((RGNode) rgNode).isTemporary()) {
 					((RGNode) rgNode).setType(type);
 					return (RGNode) rgNode;
 				}
@@ -254,7 +231,8 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	}
 
 	public void removeConnection(RGModel model, RGConnection connection) {
-		if (connection == null) return;
+		if (connection == null)
+			return;
 		EList<IContentElement> list = model.getContents();
 		list.remove(connection);
 		connection.getSource().getOutgoingConnections().remove(connection);
@@ -277,66 +255,61 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		RGNode replacementNode = null;
 
 		// find REPLACE connection tmp --> new
-		Optional<RGConnection> r = tmpNode.getOutgoingConnections().stream().map(c -> (RGConnection)c)
-				.filter(c -> c.getType().equals(RGConnectionType.REPLACE) ).findFirst();
+		Optional<RGConnection> r = tmpNode.getOutgoingConnections().stream().map(c -> (RGConnection) c)
+				.filter(c -> c.getType().equals(RGConnectionType.REPLACE)).findFirst();
 
 		if (!r.isEmpty()) {
 			replacementCon = r.get();
 			replacementNode = (RGNode) replacementCon.getTarget();
-		} 
-		else {
+		} else {
 			replacementNode = createNode(model, tmpNode.getComponent(), true, 0, 0, tmpNode.getType());
 		}
 		// High lvl algorithm
 		/*
-		1. find chunks c with o node
-		2. (optional) filter chunks c: p == c.incoming
-		3.1 for chunk c: replace o node with n node/null
-		3.2 for chunk c: save connected p and x
-		4. for node o: replace p --> o connection with p --> n connection/remove
-		5. for node o: replace o --> x connection with n --> x connection/remove
-		*/
+		 * 1. find chunks c with o node 2. (optional) filter chunks c: p == c.incoming
+		 * 3.1 for chunk c: replace o node with n node/null 3.2 for chunk c: save
+		 * connected p and x 4. for node o: replace p --> o connection with p --> n
+		 * connection/remove 5. for node o: replace o --> x connection with n --> x
+		 * connection/remove
+		 */
 
 		// 1
-		List<RGChunk> chunks = model.getContents().stream()
-				.filter(c -> c instanceof RGChunk).map(c -> (RGChunk)c)
+		List<RGChunk> chunks = model.getContents().stream().filter(c -> c instanceof RGChunk).map(c -> (RGChunk) c)
 				.filter(c -> c.getNode() != null && c.getNode().equals(oldNode)).collect(Collectors.toList());
-		List<RGConnection> incomingConnections = oldNode.getIncomingConnections().stream().map(c -> (RGConnection)c).collect(Collectors.toList());
-		List<RGConnection> outgoingConnections = oldNode.getOutgoingConnections().stream().map(c -> (RGConnection)c).collect(Collectors.toList());
+		List<RGConnection> incomingConnections = oldNode.getIncomingConnections().stream().map(c -> (RGConnection) c)
+				.collect(Collectors.toList());
+		List<RGConnection> outgoingConnections = oldNode.getOutgoingConnections().stream().map(c -> (RGConnection) c)
+				.collect(Collectors.toList());
 		boolean negateConnection = false;
 		if (r.isEmpty() && incomingConnections.size() == 1 && outgoingConnections.size() == 0) {
 			negateConnection = true;
 		}
-		
-		
+
 		// 2
 		if (parentNode != null) {
-			chunks.stream().filter(c -> 
-				c.getIncomingChunks().stream()
-				.filter(i -> i.getNode().equals(parentNode))
-				.collect(Collectors.toList()).size() > 0)
-			.collect(Collectors.toList());
+			chunks.stream().filter(c -> c.getIncomingChunks().stream().filter(i -> i.getNode().equals(parentNode))
+					.collect(Collectors.toList()).size() > 0).collect(Collectors.toList());
 		}
 
 		Set<RGNode> parentNodes = new HashSet<RGNode>();
 		Set<RGNode> childNodes = new HashSet<RGNode>();
-		
+
 		// 3
 		for (RGChunk chunk : chunks) {
 			// 1
 			chunk.setNode(replacementNode);
 			replacementNode.getChunks().add(chunk);
 			oldNode.getChunks().remove(chunk);
-			
+
 			String m = "^(?i)((a )|(an )|(the ))?(?-i)(.*)";
 			String ct = chunk.getText().trim();
 			String nt = replacementNode.getName();
-			String tmp = ct.replaceAll(m, "$1"+nt);
+			String tmp = ct.replaceAll(m, "$1" + nt);
 			if (replacementCon == null) {
 				tmp = tmp.replaceAll(m, "no $5");
 			}
 			chunk.setText(tmp);
-			
+
 			// 2
 			for (RGChunk parentChunk : chunk.getIncomingChunks()) {
 				parentNodes.add(parentChunk.getNode());
@@ -345,7 +318,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 				childNodes.add(childChunk.getNode());
 			}
 		}
-		
+
 		// 4
 		for (RGConnection c : incomingConnections) {
 			if (replacementNode != null) {
@@ -364,7 +337,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		}
 
 		// 5
-		for (RGConnection c : outgoingConnections ) {
+		for (RGConnection c : outgoingConnections) {
 			if (replacementNode != null) {
 				if (childNodes.contains(c.getTarget())) {
 					c.setSource(replacementNode);
@@ -376,7 +349,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 				}
 			}
 		}
-		
+
 		// assign chunk of tmp node to replacement node instead
 		for (RGChunk c : tmpNode.getChunks()) {
 			c.setNode(replacementNode);
@@ -384,10 +357,10 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 			if (replacementCon == null) {
 				c.setRemoved(true);
 			}
-				System.out.println(c.getText());
+			System.out.println(c.getText());
 		}
 		tmpNode.getChunks().retainAll(new ArrayList<>());
-		
+
 		// if delete operation
 		if (replacementCon == null) {
 			EList<RGChunk> replacementChunks = replacementNode.getChunks();
@@ -419,73 +392,25 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		// remove residuals
 		removeConnection(model, replacementCon);
 		if (oldNode.getIncomingConnections().size() == 0 && oldNode.getOutgoingConnections().size() == 0) {
-			list.remove(oldNode);			
-		}
-		
-	}
-
-	// TODO MA nouns: concreteness rating
-	// contains words that deviate from the xsl and should be considered abstract
-	public static final String[] blacklist = { "we" };
-	// contains words that deviate from the xsl and should be considered concrete
-	public static final String[] whitelist = {};
-
-	/**
-	 * Checks whether the noun is concrete or abstract based on concreteness rating
-	 * from an excel file
-	 *
-	 * @param noun
-	 * @return boolean if noun is concrete
-	 */
-	public boolean isConcrete(String noun) {
-		noun = this.processWord(noun);
-		if (Arrays.asList(blacklist).contains(noun)) {
-			return false;
-		}
-		if (Arrays.asList(whitelist).contains(noun)) {
-			return true;
+			list.remove(oldNode);
 		}
 
-		// obtaining input bytes from a file
-		FileInputStream fis;
-		try {
-			// TODO MA misc: make path to concreteness xls relative
-			String path = "C:\\Users\\Lena\\Desktop\\Masterarbeit\\delta-descriptions\\papers\\Concreteness_ratings_Brysbaert_et_al_BRM.xls";
-			fis = new FileInputStream(new File(path));
-
-			// creating workbook instance that refers to .xls file
-			HSSFWorkbook wb = new HSSFWorkbook(fis);
-			// creating a Sheet object to retrieve the object
-			HSSFSheet sheet = wb.getSheetAt(0);
-			// evaluating cell type
-			for (Row row : sheet) // iteration over row using for each loop
-			{
-				// get first column = noun
-				Cell cell = row.getCell(0);
-				// check if noun found
-				if (cell.getStringCellValue().equals(noun)) {
-					// get rating
-					Cell rating = row.getCell(2);
-					// we say rating of 3 or higher = concrete
-					if (rating.getNumericCellValue() <= 3) {
-						System.out.println("Abstract noun: " + noun + " - " + rating.getNumericCellValue());
-					}
-					return rating.getNumericCellValue() > 3;
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		// default: if word can't be found we say it's concrete
-		return true;
 	}
 
 	@Override
+	@Deprecated
 	public RGNode createNode(RGModel model, String component, String condition, int x, int y, NodeType type) {
 		return createNode(model, component, false, x, y, type);
 	}
 
 	@Override
+	@Deprecated
+	public RGConnection createConnection(RGModel model, RGNode nodeFrom, RGNode nodeTo, boolean negate) {
+		return createConnection(model, nodeFrom, nodeTo, RGConnectionType.COMPOSITION, false, "");
+	}
+
+	@Override
+	@Deprecated
 	public RGNode createNodeIfNotExist(RGModel model, String component, String condition, int x, int y, NodeType type) {
 		return createNodeIfNotExist(model, component, x, y, type);
 	}
