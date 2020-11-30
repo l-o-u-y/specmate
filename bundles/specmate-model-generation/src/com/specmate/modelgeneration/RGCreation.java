@@ -165,11 +165,11 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 			return "";
 		String s = string;
 		// remove a, the
-		if (string.startsWith("a ")) {
+		if (string.startsWith("a ") || string.startsWith("A ") ) {
 			s = string.substring(2);
-		} else if (string.startsWith("an ")) {
+		} else if (string.startsWith("an ") || string.startsWith("An ")) {
 			s = string.substring(3);
-		} else if (string.startsWith("the ")) {
+		} else if (string.startsWith("the ") || string.startsWith("The ")) {
 			s = string.substring(4);
 		}
 		return s.trim();
@@ -189,6 +189,9 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	public RGNode createNodeIfNotExist(RGModel model, String component, int x, int y, NodeType type) {
 		component = this.processWord(component);
 		EList<IContentElement> list = model.getContents();
+		if (component.contains("button")) {
+			System.out.println();
+		}
 
 		for (IContentElement rgNode : list) {
 			if (rgNode instanceof RGNode) {
@@ -203,6 +206,26 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		}
 		return createNode(model, component, false, x, y, type);
 	}
+	
+	
+	public RGNode copyNodeToModel(RGModel model, RGNode node) {
+		System.out.println(node.getComponent());
+		System.out.println(node.getId());
+		EList<IContentElement> list = model.getContents();
+
+		for (IContentElement rgNode : list) {
+			if (rgNode instanceof RGNode) {
+				if (((RGNode) rgNode).getId().equals(node.getId())) {
+					return (RGNode) rgNode;
+				}
+			}
+		}
+		RGNode n = createNode(model, node.getComponent(), node.isTemporary(), (int)node.getX(), (int)node.getY(), node.getType());
+		n.setId(node.getId());
+		return n;
+	}
+	
+	
 
 	/**
 	 * Find the old node that exists in the list. Otherwise return null

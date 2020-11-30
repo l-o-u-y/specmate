@@ -3,14 +3,14 @@ package com.specmate.cause_effect_patterns.parse.wrapper;
 public class BinaryMatchResultTreeNode extends MatchResultTreeNode {
 	private MatchResultTreeNode left;
 	private MatchResultTreeNode right;
-	private String label;
+	private LeafTreeNode label;
 	private RuleType type;
 
 	public BinaryMatchResultTreeNode(MatchResultTreeNode left, MatchResultTreeNode right, RuleType type) {
-		this(left, right, type, "");
+		this(left, right, type, null);
 	}
 
-	public BinaryMatchResultTreeNode(MatchResultTreeNode left, MatchResultTreeNode right, RuleType type, String label) {
+	public BinaryMatchResultTreeNode(MatchResultTreeNode left, MatchResultTreeNode right, RuleType type, LeafTreeNode label) {
 		this.left = left;
 		this.right = right;
 		this.type = type;
@@ -38,7 +38,10 @@ public class BinaryMatchResultTreeNode extends MatchResultTreeNode {
 	}
 	
 	public void clearLabel() {
-		this.label = "null;-1";
+		this.label = null;
+	}
+	public void setLabel(LeafTreeNode label) {
+		this.label = label;
 	}
 
 	public void leftSwap() {
@@ -47,7 +50,7 @@ public class BinaryMatchResultTreeNode extends MatchResultTreeNode {
 
 		MatchResultTreeNode childLeft = left.getFirstArgument();
 		MatchResultTreeNode childRight = left.getSecondArgument();
-		String label = this.label;
+		LeafTreeNode label = this.label;
 
 		// Swap Types so the one with higher precedents gets shifted down
 		RuleType tmp = this.type;
@@ -69,7 +72,7 @@ public class BinaryMatchResultTreeNode extends MatchResultTreeNode {
 
 		MatchResultTreeNode childLeft = right.getFirstArgument();
 		MatchResultTreeNode childRight = right.getSecondArgument();
-		String label = this.label;
+		LeafTreeNode label = this.label;
 
 		RuleType tmp = this.type;
 		this.type = right.getType();
@@ -88,7 +91,7 @@ public class BinaryMatchResultTreeNode extends MatchResultTreeNode {
 		return type;
 	}
 
-	public String getLabel() {
+	public LeafTreeNode getLabel() {
 		return label;
 	}
 

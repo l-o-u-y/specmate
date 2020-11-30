@@ -221,8 +221,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 					}
 				}
 			} else if (e instanceof RGNode) {
-				RGNode node = creation.createNodeIfNotExist(target, ((RGNode) e).getComponent(),
-						(int) ((RGNode) e).getX(), (int) ((RGNode) e).getY(), ((RGNode) e).getType());
+				RGNode node = creation.copyNodeToModel(target, ((RGNode) e));
 				node.setTemporary(((RGNode) e).isTemporary());
 
 				for (RGChunk c : ((RGNode) e).getChunks()) {
@@ -237,16 +236,10 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 				}
 
 			} else if (e instanceof RGConnection) {
-				RGNode nodeFrom = creation.createNodeIfNotExist(target,
-						((RGNode) ((RGConnection) e).getSource()).getComponent(),
-						(int) ((RGNode) ((RGConnection) e).getSource()).getX(),
-						(int) ((RGNode) ((RGConnection) e).getSource()).getY(),
-						((RGNode) ((RGConnection) e).getSource()).getType());
-				RGNode nodeTo = creation.createNodeIfNotExist(target,
-						((RGNode) ((RGConnection) e).getTarget()).getComponent(),
-						(int) ((RGNode) ((RGConnection) e).getTarget()).getX(),
-						(int) ((RGNode) ((RGConnection) e).getTarget()).getY(),
-						((RGNode) ((RGConnection) e).getTarget()).getType());
+				RGNode nodeFrom = creation.copyNodeToModel(target,
+						(RGNode) ((RGConnection) e).getSource());
+				RGNode nodeTo = creation.copyNodeToModel(target,
+						(RGNode) ((RGConnection) e).getTarget());
 				creation.createConnection(target, nodeFrom, nodeTo, ((RGConnection) e).getType(),
 						((RGConnection) e).isNegate(), ((RGConnection) e).getLabel());
 			} else {
@@ -255,7 +248,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		}
 
 		for (RGObject o : source.getModelMapping()) {
-			RGChunk chunk = creation.findChunk(target, o.getChunk().getId());
+			RGChunk chunk = o.getChunk() != null ? creation.findChunk(target, o.getChunk().getId()) : null;
 
 			RGObject object = creation.createObject(target, o.getOriginalText());
 			object.setProcessedText(o.getProcessedText());
@@ -313,16 +306,16 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		}
 
 		Pair<String, RGModel> best = findBestCandidate(candidates);
-
+		
 		candidates = new ArrayList<>();
-		matcher.loadCEGRessources();
+//		matcher.loadCEGRessources();
 
-		for (String text : texts) {
-			RGModel model = RequirementsFactory.eINSTANCE.createRGModel();
-			copyModelContents(model, best.getRight());
-
-			createModelContent(text, model, candidates);
-		}
+//		for (String text : texts) {
+//			RGModel model = RequirementsFactory.eINSTANCE.createRGModel();
+//			copyModelContents(model, best.getRight());
+//
+//			createModelContent(text, model, candidates);
+//		}
 
 		// if second parse gives no candidates, use best from first parse
 		if (candidates.isEmpty()) {
@@ -395,6 +388,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 
 		for (MatchResultTreeNode tree : trees) {
 			try {
+				// TODO MA maybe we dont need to reorder
 				matchPostProcesser.process(tree);
 
 				while (tree.getType().isLimitedCondition()) {

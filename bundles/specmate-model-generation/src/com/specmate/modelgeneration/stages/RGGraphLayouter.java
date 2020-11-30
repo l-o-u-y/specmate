@@ -116,7 +116,10 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 				fromChunk.getOutgoingChunks().add(toChunk);
 				toChunk.getIncomingChunks().add(fromChunk);
 			} else {
+				System.out.println("From content: " + from.getComponent());
+				System.out.println("From content: " + to.getComponent());
 				log.log(LogService.LOG_ERROR, "This case should never happen. Chunks not found");
+				System.out.println();
 
 			}
 			

@@ -1,6 +1,5 @@
 package com.specmate.cause_effect_patterns.parse.wrapper;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
@@ -55,7 +54,7 @@ public class MatchTreeBuilder {
 
 	private boolean isTmp(MatchResult result) {
 		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.TMP);
-		boolean subMatches = result.hasSubmatch(SubtreeNames.HEAD);
+		boolean subMatches = result.hasSubmatch(SubtreeNames.PART_A);
 		return name && subMatches;
 	}
 
@@ -175,7 +174,7 @@ public class MatchTreeBuilder {
 
 		// TODO MA subtree matchers
 		else if (isTmp(result)) {
-			return SubtreeNames.HEAD;
+			return SubtreeNames.PART_A;
 		} else if (isInheritance(result)) {
 			return SubtreeNames.PARENT;
 		} else if (isComposition(result)) {
@@ -215,7 +214,9 @@ public class MatchTreeBuilder {
 		}
 
 		// TODO MA subtree matchers
-		else if (isInheritance(result)) {
+		else if (isTmp(result)) {
+			return SubtreeNames.PART_B;
+		} else if (isInheritance(result)) {
 			return SubtreeNames.CHILD;
 		} else if (isComposition(result)) {
 			return SubtreeNames.PARENT;
@@ -242,7 +243,7 @@ public class MatchTreeBuilder {
 			return SubtreeNames.ACTION;
 		}
 
-		return null;
+		return SubtreeNames.LABEL;
 	}
 
 	public Optional<MatchResultTreeNode> getThirdArgument(MatchResult result) {
@@ -253,65 +254,65 @@ public class MatchTreeBuilder {
 		return Optional.empty();
 	}
 
-	public String getLabel(MatchResult result) {
-		String name = getThirdArgumentName(result);
-		String text = null;
-		if (name != null && result.getSubmatch(name) != null) {
-			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
-			if (tokens.size() == 0) {
-
-			} else {
-				for (Token t : tokens) {
-					text = t.getCoveredText();
-					break;
-				}
-			}
-
-		}
-		name = SubtreeNames.LABEL;
-
-		if (result.getSubmatch(name) != null) {
-			if (text == null) {
-				text = "";
-			} else {
-				text = text + " ";
-			}
-
-			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
-			if (tokens.size() == 0) {
-
-			} else {
-				for (Token t : tokens) {
-					text = text + t.getCoveredText();
-					break;
-				}
-			}
-
-		}
-		return text + ";" + getLabelPosition(result);
-	}
-
-	private int getLabelPosition(MatchResult result) {
-		String name = getThirdArgumentName(result);
-		if (name != null && result.getSubmatch(name) != null) {
-			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
-			if (tokens.size() != 0) {
-				for (Token t : tokens) {
-					return t.getEnd();
-				}
-			}
-		}
-		name = SubtreeNames.LABEL;
-		if (result.getSubmatch(name) != null) {
-			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
-			if (tokens.size() != 0) {
-				for (Token t : tokens) {
-					return t.getEnd();
-				}
-			}
-		}
-		return -1;
-	}
+//	public String getLabel(MatchResult result) {
+//		String name = getThirdArgumentName(result);
+//		String text = null;
+//		if (name != null && result.getSubmatch(name) != null) {
+//			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
+//			if (tokens.size() == 0) {
+//
+//			} else {
+//				for (Token t : tokens) {
+//					text = t.getCoveredText();
+//					break;
+//				}
+//			}
+//
+//		}
+//		name = SubtreeNames.LABEL;
+//
+//		if (result.getSubmatch(name) != null) {
+//			if (text == null) {
+//				text = "";
+//			} else {
+//				text = text + " ";
+//			}
+//
+//			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
+//			if (tokens.size() == 0) {
+//
+//			} else {
+//				for (Token t : tokens) {
+//					text = text + t.getCoveredText();
+//					break;
+//				}
+//			}
+//
+//		}
+//		return text + ";" + getLabelPosition(result);
+//	}
+//
+//	private int getLabelPosition(MatchResult result) {
+//		String name = getThirdArgumentName(result);
+//		if (name != null && result.getSubmatch(name) != null) {
+//			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
+//			if (tokens.size() != 0) {
+//				for (Token t : tokens) {
+//					return t.getEnd();
+//				}
+//			}
+//		}
+//		name = SubtreeNames.LABEL;
+//		if (result.getSubmatch(name) != null) {
+//			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
+//			if (tokens.size() != 0) {
+//				for (Token t : tokens) {
+//					return t.getEnd();
+//				}
+//			}
+//		}
+//		return -1;
+//	}
 
 	public RuleType getType(MatchResult result) {
 		if (isLimitedCondition(result)) {
@@ -337,12 +338,14 @@ public class MatchTreeBuilder {
 		}
 
 		// TODO MA subtree matchers
-		else if (isInheritance(result)) {
+		else if (isTmp(result)) {
+			return RuleType.TMP;
+		} else if (isInheritance(result)) {
 			return RuleType.INHERITANCE;
 		} else if (isComposition(result)) {
 			return RuleType.COMPOSITION;
 		} else if (isAction(result)) {
-			return RuleType.ACTION_PRE;
+			return RuleType.ACTION;
 		} else if (isReplace(result)) {
 			return RuleType.REPLACE;
 		} else if (isRemove(result)) {
@@ -351,6 +354,53 @@ public class MatchTreeBuilder {
 
 		return null;
 	}
+	
+	public MatchResultTreeNode parseLabelTree(MatchResultTreeNode root, BinaryMatchResultTreeNode node) {
+		if (root instanceof BinaryMatchResultTreeNode) {
+			switch (root.getType()) {
+			case TMP:
+				((BinaryMatchResultTreeNode) root).setFirstArgument(parseLabelTree(((BinaryMatchResultTreeNode) root).getFirstArgument(), node));
+				return root;
+			case ACTION:
+			case COMPOSITION:
+			case INHERITANCE:
+				System.err.println("Found a action/composition/inheritance node while parsing label tree");
+				break;
+			case LIMITED_CONDITION:
+				System.err.println("Found a limited condition node while parsing label tree");
+				break;
+			case CONDITION:
+				((BinaryMatchResultTreeNode) root).setSecondArgument(parseLabelTree(((BinaryMatchResultTreeNode) root).getSecondArgument(), node));
+				return root;
+			case CONJUNCTION_AND:
+			case CONJUNCTION_NOR:
+			case CONJUNCTION_OR:
+			case CONJUNCTION_XOR:
+				((BinaryMatchResultTreeNode) root).setFirstArgument(parseLabelTree(((BinaryMatchResultTreeNode) root).getFirstArgument(), node));
+				return root;
+			case REMOVE:
+				System.err.println("Found a remove node while parsing label tree");
+				break;
+			case REPLACE:
+				System.err.println("Found a replace node while parsing label tree");
+				break;
+//			case VERB_OBJECT:
+//			case VERB_PREPOSITION:
+//			case CONDITION_VARIABLE:
+//			case NEGATION:
+
+			default:
+			}
+		} else if (root instanceof NegationTreeNode) {
+			((NegationTreeNode) root).setClause(parseLabelTree(((NegationTreeNode) root).getClause(), node));
+			return root;
+		} else if (root instanceof LeafTreeNode) {
+			node.setLabel((LeafTreeNode)root);
+			return node;
+		}
+		System.err.println("Return node without doing anything");
+		return node;
+	}
 
 	public Optional<MatchResultTreeNode> buildTree(MatchResult result) {
 		if (!result.isSuccessfulMatch()) {
@@ -358,10 +408,12 @@ public class MatchTreeBuilder {
 		}
 
 		if (isTmp(result)) {
-			String name = getFirstArgumentName(result);
-			if (name != null) {
-				return buildTree(result.getSubmatch(name));
+			MatchResultTreeNode left = getFirstArgument(result).get();
+			MatchResultTreeNode right = getSecondArgument(result).isPresent() ? getSecondArgument(result).get() : null;
+			if (right == null) {
+				return Optional.of(left);
 			}
+			return Optional.of(new BinaryMatchResultTreeNode(left, right, getType(result)));
 		}
 
 		// Unary
@@ -376,53 +428,28 @@ public class MatchTreeBuilder {
 				|| isInheritance(result)) {
 			MatchResultTreeNode left = getFirstArgument(result).get();
 			MatchResultTreeNode right = getSecondArgument(result).get();
-
-			String label = getLabel(result);
-			return Optional.of(new BinaryMatchResultTreeNode(left, right, getType(result), label));
+			
+			MatchResultTreeNode labelTree = getThirdArgument(result).isPresent() ? getThirdArgument(result).get() : null;
+			if (labelTree != null && (labelTree instanceof BinaryMatchResultTreeNode || labelTree instanceof NegationTreeNode)) {
+				BinaryMatchResultTreeNode tmp = new BinaryMatchResultTreeNode(left, right, getType(result));
+				return Optional.of(parseLabelTree(labelTree, tmp));
+			} else { //if (labelTree instanceof LeafTreeNode)
+				return Optional.of(new BinaryMatchResultTreeNode(left, right, getType(result), ((LeafTreeNode) labelTree)));	
+			}
 		}
-
-//		// TODO MA switch/case CEG/RG for RG we need it this way, the other way around
-//		// because the effect is the main sentence -> effect verb = root
-//		if (isCondition(result)) {
-//			MatchResultTreeNode left = getFirstArgument(result).get();
-//			MatchResultTreeNode right = getSecondArgument(result).get();
-//
-//			String label = getLabel(result);
-//			return Optional.of(new BinaryMatchResultTreeNode(right, left, getType(result), label));
-//			
-//		}
 
 		if (isAction(result)) {
 			MatchResultTreeNode obj = getSecondArgument(result).get();
 			MatchResultTreeNode verb = getThirdArgument(result).get();
-			MatchResultTreeNode subj = getFirstArgument(result).isPresent() ? getFirstArgument(result).get() : null;
+			MatchResultTreeNode subj = getFirstArgument(result).isPresent() ? getFirstArgument(result).get() : new LeafTreeNode("", "-1");
 
-			String label = getLabel(result);
-						if (subj == null) {
-								return Optional.of(new BinaryMatchResultTreeNode(obj, verb, RuleType.ACTION_POST, label));
-						
-		} else {
-							MatchResultTreeNode node = new BinaryMatchResultTreeNode(obj, verb, RuleType.ACTION_POST, "");
-							return Optional.of(new BinaryMatchResultTreeNode(subj, node, RuleType.ACTION_PRE, label));	
-						}
 
-//			BinaryMatchResultTreeNode node;
-//
-//			if (subj != null) {
-//				node = new BinaryMatchResultTreeNode(subj, obj, getType(result), label);
-//			} else {
-//				node = new BinaryMatchResultTreeNode(new LeafTreeNode(""), obj, getType(result), label);
-//			}
-//			// TODO MA: this is a hack to preserve the verb subtree BUT it doesn't work for verschachtelte BinaryTrees
-//			if (verb instanceof BinaryMatchResultTreeNode) {
-//				if (((BinaryMatchResultTreeNode) verb).getFirstArgument() instanceof LeafTreeNode) {
-//					((BinaryMatchResultTreeNode) verb).setFirstArgument(node);
-//				} else if (((BinaryMatchResultTreeNode) verb).getSecondArgument() instanceof LeafTreeNode) {
-//					((BinaryMatchResultTreeNode) verb).setSecondArgument(node);
-//				} 
-//				return Optional.of(verb);
-//			}
-//			return Optional.of(node);
+			if (verb instanceof BinaryMatchResultTreeNode || verb instanceof NegationTreeNode) {
+				BinaryMatchResultTreeNode tmp = new BinaryMatchResultTreeNode(subj, obj, getType(result));
+				return Optional.of(parseLabelTree(verb, tmp));
+			} else { //if (labelTree instanceof LeafTreeNode)
+				return Optional.of(new BinaryMatchResultTreeNode(subj, obj, getType(result), ((LeafTreeNode) verb)));	
+			}
 		}
 		if (isUpdate(result)) {
 			if (isReplace(result)) {

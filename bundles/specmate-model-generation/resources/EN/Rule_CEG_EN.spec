@@ -367,18 +367,3 @@ def subtrees Preposition
 def rule VerbPreposition {
 	[Verb] - prep -> [Preposition]
 }
-
-
-
-def rule TMP_1 {
-	[Head] - acl -> [TMP]
-}
-def rule TMP_2 {
-	[Head] - advmod -> [TMP]
-}
-def rule TMP_3 {
-	[Head] - advcl -> [TMP]
-}
-def rule TMP_3 {
-	[Head] - mark -> [TMP]
-}
