@@ -220,7 +220,10 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 						sourceChunk.getOutgoingChunks().add(chunk);
 					}
 				}
-			} else if (e instanceof RGNode) {
+			}
+		}
+		for (IContentElement e : source.getContents()) {
+			if (e instanceof RGNode) {
 				RGNode node = creation.copyNodeToModel(target, ((RGNode) e));
 				node.setTemporary(((RGNode) e).isTemporary());
 
@@ -230,22 +233,27 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 						node.getChunks().add(chunk);
 						chunk.setNode(node);
 					} else {
+						System.out.println(node.getComponent());
 						System.err.println("Attempted to set Chunk but no Chunk was found");
 					}
 
 				}
 
-			} else if (e instanceof RGConnection) {
+			} 
+		}
+		for (IContentElement e : source.getContents()) {
+			if (e instanceof RGConnection) {
 				RGNode nodeFrom = creation.copyNodeToModel(target,
 						(RGNode) ((RGConnection) e).getSource());
 				RGNode nodeTo = creation.copyNodeToModel(target,
 						(RGNode) ((RGConnection) e).getTarget());
 				creation.createConnection(target, nodeFrom, nodeTo, ((RGConnection) e).getType(),
 						((RGConnection) e).isNegate(), ((RGConnection) e).getLabel());
-			} else {
-				System.err.println("Attempted to copy IContentElement of unknown type");
 			}
 		}
+//		 else {
+//				System.err.println("Attempted to copy IContentElement of unknown type");
+//			}
 
 		for (RGObject o : source.getModelMapping()) {
 			RGChunk chunk = o.getChunk() != null ? creation.findChunk(target, o.getChunk().getId()) : null;
@@ -255,7 +263,9 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			if (chunk != null) {
 				object.setChunk(chunk);
 				chunk.getObjects().add(object);
-			} else {
+			} else if (o.getChunk() != null) {
+				System.out.println(o.getOriginalText());
+				System.out.println(o.getProcessedText());
 				System.err.println("Attempted to set Chunk but no Chunk was found");
 			}
 		}
@@ -328,7 +338,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		}
 //		printModelMapping(originalModel);
 
-//		cleanupText(originalModel);
+		cleanupText(originalModel);
 
 		// we needed to have chunk.id == position in text so we could assign nodes
 		// since we already assigned nodes we can randomize the chunk.ids
@@ -458,20 +468,17 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			} else if (o.get(i).getChunk() != null && o.get(i).getChunk().getNode() != null) {
 				if (o.get(i).getChunk().isRemoved()) {
 					delNodes.add(o.get(i).getChunk().getNode());
-//					numOfDelNodes = numOfDelNodes + 1;
 				}
 				nodes.add(o.get(i).getChunk().getNode());
-				if (o.get(i).getChunk().getText().equals("the circle")) {
-
-					System.out.println(o.get(i).getChunk().getText());
-				}
-//				numOfNodes = numOfNodes + 1;
+//				if (o.get(i).getChunk().getText().equals("the round")) {
+//					System.out.println(o.get(i).getChunk().getText());
+//				}
 			}
 		}
 
 		// remove residuals (nodes with no corresponding chunks + connections)
 		List<RGNode> removeNodes = originalModel.getContents().stream().filter(c -> c instanceof RGNode)
-				.map(c -> (RGNode) c).filter(c -> !c.getComponent().contains("Inner Node") && c.getChunks().size() == 0)
+				.map(c -> (RGNode) c).filter(c -> c.getChunks().size() == 0)
 				.collect(Collectors.toList());
 		// originalModel.getContents().removeAll(removeNodes);
 

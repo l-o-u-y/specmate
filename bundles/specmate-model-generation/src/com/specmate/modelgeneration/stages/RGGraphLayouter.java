@@ -11,6 +11,7 @@ import com.specmate.model.requirements.RGConnection;
 import com.specmate.model.requirements.RGModel;
 import com.specmate.model.requirements.RGNode;
 import com.specmate.model.requirements.RGObject;
+import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.modelgeneration.RGCreation;
 import com.specmate.modelgeneration.stages.graph.Graph;
 import com.specmate.modelgeneration.stages.graph.GraphEdge;
@@ -110,6 +111,17 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 				if (c.getId().equals(edge.getTo().getId())) {
 					toChunk = c;
 				}
+			}
+			
+			if (from.getComponent().contains("inner node") && fromChunk == null) {
+				fromChunk = rgCreation.createChunk(model, from.getComponent(), SpecmateEcoreUtil.getIdForChild());
+				fromChunk.setNode(from);
+				from.getChunks().add(fromChunk);
+			}
+			if (to.getComponent().contains("inner node") && toChunk == null) {
+				toChunk = rgCreation.createChunk(model, to.getComponent(), SpecmateEcoreUtil.getIdForChild());
+				toChunk.setNode(to);
+				to.getChunks().add(toChunk);
 			}
 
 			if (fromChunk != null && toChunk != null) {

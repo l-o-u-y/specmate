@@ -75,9 +75,9 @@ public abstract class MatchResultTreeNode {
 				return 3;
 			case INHERITANCE:
 				return 4;
-//			case REPLACE:
-//			case REMOVE:
-//				return 5;
+			case REPLACE:
+			case REMOVE:
+				return 5;
 //			case ACTION:
 //				return 6;
 			case CONJUNCTION_XOR:

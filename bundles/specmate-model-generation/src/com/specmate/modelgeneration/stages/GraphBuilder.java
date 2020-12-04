@@ -48,18 +48,29 @@ public class GraphBuilder {
 	private synchronized void connectRGNodes(NodeWrapper parent, NodeWrapper child, MatchResultTreeNode node) {
 		for (GraphNode p : parent.positiveNodes) {
 			String label = null;
-//			if (!p.getPrimaryText().equals("")) {
-				for (GraphNode c : child.positiveNodes) {
-					// sets child GraphNode type to child RGNode type
-					c.setType(parent.childType);
-					p.connectTo(c, getConnectionType(node), false, label);
-				}
-				for (GraphNode c : child.negativeNodes) {
-					// sets child GraphNode type to child RGNode type
-					c.setType(parent.childType);
-					p.connectTo(c, getConnectionType(node), true, label);
-				}
-//			}
+			for (GraphNode c : child.positiveNodes) {
+				// sets child GraphNode type to child RGNode type
+				c.setType(parent.childType);
+				p.connectTo(c, getConnectionType(node), false, label);
+			}
+			for (GraphNode c : child.negativeNodes) {
+				// sets child GraphNode type to child RGNode type
+				c.setType(parent.childType);
+				p.connectTo(c, getConnectionType(node), true, label);
+			}
+		}
+		for (GraphNode p : parent.negativeNodes) {
+			String label = null;
+			for (GraphNode c : child.positiveNodes) {
+				// sets child GraphNode type to child RGNode type
+				c.setType(parent.childType);
+				p.connectTo(c, getConnectionType(node), true, label);// TODO MA hmmm flip?
+			}
+			for (GraphNode c : child.negativeNodes) {
+				// sets child GraphNode type to child RGNode type
+				c.setType(parent.childType);
+				p.connectTo(c, getConnectionType(node), false, label);
+			}
 		}
 	}
 
@@ -111,7 +122,7 @@ public class GraphBuilder {
 			case CONDITION: {
 				final NodeWrapper cause = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), true);
 				final NodeWrapper effect = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), true);
-				
+
 				effect.childType = cause.childType;
 
 				connectRGNodes(cause, effect, node);
@@ -127,8 +138,10 @@ public class GraphBuilder {
 //			}
 
 			case LIMITED_CONDITION: {
-				final NodeWrapper limit = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), returnVerb);
-				final NodeWrapper condition = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), returnVerb);
+				final NodeWrapper limit = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(),
+						returnVerb);
+				final NodeWrapper condition = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(),
+						returnVerb);
 
 				System.err.println("Handling for NodeType " + node.getType() + " not implemented yet");
 				break;
@@ -142,33 +155,33 @@ public class GraphBuilder {
 			case INHERITANCE: {
 				final NodeWrapper first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), false);
 				final NodeWrapper second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), false);
-				  
+
 //				for (GraphNode n : Stream.concat(first.positiveNodes.stream(), first.negativeNodes.stream()).collect(Collectors.toList())) {
 //					final NodeWrapper f = new NodeWrapper(n, first.childType, first.negativeNodes.contains(n));
 //					for (GraphNode m : Stream.concat(second.positiveNodes.stream(), second.negativeNodes.stream()).collect(Collectors.toList())) {
 //						final NodeWrapper s = new NodeWrapper(m, second.childType, second.negativeNodes.contains(n));
 //
-						final NodeWrapper label;
-						if (((BinaryMatchResultTreeNode) node).getLabel() != null) {
-							label = buildRGNode(((BinaryMatchResultTreeNode) node).getLabel(), false);
-						} else {
-							label = new NodeWrapper(currentGraph.createInnerNode(NodeType.NONE), NodeType.NONE, false);
-						}
-							
-						label.setExclusive();
-						if (node.getType().equals(RuleType.INHERITANCE)) {
-							// first = parent
-							// second = child
-							// child -> parent
-							connectRGNodes(first, label, node);
-							connectRGNodes(label, second, node);
-						} else { // COMPOSITION
-							// first = child
-							// second = parent
-							// parent -> child
-							connectRGNodes(second, label, node);
-							connectRGNodes(label, first, node);
-						}
+				final NodeWrapper label;
+				if (((BinaryMatchResultTreeNode) node).getLabel() != null) {
+					label = buildRGNode(((BinaryMatchResultTreeNode) node).getLabel(), false);
+				} else {
+					label = new NodeWrapper(currentGraph.createInnerNode(NodeType.NONE), NodeType.NONE, false);
+				}
+
+				label.setExclusive();
+				if (node.getType().equals(RuleType.INHERITANCE)) {
+					// first = parent
+					// second = child
+					// child -> parent
+					connectRGNodes(first, label, node);
+					connectRGNodes(label, second, node);
+				} else { // COMPOSITION
+					// first = child
+					// second = parent
+					// parent -> child
+					connectRGNodes(second, label, node);
+					connectRGNodes(label, first, node);
+				}
 //					}
 //				}
 				if (returnVerb) {
@@ -180,15 +193,15 @@ public class GraphBuilder {
 			case ACTION: {
 				MatchResultTreeNode s = ((BinaryMatchResultTreeNode) node).getFirstArgument();
 				final NodeWrapper obj = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), false);
-				
+
 				NodeWrapper verbs = new NodeWrapper();
-				
+
 				if (s instanceof LeafTreeNode && ((LeafTreeNode) s).getId().contentEquals("-1")) {
 					final NodeWrapper verb = buildRGNode(((BinaryMatchResultTreeNode) node).getLabel(), false);
 					verb.setExclusive();
 					connectRGNodes(verb, obj, node);
 					return verb;
-					
+
 //						for (GraphNode n : Stream.concat(obj.positiveNodes.stream(), obj.negativeNodes.stream()).collect(Collectors.toList())) {
 //							final NodeWrapper o = new NodeWrapper(n, obj.childType, obj.negativeNodes.contains(n));
 //							
@@ -197,7 +210,7 @@ public class GraphBuilder {
 //							verbs.addAllNodes(verb);
 //							connectRGNodes(verb, o, node);
 //						}
-					
+
 				} else {
 					final NodeWrapper subj = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), false);
 					final NodeWrapper verb = buildRGNode(((BinaryMatchResultTreeNode) node).getLabel(), false);
@@ -205,7 +218,7 @@ public class GraphBuilder {
 					connectRGNodes(subj, verb, node);
 					connectRGNodes(verb, obj, node);
 					return verb;
-					
+
 //					for (GraphNode n : Stream.concat(subj.positiveNodes.stream(), subj.negativeNodes.stream()).collect(Collectors.toList())) {
 //						final NodeWrapper su = new NodeWrapper(n, subj.childType, subj.negativeNodes.contains(n));
 //						for (GraphNode m : Stream.concat(obj.positiveNodes.stream(), obj.negativeNodes.stream()).collect(Collectors.toList())) {
@@ -219,7 +232,7 @@ public class GraphBuilder {
 //						}
 //					}
 				}
-				
+
 //				return verbs;
 			}
 
@@ -249,8 +262,10 @@ public class GraphBuilder {
 			case CONJUNCTION_AND:
 			case CONJUNCTION_NOR:
 			case CONJUNCTION_OR: {
-				final NodeWrapper first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), returnVerb);
-				final NodeWrapper second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), returnVerb);
+				final NodeWrapper first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(),
+						returnVerb);
+				final NodeWrapper second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(),
+						returnVerb);
 
 //				first.positiveNodes.retainAll(
 //						first.positiveNodes.stream().filter(n -> !isConnected(n)).collect(Collectors.toList()));
@@ -264,13 +279,13 @@ public class GraphBuilder {
 				// AND = AND; OR = OR; NOR = AND + swap()
 				NodeType type = node.getType().equals(RuleType.CONJUNCTION_OR) ? NodeType.OR : NodeType.AND;
 				NodeWrapper nodes;
-				
+
 				// if and/or or or/and combination, add inner node instead
 				System.out.println(type);
 				System.out.println(first.childType);
 				System.out.println(second.childType);
-				if ((!first.childType.equals(NodeType.NONE) && !first.childType.equals(type)) ||
-					(!second.childType.equals(NodeType.NONE) && !second.childType.equals(type)) ) {
+				if ((!first.childType.equals(NodeType.NONE) && !first.childType.equals(type))
+						|| (!second.childType.equals(NodeType.NONE) && !second.childType.equals(type))) {
 					NodeWrapper f = first;
 					NodeWrapper s = second;
 					if ((!first.childType.equals(NodeType.NONE) && !first.childType.equals(type))) {
@@ -281,15 +296,15 @@ public class GraphBuilder {
 						s = new NodeWrapper(currentGraph.createInnerNode(second.childType), second.childType, false);
 						connectRGNodes(second, s, null);
 					}
-				
-				nodes = new NodeWrapper();
-				nodes.addAllNodes(f);
-				nodes.addAllNodes(s);
-				nodes.childType = type;
+
+					nodes = new NodeWrapper();
+					nodes.addAllNodes(f);
+					nodes.addAllNodes(s);
+					nodes.childType = type;
 				} else {
 					nodes = new NodeWrapper(first, second, type);
 				}
-				
+
 				if (node.getType().equals(RuleType.CONJUNCTION_NOR)) {
 					nodes.swap();
 				}
@@ -298,8 +313,10 @@ public class GraphBuilder {
 			}
 
 			case CONJUNCTION_XOR: {
-				final NodeWrapper first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), returnVerb);
-				final NodeWrapper second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), returnVerb);
+				final NodeWrapper first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(),
+						returnVerb);
+				final NodeWrapper second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(),
+						returnVerb);
 
 				first.positiveNodes.retainAll(
 						first.positiveNodes.stream().filter(n -> !isConnected(n)).collect(Collectors.toList()));
@@ -310,8 +327,10 @@ public class GraphBuilder {
 				second.negativeNodes.retainAll(
 						second.negativeNodes.stream().filter(n -> !isConnected(n)).collect(Collectors.toList()));
 
-				final NodeWrapper parent2 = new NodeWrapper(currentGraph.createInnerNode(NodeType.AND), NodeType.AND, false);
-				final NodeWrapper parent3 = new NodeWrapper(currentGraph.createInnerNode(NodeType.AND), NodeType.AND, false);
+				final NodeWrapper parent2 = new NodeWrapper(currentGraph.createInnerNode(NodeType.AND), NodeType.AND,
+						false);
+				final NodeWrapper parent3 = new NodeWrapper(currentGraph.createInnerNode(NodeType.AND), NodeType.AND,
+						false);
 				connectRGNodes(parent2, first, null);
 				connectRGNodes(parent3, second, null);
 				first.swap();
@@ -572,7 +591,6 @@ public class GraphBuilder {
 			return result;
 		}
 
-
 		public NodeWrapper(GraphNode node, NodeType type, boolean negated) {
 			positiveNodes = new ArrayList<GraphNode>();
 			negativeNodes = new ArrayList<GraphNode>();
@@ -608,7 +626,7 @@ public class GraphBuilder {
 		public void addNegativeNode(GraphNode node) {
 			negativeNodes.add(node);
 		}
-		
+
 		public void setExclusive() {
 			for (GraphNode n : this.positiveNodes) {
 				n.setExclusive(true);
