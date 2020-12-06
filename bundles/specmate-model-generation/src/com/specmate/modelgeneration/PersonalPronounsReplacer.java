@@ -32,8 +32,7 @@ public class PersonalPronounsReplacer {
 	 * Method replace every personal pronoun with the corresponding object using
 	 * coreferences of the {@link INLPService}
 	 *
-	 * @param text
-	 *            Text with personal pronouns
+	 * @param text Text with personal pronouns
 	 * @return Text with replaced personal pronouns
 	 */
 	public String replacePronouns(String text) {

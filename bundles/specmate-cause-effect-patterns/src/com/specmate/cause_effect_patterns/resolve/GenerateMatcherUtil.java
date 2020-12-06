@@ -21,7 +21,7 @@ import com.specmate.xtext.XTextResourceProcessor;
 public class GenerateMatcherUtil extends XTextResourceProcessor<MatchRule> {
 	private static MatchRule resolveRule(Rule r) throws MatcherException {
 		MatcherBase match = RuleUtility.transform(r);
-		return new MatchRule(match, r.getName());	
+		return new MatchRule(match, r.getName());
 	}
 
 	@Override
@@ -31,21 +31,18 @@ public class GenerateMatcherUtil extends XTextResourceProcessor<MatchRule> {
 
 	@Override
 	public List<MatchRule> process(EList<EObject> data) throws XTextException {
-		List<Rule> rules = data.stream()
-		.filter(e -> e instanceof Model)
-		.flatMap(m -> ((Model)m).getElements().stream())
-		.filter(e -> e instanceof Rule)
-		.map(r -> (Rule) r)
-		.collect(Collectors.toList());
+		List<Rule> rules = data.stream().filter(e -> e instanceof Model)
+				.flatMap(m -> ((Model) m).getElements().stream()).filter(e -> e instanceof Rule).map(r -> (Rule) r)
+				.collect(Collectors.toList());
 		List<MatchRule> result = new Vector<MatchRule>();
-		for (Rule r:rules) {
+		for (Rule r : rules) {
 			try {
 				result.add(resolveRule(r));
 			} catch (MatcherException e) {
 				throw new XTextException(e.getMessage());
 			}
 		}
-		
+
 		return result;
 	}
 }

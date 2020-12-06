@@ -37,7 +37,7 @@ public class SpecDSLSemanticSequencer extends AbstractDelegatingSemanticSequence
 
 	@Inject
 	private SpecDSLGrammarAccess grammarAccess;
-	
+
 	@Override
 	public void sequence(ISerializationContext context, EObject semanticObject) {
 		EPackage epackage = semanticObject.eClass().getEPackage();
@@ -47,270 +47,225 @@ public class SpecDSLSemanticSequencer extends AbstractDelegatingSemanticSequence
 		if (epackage == SpecDSLPackage.eINSTANCE)
 			switch (semanticObject.eClass().getClassifierID()) {
 			case SpecDSLPackage.DEP_DEF:
-				sequence_DepDef(context, (DepDef) semanticObject); 
-				return; 
+				sequence_DepDef(context, (DepDef) semanticObject);
+				return;
 			case SpecDSLPackage.DEP_TAG:
-				sequence_DepTag(context, (DepTag) semanticObject); 
-				return; 
+				sequence_DepTag(context, (DepTag) semanticObject);
+				return;
 			case SpecDSLPackage.DEPENDENCY_RULE:
 				if (rule == grammarAccess.getDependencyRuleRule()) {
-					sequence_DependencyRule(context, (DependencyRule) semanticObject); 
-					return; 
-				}
-				else if (rule == grammarAccess.getFreeDependencyRuleRule()) {
-					sequence_FreeDependencyRule(context, (DependencyRule) semanticObject); 
-					return; 
-				}
-				else break;
+					sequence_DependencyRule(context, (DependencyRule) semanticObject);
+					return;
+				} else if (rule == grammarAccess.getFreeDependencyRuleRule()) {
+					sequence_FreeDependencyRule(context, (DependencyRule) semanticObject);
+					return;
+				} else
+					break;
 			case SpecDSLPackage.EXPLICIT_NODE:
-				sequence_ExplicitNode(context, (ExplicitNode) semanticObject); 
-				return; 
+				sequence_ExplicitNode(context, (ExplicitNode) semanticObject);
+				return;
 			case SpecDSLPackage.IMPORT:
-				sequence_Import(context, (Import) semanticObject); 
-				return; 
+				sequence_Import(context, (Import) semanticObject);
+				return;
 			case SpecDSLPackage.MODEL:
-				sequence_Model(context, (Model) semanticObject); 
-				return; 
+				sequence_Model(context, (Model) semanticObject);
+				return;
 			case SpecDSLPackage.OPTION_NODE:
-				sequence_OptionNode(context, (OptionNode) semanticObject); 
-				return; 
+				sequence_OptionNode(context, (OptionNode) semanticObject);
+				return;
 			case SpecDSLPackage.POS_TAG:
-				sequence_POSTag(context, (POSTag) semanticObject); 
-				return; 
+				sequence_POSTag(context, (POSTag) semanticObject);
+				return;
 			case SpecDSLPackage.POS_DEF:
-				sequence_PosDef(context, (PosDef) semanticObject); 
-				return; 
+				sequence_PosDef(context, (PosDef) semanticObject);
+				return;
 			case SpecDSLPackage.RULE:
-				sequence_Rule(context, (Rule) semanticObject); 
-				return; 
+				sequence_Rule(context, (Rule) semanticObject);
+				return;
 			case SpecDSLPackage.SUBTREE:
-				sequence_Subtree(context, (Subtree) semanticObject); 
-				return; 
+				sequence_Subtree(context, (Subtree) semanticObject);
+				return;
 			case SpecDSLPackage.TREE_DEF:
-				sequence_TreeDef(context, (TreeDef) semanticObject); 
-				return; 
+				sequence_TreeDef(context, (TreeDef) semanticObject);
+				return;
 			case SpecDSLPackage.TREE_NODE:
-				sequence_TreeNode(context, (TreeNode) semanticObject); 
-				return; 
+				sequence_TreeNode(context, (TreeNode) semanticObject);
+				return;
 			case SpecDSLPackage.TREE_TAG:
-				sequence_TreeTag(context, (TreeTag) semanticObject); 
-				return; 
+				sequence_TreeTag(context, (TreeTag) semanticObject);
+				return;
 			}
 		if (errorAcceptor != null)
 			errorAcceptor.accept(diagnosticProvider.createInvalidContextOrTypeDiagnostic(semanticObject, context));
 	}
-	
+
 	/**
-	 * Contexts:
-	 *     AbstractElement returns DepDef
-	 *     DepDef returns DepDef
+	 * Contexts: AbstractElement returns DepDef DepDef returns DepDef
 	 *
-	 * Constraint:
-	 *     (name=QualifiedName tags+=DepTag*)
+	 * Constraint: (name=QualifiedName tags+=DepTag*)
 	 */
 	protected void sequence_DepDef(ISerializationContext context, DepDef semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
-	
-	
+
 	/**
-	 * Contexts:
-	 *     DepTag returns DepTag
-	 *     Tag returns DepTag
+	 * Contexts: DepTag returns DepTag Tag returns DepTag
 	 *
-	 * Constraint:
-	 *     (name=ID tagname=STRING?)
+	 * Constraint: (name=ID tagname=STRING?)
 	 */
 	protected void sequence_DepTag(ISerializationContext context, DepTag semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
-	
-	
+
 	/**
-	 * Contexts:
-	 *     DependencyRule returns DependencyRule
+	 * Contexts: DependencyRule returns DependencyRule
 	 *
-	 * Constraint:
-	 *     (
-	 *         (leftNode=TreeNode dTag=[DepTag|QualifiedName] (rightNode=Node | rightNode=FreeDependencyRule)) | 
-	 *         (leftNode=NonTreeNode dTag=[DepTag|QualifiedName] (rightNode=TreeNode | rightNode=DependencyRule))
-	 *     )
+	 * Constraint: ( (leftNode=TreeNode dTag=[DepTag|QualifiedName] (rightNode=Node
+	 * | rightNode=FreeDependencyRule)) | (leftNode=NonTreeNode
+	 * dTag=[DepTag|QualifiedName] (rightNode=TreeNode | rightNode=DependencyRule))
+	 * )
 	 */
 	protected void sequence_DependencyRule(ISerializationContext context, DependencyRule semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
-	
-	
+
 	/**
-	 * Contexts:
-	 *     Node returns ExplicitNode
-	 *     NonTreeNode returns ExplicitNode
-	 *     ExplicitNode returns ExplicitNode
+	 * Contexts: Node returns ExplicitNode NonTreeNode returns ExplicitNode
+	 * ExplicitNode returns ExplicitNode
 	 *
-	 * Constraint:
-	 *     (pTag=[POSTag|QualifiedName]? ((caseSensitive?='CASE!'? expr=STRING) | anyMatch?='*'))
+	 * Constraint: (pTag=[POSTag|QualifiedName]? ((caseSensitive?='CASE!'?
+	 * expr=STRING) | anyMatch?='*'))
 	 */
 	protected void sequence_ExplicitNode(ISerializationContext context, ExplicitNode semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
-	
-	
+
 	/**
-	 * Contexts:
-	 *     FreeDependencyRule returns DependencyRule
+	 * Contexts: FreeDependencyRule returns DependencyRule
 	 *
-	 * Constraint:
-	 *     (leftNode=Node dTag=[DepTag|QualifiedName] (rightNode=Node | rightNode=FreeDependencyRule))
+	 * Constraint: (leftNode=Node dTag=[DepTag|QualifiedName] (rightNode=Node |
+	 * rightNode=FreeDependencyRule))
 	 */
 	protected void sequence_FreeDependencyRule(ISerializationContext context, DependencyRule semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
-	
-	
+
 	/**
-	 * Contexts:
-	 *     AbstractElement returns Import
-	 *     Import returns Import
+	 * Contexts: AbstractElement returns Import Import returns Import
 	 *
-	 * Constraint:
-	 *     importedNamespace=QualifiedNameWithWildcard
+	 * Constraint: importedNamespace=QualifiedNameWithWildcard
 	 */
 	protected void sequence_Import(ISerializationContext context, Import semanticObject) {
 		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, SpecDSLPackage.Literals.IMPORT__IMPORTED_NAMESPACE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, SpecDSLPackage.Literals.IMPORT__IMPORTED_NAMESPACE));
+			if (transientValues.isValueTransient(semanticObject,
+					SpecDSLPackage.Literals.IMPORT__IMPORTED_NAMESPACE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject,
+						SpecDSLPackage.Literals.IMPORT__IMPORTED_NAMESPACE));
 		}
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getImportAccess().getImportedNamespaceQualifiedNameWithWildcardParserRuleCall_1_0(), semanticObject.getImportedNamespace());
+		feeder.accept(grammarAccess.getImportAccess().getImportedNamespaceQualifiedNameWithWildcardParserRuleCall_1_0(),
+				semanticObject.getImportedNamespace());
 		feeder.finish();
 	}
-	
-	
+
 	/**
-	 * Contexts:
-	 *     Model returns Model
+	 * Contexts: Model returns Model
 	 *
-	 * Constraint:
-	 *     elements+=AbstractElement+
+	 * Constraint: elements+=AbstractElement+
 	 */
 	protected void sequence_Model(ISerializationContext context, Model semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
-	
-	
+
 	/**
-	 * Contexts:
-	 *     Node returns OptionNode
-	 *     NonTreeNode returns OptionNode
-	 *     OptionNode returns OptionNode
+	 * Contexts: Node returns OptionNode NonTreeNode returns OptionNode OptionNode
+	 * returns OptionNode
 	 *
-	 * Constraint:
-	 *     (leftNode=ExplicitNode rightNodes+=ExplicitNode+)
+	 * Constraint: (leftNode=ExplicitNode rightNodes+=ExplicitNode+)
 	 */
 	protected void sequence_OptionNode(ISerializationContext context, OptionNode semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
-	
-	
+
 	/**
-	 * Contexts:
-	 *     POSTag returns POSTag
-	 *     Tag returns POSTag
+	 * Contexts: POSTag returns POSTag Tag returns POSTag
 	 *
-	 * Constraint:
-	 *     (name=ID tagname=STRING?)
+	 * Constraint: (name=ID tagname=STRING?)
 	 */
 	protected void sequence_POSTag(ISerializationContext context, POSTag semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
-	
-	
+
 	/**
-	 * Contexts:
-	 *     AbstractElement returns PosDef
-	 *     PosDef returns PosDef
+	 * Contexts: AbstractElement returns PosDef PosDef returns PosDef
 	 *
-	 * Constraint:
-	 *     (name=QualifiedName tags+=POSTag*)
+	 * Constraint: (name=QualifiedName tags+=POSTag*)
 	 */
 	protected void sequence_PosDef(ISerializationContext context, PosDef semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
-	
-	
+
 	/**
-	 * Contexts:
-	 *     AbstractElement returns Rule
-	 *     Rule returns Rule
+	 * Contexts: AbstractElement returns Rule Rule returns Rule
 	 *
-	 * Constraint:
-	 *     (name=ID dependencies+=DependencyRule+)
+	 * Constraint: (name=ID dependencies+=DependencyRule+)
 	 */
 	protected void sequence_Rule(ISerializationContext context, Rule semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
-	
-	
+
 	/**
-	 * Contexts:
-	 *     Subtree returns Subtree
+	 * Contexts: Subtree returns Subtree
 	 *
-	 * Constraint:
-	 *     name=[TreeTag|ID]
+	 * Constraint: name=[TreeTag|ID]
 	 */
 	protected void sequence_Subtree(ISerializationContext context, Subtree semanticObject) {
 		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, SpecDSLPackage.Literals.SUBTREE__NAME) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, SpecDSLPackage.Literals.SUBTREE__NAME));
+			if (transientValues.isValueTransient(semanticObject,
+					SpecDSLPackage.Literals.SUBTREE__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject,
+						SpecDSLPackage.Literals.SUBTREE__NAME));
 		}
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getSubtreeAccess().getNameTreeTagIDTerminalRuleCall_1_0_1(), semanticObject.eGet(SpecDSLPackage.Literals.SUBTREE__NAME, false));
+		feeder.accept(grammarAccess.getSubtreeAccess().getNameTreeTagIDTerminalRuleCall_1_0_1(),
+				semanticObject.eGet(SpecDSLPackage.Literals.SUBTREE__NAME, false));
 		feeder.finish();
 	}
-	
-	
+
 	/**
-	 * Contexts:
-	 *     AbstractElement returns TreeDef
-	 *     TreeDef returns TreeDef
+	 * Contexts: AbstractElement returns TreeDef TreeDef returns TreeDef
 	 *
-	 * Constraint:
-	 *     (trees+=TreeTag+ | (trees+=TreeTag trees+=TreeTag*))?
+	 * Constraint: (trees+=TreeTag+ | (trees+=TreeTag trees+=TreeTag*))?
 	 */
 	protected void sequence_TreeDef(ISerializationContext context, TreeDef semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
-	
-	
+
 	/**
-	 * Contexts:
-	 *     Node returns TreeNode
-	 *     TreeNode returns TreeNode
+	 * Contexts: Node returns TreeNode TreeNode returns TreeNode
 	 *
-	 * Constraint:
-	 *     (pTag=[POSTag|QualifiedName]? (expr=STRING | anyMatch?='*')? tree=Subtree)
+	 * Constraint: (pTag=[POSTag|QualifiedName]? (expr=STRING | anyMatch?='*')?
+	 * tree=Subtree)
 	 */
 	protected void sequence_TreeNode(ISerializationContext context, TreeNode semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
-	
-	
+
 	/**
-	 * Contexts:
-	 *     TreeTag returns TreeTag
+	 * Contexts: TreeTag returns TreeTag
 	 *
-	 * Constraint:
-	 *     name=ID
+	 * Constraint: name=ID
 	 */
 	protected void sequence_TreeTag(ISerializationContext context, TreeTag semanticObject) {
 		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, SpecDSLPackage.Literals.TREE_TAG__NAME) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, SpecDSLPackage.Literals.TREE_TAG__NAME));
+			if (transientValues.isValueTransient(semanticObject,
+					SpecDSLPackage.Literals.TREE_TAG__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject,
+						SpecDSLPackage.Literals.TREE_TAG__NAME));
 		}
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getTreeTagAccess().getNameIDTerminalRuleCall_0(), semanticObject.getName());
 		feeder.finish();
 	}
-	
-	
+
 }

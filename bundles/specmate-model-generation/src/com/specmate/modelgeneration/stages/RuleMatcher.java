@@ -30,13 +30,13 @@ public class RuleMatcher {
 	private INLPService tagger;
 	private IConfigService configService;
 
-
-	public RuleMatcher(INLPService nlpService, IConfigService configService, ELanguage language) throws SpecmateInternalException {
+	public RuleMatcher(INLPService nlpService, IConfigService configService, ELanguage language)
+			throws SpecmateInternalException {
 		tagger = nlpService;
 		lang = language;
 		this.configService = configService;
 	}
-	
+
 	public void loadCEGRessources() throws SpecmateInternalException {
 		loadRessources("CEG");
 	}
@@ -53,10 +53,10 @@ public class RuleMatcher {
 		String langCode = lang.getLanguage().toUpperCase();
 
 		try {
-			URI dep = getURI(depPath,  "resources/"+langCode+"/Dep_"+langCode+".spec");
-			URI pos = getURI(posPath,  "resources/"+langCode+"/Pos_"+langCode+".spec");
+			URI dep = getURI(depPath, "resources/" + langCode + "/Dep_" + langCode + ".spec");
+			URI pos = getURI(posPath, "resources/" + langCode + "/Pos_" + langCode + ".spec");
 			// TODO MA misc: switch case for RG/CEG
-			URI rule = getURI(rulePath,"resources/"+langCode+"/Rule_"+type+"_"+langCode+".spec");
+			URI rule = getURI(rulePath, "resources/" + langCode + "/Rule_" + type + "_" + langCode + ".spec");
 
 			rules = new GenerateMatcherUtil().loadXTextResources(rule, dep, pos);
 		} catch (XTextException e) {
@@ -68,8 +68,10 @@ public class RuleMatcher {
 
 	/**
 	 * Read in the location paths from the configService
-	 * @return A String Array of length 3 with the paths to {dependency, POS, rules} in that order.
-	 * If there is no data given for any of those paths, the specific element is null.
+	 * 
+	 * @return A String Array of length 3 with the paths to {dependency, POS, rules}
+	 *         in that order. If there is no data given for any of those paths, the
+	 *         specific element is null.
 	 */
 	private String[] readURIStringsFromConfig() {
 		Set<Entry<Object, Object>> configData = configService.getConfigurationProperties("generation.dsl");
@@ -78,31 +80,31 @@ public class RuleMatcher {
 		String rulePath = null;
 		String langCode = lang.toString().toUpperCase();
 
-		//generation.dsl.<LANG>.rule
-		//generation.dsl.<LANG>.dependency
-		//generation.dsl.<LANG>.pos
-		for(Entry<Object,Object> entry: configData) {
+		// generation.dsl.<LANG>.rule
+		// generation.dsl.<LANG>.dependency
+		// generation.dsl.<LANG>.pos
+		for (Entry<Object, Object> entry : configData) {
 			String key = (String) entry.getKey();
 
-			if(key.equals("generation.dsl."+langCode+".rule")) {
+			if (key.equals("generation.dsl." + langCode + ".rule")) {
 				rulePath = (String) entry.getValue();
 			}
 
-			if(key.equals("generation.dsl."+langCode+".dependency")) {
+			if (key.equals("generation.dsl." + langCode + ".dependency")) {
 				depPath = (String) entry.getValue();
 			}
 
-			if(key.equals("generation.dsl."+langCode+".pos")) {
+			if (key.equals("generation.dsl." + langCode + ".pos")) {
 				posPath = (String) entry.getValue();
 			}
 		}
 
-		String[] result = {depPath, posPath, rulePath};
+		String[] result = { depPath, posPath, rulePath };
 		return result;
 	}
 
 	private URI getURI(String path, String localDefault) throws URISyntaxException {
-		if(path != null) {
+		if (path != null) {
 			return URI.createURI(path);
 		}
 		return getLocalFile(localDefault);

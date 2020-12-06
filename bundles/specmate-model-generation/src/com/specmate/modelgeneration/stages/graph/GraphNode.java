@@ -32,14 +32,15 @@ public class GraphNode {
 	public List<GraphEdge> getChildEdges() {
 		return childEdges;
 	}
+
 	public List<GraphEdge> getParentEdges() {
 		return parentEdges;
 	}
+
 	public void removeEdge(GraphEdge edge) {
 		parentEdges.remove(edge);
 		childEdges.remove(edge);
 	}
-
 
 	public void connectTo(GraphNode node, boolean negateEdge) {
 		GraphEdge edge = new GraphEdge(this, node, negateEdge);
@@ -55,7 +56,6 @@ public class GraphNode {
 		graph.edges.add(edge);
 	}
 
-	
 	public NodeType getType() {
 		return type;
 	}
@@ -88,15 +88,14 @@ public class GraphNode {
 		return childEdges.isEmpty();
 	}
 
-
 	int getDepth() {
-		if(isRoot()) {
+		if (isRoot()) {
 			return 0;
 		}
 
 		int maxDepth = parentEdges.get(0).getFrom().getDepth();
-		for(GraphEdge edge: parentEdges) {
-			int depth =  edge.getFrom().getDepth();
+		for (GraphEdge edge : parentEdges) {
+			int depth = edge.getFrom().getDepth();
 			maxDepth = Math.max(maxDepth, depth);
 		}
 
@@ -104,13 +103,13 @@ public class GraphNode {
 	}
 
 	public int getHeight() {
-		if(isLeaf()) {
+		if (isLeaf()) {
 			return getDepth();
 		}
 
 		int minHeight = childEdges.get(0).getTo().getHeight();
-		for(GraphEdge edge: childEdges) {
-			int depth =  edge.getTo().getHeight();
+		for (GraphEdge edge : childEdges) {
+			int depth = edge.getTo().getHeight();
 			minHeight = Math.min(minHeight, depth);
 		}
 		return minHeight - 1;

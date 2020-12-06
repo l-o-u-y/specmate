@@ -32,7 +32,6 @@ public class DependencyParsetree {
 
 	private static String ROOT = "ROOT";
 
-
 	private Map<Token, DependencyNode> dependencies;
 	private Set<Token> heads;
 	private List<TextInterval> treeFragments;
@@ -47,19 +46,19 @@ public class DependencyParsetree {
 
 		Collection<Dependency> dependencyList = JCasUtil.select(jcas, Dependency.class);
 
-		for(Dependency d: dependencyList) {
+		for (Dependency d : dependencyList) {
 			Token governor = d.getGovernor();
 
-			if(DependencyParsetree.ignoreDependency.contains(d.getDependencyType())) {
+			if (DependencyParsetree.ignoreDependency.contains(d.getDependencyType())) {
 				continue;
 			}
 
-			if(!result.dependencies.containsKey(governor)) {
+			if (!result.dependencies.containsKey(governor)) {
 				result.dependencies.put(governor, new DependencyNode());
 				result.addFragment(governor);
 			}
 
-			if(d.getDependencyType().equals(ROOT)) {
+			if (d.getDependencyType().equals(ROOT)) {
 				result.heads.add(governor);
 			} else {
 				result.dependencies.get(governor).addDepenency(d);
@@ -73,10 +72,10 @@ public class DependencyParsetree {
 	public static DependencyParsetree getSubtree(DependencyParsetree data, Token token) {
 		DependencyParsetree result = new DependencyParsetree(data.tokenOrder, token);
 
-		if(data.hasDependencies(token)) {
-			for (Dependency d: data.getDependencyNode(token)) {
+		if (data.hasDependencies(token)) {
+			for (Dependency d : data.getDependencyNode(token)) {
 				Token child = d.getDependent();
-				if(child == token) {
+				if (child == token) {
 					continue;
 				}
 				result.addSubtree(DependencyParsetree.getSubtree(data, child), d);
@@ -104,8 +103,8 @@ public class DependencyParsetree {
 	}
 
 	public void addSubtree(DependencyParsetree subtree) {
-		for(Token token: subtree.dependencies.keySet()) {
-			if(dependencies.containsKey(token)) {
+		for (Token token : subtree.dependencies.keySet()) {
+			if (dependencies.containsKey(token)) {
 				DependencyNode nodeA = dependencies.get(token);
 				DependencyNode nodeB = subtree.dependencies.get(token);
 				nodeA.addDependencies(nodeB);
@@ -144,12 +143,12 @@ public class DependencyParsetree {
 	 * Merges tree fragments if they can be merged to a bigger fragment.
 	 */
 	private void minimizeTreeFragments() {
-		for(int i=0; i< treeFragments.size(); i++) {
+		for (int i = 0; i < treeFragments.size(); i++) {
 			TextInterval iInt = treeFragments.get(i);
 
-			for(int j = i+1; j<treeFragments.size(); j++) {
+			for (int j = i + 1; j < treeFragments.size(); j++) {
 				TextInterval comb = iInt.combine(treeFragments.get(j), tokenOrder);
-				if(comb != null) {
+				if (comb != null) {
 					treeFragments.remove(j);
 					treeFragments.set(i, comb);
 					i = -1;
@@ -170,11 +169,9 @@ public class DependencyParsetree {
 	}
 
 	public String getRepresentationString(boolean capitalize) {
-		String result = treeFragments.stream()
-				.map(f -> f.text)
-				.filter(DependencyParsetree::filterCondition)
+		String result = treeFragments.stream().map(f -> f.text).filter(DependencyParsetree::filterCondition)
 				.collect(Collectors.joining(" "));
-		if(capitalize) {
+		if (capitalize) {
 			result = result.substring(0, 1).toUpperCase() + result.substring(1);
 		}
 
@@ -183,11 +180,12 @@ public class DependencyParsetree {
 
 	/**
 	 * Filters punctuation without filtering operators
+	 * 
 	 * @param str
 	 * @return
 	 */
 	private static boolean filterCondition(String str) {
-		if(str.length() > 1) {
+		if (str.length() > 1) {
 			return true;
 		}
 		// Special Exception for operators.
@@ -197,8 +195,8 @@ public class DependencyParsetree {
 
 	public String getTreeFragmentText() {
 		String result = "Fragments:\n";
-		for(TextInterval i: treeFragments) {
-			result += "\t"+i+"\n";
+		for (TextInterval i : treeFragments) {
+			result += "\t" + i + "\n";
 		}
 		return result;
 	}
@@ -206,36 +204,36 @@ public class DependencyParsetree {
 	@Override
 	public String toString() {
 		String result = "Roots:\n";
-		for(Token root: heads) {
-			result+= "\t"+root.getCoveredText()+"\n";
+		for (Token root : heads) {
+			result += "\t" + root.getCoveredText() + "\n";
 		}
 
-		result+="Dependencies:\n";
-		for(Token t: dependencies.keySet()) {
-			result+= "\t"+t.getCoveredText()+"\n";
+		result += "Dependencies:\n";
+		for (Token t : dependencies.keySet()) {
+			result += "\t" + t.getCoveredText() + "\n";
 			DependencyNode node = getDependencyNode(t);
-			for(String key: node.getKeySet()) {
-				List<Dependency>dependencies = node.getDependenciesFromTag(key);
-				for(Dependency d: dependencies) {
-					result += "\t\t--"+d.getDependencyType()+"-->"+d.getDependent().getCoveredText()+"\n";
+			for (String key : node.getKeySet()) {
+				List<Dependency> dependencies = node.getDependenciesFromTag(key);
+				for (Dependency d : dependencies) {
+					result += "\t\t--" + d.getDependencyType() + "-->" + d.getDependent().getCoveredText() + "\n";
 				}
 			}
 		}
 
-		result+= getTreeFragmentText();
+		result += getTreeFragmentText();
 		return result;
 	}
 
 	public void addDependency(Dependency dependency) {
 		Token governor = dependency.getGovernor();
-		if(!dependencies.containsKey(governor)) {
+		if (!dependencies.containsKey(governor)) {
 			dependencies.put(governor, new DependencyNode());
 			addFragment(governor);
 		}
 		dependencies.get(governor).addDepenency(dependency);
 	}
 
-	public class TextInterval implements Comparable<TextInterval>{
+	public class TextInterval implements Comparable<TextInterval> {
 		public int from, to;
 		public String text;
 
@@ -253,20 +251,20 @@ public class DependencyParsetree {
 			TextInterval begin = this;
 			TextInterval end = other;
 
-			if(other.from < from || (other.from == from && other.to >= to)) {
+			if (other.from < from || (other.from == from && other.to >= to)) {
 				begin = other;
 				end = this;
 			}
 
-			if(begin.to == end.from) {
-				return new TextInterval(begin.from, end.to, begin.text+end.text);
+			if (begin.to == end.from) {
+				return new TextInterval(begin.from, end.to, begin.text + end.text);
 			}
 
-			if(begin.getLastIndex(order) == end.getFirstIndex(order)-1) {
-				return new TextInterval(begin.from, end.to, begin.text+" "+end.text);
+			if (begin.getLastIndex(order) == end.getFirstIndex(order) - 1) {
+				return new TextInterval(begin.from, end.to, begin.text + " " + end.text);
 			}
 
-			if(begin.to >= end.to) {
+			if (begin.to >= end.to) {
 				return begin;
 			}
 
@@ -279,26 +277,26 @@ public class DependencyParsetree {
 
 		private int getLastIndex(SortedIntSet order) {
 			int i = getFirstIndex(order);
-			while(i < order.size()) {
-				if(to < order.get(i)) {
+			while (i < order.size()) {
+				if (to < order.get(i)) {
 					break;
 				}
 				i++;
 			}
-			return i-1;
+			return i - 1;
 		}
 
 		@Override
 		public String toString() {
-			return text + " " + from+ " - "+to;
+			return text + " " + from + " - " + to;
 		}
 
 		@Override
 		public int compareTo(TextInterval o) {
-			if(to <= o.from) {
+			if (to <= o.from) {
 				return -1;
 			}
-			if(o.to <= from) {
+			if (o.to <= from) {
 				return 1;
 			}
 			return 0;

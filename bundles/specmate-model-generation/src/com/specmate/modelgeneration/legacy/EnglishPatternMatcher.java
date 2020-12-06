@@ -38,10 +38,8 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Method splits the sentences into the cause and the effect if it matches one
 	 * pattern
 	 *
-	 * @param sentence
-	 *            sentence to split
-	 * @param jCas
-	 *            NLPTagged text
+	 * @param sentence sentence to split
+	 * @param jCas     NLPTagged text
 	 * @return array with two elements. First element: cause, second element:effect
 	 * @throws SpecmateInternalException
 	 */
@@ -289,8 +287,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * of 'if'(starting with when)
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return
 	 */
 	public boolean matchPattern2_1(Sentence sentence, JCas jCas) {
@@ -324,8 +321,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * of 'if'(when in the middle)
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return
 	 */
 	public boolean matchPattern2_2(Sentence sentence, JCas jCas) {
@@ -355,8 +351,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * of 'if'(starting with when) and effect introduced with then
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return
 	 */
 	public boolean matchPattern2_3(Sentence sentence, JCas jCas) {
@@ -371,8 +366,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Detect if the sentence matches pattern 3: because
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return
 	 */
 	public boolean matchPattern3(Sentence sentence, JCas jCas) {
@@ -392,8 +386,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Return the cause and effect of a sentence matching pattern 3: because
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return array containing cause and effect: First element: cause, second
 	 *         element effect
 	 */
@@ -420,8 +413,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Detect if the sentence matches pattern 4: for this reason
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return
 	 */
 	public boolean matchPattern4(Sentence sentence, JCas jCas) {
@@ -446,8 +438,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Return the cause and effect of a sentence matching pattern 4: for this reason
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return array containing cause and effect: First element: cause, second
 	 *         element effect
 	 */
@@ -476,8 +467,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Detect if the sentence matches pattern 5: as a result
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return
 	 */
 	public boolean matchPattern5(Sentence sentence, JCas jCas) {
@@ -502,8 +492,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Return the cause and effect of a sentence matching pattern 5: as a result
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return array containing cause and effect: First element: cause, second
 	 *         element effect
 	 */
@@ -532,8 +521,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Detect if the sentence matches pattern 6: due to
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return
 	 */
 	public boolean matchPattern6(Sentence sentence, JCas jCas) {
@@ -553,8 +541,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Return the cause and effect of a sentence matching pattern 6: due to
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return array containing cause and effect: First element: cause, second
 	 *         element effect
 	 */
@@ -581,8 +568,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Detect if the sentence matches pattern 7: owing to
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return
 	 */
 	public boolean matchPattern7(Sentence sentence, JCas jCas) {
@@ -599,8 +585,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Return the cause and effect of a sentence matching pattern 7: owing to
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return array containing cause and effect: First element: cause, second
 	 *         element effect
 	 */
@@ -624,8 +609,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Detect if the sentence matches pattern 8: provided that
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return
 	 */
 	public boolean matchPattern8(Sentence sentence, JCas jCas) {
@@ -644,8 +628,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Return the cause and effect of a sentence matching pattern 8: provided that
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return array containing cause and effect: First element: cause, second
 	 *         element effect
 	 */
@@ -671,8 +654,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Detect if the sentence matches pattern 9: have something to do
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return
 	 */
 	public boolean matchPattern9(Sentence sentence, JCas jCas) {
@@ -692,8 +674,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * to do
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return array containing cause and effect: First element: cause, second
 	 *         element effect
 	 */
@@ -727,8 +708,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Detect if the sentence matches pattern 10: a lot to do
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return
 	 */
 	public boolean matchPattern10(Sentence sentence, JCas jCas) {
@@ -742,8 +722,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Return the cause and effect of a sentence matching pattern 10: a lot to do
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return array containing cause and effect: First element: cause, second
 	 *         element effect
 	 */
@@ -762,8 +741,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Detect if the sentence matches pattern 11: so that
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return
 	 */
 	public boolean matchPattern11(Sentence sentence, JCas jCas) {
@@ -777,8 +755,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Return the cause and effect of a sentence matching pattern 11: so that
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return array containing cause and effect: First element: cause, second
 	 *         element effect
 	 */
@@ -793,8 +770,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Detect if the sentence matches pattern 12: in order that
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return
 	 */
 	public boolean matchPattern12(Sentence sentence, JCas jCas) {
@@ -813,8 +789,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Return the cause and effect of a sentence matching pattern 12: in order that
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return array containing cause and effect: First element: cause, second
 	 *         element effect
 	 */
@@ -839,8 +814,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Detect if the sentence matches pattern 13: although
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return
 	 */
 	public boolean matchPattern13(Sentence sentence, JCas jCas) {
@@ -859,8 +833,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Return the cause and effect of a sentence matching pattern 13: although
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return array containing cause and effect: First element: cause, second
 	 *         element effect
 	 */
@@ -886,8 +859,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Detect if the sentence matches pattern 14: even though
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return
 	 */
 	public boolean matchPattern14(Sentence sentence, JCas jCas) {
@@ -906,8 +878,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Return the cause and effect of a sentence matching pattern 14: even though
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return array containing cause and effect: First element: cause, second
 	 *         element effect
 	 */
@@ -933,8 +904,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Detect if the sentence matches pattern 15: in the case that
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return
 	 */
 	public boolean matchPattern15(Sentence sentence, JCas jCas) {
@@ -954,8 +924,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * that
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return array containing cause and effect: First element: cause, second
 	 *         element effect
 	 */
@@ -981,8 +950,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Detect if the sentence matches pattern 16: on condition that
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return
 	 */
 	public boolean matchPattern16(Sentence sentence, JCas jCas) {
@@ -1002,8 +970,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * that
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return array containing cause and effect: First element: cause, second
 	 *         element effect
 	 */
@@ -1029,8 +996,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Detect if the sentence matches pattern 17: supposing that
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return
 	 */
 	public boolean matchPattern17(Sentence sentence, JCas jCas) {
@@ -1049,8 +1015,7 @@ public class EnglishPatternMatcher implements IPatternMatcher {
 	 * Return the cause and effect of a sentence matching pattern 17: supposing that
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return array containing cause and effect: First element: cause, second
 	 *         element effect
 	 */

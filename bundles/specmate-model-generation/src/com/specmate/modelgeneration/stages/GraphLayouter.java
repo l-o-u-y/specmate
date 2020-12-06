@@ -22,17 +22,18 @@ public abstract class GraphLayouter<T, S, U> {
 		this.creation = creation;
 		log = null;
 	}
+
 	public GraphLayouter(ELanguage language, Creation<T, S, U> creation, LogService logService) {
 		lang = language;
 		this.creation = creation;
 		log = logService;
 	}
 
-
 	public T createModel(Graph graph) {
 		T model = creation.createModel();
 		return createModel(graph, model);
 	}
+
 	public abstract T createModel(Graph graph, T model);
 
 }

@@ -45,11 +45,9 @@ public class GermanAndOrSplitter implements IAndOrSplitter {
 	 * Example: 'The house is green or blue' is splitted into 'the house is green'
 	 * and 'the house is blue'. the subject is added to the second sentence.
 	 *
-	 * @param splittedText
-	 *            splitted text at 'or' or 'and'
+	 * @param splittedText splitted text at 'or' or 'and'
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas         NLP tagged text
 	 * @return
 	 */
 	public String[] textSplitter(String[] splittedText, Sentence sentence, JCas jCas) {
@@ -93,11 +91,9 @@ public class GermanAndOrSplitter implements IAndOrSplitter {
 	/**
 	 * Return the next nounphrase before the given position in the sentence
 	 *
-	 * @param pos
-	 *            position
+	 * @param pos      position
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return nounphrase
 	 */
 
@@ -124,11 +120,9 @@ public class GermanAndOrSplitter implements IAndOrSplitter {
 	/**
 	 * Return the first verbphrase after the nounphrase with the given position
 	 *
-	 * @param pos
-	 *            position of the nounphrase
+	 * @param pos      position of the nounphrase
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return verbphrase
 	 */
 	public Chunk getVPafterNP(int pos, Sentence sentence, JCas jCas) {

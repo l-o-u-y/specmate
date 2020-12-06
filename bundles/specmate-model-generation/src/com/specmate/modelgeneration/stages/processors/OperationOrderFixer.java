@@ -12,17 +12,17 @@ public class OperationOrderFixer extends MatchTreeVisitor {
 	public void visit(BinaryMatchResultTreeNode node) {
 		node.getFirstArgument().acceptVisitor(this);
 		node.getSecondArgument().acceptVisitor(this);
-		
-		RuleType type 		= node.getType();
-		RuleType typeChild  = node.getFirstArgument().getType();
-		if(typeChild != null && type.getPriority() > typeChild.getPriority() && typeChild.getPriority()!=-1) {
+
+		RuleType type = node.getType();
+		RuleType typeChild = node.getFirstArgument().getType();
+		if (typeChild != null && type.getPriority() > typeChild.getPriority() && typeChild.getPriority() != -1) {
 			// Left Swap
 			node.leftSwap();
 			node.getFirstArgument().acceptVisitor(this);
 		}
-		
+
 		typeChild = node.getSecondArgument().getType();
-		if(typeChild != null && type.getPriority() > typeChild.getPriority() && typeChild.getPriority()!=-1) {
+		if (typeChild != null && type.getPriority() > typeChild.getPriority() && typeChild.getPriority() != -1) {
 			// Right Swap
 			node.rightSwap();
 			node.acceptVisitor(this);
@@ -30,7 +30,8 @@ public class OperationOrderFixer extends MatchTreeVisitor {
 	}
 
 	@Override
-	public void visit(LeafTreeNode node) {}
+	public void visit(LeafTreeNode node) {
+	}
 
 	@Override
 	public void visit(NegationTreeNode node) {

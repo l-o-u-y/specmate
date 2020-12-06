@@ -355,12 +355,13 @@ public class MatchTreeBuilder {
 
 		return null;
 	}
-	
+
 	public MatchResultTreeNode parseLabelTree(MatchResultTreeNode root, BinaryMatchResultTreeNode node) {
 		if (root instanceof BinaryMatchResultTreeNode) {
 			switch (root.getType()) {
 			case TMP:
-				((BinaryMatchResultTreeNode) root).setFirstArgument(parseLabelTree(((BinaryMatchResultTreeNode) root).getFirstArgument(), node));
+				((BinaryMatchResultTreeNode) root)
+						.setFirstArgument(parseLabelTree(((BinaryMatchResultTreeNode) root).getFirstArgument(), node));
 				return root;
 			case ACTION:
 			case COMPOSITION:
@@ -371,13 +372,15 @@ public class MatchTreeBuilder {
 				System.err.println("Found a limited condition node while parsing label tree");
 				break;
 			case CONDITION:
-				((BinaryMatchResultTreeNode) root).setSecondArgument(parseLabelTree(((BinaryMatchResultTreeNode) root).getSecondArgument(), node));
+				((BinaryMatchResultTreeNode) root).setSecondArgument(
+						parseLabelTree(((BinaryMatchResultTreeNode) root).getSecondArgument(), node));
 				return root;
 			case CONJUNCTION_AND:
 			case CONJUNCTION_NOR:
 			case CONJUNCTION_OR:
 			case CONJUNCTION_XOR:
-				((BinaryMatchResultTreeNode) root).setFirstArgument(parseLabelTree(((BinaryMatchResultTreeNode) root).getFirstArgument(), node));
+				((BinaryMatchResultTreeNode) root)
+						.setFirstArgument(parseLabelTree(((BinaryMatchResultTreeNode) root).getFirstArgument(), node));
 				return root;
 			case REMOVE:
 				System.err.println("Found a remove node while parsing label tree");
@@ -396,7 +399,7 @@ public class MatchTreeBuilder {
 			((NegationTreeNode) root).setClause(parseLabelTree(((NegationTreeNode) root).getClause(), node));
 			return root;
 		} else if (root instanceof LeafTreeNode) {
-			node.setLabel((LeafTreeNode)root);
+			node.setLabel((LeafTreeNode) root);
 			return node;
 		}
 		System.err.println("Return node without doing anything");
@@ -429,27 +432,30 @@ public class MatchTreeBuilder {
 				|| isInheritance(result)) {
 			MatchResultTreeNode left = getFirstArgument(result).get();
 			MatchResultTreeNode right = getSecondArgument(result).get();
-			
-			MatchResultTreeNode labelTree = getThirdArgument(result).isPresent() ? getThirdArgument(result).get() : null;
-			if (labelTree != null && (labelTree instanceof BinaryMatchResultTreeNode || labelTree instanceof NegationTreeNode)) {
+
+			MatchResultTreeNode labelTree = getThirdArgument(result).isPresent() ? getThirdArgument(result).get()
+					: null;
+			if (labelTree != null
+					&& (labelTree instanceof BinaryMatchResultTreeNode || labelTree instanceof NegationTreeNode)) {
 				BinaryMatchResultTreeNode tmp = new BinaryMatchResultTreeNode(left, right, getType(result));
 				return Optional.of(parseLabelTree(labelTree, tmp));
-			} else { //if (labelTree instanceof LeafTreeNode)
-				return Optional.of(new BinaryMatchResultTreeNode(left, right, getType(result), ((LeafTreeNode) labelTree)));	
+			} else { // if (labelTree instanceof LeafTreeNode)
+				return Optional
+						.of(new BinaryMatchResultTreeNode(left, right, getType(result), ((LeafTreeNode) labelTree)));
 			}
 		}
 
 		if (isAction(result)) {
 			MatchResultTreeNode obj = getSecondArgument(result).get();
 			MatchResultTreeNode verb = getThirdArgument(result).get();
-			MatchResultTreeNode subj = getFirstArgument(result).isPresent() ? getFirstArgument(result).get() : new LeafTreeNode("", "-1", false);
-
+			MatchResultTreeNode subj = getFirstArgument(result).isPresent() ? getFirstArgument(result).get()
+					: new LeafTreeNode("", "-1", false);
 
 			if (verb instanceof BinaryMatchResultTreeNode || verb instanceof NegationTreeNode) {
 				BinaryMatchResultTreeNode tmp = new BinaryMatchResultTreeNode(subj, obj, getType(result));
 				return Optional.of(parseLabelTree(verb, tmp));
-			} else { //if (labelTree instanceof LeafTreeNode)
-				return Optional.of(new BinaryMatchResultTreeNode(subj, obj, getType(result), ((LeafTreeNode) verb)));	
+			} else { // if (labelTree instanceof LeafTreeNode)
+				return Optional.of(new BinaryMatchResultTreeNode(subj, obj, getType(result), ((LeafTreeNode) verb)));
 			}
 		}
 		if (isUpdate(result)) {
@@ -468,7 +474,7 @@ public class MatchTreeBuilder {
 		// Just Text
 		Collection<Token> tokens = result.getMatchTree().getHeads();
 		boolean hasVerb = false;
-		
+
 		for (Token t : tokens) {
 			if (t.getPosValue().contains("VB") && !t.getPosValue().equals("VB")) {
 				hasVerb = true;

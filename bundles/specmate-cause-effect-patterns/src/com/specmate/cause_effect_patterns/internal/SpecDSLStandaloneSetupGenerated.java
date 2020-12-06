@@ -25,18 +25,19 @@ public class SpecDSLStandaloneSetupGenerated implements ISetup {
 		register(injector);
 		return injector;
 	}
-	
+
 	public Injector createInjector() {
 		return Guice.createInjector(new SpecDSLRuntimeModule());
 	}
-	
+
 	public void register(Injector injector) {
 		if (!EPackage.Registry.INSTANCE.containsKey("http://www.specmate.com/cause_effect_patterns/SpecDSL")) {
-			EPackage.Registry.INSTANCE.put("http://www.specmate.com/cause_effect_patterns/SpecDSL", SpecDSLPackage.eINSTANCE);
+			EPackage.Registry.INSTANCE.put("http://www.specmate.com/cause_effect_patterns/SpecDSL",
+					SpecDSLPackage.eINSTANCE);
 		}
 		IResourceFactory resourceFactory = injector.getInstance(IResourceFactory.class);
 		IResourceServiceProvider serviceProvider = injector.getInstance(IResourceServiceProvider.class);
-		
+
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("spec", resourceFactory);
 		IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap().put("spec", serviceProvider);
 	}

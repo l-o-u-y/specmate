@@ -88,13 +88,14 @@ public class CEGCreation extends Creation<CEGModel, CEGNode, CEGConnection> {
 	 * @param type
 	 * @return new or existing node
 	 */
-	public CEGNode createNodeIfNotExist(CEGModel model, String variable, String condition,
-			int x, int y, NodeType type) {
+	public CEGNode createNodeIfNotExist(CEGModel model, String variable, String condition, int x, int y,
+			NodeType type) {
 		EList<IContentElement> list = model.getContents();
 		for (IContentElement cegNode : list) {
-			if (((CEGNode)cegNode).getVariable().equals(variable) && ((CEGNode)cegNode).getCondition().equals(condition)
-					&& ((CEGNode)cegNode).getType().equals(type)) {
-				return ((CEGNode)cegNode);
+			if (((CEGNode) cegNode).getVariable().equals(variable)
+					&& ((CEGNode) cegNode).getCondition().equals(condition)
+					&& ((CEGNode) cegNode).getType().equals(type)) {
+				return ((CEGNode) cegNode);
 			}
 		}
 		CEGNode node = createNode(model, variable, condition, x, y, type);

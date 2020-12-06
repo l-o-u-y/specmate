@@ -67,7 +67,8 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 					.map(builder::buildTree).filter(Optional::isPresent).map(Optional::get)
 					.collect(Collectors.toList());
 
-			final MatcherPostProcesser matchPostProcesser = new MatcherPostProcesser(lang, new ConditionVariableNodeBuilder());
+			final MatcherPostProcesser matchPostProcesser = new MatcherPostProcesser(lang,
+					new ConditionVariableNodeBuilder());
 			GraphBuilder graphBuilder = new GraphBuilder();
 			CEGGraphLayouter graphLayouter = new CEGGraphLayouter(lang, creation);
 
@@ -84,7 +85,7 @@ public class PatternbasedCEGGenerator implements ICEGFromRequirementGenerator {
 					}
 
 					Graph graph = graphBuilder.buildCEGGraph((BinaryMatchResultTreeNode) tree);
-					CEGModel model = (CEGModel)graphLayouter.createModel(graph);
+					CEGModel model = (CEGModel) graphLayouter.createModel(graph);
 					candidates.add(Pair.of(text, model));
 				} catch (Throwable t) {
 					log.log(LogService.LOG_DEBUG,

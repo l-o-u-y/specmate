@@ -8,7 +8,8 @@ import com.specmate.cause_effect_patterns.internal.scoping.AbstractSpecDSLScopeP
 /**
  * This class contains custom scoping description.
  * 
- * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#scoping
+ * See
+ * https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#scoping
  * on how and when to use it.
  */
 @SuppressWarnings("all")

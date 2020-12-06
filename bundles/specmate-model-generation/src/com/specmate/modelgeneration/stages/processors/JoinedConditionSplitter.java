@@ -46,12 +46,12 @@ public class JoinedConditionSplitter {
 		@Override
 		public void visit(BinaryMatchResultTreeNode node) {
 			node.getFirstArgument().acceptVisitor(this);
-			if(replacementNode!=null) {
+			if (replacementNode != null) {
 				node.setFirstArgument(replacementNode);
 				replacementNode = null;
 			}
 			node.getSecondArgument().acceptVisitor(this);
-			if(replacementNode!=null) {
+			if (replacementNode != null) {
 				node.setSecondArgument(replacementNode);
 				replacementNode = null;
 			}
@@ -60,7 +60,7 @@ public class JoinedConditionSplitter {
 		@Override
 		public void visit(NegationTreeNode node) {
 			node.getClause().acceptVisitor(this);
-			if(replacementNode!=null) {
+			if (replacementNode != null) {
 				node.setClause(replacementNode);
 				replacementNode = null;
 			}
@@ -72,12 +72,12 @@ public class JoinedConditionSplitter {
 				final ConditionVariableNode cvNode = (ConditionVariableNode) node;
 
 				Matcher matcher = CONDITION_PATTERN.matcher(cvNode.getSecondary());
-				if(matcher.matches()) {
-					String firstBound  = cvNode.getPrimary();
-					String firstOp	   = cleanOperator(matcher.group(1));
-					firstOp 	   	   = pseudoInvertOperator(firstOp);
-					String variable    = matcher.group(2);
-					String secondOp    = cleanOperator(matcher.group(3));
+				if (matcher.matches()) {
+					String firstBound = cvNode.getPrimary();
+					String firstOp = cleanOperator(matcher.group(1));
+					firstOp = pseudoInvertOperator(firstOp);
+					String variable = matcher.group(2);
+					String secondOp = cleanOperator(matcher.group(3));
 					String secondBound = matcher.group(4);
 
 					String firstCondition = getCondition(firstOp, firstBound);
@@ -94,25 +94,25 @@ public class JoinedConditionSplitter {
 			return operator.replaceAll("\\s", "");
 		}
 
-
 		/**
-		 * This simply flips < >
-		 * Note: this is not a mathmatical inversion! < will not be inverted to >= but to >.
+		 * This simply flips < > Note: this is not a mathmatical inversion! < will not
+		 * be inverted to >= but to >.
+		 * 
 		 * @param operator
 		 * @return
 		 */
 		private String pseudoInvertOperator(String operator) {
-			if(operator.contains("<")) {
+			if (operator.contains("<")) {
 				return operator.replaceAll("<", ">");
 			}
 			return operator.replaceAll(">", "<");
 		}
 
 		private String getCondition(String operator, String bound) {
-			if(lang.equals(ELanguage.DE)) {
-				return "ist "+operator+" "+bound;
+			if (lang.equals(ELanguage.DE)) {
+				return "ist " + operator + " " + bound;
 			}
-			return "is "+operator+" "+bound;
+			return "is " + operator + " " + bound;
 		}
 	}
 

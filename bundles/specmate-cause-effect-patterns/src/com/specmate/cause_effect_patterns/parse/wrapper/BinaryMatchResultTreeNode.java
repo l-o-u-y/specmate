@@ -10,7 +10,8 @@ public class BinaryMatchResultTreeNode extends MatchResultTreeNode {
 		this(left, right, type, null);
 	}
 
-	public BinaryMatchResultTreeNode(MatchResultTreeNode left, MatchResultTreeNode right, RuleType type, LeafTreeNode label) {
+	public BinaryMatchResultTreeNode(MatchResultTreeNode left, MatchResultTreeNode right, RuleType type,
+			LeafTreeNode label) {
 		this.left = left;
 		this.right = right;
 		this.type = type;
@@ -36,10 +37,11 @@ public class BinaryMatchResultTreeNode extends MatchResultTreeNode {
 	protected void setType(RuleType type) {
 		this.type = type;
 	}
-	
+
 	public void clearLabel() {
 		this.label = null;
 	}
+
 	public void setLabel(LeafTreeNode label) {
 		this.label = label;
 	}

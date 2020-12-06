@@ -32,6 +32,7 @@ public class GraphEdge {
 	public RGConnectionType getType() {
 		return type;
 	}
+
 	public String getLabel() {
 		return label;
 	}

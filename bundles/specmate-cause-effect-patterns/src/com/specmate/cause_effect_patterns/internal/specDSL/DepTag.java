@@ -3,17 +3,14 @@
  */
 package com.specmate.cause_effect_patterns.internal.specDSL;
 
-
 /**
- * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Dep Tag</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Dep
+ * Tag</b></em>'. <!-- end-user-doc -->
  *
  *
  * @see com.specmate.cause_effect_patterns.specDSL.SpecDSLPackage#getDepTag()
  * @model
  * @generated
  */
-public interface DepTag extends Tag
-{
+public interface DepTag extends Tag {
 } // DepTag

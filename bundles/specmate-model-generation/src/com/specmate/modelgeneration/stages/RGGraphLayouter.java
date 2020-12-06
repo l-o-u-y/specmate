@@ -112,7 +112,7 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 					toChunk = c;
 				}
 			}
-			
+
 			if (from.getComponent().contains("inner node") && fromChunk == null) {
 				fromChunk = rgCreation.createChunk(model, from.getComponent(), SpecmateEcoreUtil.getIdForChild());
 				fromChunk.setNode(from);
@@ -134,7 +134,7 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 				System.out.println();
 
 			}
-			
+
 			// Note: this works because DELETE/REPLACE edge is inserted before this
 			// connection edge
 			// if connection xx -> tmp

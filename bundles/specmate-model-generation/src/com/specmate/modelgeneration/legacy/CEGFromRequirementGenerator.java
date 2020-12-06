@@ -77,10 +77,8 @@ public abstract class CEGFromRequirementGenerator implements ICEGFromRequirement
 	 * Add the nodes and connections to the given CEGModel, which are extracted from
 	 * the text.
 	 *
-	 * @param model
-	 *            the CEGModel to add the nodes/connections
-	 * @param text
-	 *            text of the requirement
+	 * @param model the CEGModel to add the nodes/connections
+	 * @param text  text of the requirement
 	 * @return generated CEGModel
 	 */
 	public CEGModel createModel(CEGModel model, String text) throws SpecmateException {
@@ -109,14 +107,10 @@ public abstract class CEGFromRequirementGenerator implements ICEGFromRequirement
 	 * Method add the nodes and connections detected from the sentence to the given
 	 * CEGModel
 	 *
-	 * @param sentence
-	 *            sentences to detect causal relation
-	 * @param jCas
-	 *            NLP tagged text
-	 * @param model
-	 *            CEGModel to add nodes/connections
-	 * @param nodes
-	 *            list of all nodes in the graph
+	 * @param sentence sentences to detect causal relation
+	 * @param jCas     NLP tagged text
+	 * @param model    CEGModel to add nodes/connections
+	 * @param nodes    list of all nodes in the graph
 	 * @throws SpecmateInternalException
 	 */
 	public void detectCausality(Sentence sentence, JCas jCas, CEGModel model, LinkedList<CEGNode> nodes)
@@ -181,16 +175,14 @@ public abstract class CEGFromRequirementGenerator implements ICEGFromRequirement
 				if (replaceNegation(causeNew) != null) {
 					String[] splittedVariabelAndConditionCause = splitNodeInVariableAndCondition(jCas, sentence,
 							replaceNegation(causes[j]));
-					CEGNode causeNode = cegCreation.createNodeIfNotExist(model,
-							splittedVariabelAndConditionCause[0], splittedVariabelAndConditionCause[1], levelOneX,
-							levelOneY, NodeType.AND);
+					CEGNode causeNode = cegCreation.createNodeIfNotExist(model, splittedVariabelAndConditionCause[0],
+							splittedVariabelAndConditionCause[1], levelOneX, levelOneY, NodeType.AND);
 					cegCreation.createConnection(model, causeNode, effectNode, true);
 				} else {
 					String[] splittedVariabelAndConditionCause = splitNodeInVariableAndCondition(jCas, sentence,
 							causes[j]);
-					CEGNode causeNode = cegCreation.createNodeIfNotExist(model,
-							splittedVariabelAndConditionCause[0], splittedVariabelAndConditionCause[1], levelOneX,
-							levelOneY, NodeType.AND);
+					CEGNode causeNode = cegCreation.createNodeIfNotExist(model, splittedVariabelAndConditionCause[0],
+							splittedVariabelAndConditionCause[1], levelOneX, levelOneY, NodeType.AND);
 					cegCreation.createConnection(model, causeNode, effectNode, false);
 				}
 				levelOneY += 100;
@@ -212,16 +204,14 @@ public abstract class CEGFromRequirementGenerator implements ICEGFromRequirement
 				if (replaceNegation(causeNew) != null) {
 					String[] splittedVariabelAndConditionCause = splitNodeInVariableAndCondition(jCas, sentence,
 							replaceNegation(causes[j]));
-					CEGNode causeNode = cegCreation.createNodeIfNotExist(model,
-							splittedVariabelAndConditionCause[0], splittedVariabelAndConditionCause[1], levelOneX,
-							levelOneY, NodeType.AND);
+					CEGNode causeNode = cegCreation.createNodeIfNotExist(model, splittedVariabelAndConditionCause[0],
+							splittedVariabelAndConditionCause[1], levelOneX, levelOneY, NodeType.AND);
 					cegCreation.createConnection(model, causeNode, effectNode, true);
 				} else {
 					String[] splittedVariabelAndConditionCause = splitNodeInVariableAndCondition(jCas, sentence,
 							causes[j]);
-					CEGNode causeNode = cegCreation.createNodeIfNotExist(model,
-							splittedVariabelAndConditionCause[0], splittedVariabelAndConditionCause[1], levelOneX,
-							levelOneY, NodeType.AND);
+					CEGNode causeNode = cegCreation.createNodeIfNotExist(model, splittedVariabelAndConditionCause[0],
+							splittedVariabelAndConditionCause[1], levelOneX, levelOneY, NodeType.AND);
 					cegCreation.createConnection(model, causeNode, effectNode, false);
 				}
 				levelOneY += 100;
@@ -264,9 +254,8 @@ public abstract class CEGFromRequirementGenerator implements ICEGFromRequirement
 				} else {
 					String[] splittedVariabelAndConditionCause = splitNodeInVariableAndCondition(jCas, sentence,
 							causes[j]);
-					CEGNode causeNode = cegCreation.createNodeIfNotExist(model,
-							splittedVariabelAndConditionCause[0], splittedVariabelAndConditionCause[1], levelTwoX,
-							levelTwoY, NodeType.AND);
+					CEGNode causeNode = cegCreation.createNodeIfNotExist(model, splittedVariabelAndConditionCause[0],
+							splittedVariabelAndConditionCause[1], levelTwoX, levelTwoY, NodeType.AND);
 					for (int k = 0; k < causesOr.length; k++) {
 						String causeNewOr = trimWithPunctuation(causesOr[k]);
 						if (replaceNegation(causeNewOr) != null) {
@@ -296,12 +285,9 @@ public abstract class CEGFromRequirementGenerator implements ICEGFromRequirement
 	/**
 	 * Method split a cause/effect in the variable and the condition
 	 *
-	 * @param jCas
-	 *            NLP tagged text
-	 * @param sentence
-	 *            sentence containing the cause/effect
-	 * @param text
-	 *            the cause/effect
+	 * @param jCas     NLP tagged text
+	 * @param sentence sentence containing the cause/effect
+	 * @param text     the cause/effect
 	 * @return array containing the variable and the condition. First element:
 	 *         variable, second element condition
 	 */
@@ -359,7 +345,8 @@ public abstract class CEGFromRequirementGenerator implements ICEGFromRequirement
 	}
 
 	protected List<Annotation> getSubjectNounPhrases(JCas jCas, Sentence sentence) {
-		List<Dependency> subjDeps = NLPUtil.findCoveredDependencies(jCas, sentence, getLanguage().getSubjectDependencyType());
+		List<Dependency> subjDeps = NLPUtil.findCoveredDependencies(jCas, sentence,
+				getLanguage().getSubjectDependencyType());
 		return subjDeps.stream().map(dep -> {
 			Token subjToken = dep.getDependent();
 			Optional<Chunk> nounPhrase = JCasUtil.selectCovering(jCas, Chunk.class, subjToken).stream()

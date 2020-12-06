@@ -11,33 +11,29 @@ import com.specmate.cause_effect_patterns.internal.specDSL.AbstractElement;
 import com.specmate.cause_effect_patterns.internal.specDSL.SpecDSLPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Abstract Element</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object
+ * '<em><b>Abstract Element</b></em>'. <!-- end-user-doc -->
  *
  * @generated
  */
-public class AbstractElementImpl extends MinimalEObjectImpl.Container implements AbstractElement
-{
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected AbstractElementImpl()
-  {
-    super();
-  }
+public class AbstractElementImpl extends MinimalEObjectImpl.Container implements AbstractElement {
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected AbstractElementImpl() {
+		super();
+	}
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  protected EClass eStaticClass()
-  {
-    return SpecDSLPackage.Literals.ABSTRACT_ELEMENT;
-  }
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+		return SpecDSLPackage.Literals.ABSTRACT_ELEMENT;
+	}
 
-} //AbstractElementImpl
+} // AbstractElementImpl

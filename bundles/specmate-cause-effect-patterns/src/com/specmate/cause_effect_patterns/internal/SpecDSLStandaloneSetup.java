@@ -6,11 +6,12 @@ package com.specmate.cause_effect_patterns.internal;
 import com.specmate.cause_effect_patterns.internal.SpecDSLStandaloneSetupGenerated;
 
 /**
- * Initialization support for running Xtext languages without Equinox extension registry.
+ * Initialization support for running Xtext languages without Equinox extension
+ * registry.
  */
 @SuppressWarnings("all")
 public class SpecDSLStandaloneSetup extends SpecDSLStandaloneSetupGenerated {
-  public static void doSetup() {
-    new SpecDSLStandaloneSetup().createInjectorAndDoEMFRegistration();
-  }
+	public static void doSetup() {
+		new SpecDSLStandaloneSetup().createInjectorAndDoEMFRegistration();
+	}
 }

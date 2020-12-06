@@ -47,22 +47,24 @@ public class TextPreProcessor {
 
 		// remove <!----> with content
 		text = text.replaceAll("<[ ]*!--[^\\)]*--[ ]*>", "");
-		
+
 		// replace need/have/has/etc to with must
 		text = text.replaceAll("don't need to", "needn't");
 		text = text.replaceAll("doesn't need to", "needn't");
 		text = text.replaceAll("don't have to", "needn't");
 		text = text.replaceAll("doesn't to", "needn't");
-		
+
 		text = text.replaceAll("need to", "must");
 		text = text.replaceAll("needs to", "must");
 		text = text.replaceAll("have to", "must");
 		text = text.replaceAll("has to", "must");
 
 		// replace : with .
-		// text = text.replaceAll(":", "."); // sometimes we need : for the appos relation
+		// text = text.replaceAll(":", "."); // sometimes we need : for the appos
+		// relation
 
-		// This would mess with Action rule e.g. For instance, it comes in two shapes: rectangle and round.
+		// This would mess with Action rule e.g. For instance, it comes in two shapes:
+		// rectangle and round.
 		text = text.replace("For instance ,", "Example :");
 		text = text.replace("for instance ,", "example :");
 		text = text.replace("For example ,", "Example :");
@@ -153,7 +155,7 @@ public class TextPreProcessor {
 
 		// replace multiple/special whitespaces with space
 		text = text.replaceAll("\\s+", " ");
-		
+
 		text = text.trim();
 
 		return text;

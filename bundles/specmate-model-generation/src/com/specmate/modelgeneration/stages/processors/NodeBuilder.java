@@ -24,23 +24,23 @@ public class NodeBuilder {
 
 		@Override
 		public void visit(BinaryMatchResultTreeNode node) {
-				node.getFirstArgument().acceptVisitor(this);
-				if (replacementNode != null) {
-					node.setFirstArgument(replacementNode);
-					replacementNode = null;
-				}
+			node.getFirstArgument().acceptVisitor(this);
+			if (replacementNode != null) {
+				node.setFirstArgument(replacementNode);
+				replacementNode = null;
+			}
 
-				node.getSecondArgument().acceptVisitor(this);
-				if (replacementNode != null) {
-					node.setSecondArgument(replacementNode);
-					replacementNode = null;
-				}
+			node.getSecondArgument().acceptVisitor(this);
+			if (replacementNode != null) {
+				node.setSecondArgument(replacementNode);
+				replacementNode = null;
+			}
 		}
 
 		@Override
 		public void visit(LeafTreeNode node) {
-				replacementNode = new LeafTreeNode(node.getContent(), node.getId(), node.isVerb());
-			}
+			replacementNode = new LeafTreeNode(node.getContent(), node.getId(), node.isVerb());
+		}
 
 		@Override
 		public void visit(NegationTreeNode node) {

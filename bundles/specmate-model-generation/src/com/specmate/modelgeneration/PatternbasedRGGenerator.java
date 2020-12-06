@@ -239,14 +239,12 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 
 				}
 
-			} 
+			}
 		}
 		for (IContentElement e : source.getContents()) {
 			if (e instanceof RGConnection) {
-				RGNode nodeFrom = creation.copyNodeToModel(target,
-						(RGNode) ((RGConnection) e).getSource());
-				RGNode nodeTo = creation.copyNodeToModel(target,
-						(RGNode) ((RGConnection) e).getTarget());
+				RGNode nodeFrom = creation.copyNodeToModel(target, (RGNode) ((RGConnection) e).getSource());
+				RGNode nodeTo = creation.copyNodeToModel(target, (RGNode) ((RGConnection) e).getTarget());
 				creation.createConnection(target, nodeFrom, nodeTo, ((RGConnection) e).getType(),
 						((RGConnection) e).isNegate(), ((RGConnection) e).getLabel());
 			}
@@ -316,7 +314,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		}
 
 		Pair<String, RGModel> best = findBestCandidate(candidates);
-		
+
 		candidates = new ArrayList<>();
 //		matcher.loadCEGRessources();
 
@@ -478,8 +476,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 
 		// remove residuals (nodes with no corresponding chunks + connections)
 		List<RGNode> removeNodes = originalModel.getContents().stream().filter(c -> c instanceof RGNode)
-				.map(c -> (RGNode) c).filter(c -> c.getChunks().size() == 0)
-				.collect(Collectors.toList());
+				.map(c -> (RGNode) c).filter(c -> c.getChunks().size() == 0).collect(Collectors.toList());
 		// originalModel.getContents().removeAll(removeNodes);
 
 		for (RGNode node : removeNodes) {

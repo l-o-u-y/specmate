@@ -21,14 +21,14 @@ public class ConditionVariableNode extends LeafTreeNode {
 	}
 
 	public void setSecondary(String newSec) {
-		if(newSec == null) {
+		if (newSec == null) {
 			throw new NullPointerException("Secondary text can not be null");
 		}
 		secondaryText = newSec;
 	}
 
 	public void setPrimary(String newPrim) {
-		if(newPrim == null) {
+		if (newPrim == null) {
 			throw new NullPointerException("Primary text can not be null");
 		}
 		primaryText = newPrim;

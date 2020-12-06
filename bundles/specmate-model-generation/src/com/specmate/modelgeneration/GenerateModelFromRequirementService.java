@@ -32,7 +32,6 @@ import com.specmate.rest.RestClient;
 import com.specmate.rest.RestResult;
 import com.specmate.xtext.XTextException;
 
-
 /**
  * Service to create automatic a CEGModel from a requirement
  *
@@ -82,9 +81,9 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 				return new RestResult<>(Response.Status.INTERNAL_SERVER_ERROR);
 			}
 		} else {
-		// if (parent instanceof RGModel) {
+			// if (parent instanceof RGModel) {
 			model = (RGModel) parent;
-			((RGModel)model).getModelMapping().clear();
+			((RGModel) model).getModelMapping().clear();
 			model.getContents().clear(); // Delete Contents
 			try {
 				logService.log(LogService.LOG_INFO, "Model Generation STARTED");
@@ -97,7 +96,6 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 				return new RestResult<>(Response.Status.INTERNAL_SERVER_ERROR);
 			}
 		}
-
 
 		return new RestResult<>(Response.Status.OK);
 	}
@@ -115,8 +113,7 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 
 		if (model instanceof CEGModel) {
 			text = ((CEGModel) model).getModelRequirements();
-		}
-		else { // if (parent instanceof RGModel) {
+		} else { // if (parent instanceof RGModel) {
 			text = ((RGModel) model).getModelRequirements();
 		}
 
@@ -137,9 +134,9 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 
 			// Fixes some issues with the dkpro/spacy backoff.
 			text = text.replaceAll("[^,.!? ](?=[,.!?])", "$0 ").replaceAll("\\s+", " ");
-			
+
 			try {
-				generator.createModel((CEGModel)model, text);
+				generator.createModel((CEGModel) model, text);
 			} catch (SpecmateException e) {
 				// Generation Backof
 				logService.log(LogService.LOG_INFO,
@@ -151,11 +148,10 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 				} else {
 					generator = new EnglishCEGFromRequirementGenerator(logService, tagger);
 				}
-				generator.createModel((CEGModel)model, text);
+				generator.createModel((CEGModel) model, text);
 			}
-		}
-		else { // if (parent instanceof RGModel) {
-			// TODO MA misc: ggf. just have a separate input field in FE
+		} else { // if (parent instanceof RGModel) {
+					// TODO MA misc: ggf. just have a separate input field in FE
 			if (text.matches("(.*)https:\\/\\/github.com\\/(.*)\\/(.*)\\/issues\\/(\\d*)(.*)")) {
 				String apiUrl = text.replaceAll("(.*)https:\\/\\/github.com\\/(.*)\\/(.*)\\/issues\\/(\\d*)(.*)",
 						"https://api.github.com/repos/$2/$3/issues/$4");
@@ -170,7 +166,7 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 			generator = new PatternbasedRGGenerator(ELanguage.EN, tagger, this.configService, this.logService);
 
 			try {
-				generator.createModel((RGModel)model, text);
+				generator.createModel((RGModel) model, text);
 			} catch (SpecmateException e) {
 				this.logService.log(LogService.LOG_INFO,
 						"NLP model generation failed with the following error: \"" + e.getMessage() + "\"");
@@ -180,24 +176,23 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 		return model;
 	}
 
+	private String getGithubIssue(String urlToRead) throws Exception {
+		RestClient restClient = new RestClient(urlToRead, 5000, logService);
+		try (restClient) {
+			RestResult<JSONObject> result = restClient.get("");
+			if (result.getResponse().getStatus() == Status.OK.getStatusCode()) {
+				result.getResponse().close();
+				JSONObject payload = result.getPayload();
+				String text = (String) payload.get("body");
+				return text;
 
-	   private String getGithubIssue(String urlToRead) throws Exception {
-			RestClient restClient = new RestClient(urlToRead, 5000, logService);
-			try (restClient) {
-				RestResult<JSONObject> result = restClient.get("");
-				if (result.getResponse().getStatus() == Status.OK.getStatusCode()) {
-					result.getResponse().close();
-					JSONObject payload = result.getPayload();
-					String text = (String)payload.get("body");
-					return text;
-
-				} else {
-					result.getResponse().close();
-					throw new SpecmateInternalException(ErrorCode.NO_SUCH_SERVICE,
-							"Could not access Github Issue. Description could not be loaded.");
-				}
+			} else {
+				result.getResponse().close();
+				throw new SpecmateInternalException(ErrorCode.NO_SUCH_SERVICE,
+						"Could not access Github Issue. Description could not be loaded.");
 			}
-	   }
+		}
+	}
 
 	@Reference
 	public void setLogService(LogService logService) {

@@ -8,7 +8,8 @@ import com.specmate.cause_effect_patterns.internal.validation.AbstractSpecDSLVal
 /**
  * This class contains custom validation rules.
  * 
- * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#validation
+ * See
+ * https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#validation
  */
 @SuppressWarnings("all")
 public class SpecDSLValidator extends AbstractSpecDSLValidator {

@@ -26,10 +26,8 @@ public class GermanPatternMatcher implements IPatternMatcher {
 	 * Method splits the sentences into the cause and the effect if it matches one
 	 * pattern
 	 *
-	 * @param sentence
-	 *            sentence to split
-	 * @param jCas
-	 *            NLPTagged text
+	 * @param sentence sentence to split
+	 * @param jCas     NLPTagged text
 	 * @return array with two elements. First element: cause, second element:effect
 	 * @throws SpecmateInternalException
 	 */
@@ -65,8 +63,7 @@ public class GermanPatternMatcher implements IPatternMatcher {
 	 * Detect if the sentence matches pattern "Wenn [cause], [effect]"
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return
 	 */
 	public Optional<Pair<String, String>> matchPattern_When(Sentence sentence, JCas jCas) {
@@ -90,8 +87,7 @@ public class GermanPatternMatcher implements IPatternMatcher {
 	 * Detect if the sentence matches pattern "[POS=VVFIN] [cause], [effect]"
 	 *
 	 * @param sentence
-	 * @param jCas
-	 *            NLP tagged text
+	 * @param jCas     NLP tagged text
 	 * @return
 	 */
 	public Optional<Pair<String, String>> matchPattern_VVFIN(Sentence sentence, JCas jCas) {

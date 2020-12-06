@@ -9,33 +9,29 @@ import com.specmate.cause_effect_patterns.internal.specDSL.POSTag;
 import com.specmate.cause_effect_patterns.internal.specDSL.SpecDSLPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>POS Tag</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>POS
+ * Tag</b></em>'. <!-- end-user-doc -->
  *
  * @generated
  */
-public class POSTagImpl extends TagImpl implements POSTag
-{
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected POSTagImpl()
-  {
-    super();
-  }
+public class POSTagImpl extends TagImpl implements POSTag {
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected POSTagImpl() {
+		super();
+	}
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  protected EClass eStaticClass()
-  {
-    return SpecDSLPackage.Literals.POS_TAG;
-  }
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+		return SpecDSLPackage.Literals.POS_TAG;
+	}
 
-} //POSTagImpl
+} // POSTagImpl

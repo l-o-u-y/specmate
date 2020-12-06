@@ -44,18 +44,14 @@ public class Graph {
 	}
 
 	public int getDepth() {
-		return nodes.stream()
-				.filter(GraphNode::isLeaf)
-				.mapToInt(GraphNode::getDepth)
-				.max()
-				.getAsInt();
+		return nodes.stream().filter(GraphNode::isLeaf).mapToInt(GraphNode::getDepth).max().getAsInt();
 
 	}
 
 	public boolean isInnerNode(GraphNode node) {
 		return innerNodes.contains(node);
 	}
-	
+
 	public void removeNode(GraphNode node) {
 		this.nodes.remove(node);
 		this.innerNodes.remove(node);

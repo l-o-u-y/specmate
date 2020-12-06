@@ -6,15 +6,13 @@ package com.specmate.cause_effect_patterns.internal.specDSL;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Abstract Element</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Abstract
+ * Element</b></em>'. <!-- end-user-doc -->
  *
  *
  * @see com.specmate.cause_effect_patterns.specDSL.SpecDSLPackage#getAbstractElement()
  * @model
  * @generated
  */
-public interface AbstractElement extends EObject
-{
+public interface AbstractElement extends EObject {
 } // AbstractElement

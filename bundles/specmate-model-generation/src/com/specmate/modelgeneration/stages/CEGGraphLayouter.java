@@ -19,6 +19,7 @@ public class CEGGraphLayouter extends GraphLayouter<CEGModel, CEGNode, CEGConnec
 	public CEGGraphLayouter(ELanguage language, CEGCreation creation) {
 		super(language, creation);
 	}
+
 	public CEGGraphLayouter(ELanguage language, CEGCreation creation, LogService logService) {
 		super(language, creation, logService);
 	}
@@ -36,6 +37,7 @@ public class CEGGraphLayouter extends GraphLayouter<CEGModel, CEGNode, CEGConnec
 		}
 		return "Is fulfilled";
 	}
+
 	public CEGModel createModel(Graph graph, CEGModel model) {
 
 		int graphDepth = graph.getDepth();
@@ -59,17 +61,16 @@ public class CEGGraphLayouter extends GraphLayouter<CEGModel, CEGNode, CEGConnec
 				variable = innerVariableString() + " " + xIndex + " - " + yIndex;
 			}
 
-			n = ((CEGCreation)creation).createNode((CEGModel)model, variable, condition, x, y, node.getType());
+			n = ((CEGCreation) creation).createNode((CEGModel) model, variable, condition, x, y, node.getType());
 
 			nodeMap.put(node, n);
 			positionTable[xIndex]++;
 		}
 
-
 		for (GraphEdge edge : graph.edges) {
 			IModelNode from = nodeMap.get(edge.getFrom());
 			IModelNode to = nodeMap.get(edge.getTo());
-			((CEGCreation)creation).createConnection((CEGModel)model, (CEGNode)from, (CEGNode)to, edge.isNegated());
+			((CEGCreation) creation).createConnection((CEGModel) model, (CEGNode) from, (CEGNode) to, edge.isNegated());
 		}
 
 		return model;

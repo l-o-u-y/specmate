@@ -165,7 +165,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 			return "";
 		String s = string;
 		// remove a, the
-		if (string.startsWith("a ") || string.startsWith("A ") ) {
+		if (string.startsWith("a ") || string.startsWith("A ")) {
 			s = string.substring(2);
 		} else if (string.startsWith("an ") || string.startsWith("An ")) {
 			s = string.substring(3);
@@ -203,8 +203,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		}
 		return createNode(model, component, false, x, y, type);
 	}
-	
-	
+
 	public RGNode copyNodeToModel(RGModel model, RGNode node) {
 		EList<IContentElement> list = model.getContents();
 
@@ -215,12 +214,11 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 				}
 			}
 		}
-		RGNode n = createNode(model, node.getComponent(), node.isTemporary(), (int)node.getX(), (int)node.getY(), node.getType());
+		RGNode n = createNode(model, node.getComponent(), node.isTemporary(), (int) node.getX(), (int) node.getY(),
+				node.getType());
 		n.setId(node.getId());
 		return n;
 	}
-	
-	
 
 	/**
 	 * Find the old node that exists in the list. Otherwise return null
@@ -270,11 +268,17 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		EList<IContentElement> list = model.getContents();
 
 		RGNode actualParentNode = null;
-		List<RGConnection> parentNodeConnections = parentNode!=null ? parentNode.getIncomingConnections().stream().filter(c -> !((RGConnection)c).getType().equals(RGConnectionType.CONDITION) && !((RGConnection)c).getType().equals(RGConnectionType.REMOVE) && !((RGConnection)c).getType().equals(RGConnectionType.REPLACE)).map(c -> (RGConnection)c).collect(Collectors.toList()) : new ArrayList<RGConnection>();
-		if (parentNode!=null && parentNodeConnections.size() >= 1) {
-			actualParentNode = (RGNode)parentNodeConnections.get(0).getSource();
+		List<RGConnection> parentNodeConnections = parentNode != null
+				? parentNode.getIncomingConnections().stream()
+						.filter(c -> !((RGConnection) c).getType().equals(RGConnectionType.CONDITION)
+								&& !((RGConnection) c).getType().equals(RGConnectionType.REMOVE)
+								&& !((RGConnection) c).getType().equals(RGConnectionType.REPLACE))
+						.map(c -> (RGConnection) c).collect(Collectors.toList())
+				: new ArrayList<RGConnection>();
+		if (parentNode != null && parentNodeConnections.size() >= 1) {
+			actualParentNode = (RGNode) parentNodeConnections.get(0).getSource();
 		}
-		
+
 		RGConnection replacementCon = null;
 		RGNode replacementNode = null;
 
@@ -284,7 +288,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 
 		if (!r.isEmpty()) {
 			// if tmp --> new
-			// replacementCon = tmp --> new 
+			// replacementCon = tmp --> new
 			// replacementNode = new
 			replacementCon = r.get();
 			replacementNode = (RGNode) replacementCon.getTarget();
@@ -295,12 +299,11 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		}
 		// High lvl algorithm
 		/*
-		 * 1. find chunks c with o node
-		 * 2. (optional) filter chunks c: p == x.incoming x == c.incoming
-		 * 3.1 for chunk c: replace o node with n node/null 3.2 for chunk c: save
-		 * connected p and x 4. for node o: replace p --> o connection with p --> n
-		 * connection/remove 5. for node o: replace o --> x connection with n --> x
-		 * connection/remove
+		 * 1. find chunks c with o node 2. (optional) filter chunks c: p == x.incoming x
+		 * == c.incoming 3.1 for chunk c: replace o node with n node/null 3.2 for chunk
+		 * c: save connected p and x 4. for node o: replace p --> o connection with p
+		 * --> n connection/remove 5. for node o: replace o --> x connection with n -->
+		 * x connection/remove
 		 */
 
 		// 1
@@ -343,7 +346,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 				if (include) {
 					aggregator.add(c);
 				}
-				
+
 			}
 			chunks.retainAll(aggregator);
 		}
@@ -446,7 +449,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 				System.out.println("------------");
 			}
 		}
-		
+
 		// remove new parentNode
 		if (parentNode != null) {
 			for (RGChunk c : parentNode.getChunks()) {

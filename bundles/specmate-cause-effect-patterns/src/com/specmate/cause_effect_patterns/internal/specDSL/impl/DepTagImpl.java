@@ -9,33 +9,29 @@ import com.specmate.cause_effect_patterns.internal.specDSL.DepTag;
 import com.specmate.cause_effect_patterns.internal.specDSL.SpecDSLPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Dep Tag</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Dep
+ * Tag</b></em>'. <!-- end-user-doc -->
  *
  * @generated
  */
-public class DepTagImpl extends TagImpl implements DepTag
-{
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected DepTagImpl()
-  {
-    super();
-  }
+public class DepTagImpl extends TagImpl implements DepTag {
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected DepTagImpl() {
+		super();
+	}
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  protected EClass eStaticClass()
-  {
-    return SpecDSLPackage.Literals.DEP_TAG;
-  }
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+		return SpecDSLPackage.Literals.DEP_TAG;
+	}
 
-} //DepTagImpl
+} // DepTagImpl
