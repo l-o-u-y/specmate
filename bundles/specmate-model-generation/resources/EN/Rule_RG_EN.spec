@@ -8,6 +8,13 @@ def rule LimitedCondition_1 {
 	[Limit] - nsubjpass -> [Conditional] - prep -> IN:'until'
 }
 
+// ex: Increase the counter until the counter reaches 100
+// this should work for both active and passive because of action rules
+def rule LimitedCondition_1_SPACY {
+	[Conditional] - mark -> IN:'until'
+	[Conditional] - advcl -> [Limit]
+}
+
 def rule LimitedCondition_2 {
 	[Limit] - csubjpass -> [Conditional] - prep -> IN:'until'
 }

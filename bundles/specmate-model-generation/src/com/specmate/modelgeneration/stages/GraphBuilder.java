@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.specmate.cause_effect_patterns.parse.wrapper.BinaryMatchResultTreeNode;
 import com.specmate.cause_effect_patterns.parse.wrapper.LeafTreeNode;
@@ -39,7 +38,7 @@ public class GraphBuilder {
 
 	public synchronized Graph buildRGGraph(BinaryMatchResultTreeNode root) {
 		currentGraph = new Graph();
-		buildRGNode(root, false);
+		buildRGNode(root);
 
 		Graph result = currentGraph;
 		return result;
@@ -51,11 +50,25 @@ public class GraphBuilder {
 			for (GraphNode c : child.positiveNodes) {
 				// sets child GraphNode type to child RGNode type
 				c.setType(parent.childType);
+				// do not connect verb to verb unless its a condition node
+				if (p.isExclusive() && c.isExclusive() && !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
+					continue;
+				}
+				if (c.isExclusive() && c.getParentEdges().size() > 0 && !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
+					continue;
+				}
 				p.connectTo(c, getConnectionType(node), false, label);
+				
 			}
 			for (GraphNode c : child.negativeNodes) {
 				// sets child GraphNode type to child RGNode type
 				c.setType(parent.childType);
+				if (p.isExclusive() && c.isExclusive() && !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
+					continue;
+				}
+				if (c.isExclusive() && c.getParentEdges().size() > 0 && !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
+					continue;
+				}
 				p.connectTo(c, getConnectionType(node), true, label);
 			}
 		}
@@ -64,11 +77,23 @@ public class GraphBuilder {
 			for (GraphNode c : child.positiveNodes) {
 				// sets child GraphNode type to child RGNode type
 				c.setType(parent.childType);
+				if (p.isExclusive() && c.isExclusive() && !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
+					continue;
+				}
+				if (c.isExclusive() && c.getParentEdges().size() > 0 && !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
+					continue;
+				}
 				p.connectTo(c, getConnectionType(node), true, label);// TODO MA hmmm flip?
 			}
 			for (GraphNode c : child.negativeNodes) {
 				// sets child GraphNode type to child RGNode type
 				c.setType(parent.childType);
+				if (p.isExclusive() && c.isExclusive() && !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
+					continue;
+				}
+				if (c.isExclusive() && c.getParentEdges().size() > 0 && !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
+					continue;
+				}
 				p.connectTo(c, getConnectionType(node), false, label);
 			}
 		}
@@ -93,35 +118,17 @@ public class GraphBuilder {
 		}
 	}
 
-	private synchronized boolean isConnected(GraphNode node) {
-		// what does connected mean?
-		// composition: has childEdge of type COMPOSITION
-		// inheritance: has parentEdge of type INHERITANCE
-		// action: has parentEdge of type ACTION
-		// remove: nothing
-		// replace: nothing
-		if (node.getChildEdges().stream().filter(e -> e.getType().equals(RGConnectionType.COMPOSITION)).count() > 0) {
-			return true;
-		}
-		if (node.getParentEdges().stream().filter(
-				e -> e.getType().equals(RGConnectionType.ACTION) || e.getType().equals(RGConnectionType.INHERITANCE))
-				.count() > 0) {
-			return true;
-		}
-		return false;
-	}
-
-	private synchronized NodeWrapper buildRGNode(MatchResultTreeNode node, boolean returnVerb) {
+	private synchronized NodeWrapper buildRGNode(MatchResultTreeNode node) {
 		if (node.getType() == null) {
 		} else {
 			switch (node.getType()) {
 			case TMP: {
-				buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), returnVerb);
-				return buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), returnVerb);
+				buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
+				return buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
 			}
 			case CONDITION: {
-				final NodeWrapper cause = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), true);
-				final NodeWrapper effect = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), true);
+				final NodeWrapper cause = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
+				final NodeWrapper effect = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
 
 				effect.childType = cause.childType;
 
@@ -138,11 +145,10 @@ public class GraphBuilder {
 //			}
 
 			case LIMITED_CONDITION: {
-				final NodeWrapper limit = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(),
-						returnVerb);
-				final NodeWrapper condition = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(),
-						returnVerb);
+				final NodeWrapper limit = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
+				final NodeWrapper condition = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
 
+				//TODO MA
 				System.err.println("Handling for NodeType " + node.getType() + " not implemented yet");
 				break;
 			}
@@ -150,25 +156,31 @@ public class GraphBuilder {
 //				System.err.println("Handling for NodeType " + node.getType() + " not implemented yet");
 //				break;
 //			}
+			
 
 			case COMPOSITION:
 			case INHERITANCE: {
-				final NodeWrapper first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), false);
-				final NodeWrapper second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), false);
-
-//				for (GraphNode n : Stream.concat(first.positiveNodes.stream(), first.negativeNodes.stream()).collect(Collectors.toList())) {
-//					final NodeWrapper f = new NodeWrapper(n, first.childType, first.negativeNodes.contains(n));
-//					for (GraphNode m : Stream.concat(second.positiveNodes.stream(), second.negativeNodes.stream()).collect(Collectors.toList())) {
-//						final NodeWrapper s = new NodeWrapper(m, second.childType, second.negativeNodes.contains(n));
-//
+				NodeWrapper first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
+				NodeWrapper second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
+				
 				final NodeWrapper label;
 				if (((BinaryMatchResultTreeNode) node).getLabel() != null) {
-					label = buildRGNode(((BinaryMatchResultTreeNode) node).getLabel(), false);
+					label = buildRGNode(((BinaryMatchResultTreeNode) node).getLabel());
 				} else {
 					label = new NodeWrapper(currentGraph.createInnerNode(NodeType.NONE), NodeType.NONE, false);
 				}
 
 				label.setExclusive();
+				NodeWrapper all = new NodeWrapper();
+				all.childType = second.childType;
+				all.addLabelNodes(first);
+				all.addLabelNodes(second);
+				all.addLabelNodes(label);
+				first.transform();
+				second.transform();
+//				first.transform();
+//				second.transform();
+				
 				if (node.getType().equals(RuleType.INHERITANCE)) {
 					// first = parent
 					// second = child
@@ -184,60 +196,43 @@ public class GraphBuilder {
 				}
 //					}
 //				}
-				if (returnVerb) {
-					return label;
-				}
-				return second;
+//				if (returnVerb) {
+
+				return all;
+//				}
+//				return second;
 			}
 
 			case ACTION: {
 				MatchResultTreeNode s = ((BinaryMatchResultTreeNode) node).getFirstArgument();
-				final NodeWrapper obj = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), false);
+				final NodeWrapper obj = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
+				final NodeWrapper verb = buildRGNode(((BinaryMatchResultTreeNode) node).getLabel());
+				verb.setExclusive();
+				verb.addLabelNodes(obj);
 
-				NodeWrapper verbs = new NodeWrapper();
+				NodeWrapper all = new NodeWrapper();
+				all.childType = obj.childType;
+				all.addLabelNodes(verb);
 
 				if (s instanceof LeafTreeNode && ((LeafTreeNode) s).getId().contentEquals("-1")) {
-					final NodeWrapper verb = buildRGNode(((BinaryMatchResultTreeNode) node).getLabel(), false);
-					verb.setExclusive();
+					
 					connectRGNodes(verb, obj, node);
-					return verb;
 
-//						for (GraphNode n : Stream.concat(obj.positiveNodes.stream(), obj.negativeNodes.stream()).collect(Collectors.toList())) {
-//							final NodeWrapper o = new NodeWrapper(n, obj.childType, obj.negativeNodes.contains(n));
-//							
-//							final NodeWrapper verb = buildRGNode(((BinaryMatchResultTreeNode) node).getLabel());
-//							verb.setExclusive();
-//							verbs.addAllNodes(verb);
-//							connectRGNodes(verb, o, node);
-//						}
 
 				} else {
-					final NodeWrapper subj = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), false);
-					final NodeWrapper verb = buildRGNode(((BinaryMatchResultTreeNode) node).getLabel(), false);
+					final NodeWrapper subj = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
 					verb.setExclusive();
+					
 					connectRGNodes(subj, verb, node);
 					connectRGNodes(verb, obj, node);
-					return verb;
 
-//					for (GraphNode n : Stream.concat(subj.positiveNodes.stream(), subj.negativeNodes.stream()).collect(Collectors.toList())) {
-//						final NodeWrapper su = new NodeWrapper(n, subj.childType, subj.negativeNodes.contains(n));
-//						for (GraphNode m : Stream.concat(obj.positiveNodes.stream(), obj.negativeNodes.stream()).collect(Collectors.toList())) {
-//							final NodeWrapper o = new NodeWrapper(m, obj.childType, obj.negativeNodes.contains(n));
-//
-//							final NodeWrapper verb = buildRGNode(((BinaryMatchResultTreeNode) node).getLabel());
-//							verb.setExclusive();
-//							verbs.addAllNodes(verb);
-//							connectRGNodes(su, verb, node);
-//							connectRGNodes(verb, o, node);
-//						}
-//					}
+					all.addLabelNodes(subj);
 				}
-
-//				return verbs;
+				return all;
 			}
 
 			case REMOVE: {
-				final NodeWrapper old = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), false);
+				final NodeWrapper old = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
 				for (GraphNode o : old.negativeNodes) {
 					o.setMarkedForDeletion(true);
 				}
@@ -247,14 +242,14 @@ public class GraphBuilder {
 				return old;
 			}
 			case REPLACE: {
-				final NodeWrapper old = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(), false);
+				final NodeWrapper old = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
 				for (GraphNode o : old.negativeNodes) {
 					o.setMarkedForDeletion(true);
 				}
 				for (GraphNode o : old.positiveNodes) {
 					o.setMarkedForDeletion(true);
 				}
-				final NodeWrapper neww = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(), false);
+				final NodeWrapper neww = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
 				connectRGNodes(old, neww, node);
 				return old;
 			}
@@ -262,19 +257,8 @@ public class GraphBuilder {
 			case CONJUNCTION_AND:
 			case CONJUNCTION_NOR:
 			case CONJUNCTION_OR: {
-				final NodeWrapper first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(),
-						returnVerb);
-				final NodeWrapper second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(),
-						returnVerb);
-
-//				first.positiveNodes.retainAll(
-//						first.positiveNodes.stream().filter(n -> !isConnected(n)).collect(Collectors.toList()));
-//				first.negativeNodes.retainAll(
-//						first.negativeNodes.stream().filter(n -> !isConnected(n)).collect(Collectors.toList()));
-//				second.positiveNodes.retainAll(
-//						second.positiveNodes.stream().filter(n -> !isConnected(n)).collect(Collectors.toList()));
-//				second.negativeNodes.retainAll(
-//						second.negativeNodes.stream().filter(n -> !isConnected(n)).collect(Collectors.toList()));
+				final NodeWrapper first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
+				final NodeWrapper second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
 
 				// AND = AND; OR = OR; NOR = AND + swap()
 				NodeType type = node.getType().equals(RuleType.CONJUNCTION_OR) ? NodeType.OR : NodeType.AND;
@@ -286,6 +270,7 @@ public class GraphBuilder {
 				System.out.println(second.childType);
 				if ((!first.childType.equals(NodeType.NONE) && !first.childType.equals(type))
 						|| (!second.childType.equals(NodeType.NONE) && !second.childType.equals(type))) {
+					
 					NodeWrapper f = first;
 					NodeWrapper s = second;
 					if ((!first.childType.equals(NodeType.NONE) && !first.childType.equals(type))) {
@@ -313,20 +298,9 @@ public class GraphBuilder {
 			}
 
 			case CONJUNCTION_XOR: {
-				final NodeWrapper first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument(),
-						returnVerb);
-				final NodeWrapper second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument(),
-						returnVerb);
-
-				first.positiveNodes.retainAll(
-						first.positiveNodes.stream().filter(n -> !isConnected(n)).collect(Collectors.toList()));
-				first.negativeNodes.retainAll(
-						first.negativeNodes.stream().filter(n -> !isConnected(n)).collect(Collectors.toList()));
-				second.positiveNodes.retainAll(
-						second.positiveNodes.stream().filter(n -> !isConnected(n)).collect(Collectors.toList()));
-				second.negativeNodes.retainAll(
-						second.negativeNodes.stream().filter(n -> !isConnected(n)).collect(Collectors.toList()));
-
+				final NodeWrapper first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
+				final NodeWrapper second = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
+				
 				final NodeWrapper parent2 = new NodeWrapper(currentGraph.createInnerNode(NodeType.AND), NodeType.AND,
 						false);
 				final NodeWrapper parent3 = new NodeWrapper(currentGraph.createInnerNode(NodeType.AND), NodeType.AND,
@@ -341,7 +315,7 @@ public class GraphBuilder {
 			}
 
 			case NEGATION: {
-				final NodeWrapper first = buildRGNode(((NegationTreeNode) node).getClause(), returnVerb);
+				final NodeWrapper first = buildRGNode(((NegationTreeNode) node).getClause());
 				return first.swap();
 			}
 
@@ -373,6 +347,7 @@ public class GraphBuilder {
 		 */
 		final GraphNode n = currentGraph.createNode(text, NodeType.NONE);
 		n.setId(((LeafTreeNode) node).getId());
+		n.setExclusive(((LeafTreeNode) node).isVerb());
 		return new NodeWrapper(n, n.getType(), false);
 		// }
 	}
@@ -625,6 +600,70 @@ public class GraphBuilder {
 
 		public void addNegativeNode(GraphNode node) {
 			negativeNodes.add(node);
+		}
+		
+		public void addLabelNodes(NodeWrapper wrapper) {
+			for (GraphNode n : wrapper.negativeNodes) {
+				if (n.isExclusive()) {
+					this.negativeNodes.add(n);
+				}
+			}
+			for (GraphNode n : wrapper.positiveNodes) {
+				if (n.isExclusive()) {
+					this.positiveNodes.add(n);
+				}
+			}
+		}
+		
+		public NodeWrapper transform() {
+			ArrayList<GraphNode> tmpPos = new ArrayList<GraphNode>();
+			ArrayList<GraphNode> tmpNeg = new ArrayList<GraphNode>();
+
+			for (GraphNode n : this.positiveNodes) {
+				RGConnectionType type = n.getChildEdges().size() == 0 ? n.getParentEdges().size() == 0 ? null : n.getParentEdges().get(0).getType() : n.getChildEdges().get(0).getType();
+				if (type == null) {
+					tmpPos.add(n);
+					continue;
+				}
+				switch (type) {
+				case COMPOSITION:
+					if (n.getParentEdges().size() > 0) {
+						tmpPos.add(n.getParentEdges().get(0).getFrom());	
+					}
+					break;
+				case INHERITANCE:
+				case ACTION:
+						tmpPos.add(n.getChildEdges().get(0).getTo());
+					break;
+
+				default:
+					break;
+				}
+			}
+			for (GraphNode n : this.negativeNodes) {
+				RGConnectionType type = n.getChildEdges().size() == 0 ? null : n.getChildEdges().get(0).getType();
+				if (type == null) {
+					tmpNeg.add(n);
+					continue;
+				}
+				switch (type) {
+				case COMPOSITION:
+					if (n.getParentEdges().size() > 0) {
+						tmpPos.add(n.getParentEdges().get(0).getFrom());	
+					}
+					break;
+				case INHERITANCE:
+				case ACTION:
+						tmpNeg.add(n.getChildEdges().get(0).getTo());
+					break;
+
+				default:
+					break;
+				}
+			}
+			this.negativeNodes = tmpNeg;
+			this.positiveNodes = tmpPos;
+			return this;
 		}
 
 		public void setExclusive() {

@@ -5,12 +5,14 @@ public class LeafTreeNode extends MatchResultTreeNode {
 
 	private String content;
 	private String id;
+	private boolean isVerb;
 	public LeafTreeNode(String content) {
 		this.content = content;
 	}
-	public LeafTreeNode(String content, String id) {
+	public LeafTreeNode(String content, String id, boolean isVerb) {
 		this.content = content;
 		this.id = id;
+		this.isVerb = isVerb;
 	}
 	
 	public String getContent() {
@@ -33,6 +35,12 @@ public class LeafTreeNode extends MatchResultTreeNode {
 	@Override
 	public void acceptVisitor(MatchTreeVisitor visitor) {
 		visitor.visit(this);
+	}
+	public boolean isVerb() {
+		return isVerb;
+	}
+	public void setVerb(boolean isVerb) {
+		this.isVerb = isVerb;
 	}
 
 }

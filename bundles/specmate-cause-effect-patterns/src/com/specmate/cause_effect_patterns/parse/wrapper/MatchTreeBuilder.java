@@ -1,5 +1,6 @@
 package com.specmate.cause_effect_patterns.parse.wrapper;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
@@ -441,7 +442,7 @@ public class MatchTreeBuilder {
 		if (isAction(result)) {
 			MatchResultTreeNode obj = getSecondArgument(result).get();
 			MatchResultTreeNode verb = getThirdArgument(result).get();
-			MatchResultTreeNode subj = getFirstArgument(result).isPresent() ? getFirstArgument(result).get() : new LeafTreeNode("", "-1");
+			MatchResultTreeNode subj = getFirstArgument(result).isPresent() ? getFirstArgument(result).get() : new LeafTreeNode("", "-1", false);
 
 
 			if (verb instanceof BinaryMatchResultTreeNode || verb instanceof NegationTreeNode) {
@@ -459,14 +460,23 @@ public class MatchTreeBuilder {
 				return Optional.of(new BinaryMatchResultTreeNode(newNode, oldNode, getType(result)));
 			} else if (isRemove(result)) {
 				MatchResultTreeNode oldNode = getFirstArgument(result).get();
-				LeafTreeNode tmp = new LeafTreeNode("", "");
+				LeafTreeNode tmp = new LeafTreeNode("", "", false);
 				return Optional.of(new BinaryMatchResultTreeNode(tmp, oldNode, getType(result)));
 			}
 		}
 
 		// Just Text
+		Collection<Token> tokens = result.getMatchTree().getHeads();
+		boolean hasVerb = false;
+		
+		for (Token t : tokens) {
+			if (t.getPosValue().contains("VB") && !t.getPosValue().equals("VB")) {
+				hasVerb = true;
+				break;
+			}
+		}
 		LeafTreeNode leaf = new LeafTreeNode(result.getMatchTree().getRepresentationString(false),
-				((Token) result.getMatchTree().getHeads().toArray()[0]).getEnd() + "");
+				((Token) result.getMatchTree().getHeads().toArray()[0]).getEnd() + "", hasVerb);
 
 		return Optional.of(leaf);
 	}

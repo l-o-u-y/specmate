@@ -39,6 +39,7 @@ public class Graph {
 		result.setPrimaryText("Inner Node " + counter++);
 		nodes.add(result);
 		innerNodes.add(result);
+		result.setExclusive(true);
 		return result;
 	}
 
