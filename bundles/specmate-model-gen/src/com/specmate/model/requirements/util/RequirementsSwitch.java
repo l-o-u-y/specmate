@@ -18,16 +18,7 @@ import com.specmate.model.base.IRecycled;
 import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.base.ISpecmatePositionableModelObject;
 import com.specmate.model.base.ITracingElement;
-import com.specmate.model.requirements.CEGConnection;
-import com.specmate.model.requirements.CEGModel;
-import com.specmate.model.requirements.CEGNode;
-import com.specmate.model.requirements.RGChunk;
-import com.specmate.model.requirements.RGConnection;
-import com.specmate.model.requirements.RGModel;
-import com.specmate.model.requirements.RGNode;
-import com.specmate.model.requirements.RGObject;
-import com.specmate.model.requirements.Requirement;
-import com.specmate.model.requirements.RequirementsPackage;
+import com.specmate.model.requirements.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -132,20 +123,11 @@ public class RequirementsSwitch<T> extends Switch<T> {
 			case RequirementsPackage.RG_OBJECT: {
 				RGObject rgObject = (RGObject)theEObject;
 				T result = caseRGObject(rgObject);
+				if (result == null) result = caseIContentElement(rgObject);
 				if (result == null) result = caseIID(rgObject);
+				if (result == null) result = caseINamed(rgObject);
 				if (result == null) result = caseIDescribed(rgObject);
 				if (result == null) result = caseIRecycled(rgObject);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case RequirementsPackage.RG_CHUNK: {
-				RGChunk rgChunk = (RGChunk)theEObject;
-				T result = caseRGChunk(rgChunk);
-				if (result == null) result = caseIContentElement(rgChunk);
-				if (result == null) result = caseIID(rgChunk);
-				if (result == null) result = caseINamed(rgChunk);
-				if (result == null) result = caseIDescribed(rgChunk);
-				if (result == null) result = caseIRecycled(rgChunk);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -302,21 +284,6 @@ public class RequirementsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseRGObject(RGObject object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>RG Chunk</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>RG Chunk</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseRGChunk(RGChunk object) {
 		return null;
 	}
 

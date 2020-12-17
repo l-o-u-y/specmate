@@ -250,24 +250,6 @@ export class MetaInfo {
 			rows: '5',
 			position: '100'		
 		}	];
-	public static RGChunk: FieldMetaItem[] = [
-			{
-			name: "name",
-			shortDesc: 'Name',
-			longDesc: '',
-			required: true,
-			type: 'text',
-			position: '0',
-			allowedPattern: '^[^,;|]*$'		
-		},			{
-			name: "description",
-			shortDesc: 'Description',
-			longDesc: '',
-			required: false,
-			type: 'longText',
-			rows: '5',
-			position: '100'		
-		}	];
 	public static RGNode: FieldMetaItem[] = [
 			{
 			name: "type",

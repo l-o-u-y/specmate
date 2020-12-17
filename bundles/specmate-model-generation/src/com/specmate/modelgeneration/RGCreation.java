@@ -15,7 +15,6 @@ import org.eclipse.emf.common.util.EList;
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IModelConnection;
 import com.specmate.model.requirements.NodeType;
-import com.specmate.model.requirements.RGChunk;
 import com.specmate.model.requirements.RGConnection;
 import com.specmate.model.requirements.RGConnectionType;
 import com.specmate.model.requirements.RGModel;
@@ -33,7 +32,7 @@ import com.specmate.model.support.util.SpecmateEcoreUtil;
 public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 
 	private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
+	
 	/**
 	 * Create a new object and add it to the RGModel
 	 *
@@ -45,7 +44,8 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		RGObject obj = RequirementsFactory.eINSTANCE.createRGObject();
 		obj.setId(SpecmateEcoreUtil.getIdForChild());
 		obj.setOriginalText(originalText);
-		model.getModelMapping().add(obj);
+		model.getContents().add(obj);
+		model.getObjects().add(obj);
 		return obj;
 	}
 
@@ -61,25 +61,9 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		RGObject obj = RequirementsFactory.eINSTANCE.createRGObject();
 		obj.setId(SpecmateEcoreUtil.getIdForChild());
 		obj.setProcessedText(processedText);
-		model.getModelMapping().add(index, obj);
+		model.getContents().add(obj);
+		model.getObjects().add(index, obj);
 		return obj;
-	}
-
-	/**
-	 * Create a new chunk and add it to the RGModel
-	 *
-	 * @param model
-	 * @param text
-	 * @param id
-	 * @return the created chunk
-	 */
-	public RGChunk createChunk(RGModel model, String text, String id) {
-		RGChunk chunk = RequirementsFactory.eINSTANCE.createRGChunk();
-		chunk.setId(id);
-		chunk.setName("New Chunk " + dateFormat.format(new Date()));
-		chunk.setText(text);
-		model.getContents().add(chunk);
-		return chunk;
 	}
 
 	/**
@@ -89,16 +73,14 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 * @param id
 	 * @return the found chunk or null
 	 */
-	public RGChunk findChunk(RGModel model, String id) {
-		RGChunk chunk = null;
-		for (IContentElement c : model.getContents()) {
-			if (c instanceof RGChunk) {
+	public RGObject findObject(RGModel model, String id) {
+		RGObject obj = null;
+		for (RGObject c : model.getObjects()) {
 				if (c.getId().equals(id)) {
-					chunk = (RGChunk) c;
-				}
+					obj = (RGObject) c;
 			}
 		}
-		return chunk;
+		return obj;
 	}
 
 	/**
@@ -307,7 +289,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		 */
 
 		// 1
-		List<RGChunk> chunks = model.getContents().stream().filter(c -> c instanceof RGChunk).map(c -> (RGChunk) c)
+		List<RGObject> objs = model.getObjects().stream()
 				.filter(c -> c.getNode() != null && c.getNode().equals(oldNode)).collect(Collectors.toList());
 		List<RGConnection> incomingConnections = oldNode.getIncomingConnections().stream().map(c -> (RGConnection) c)
 				.collect(Collectors.toList());
@@ -320,10 +302,10 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 
 		// 2
 		if (actualParentNode != null) {
-			ArrayList<RGChunk> aggregator = new ArrayList<RGChunk>();
-			for (RGChunk c : chunks) {
+			ArrayList<RGObject> aggregator = new ArrayList<RGObject>();
+			for (RGObject c : objs) {
 				boolean include = false;
-				for (RGChunk x : c.getIncomingChunks()) {
+				for (RGObject x : c.getIncoming()) {
 					// TODO MA prob dont need this
 					if (x.getNode() != null) {
 						System.out.println(x.getNode().getComponent());
@@ -333,7 +315,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 						include = true;
 					}
 					//
-					for (RGChunk p : x.getIncomingChunks()) {
+					for (RGObject p : x.getIncoming()) {
 						if (p.getNode() != null) {
 							System.out.println(p.getNode().getComponent());
 							System.out.println(p.getNode().getId());
@@ -348,7 +330,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 				}
 
 			}
-			chunks.retainAll(aggregator);
+			objs.retainAll(aggregator);
 		}
 //		p == x.incoming ; x == c.incoming
 
@@ -356,26 +338,26 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		Set<RGNode> childNodes = new HashSet<RGNode>();
 
 		// 3
-		for (RGChunk chunk : chunks) {
+		for (RGObject obj : objs) {
 			// 1
-			chunk.setNode(replacementNode);
-			replacementNode.getChunks().add(chunk);
-			oldNode.getChunks().remove(chunk);
+			obj.setNode(replacementNode);
+			replacementNode.getObjects().add(obj);
+			oldNode.getObjects().remove(obj);
 
 			String m = "^(?i)((a )|(an )|(the ))?(?-i)(.*)";
-			String ct = chunk.getText().trim();
+			String ct = obj.getOriginalText().trim();
 			String nt = replacementNode.getName();
 			String tmp = ct.replaceAll(m, "$1" + nt);
 			if (replacementCon == null) {
 				tmp = tmp.replaceAll(m, "no $5");
 			}
-			chunk.setText(tmp);
+			obj.setOriginalText(tmp);
 
 			// 2
-			for (RGChunk parentChunk : chunk.getIncomingChunks()) {
+			for (RGObject parentChunk : obj.getIncoming()) {
 				parentNodes.add(parentChunk.getNode());
 			}
-			for (RGChunk childChunk : chunk.getOutgoingChunks()) {
+			for (RGObject childChunk : obj.getOutgoing()) {
 				childNodes.add(childChunk.getNode());
 			}
 		}
@@ -412,37 +394,37 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		}
 
 		// assign chunk of tmp node to replacement node instead
-		for (RGChunk c : tmpNode.getChunks()) {
+		for (RGObject c : tmpNode.getObjects()) {
 			c.setNode(replacementNode);
-			replacementNode.getChunks().add(c);
+			replacementNode.getObjects().add(c);
 			if (replacementCon == null) {
 				c.setRemoved(true);
 			}
-			System.out.println(c.getText());
+			System.out.println(c.getOriginalText());
 		}
-		tmpNode.getChunks().retainAll(new ArrayList<>());
+		tmpNode.getObjects().retainAll(new ArrayList<>());
 
 		// if delete operation
 		if (replacementCon == null) {
-			EList<RGChunk> replacementChunks = replacementNode.getChunks();
-			for (RGChunk c : replacementChunks) {
+			EList<RGObject> replacementChunks = replacementNode.getObjects();
+			for (RGObject c : replacementChunks) {
 				// set chunk as removed
-				System.out.println(c.getText());
+				System.out.println(c.getOriginalText());
 				c.setRemoved(true);
-				EList<RGChunk> childChunks = c.getOutgoingChunks();
-				EList<RGChunk> parentChunks = c.getIncomingChunks();
+				EList<RGObject> childChunks = c.getOutgoing();
+				EList<RGObject> parentChunks = c.getIncoming();
 				System.out.println("------------");
 				// set child chunks as removed
-				for (RGChunk cc : childChunks) {
-					System.out.println(cc.getText());
+				for (RGObject cc : childChunks) {
+					System.out.println(cc.getOriginalText());
 					cc.setRemoved(true);
 				}
 				System.out.println("------------");
-				for (RGChunk pc : parentChunks) {
+				for (RGObject pc : parentChunks) {
 					// if only 1 parent -> set parent chunk as removed
-					System.out.println(pc.getText());
-					if (pc.getOutgoingChunks().size() == 1 && pc.getIncomingChunks().size() == 0) {
-						System.out.println(pc.getText());
+					System.out.println(pc.getOriginalText());
+					if (pc.getOutgoing().size() == 1 && pc.getIncoming().size() == 0) {
+						System.out.println(pc.getOriginalText());
 						pc.setRemoved(true);
 					}
 				}
@@ -452,7 +434,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 
 		// remove new parentNode
 		if (parentNode != null) {
-			for (RGChunk c : parentNode.getChunks()) {
+			for (RGObject c : parentNode.getObjects()) {
 				c.setRemoved(true);
 			}
 		}

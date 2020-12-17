@@ -1,12 +1,15 @@
 package com.specmate.cause_effect_patterns.parse.wrapper;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
 import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultTreeNode.RuleType;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
 
 public class MatchTreeBuilder {
 	private static class SubtreeNames {
@@ -255,6 +258,13 @@ public class MatchTreeBuilder {
 		return Optional.empty();
 	}
 
+	public Optional<MatchResultTreeNode> getLabel(MatchResult result) {
+		if (result.getSubmatch(SubtreeNames.LABEL) != null) {
+			return buildTree(result.getSubmatch(SubtreeNames.LABEL));
+		}
+		return Optional.empty();
+	}
+
 //	public String getLabel(MatchResult result) {
 //		String name = getThirdArgumentName(result);
 //		String text = null;
@@ -449,14 +459,26 @@ public class MatchTreeBuilder {
 			MatchResultTreeNode obj = getSecondArgument(result).get();
 			MatchResultTreeNode verb = getThirdArgument(result).get();
 			MatchResultTreeNode subj = getFirstArgument(result).isPresent() ? getFirstArgument(result).get()
-					: new LeafTreeNode("", "-1", false);
-
+					: new LeafTreeNode("", null, false);
+			MatchResultTreeNode label = getLabel(result).isPresent() ? getLabel(result).get() : null;
+			MatchResultTreeNode tmp2;
 			if (verb instanceof BinaryMatchResultTreeNode || verb instanceof NegationTreeNode) {
 				BinaryMatchResultTreeNode tmp = new BinaryMatchResultTreeNode(subj, obj, getType(result));
-				return Optional.of(parseLabelTree(verb, tmp));
+				tmp2 = parseLabelTree(verb, tmp);
 			} else { // if (labelTree instanceof LeafTreeNode)
-				return Optional.of(new BinaryMatchResultTreeNode(subj, obj, getType(result), ((LeafTreeNode) verb)));
+				tmp2 = new BinaryMatchResultTreeNode(subj, obj, getType(result), ((LeafTreeNode) verb));
 			}
+			
+			// add label subtree if exists
+			if (label instanceof LeafTreeNode && tmp2 instanceof BinaryMatchResultTreeNode) {
+				if (((BinaryMatchResultTreeNode)tmp2).getLabel() instanceof LeafTreeNode) {
+					((LeafTreeNode)((BinaryMatchResultTreeNode)tmp2).getLabel()).setContent(
+							((LeafTreeNode)((BinaryMatchResultTreeNode)tmp2).getLabel()).getContent() + " " + 
+									((LeafTreeNode)label).getContent()
+							);
+				}
+			}
+			return Optional.of(tmp2);
 		}
 		if (isUpdate(result)) {
 			if (isReplace(result)) {
@@ -466,7 +488,7 @@ public class MatchTreeBuilder {
 				return Optional.of(new BinaryMatchResultTreeNode(newNode, oldNode, getType(result)));
 			} else if (isRemove(result)) {
 				MatchResultTreeNode oldNode = getFirstArgument(result).get();
-				LeafTreeNode tmp = new LeafTreeNode("", "", false);
+				LeafTreeNode tmp = new LeafTreeNode("", null, false);
 				return Optional.of(new BinaryMatchResultTreeNode(tmp, oldNode, getType(result)));
 			}
 		}
@@ -475,15 +497,26 @@ public class MatchTreeBuilder {
 		Collection<Token> tokens = result.getMatchTree().getHeads();
 		boolean hasVerb = false;
 
+		List<String> ids = new ArrayList<String>();
 		for (Token t : tokens) {
 			if (t.getPosValue().contains("VB") && !t.getPosValue().equals("VB")) {
 				hasVerb = true;
-				break;
 			}
+			addIds(result, ids, t);
 		}
 		LeafTreeNode leaf = new LeafTreeNode(result.getMatchTree().getRepresentationString(false),
-				((Token) result.getMatchTree().getHeads().toArray()[0]).getEnd() + "", hasVerb);
+				ids, hasVerb);
 
 		return Optional.of(leaf);
+	}
+	
+	private void addIds(MatchResult result, List<String> ids, Token token) {
+		ids.add(token.getEnd() + "");
+		if (result.getMatchTree().getDependencyNode(token)==null)
+			return;
+
+		for (Dependency d : result.getMatchTree().getDependencyNode(token)) {
+			addIds(result, ids, d.getDependent());
+		}
 	}
 }

@@ -6,12 +6,10 @@ import java.util.List;
 
 import org.osgi.service.log.LogService;
 
-import com.specmate.model.requirements.RGChunk;
 import com.specmate.model.requirements.RGConnection;
 import com.specmate.model.requirements.RGModel;
 import com.specmate.model.requirements.RGNode;
 import com.specmate.model.requirements.RGObject;
-import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.modelgeneration.RGCreation;
 import com.specmate.modelgeneration.stages.graph.Graph;
 import com.specmate.modelgeneration.stages.graph.GraphEdge;
@@ -58,13 +56,22 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 			}
 
 			// assign chunks based on chunk and node id (position)
-			for (RGObject m : model.getModelMapping()) {
-				if (m.getChunk() != null) {
-					if (m.getChunk().getId().equals(node.getId())) {
-						if (m.getChunk().getNode() == null) {
+			for (RGObject m : model.getObjects()) {
+				if (node.getIds() == null && n.getComponent().contains("inner node")) { // inner nodes
+					RGObject tmp = rgCreation.createObject(model, n.getComponent());
+					tmp.setNode(n);
+					n.getObjects().add(tmp);
+					List<String> ids = new ArrayList<>();
+					ids.add(tmp.getId());
+					node.setIds(ids);
+					break;
+				}
+				for (String id : node.getIds()) {
+					if (m.getId().equals(id)) {
+						if (m.getNode() == null) {
 //							System.out.println(m.getChunk().getText());
-							m.getChunk().setNode(n);
-							n.getChunks().add(m.getChunk());
+							m.setNode(n);
+							n.getObjects().add(m);
 						}
 					}
 				}
@@ -100,33 +107,41 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 			RGNode to = nodeMap.get(edge.getTo());
 
 			// connect chunks
-			RGChunk fromChunk = null;
-			RGChunk toChunk = null;
-			for (RGChunk c : from.getChunks()) {
-				if (c.getId().equals(edge.getFrom().getId())) {
-					fromChunk = c;
+			List<RGObject> fromChunks = new ArrayList<RGObject>();
+			List<RGObject> toChunks = new ArrayList<RGObject>();
+			for (RGObject c : from.getObjects()) {
+				for (String id : edge.getFrom().getIds()) {
+					if (c.getId().equals(id)) {
+						fromChunks.add(c);
+					}
 				}
 			}
-			for (RGChunk c : to.getChunks()) {
-				if (c.getId().equals(edge.getTo().getId())) {
-					toChunk = c;
+			for (RGObject c : to.getObjects()) {
+				for (String id : edge.getTo().getIds()) {
+					if (c.getId().equals(id)) {
+						toChunks.add(c);
+					}
 				}
 			}
 
-			if (from.getComponent().contains("inner node") && fromChunk == null) {
-				fromChunk = rgCreation.createChunk(model, from.getComponent(), SpecmateEcoreUtil.getIdForChild());
-				fromChunk.setNode(from);
-				from.getChunks().add(fromChunk);
-			}
-			if (to.getComponent().contains("inner node") && toChunk == null) {
-				toChunk = rgCreation.createChunk(model, to.getComponent(), SpecmateEcoreUtil.getIdForChild());
-				toChunk.setNode(to);
-				to.getChunks().add(toChunk);
-			}
+//			if (from.getComponent().contains("inner node") && fromChunks.isEmpty()) {
+//				RGObject tmp = rgCreation.createObject(model, from.getComponent());
+//				tmp.setNode(from);
+//				fromChunks.add(tmp);
+//			}
+//			if (to.getComponent().contains("inner node") && toChunks.isEmpty()) {
+//				RGObject tmp = rgCreation.createObject(model, to.getComponent());
+//				tmp.setNode(to);
+//				toChunks.add(tmp);
+//			}
 
-			if (fromChunk != null && toChunk != null) {
-				fromChunk.getOutgoingChunks().add(toChunk);
-				toChunk.getIncomingChunks().add(fromChunk);
+			if (!fromChunks.isEmpty() && !toChunks.isEmpty()) {
+				for (RGObject toChunk : toChunks) {
+					for (RGObject fromChunk: fromChunks) {
+						fromChunk.getOutgoing().add(toChunk);
+						toChunk.getIncoming().add(fromChunk);
+					}
+				}
 			} else {
 				System.out.println("From content: " + from.getComponent());
 				System.out.println("From content: " + to.getComponent());

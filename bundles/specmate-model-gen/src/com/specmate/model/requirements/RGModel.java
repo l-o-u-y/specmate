@@ -2,9 +2,9 @@
  */
 package com.specmate.model.requirements;
 
-import org.eclipse.emf.common.util.EList;
-
+import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.ISpecmateModelObject;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,14 +16,14 @@ import com.specmate.model.base.ISpecmateModelObject;
  * </p>
  * <ul>
  *   <li>{@link com.specmate.model.requirements.RGModel#getModelRequirements <em>Model Requirements</em>}</li>
- *   <li>{@link com.specmate.model.requirements.RGModel#getModelMapping <em>Model Mapping</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.RGModel#getObjects <em>Objects</em>}</li>
  * </ul>
  *
  * @see com.specmate.model.requirements.RequirementsPackage#getRGModel()
  * @model
  * @generated
  */
-public interface RGModel extends ISpecmateModelObject {
+public interface RGModel extends ISpecmateModelObject, IContentElement {
 
 	/**
 	 * Returns the value of the '<em><b>Model Requirements</b></em>' attribute.
@@ -48,15 +48,15 @@ public interface RGModel extends ISpecmateModelObject {
 	void setModelRequirements(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Model Mapping</b></em>' containment reference list.
+	 * Returns the value of the '<em><b>Objects</b></em>' reference list.
 	 * The list contents are of type {@link com.specmate.model.requirements.RGObject}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Model Mapping</em>' containment reference list.
-	 * @see com.specmate.model.requirements.RequirementsPackage#getRGModel_ModelMapping()
-	 * @model containment="true"
+	 * @return the value of the '<em>Objects</em>' reference list.
+	 * @see com.specmate.model.requirements.RequirementsPackage#getRGModel_Objects()
+	 * @model
 	 * @generated
 	 */
-	EList<RGObject> getModelMapping();
+	EList<RGObject> getObjects();
 
 } // RGModel

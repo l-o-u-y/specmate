@@ -1,18 +1,21 @@
 package com.specmate.cause_effect_patterns.parse.wrapper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LeafTreeNode extends MatchResultTreeNode {
 
 	private String content;
-	private String id;
+	private List<String> ids;
 	private boolean isVerb;
 
 	public LeafTreeNode(String content) {
 		this.content = content;
 	}
 
-	public LeafTreeNode(String content, String id, boolean isVerb) {
+	public LeafTreeNode(String content, List<String> ids, boolean isVerb) {
 		this.content = content;
-		this.id = id;
+		this.ids = ids == null ? new ArrayList<String>(): ids;
 		this.isVerb = isVerb;
 	}
 
@@ -20,12 +23,13 @@ public class LeafTreeNode extends MatchResultTreeNode {
 		return this.content;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
-	public String getId() {
-		return this.id;
+
+	public List<String> getIds() {
+		return this.ids;
 	}
 
 	@Override

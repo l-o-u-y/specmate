@@ -107,7 +107,7 @@ public class Spacy extends JCasAnnotator_ImplBase {
 			request.put("text", requirement);
 			request.put("model", "en");
 			request.put("collapse_punctuation", 0);
-			request.put("collapse_phrases", 1);
+			request.put("collapse_phrases", 0);
 
 			RestResult<JSONArray> result = restClient.postList("/sents_dep", request);
 			if (result.getResponse().getStatus() == Status.OK.getStatusCode()) {

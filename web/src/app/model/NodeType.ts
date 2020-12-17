@@ -1,4 +1,5 @@
 export enum NodeType {
-	AND = 0,
-OR = 1
+	NONE = 0,
+AND = 1,
+OR = 2
 }

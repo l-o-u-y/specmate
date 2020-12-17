@@ -15,9 +15,13 @@
 		public hasRecycledChildren: EBoolean;
 		public originalText: EString;
 		public processedText: EString;
+		public removed: EBoolean;
 
 		// References
-		public chunk: Proxy;
+		public node: Proxy;
+		public siblings: Proxy[];
+		public incoming: Proxy[];
+		public outgoing: Proxy[];
 
 		// Containment
 

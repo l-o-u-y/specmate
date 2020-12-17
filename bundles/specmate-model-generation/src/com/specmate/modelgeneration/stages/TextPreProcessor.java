@@ -41,6 +41,8 @@ public class TextPreProcessor {
 		// remove "Describe your problem and - if possible - how to reproduce it"
 		// standard github issue text
 		text = text.replaceAll("#### Describe your problem and - if possible - how to reproduce it", "");
+//		text = text.replaceAll("#### (.*)\\n", "");
+		//TODO MA
 
 		// remove () with content
 		text = text.replaceAll("\\([^\\)]*\\)", "");

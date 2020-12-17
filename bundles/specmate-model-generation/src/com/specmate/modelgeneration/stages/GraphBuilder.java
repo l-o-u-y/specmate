@@ -183,8 +183,6 @@ public class GraphBuilder {
 				all.addLabelNodes(label);
 				first.transform();
 				second.transform();
-//				first.transform();
-//				second.transform();
 
 				if (node.getType().equals(RuleType.INHERITANCE)) {
 					// first = parent
@@ -219,8 +217,7 @@ public class GraphBuilder {
 				all.childType = obj.childType;
 				all.addLabelNodes(verb);
 
-				if (s instanceof LeafTreeNode && ((LeafTreeNode) s).getId().contentEquals("-1")) {
-
+				if (s instanceof LeafTreeNode && ((LeafTreeNode) s).getIds().isEmpty()) {
 					connectRGNodes(verb, obj, node);
 
 				} else {
@@ -350,7 +347,7 @@ public class GraphBuilder {
 		 * return new RGNodes(first, second, NodeType.OR); } else {
 		 */
 		final GraphNode n = currentGraph.createNode(text, NodeType.NONE);
-		n.setId(((LeafTreeNode) node).getId());
+		n.setIds(((LeafTreeNode) node).getIds());
 		n.setExclusive(((LeafTreeNode) node).isVerb());
 		return new NodeWrapper(n, n.getType(), false);
 		// }

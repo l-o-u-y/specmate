@@ -40,7 +40,6 @@ import com.specmate.metrics.ITimer;
 import com.specmate.model.administration.AdministrationFactory;
 import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.administration.ProblemDetail;
-import com.specmate.model.requirements.RGChunk;
 import com.specmate.model.requirements.RGNode;
 import com.specmate.model.requirements.RGObject;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -249,34 +248,31 @@ public abstract class SpecmateResource {
 				.map((o) -> (RGObject)o).collect(Collectors.toList());
 		String string = "";
 		for (int i = 0; i < rgObjects.size(); i++) {
-			RGChunk prevChunk = i > 0 ? rgObjects.get(i-1).getChunk() : null;
-			RGObject object = rgObjects.get(i);
-			String s = object.getOriginalText();
-			String t = object.getProcessedText();
-			String ct = object.getChunk() != null ? object.getChunk().getText() : "";
-			RGNode no = object.getChunk() != null && object.getChunk().getNode() != null ? object.getChunk().getNode() : null;
-			String n = object.getChunk() != null && object.getChunk().getNode() != null ? object.getChunk().getNode().getComponent() : "";
-			boolean isVisited = s == null || (prevChunk != null && object.getChunk() == prevChunk);
+			RGObject prevObj = i > 0 ? rgObjects.get(i-1) : null;
+			RGObject obj = rgObjects.get(i);
+			String originalText = obj.getOriginalText();
+			String processedText = obj.getProcessedText();
+			RGNode node = obj.getNode();
 			
-			if (object.getProcessedText() != null 
-					&& object.getChunk() != null) {
-				if (object.getChunk().getNode() != null) {
-					s = ct;
+			//TODO MA
+			boolean isVisited = originalText == null || (prevObj != null && obj == prevObj);
+			
+			if (obj.getProcessedText() != null) {
+				if (node != null) {
 
 					// capitalize first word of sentence
 					if (string.trim().endsWith(".")) {
-						s = s.substring(0, 1).toUpperCase() + s.substring(1);
+						originalText = originalText.substring(0, 1).toUpperCase() + originalText.substring(1);
 					}
 				} else {
-					s = object.getChunk().getText();
 				}
 					
 			}
 			if (!isVisited) {
-				if (s.matches("[\\.,\\:;\\!\\?]")) {
-					string = string + s;
+				if (originalText.matches("[\\.,\\:;\\!\\?]")) {
+					string = string + originalText;
 				} else {
-					string = string + ' ' + s;
+					string = string + ' ' + originalText;
 				}
 			}
 		}

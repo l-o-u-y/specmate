@@ -28,7 +28,7 @@
 		public tracesFrom: Proxy[];
 		public outgoingConnections: Proxy[];
 		public incomingConnections: Proxy[];
-		public chunks: Proxy[];
+		public objects: Proxy[];
 
 		// Containment
 

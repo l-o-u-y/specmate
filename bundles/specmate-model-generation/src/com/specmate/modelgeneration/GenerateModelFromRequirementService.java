@@ -83,8 +83,9 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 		} else {
 			// if (parent instanceof RGModel) {
 			model = (RGModel) parent;
-			((RGModel) model).getModelMapping().clear();
+			((RGModel) model).getObjects().clear();
 			model.getContents().clear(); // Delete Contents
+
 			try {
 				logService.log(LogService.LOG_INFO, "Model Generation STARTED");
 				model = generateModelFromDescription(model);

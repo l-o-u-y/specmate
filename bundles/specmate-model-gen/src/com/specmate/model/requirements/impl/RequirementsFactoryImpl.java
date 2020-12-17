@@ -2,26 +2,13 @@
  */
 package com.specmate.model.requirements.impl;
 
+import com.specmate.model.requirements.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import com.specmate.model.requirements.CEGConnection;
-import com.specmate.model.requirements.CEGModel;
-import com.specmate.model.requirements.CEGNode;
-import com.specmate.model.requirements.NodeType;
-import com.specmate.model.requirements.RGChunk;
-import com.specmate.model.requirements.RGConnection;
-import com.specmate.model.requirements.RGConnectionType;
-import com.specmate.model.requirements.RGModel;
-import com.specmate.model.requirements.RGNode;
-import com.specmate.model.requirements.RGObject;
-import com.specmate.model.requirements.Requirement;
-import com.specmate.model.requirements.RequirementsFactory;
-import com.specmate.model.requirements.RequirementsPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -71,7 +58,6 @@ public class RequirementsFactoryImpl extends EFactoryImpl implements Requirement
 			case RequirementsPackage.CEG_MODEL: return (EObject)createCEGModel();
 			case RequirementsPackage.RG_MODEL: return (EObject)createRGModel();
 			case RequirementsPackage.RG_OBJECT: return (EObject)createRGObject();
-			case RequirementsPackage.RG_CHUNK: return (EObject)createRGChunk();
 			case RequirementsPackage.RG_NODE: return (EObject)createRGNode();
 			case RequirementsPackage.CEG_NODE: return (EObject)createCEGNode();
 			case RequirementsPackage.CEG_CONNECTION: return (EObject)createCEGConnection();
@@ -180,17 +166,6 @@ public class RequirementsFactoryImpl extends EFactoryImpl implements Requirement
 	public RGObject createRGObject() {
 		RGObjectImpl rgObject = new RGObjectImpl();
 		return rgObject;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public RGChunk createRGChunk() {
-		RGChunkImpl rgChunk = new RGChunkImpl();
-		return rgChunk;
 	}
 
 	/**

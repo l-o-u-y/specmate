@@ -116,7 +116,7 @@
         </eAnnotations>
       </eStructuralFeatures>
 	</eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="RGModel" eSuperTypes="#//base/ISpecmateModelObject">
+    <eClassifiers xsi:type="ecore:EClass" name="RGModel" eSuperTypes="#//base/ISpecmateModelObject #//base/IContentElement">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelRequirements" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
         <eAnnotations source="http://specmate.com/form_meta">
           <details key="shortDesc" value="Model Requirements"/>
@@ -127,49 +127,34 @@
           <details key="position" value="110"/>
         </eAnnotations>
       </eStructuralFeatures>
-
-      <eStructuralFeatures xsi:type="ecore:EReference" name="modelMapping" upperBound="-1"
-          eType="#//requirements/RGObject" containment="true"/>
-
-      <!--eStructuralFeatures xsi:type="ecore:EReference" name="chunks" upperBound="-1"
-      	  eType="#//requirements/RGChunk" containment="true"/-->
-
+      
+      <eStructuralFeatures xsi:type="ecore:EReference" name="objects" upperBound="-1"
+      eType="#//requirements/RGObject"/>
 	</eClassifiers>
 
-    <eClassifiers xsi:type="ecore:EClass" name="RGObject" eSuperTypes="#//base/IID  #//base/IDescribed #//base/IRecycled">
+    <eClassifiers xsi:type="ecore:EClass" name="RGObject" eSuperTypes="#//base/IContentElement">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="originalText"
       eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" />
 
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="processedText"
-      eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" />
-
-      <eStructuralFeatures xsi:type="ecore:EReference" name="chunk"
-      eType="#//requirements/RGChunk"/>
-	</eClassifiers>
-	
-
-    <eClassifiers xsi:type="ecore:EClass" name="RGChunk" eSuperTypes="#//base/IContentElement #//base/IID #//base/IDescribed #//base/IRecycled">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="text"
+		<eStructuralFeatures xsi:type="ecore:EAttribute" name="processedText"
       eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" />
 
       <eStructuralFeatures xsi:type="ecore:EReference" name="node"
       eType="#//requirements/RGNode"/>
 
-      <eStructuralFeatures xsi:type="ecore:EReference" name="incomingChunks" upperBound="-1"
-      eType="#//requirements/RGChunk"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="siblings" upperBound="-1"
+      eType="#//requirements/RGObject"/>
 
-      <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingChunks" upperBound="-1"
-      eType="#//requirements/RGChunk"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
+      eType="#//requirements/RGObject"/>
 
-      <eStructuralFeatures xsi:type="ecore:EReference" name="objects" upperBound="-1"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
       eType="#//requirements/RGObject"/>
       
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="removed"
       eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" />
-
 	</eClassifiers>
-
-
+	
     <eClassifiers xsi:type="ecore:EClass" name="RGNode" eSuperTypes="#//base/IModelNode">
       <eAnnotations source="http://specmate.com/form_meta">
         <details key="disabled1" value="name"/>
@@ -196,8 +181,8 @@
         </eAnnotations>
       </eStructuralFeatures>
 
-      <eStructuralFeatures xsi:type="ecore:EReference" name="chunks" upperBound="-1"
-      eType="#//requirements/RGChunk"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="objects" upperBound="-1"
+      eType="#//requirements/RGObject"/>
 
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="temporary"
       eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" />

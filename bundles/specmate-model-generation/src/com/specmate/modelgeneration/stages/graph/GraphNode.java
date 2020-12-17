@@ -9,7 +9,7 @@ import com.specmate.model.requirements.RGConnectionType;
 public class GraphNode {
 	private String secondaryText;
 	private String primaryText;
-	private String id;
+	private List<String> ids;
 	private boolean markedForDeletion;
 	private NodeType type;
 	private Graph graph;
@@ -115,12 +115,12 @@ public class GraphNode {
 		return minHeight - 1;
 	}
 
-	public String getId() {
-		return id;
+	public List<String> getIds() {
+		return ids;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setIds(List<String> ids) {
+		this.ids = ids;
 	}
 
 	public boolean isMarkedForDeletion() {

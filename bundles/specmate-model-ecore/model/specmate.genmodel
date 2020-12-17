@@ -101,31 +101,26 @@
       <genClasses ecoreClass="specmate.ecore#//requirements/RGModel">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGModel/modelRequirements"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGModel/modelMapping"/>
+            ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGModel/objects"/>
       </genClasses>
       <genClasses ecoreClass="specmate.ecore#//requirements/RGObject">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGObject/originalText"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGObject/processedText"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGObject/chunk"/>
-      </genClasses>
-      <genClasses ecoreClass="specmate.ecore#//requirements/RGChunk">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGChunk/text"/>
+            ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGObject/node"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGChunk/node"/>
+            ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGObject/siblings"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGChunk/incomingChunks"/>
+            ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGObject/incoming"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGChunk/outgoingChunks"/>
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGChunk/objects"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGChunk/removed"/>
+            ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGObject/outgoing"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGObject/removed"/>
       </genClasses>
       <genClasses ecoreClass="specmate.ecore#//requirements/RGNode">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGNode/type"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGNode/component"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGNode/chunks"/>
+            ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGNode/objects"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGNode/temporary"/>
       </genClasses>
       <genClasses ecoreClass="specmate.ecore#//requirements/CEGNode">

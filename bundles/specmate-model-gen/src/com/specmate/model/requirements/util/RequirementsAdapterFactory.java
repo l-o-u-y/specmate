@@ -19,16 +19,7 @@ import com.specmate.model.base.IRecycled;
 import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.base.ISpecmatePositionableModelObject;
 import com.specmate.model.base.ITracingElement;
-import com.specmate.model.requirements.CEGConnection;
-import com.specmate.model.requirements.CEGModel;
-import com.specmate.model.requirements.CEGNode;
-import com.specmate.model.requirements.RGChunk;
-import com.specmate.model.requirements.RGConnection;
-import com.specmate.model.requirements.RGModel;
-import com.specmate.model.requirements.RGNode;
-import com.specmate.model.requirements.RGObject;
-import com.specmate.model.requirements.Requirement;
-import com.specmate.model.requirements.RequirementsPackage;
+import com.specmate.model.requirements.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -101,10 +92,6 @@ public class RequirementsAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseRGObject(RGObject object) {
 				return createRGObjectAdapter();
-			}
-			@Override
-			public Adapter caseRGChunk(RGChunk object) {
-				return createRGChunkAdapter();
 			}
 			@Override
 			public Adapter caseRGNode(RGNode object) {
@@ -272,20 +259,6 @@ public class RequirementsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createRGObjectAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link com.specmate.model.requirements.RGChunk <em>RG Chunk</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see com.specmate.model.requirements.RGChunk
-	 * @generated
-	 */
-	public Adapter createRGChunkAdapter() {
 		return null;
 	}
 

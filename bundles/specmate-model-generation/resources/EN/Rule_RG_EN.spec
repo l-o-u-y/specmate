@@ -336,7 +336,7 @@ def rule Update_Remove_1 {
 	'(remove)|(removes)|(removing)' - dobj -> [Old]
 }
 
-def rule Composition_1_1 {
+def rule Composition_1 {
 	noun:[Child] - prep -> IN:'(on)|(of)|(inside)|(in)':[Label] - pobj -> noun:[Parent]
 }
 
@@ -459,11 +459,11 @@ def rule Negation {
 }
 
 def rule Negation_2 {
-	[Head] - dobj -> [Head_tmp] - neg -> DT:*
+	[Head] - neg -> DT:*
 }
 
 def rule Negation_3 {
-	[Head] - dobj-> [Head_tmp] - det -> DT:'no'
+	[Head] - det -> DT:'no'
 }
 
 
