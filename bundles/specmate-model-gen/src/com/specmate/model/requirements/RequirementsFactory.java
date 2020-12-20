@@ -67,13 +67,13 @@ public interface RequirementsFactory extends EFactory {
 	RGModel createRGModel();
 
 	/**
-	 * Returns a new object of class '<em>RG Object</em>'.
+	 * Returns a new object of class '<em>RG Word</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>RG Object</em>'.
+	 * @return a new object of class '<em>RG Word</em>'.
 	 * @generated
 	 */
-	RGObject createRGObject();
+	RGWord createRGWord();
 
 	/**
 	 * Returns a new object of class '<em>RG Node</em>'.

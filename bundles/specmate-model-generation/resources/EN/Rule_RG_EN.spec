@@ -432,6 +432,11 @@ def rule Conjunction_OR_2 {
 	 [PartA_SubA] - cc -> CC:'or'
 }
 
+def rule Conjunction_OR_3 {
+	[PartB_SubA] - nmod -> [PartA] - conj -> [PartB]
+	[PartA] - cc -> CC:'or'
+}
+
 def rule Conjunction_AND_1 {
 	[PartA] - cc -> CC:'and'
 	[PartA] - conj -> [PartB]
@@ -489,4 +494,12 @@ def rule TMP_4 {
 def rule TMP_5 {
 	[TMP] - xcomp -> [PartA]
 	[PartA] - aux -> TO:'to'
+}
+// remove a, an, the
+def rule TMP_6 {
+	[PartA] - det -> [TMP]
+}
+// will do
+def rule TMP_7 {
+	[PartA] - aux -> MD:[TMP]
 }

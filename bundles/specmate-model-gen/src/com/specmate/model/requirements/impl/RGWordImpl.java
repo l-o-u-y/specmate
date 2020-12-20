@@ -2,44 +2,48 @@
  */
 package com.specmate.model.requirements.impl;
 
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.internal.cdo.CDOObjectImpl;
-
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.INamed;
 import com.specmate.model.base.IRecycled;
+
 import com.specmate.model.requirements.RGNode;
 import com.specmate.model.requirements.RGWord;
 import com.specmate.model.requirements.RequirementsPackage;
+
 import java.util.Collection;
+
 import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>RG Object</b></em>'.
+ * An implementation of the model object '<em><b>RG Word</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link com.specmate.model.requirements.impl.RGObjectImpl#getId <em>Id</em>}</li>
- *   <li>{@link com.specmate.model.requirements.impl.RGObjectImpl#getName <em>Name</em>}</li>
- *   <li>{@link com.specmate.model.requirements.impl.RGObjectImpl#getDescription <em>Description</em>}</li>
- *   <li>{@link com.specmate.model.requirements.impl.RGObjectImpl#isRecycled <em>Recycled</em>}</li>
- *   <li>{@link com.specmate.model.requirements.impl.RGObjectImpl#isHasRecycledChildren <em>Has Recycled Children</em>}</li>
- *   <li>{@link com.specmate.model.requirements.impl.RGObjectImpl#getOriginalText <em>Original Text</em>}</li>
- *   <li>{@link com.specmate.model.requirements.impl.RGObjectImpl#getProcessedText <em>Processed Text</em>}</li>
- *   <li>{@link com.specmate.model.requirements.impl.RGObjectImpl#getPosTag <em>Pos Tag</em>}</li>
- *   <li>{@link com.specmate.model.requirements.impl.RGObjectImpl#getNode <em>Node</em>}</li>
- *   <li>{@link com.specmate.model.requirements.impl.RGObjectImpl#getIncoming <em>Incoming</em>}</li>
- *   <li>{@link com.specmate.model.requirements.impl.RGObjectImpl#getOutgoing <em>Outgoing</em>}</li>
- *   <li>{@link com.specmate.model.requirements.impl.RGObjectImpl#isRemoved <em>Removed</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGWordImpl#getId <em>Id</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGWordImpl#getName <em>Name</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGWordImpl#getDescription <em>Description</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGWordImpl#isRecycled <em>Recycled</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGWordImpl#isHasRecycledChildren <em>Has Recycled Children</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGWordImpl#getOriginalText <em>Original Text</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGWordImpl#getProcessedText <em>Processed Text</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGWordImpl#getPosTag <em>Pos Tag</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGWordImpl#getNode <em>Node</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGWordImpl#getIncoming <em>Incoming</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGWordImpl#getOutgoing <em>Outgoing</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGWordImpl#isRemoved <em>Removed</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class RGObjectImpl extends CDOObjectImpl implements RGWord {
+public class RGWordImpl extends CDOObjectImpl implements RGWord {
 	/**
 	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -135,7 +139,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected RGObjectImpl() {
+	protected RGWordImpl() {
 		super();
 	}
 
@@ -146,7 +150,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return RequirementsPackage.Literals.RG_OBJECT;
+		return RequirementsPackage.Literals.RG_WORD;
 	}
 
 	/**
@@ -166,7 +170,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	 */
 	@Override
 	public String getId() {
-		return (String)eDynamicGet(RequirementsPackage.RG_OBJECT__ID, BasePackage.Literals.IID__ID, true, true);
+		return (String)eDynamicGet(RequirementsPackage.RG_WORD__ID, BasePackage.Literals.IID__ID, true, true);
 	}
 
 	/**
@@ -176,7 +180,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	 */
 	@Override
 	public void setId(String newId) {
-		eDynamicSet(RequirementsPackage.RG_OBJECT__ID, BasePackage.Literals.IID__ID, newId);
+		eDynamicSet(RequirementsPackage.RG_WORD__ID, BasePackage.Literals.IID__ID, newId);
 	}
 
 	/**
@@ -186,7 +190,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	 */
 	@Override
 	public String getName() {
-		return (String)eDynamicGet(RequirementsPackage.RG_OBJECT__NAME, BasePackage.Literals.INAMED__NAME, true, true);
+		return (String)eDynamicGet(RequirementsPackage.RG_WORD__NAME, BasePackage.Literals.INAMED__NAME, true, true);
 	}
 
 	/**
@@ -196,7 +200,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	 */
 	@Override
 	public void setName(String newName) {
-		eDynamicSet(RequirementsPackage.RG_OBJECT__NAME, BasePackage.Literals.INAMED__NAME, newName);
+		eDynamicSet(RequirementsPackage.RG_WORD__NAME, BasePackage.Literals.INAMED__NAME, newName);
 	}
 
 	/**
@@ -206,7 +210,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	 */
 	@Override
 	public String getDescription() {
-		return (String)eDynamicGet(RequirementsPackage.RG_OBJECT__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, true, true);
+		return (String)eDynamicGet(RequirementsPackage.RG_WORD__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, true, true);
 	}
 
 	/**
@@ -216,7 +220,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	 */
 	@Override
 	public void setDescription(String newDescription) {
-		eDynamicSet(RequirementsPackage.RG_OBJECT__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, newDescription);
+		eDynamicSet(RequirementsPackage.RG_WORD__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, newDescription);
 	}
 
 	/**
@@ -226,7 +230,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	 */
 	@Override
 	public boolean isRecycled() {
-		return (Boolean)eDynamicGet(RequirementsPackage.RG_OBJECT__RECYCLED, BasePackage.Literals.IRECYCLED__RECYCLED, true, true);
+		return (Boolean)eDynamicGet(RequirementsPackage.RG_WORD__RECYCLED, BasePackage.Literals.IRECYCLED__RECYCLED, true, true);
 	}
 
 	/**
@@ -236,7 +240,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	 */
 	@Override
 	public void setRecycled(boolean newRecycled) {
-		eDynamicSet(RequirementsPackage.RG_OBJECT__RECYCLED, BasePackage.Literals.IRECYCLED__RECYCLED, newRecycled);
+		eDynamicSet(RequirementsPackage.RG_WORD__RECYCLED, BasePackage.Literals.IRECYCLED__RECYCLED, newRecycled);
 	}
 
 	/**
@@ -246,7 +250,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	 */
 	@Override
 	public boolean isHasRecycledChildren() {
-		return (Boolean)eDynamicGet(RequirementsPackage.RG_OBJECT__HAS_RECYCLED_CHILDREN, BasePackage.Literals.IRECYCLED__HAS_RECYCLED_CHILDREN, true, true);
+		return (Boolean)eDynamicGet(RequirementsPackage.RG_WORD__HAS_RECYCLED_CHILDREN, BasePackage.Literals.IRECYCLED__HAS_RECYCLED_CHILDREN, true, true);
 	}
 
 	/**
@@ -256,7 +260,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	 */
 	@Override
 	public void setHasRecycledChildren(boolean newHasRecycledChildren) {
-		eDynamicSet(RequirementsPackage.RG_OBJECT__HAS_RECYCLED_CHILDREN, BasePackage.Literals.IRECYCLED__HAS_RECYCLED_CHILDREN, newHasRecycledChildren);
+		eDynamicSet(RequirementsPackage.RG_WORD__HAS_RECYCLED_CHILDREN, BasePackage.Literals.IRECYCLED__HAS_RECYCLED_CHILDREN, newHasRecycledChildren);
 	}
 
 	/**
@@ -266,7 +270,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	 */
 	@Override
 	public String getOriginalText() {
-		return (String)eDynamicGet(RequirementsPackage.RG_OBJECT__ORIGINAL_TEXT, RequirementsPackage.Literals.RG_OBJECT__ORIGINAL_TEXT, true, true);
+		return (String)eDynamicGet(RequirementsPackage.RG_WORD__ORIGINAL_TEXT, RequirementsPackage.Literals.RG_WORD__ORIGINAL_TEXT, true, true);
 	}
 
 	/**
@@ -276,7 +280,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	 */
 	@Override
 	public void setOriginalText(String newOriginalText) {
-		eDynamicSet(RequirementsPackage.RG_OBJECT__ORIGINAL_TEXT, RequirementsPackage.Literals.RG_OBJECT__ORIGINAL_TEXT, newOriginalText);
+		eDynamicSet(RequirementsPackage.RG_WORD__ORIGINAL_TEXT, RequirementsPackage.Literals.RG_WORD__ORIGINAL_TEXT, newOriginalText);
 	}
 
 	/**
@@ -286,7 +290,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	 */
 	@Override
 	public String getProcessedText() {
-		return (String)eDynamicGet(RequirementsPackage.RG_OBJECT__PROCESSED_TEXT, RequirementsPackage.Literals.RG_OBJECT__PROCESSED_TEXT, true, true);
+		return (String)eDynamicGet(RequirementsPackage.RG_WORD__PROCESSED_TEXT, RequirementsPackage.Literals.RG_WORD__PROCESSED_TEXT, true, true);
 	}
 
 	/**
@@ -296,7 +300,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	 */
 	@Override
 	public void setProcessedText(String newProcessedText) {
-		eDynamicSet(RequirementsPackage.RG_OBJECT__PROCESSED_TEXT, RequirementsPackage.Literals.RG_OBJECT__PROCESSED_TEXT, newProcessedText);
+		eDynamicSet(RequirementsPackage.RG_WORD__PROCESSED_TEXT, RequirementsPackage.Literals.RG_WORD__PROCESSED_TEXT, newProcessedText);
 	}
 
 	/**
@@ -306,7 +310,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	 */
 	@Override
 	public String getPosTag() {
-		return (String)eDynamicGet(RequirementsPackage.RG_OBJECT__POS_TAG, RequirementsPackage.Literals.RG_OBJECT__POS_TAG, true, true);
+		return (String)eDynamicGet(RequirementsPackage.RG_WORD__POS_TAG, RequirementsPackage.Literals.RG_WORD__POS_TAG, true, true);
 	}
 
 	/**
@@ -316,7 +320,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	 */
 	@Override
 	public void setPosTag(String newPosTag) {
-		eDynamicSet(RequirementsPackage.RG_OBJECT__POS_TAG, RequirementsPackage.Literals.RG_OBJECT__POS_TAG, newPosTag);
+		eDynamicSet(RequirementsPackage.RG_WORD__POS_TAG, RequirementsPackage.Literals.RG_WORD__POS_TAG, newPosTag);
 	}
 
 	/**
@@ -326,7 +330,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	 */
 	@Override
 	public RGNode getNode() {
-		return (RGNode)eDynamicGet(RequirementsPackage.RG_OBJECT__NODE, RequirementsPackage.Literals.RG_OBJECT__NODE, true, true);
+		return (RGNode)eDynamicGet(RequirementsPackage.RG_WORD__NODE, RequirementsPackage.Literals.RG_WORD__NODE, true, true);
 	}
 
 	/**
@@ -335,7 +339,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	 * @generated
 	 */
 	public RGNode basicGetNode() {
-		return (RGNode)eDynamicGet(RequirementsPackage.RG_OBJECT__NODE, RequirementsPackage.Literals.RG_OBJECT__NODE, false, true);
+		return (RGNode)eDynamicGet(RequirementsPackage.RG_WORD__NODE, RequirementsPackage.Literals.RG_WORD__NODE, false, true);
 	}
 
 	/**
@@ -345,7 +349,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	 */
 	@Override
 	public void setNode(RGNode newNode) {
-		eDynamicSet(RequirementsPackage.RG_OBJECT__NODE, RequirementsPackage.Literals.RG_OBJECT__NODE, newNode);
+		eDynamicSet(RequirementsPackage.RG_WORD__NODE, RequirementsPackage.Literals.RG_WORD__NODE, newNode);
 	}
 
 	/**
@@ -356,7 +360,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	@SuppressWarnings("unchecked")
 	@Override
 	public EList<RGWord> getIncoming() {
-		return (EList<RGWord>)eDynamicGet(RequirementsPackage.RG_OBJECT__INCOMING, RequirementsPackage.Literals.RG_OBJECT__INCOMING, true, true);
+		return (EList<RGWord>)eDynamicGet(RequirementsPackage.RG_WORD__INCOMING, RequirementsPackage.Literals.RG_WORD__INCOMING, true, true);
 	}
 
 	/**
@@ -367,7 +371,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	@SuppressWarnings("unchecked")
 	@Override
 	public EList<RGWord> getOutgoing() {
-		return (EList<RGWord>)eDynamicGet(RequirementsPackage.RG_OBJECT__OUTGOING, RequirementsPackage.Literals.RG_OBJECT__OUTGOING, true, true);
+		return (EList<RGWord>)eDynamicGet(RequirementsPackage.RG_WORD__OUTGOING, RequirementsPackage.Literals.RG_WORD__OUTGOING, true, true);
 	}
 
 	/**
@@ -377,7 +381,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	 */
 	@Override
 	public boolean isRemoved() {
-		return (Boolean)eDynamicGet(RequirementsPackage.RG_OBJECT__REMOVED, RequirementsPackage.Literals.RG_OBJECT__REMOVED, true, true);
+		return (Boolean)eDynamicGet(RequirementsPackage.RG_WORD__REMOVED, RequirementsPackage.Literals.RG_WORD__REMOVED, true, true);
 	}
 
 	/**
@@ -387,7 +391,7 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	 */
 	@Override
 	public void setRemoved(boolean newRemoved) {
-		eDynamicSet(RequirementsPackage.RG_OBJECT__REMOVED, RequirementsPackage.Literals.RG_OBJECT__REMOVED, newRemoved);
+		eDynamicSet(RequirementsPackage.RG_WORD__REMOVED, RequirementsPackage.Literals.RG_WORD__REMOVED, newRemoved);
 	}
 
 	/**
@@ -398,30 +402,30 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case RequirementsPackage.RG_OBJECT__ID:
+			case RequirementsPackage.RG_WORD__ID:
 				return getId();
-			case RequirementsPackage.RG_OBJECT__NAME:
+			case RequirementsPackage.RG_WORD__NAME:
 				return getName();
-			case RequirementsPackage.RG_OBJECT__DESCRIPTION:
+			case RequirementsPackage.RG_WORD__DESCRIPTION:
 				return getDescription();
-			case RequirementsPackage.RG_OBJECT__RECYCLED:
+			case RequirementsPackage.RG_WORD__RECYCLED:
 				return isRecycled();
-			case RequirementsPackage.RG_OBJECT__HAS_RECYCLED_CHILDREN:
+			case RequirementsPackage.RG_WORD__HAS_RECYCLED_CHILDREN:
 				return isHasRecycledChildren();
-			case RequirementsPackage.RG_OBJECT__ORIGINAL_TEXT:
+			case RequirementsPackage.RG_WORD__ORIGINAL_TEXT:
 				return getOriginalText();
-			case RequirementsPackage.RG_OBJECT__PROCESSED_TEXT:
+			case RequirementsPackage.RG_WORD__PROCESSED_TEXT:
 				return getProcessedText();
-			case RequirementsPackage.RG_OBJECT__POS_TAG:
+			case RequirementsPackage.RG_WORD__POS_TAG:
 				return getPosTag();
-			case RequirementsPackage.RG_OBJECT__NODE:
+			case RequirementsPackage.RG_WORD__NODE:
 				if (resolve) return getNode();
 				return basicGetNode();
-			case RequirementsPackage.RG_OBJECT__INCOMING:
+			case RequirementsPackage.RG_WORD__INCOMING:
 				return getIncoming();
-			case RequirementsPackage.RG_OBJECT__OUTGOING:
+			case RequirementsPackage.RG_WORD__OUTGOING:
 				return getOutgoing();
-			case RequirementsPackage.RG_OBJECT__REMOVED:
+			case RequirementsPackage.RG_WORD__REMOVED:
 				return isRemoved();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -436,42 +440,42 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case RequirementsPackage.RG_OBJECT__ID:
+			case RequirementsPackage.RG_WORD__ID:
 				setId((String)newValue);
 				return;
-			case RequirementsPackage.RG_OBJECT__NAME:
+			case RequirementsPackage.RG_WORD__NAME:
 				setName((String)newValue);
 				return;
-			case RequirementsPackage.RG_OBJECT__DESCRIPTION:
+			case RequirementsPackage.RG_WORD__DESCRIPTION:
 				setDescription((String)newValue);
 				return;
-			case RequirementsPackage.RG_OBJECT__RECYCLED:
+			case RequirementsPackage.RG_WORD__RECYCLED:
 				setRecycled((Boolean)newValue);
 				return;
-			case RequirementsPackage.RG_OBJECT__HAS_RECYCLED_CHILDREN:
+			case RequirementsPackage.RG_WORD__HAS_RECYCLED_CHILDREN:
 				setHasRecycledChildren((Boolean)newValue);
 				return;
-			case RequirementsPackage.RG_OBJECT__ORIGINAL_TEXT:
+			case RequirementsPackage.RG_WORD__ORIGINAL_TEXT:
 				setOriginalText((String)newValue);
 				return;
-			case RequirementsPackage.RG_OBJECT__PROCESSED_TEXT:
+			case RequirementsPackage.RG_WORD__PROCESSED_TEXT:
 				setProcessedText((String)newValue);
 				return;
-			case RequirementsPackage.RG_OBJECT__POS_TAG:
+			case RequirementsPackage.RG_WORD__POS_TAG:
 				setPosTag((String)newValue);
 				return;
-			case RequirementsPackage.RG_OBJECT__NODE:
+			case RequirementsPackage.RG_WORD__NODE:
 				setNode((RGNode)newValue);
 				return;
-			case RequirementsPackage.RG_OBJECT__INCOMING:
+			case RequirementsPackage.RG_WORD__INCOMING:
 				getIncoming().clear();
 				getIncoming().addAll((Collection<? extends RGWord>)newValue);
 				return;
-			case RequirementsPackage.RG_OBJECT__OUTGOING:
+			case RequirementsPackage.RG_WORD__OUTGOING:
 				getOutgoing().clear();
 				getOutgoing().addAll((Collection<? extends RGWord>)newValue);
 				return;
-			case RequirementsPackage.RG_OBJECT__REMOVED:
+			case RequirementsPackage.RG_WORD__REMOVED:
 				setRemoved((Boolean)newValue);
 				return;
 		}
@@ -486,40 +490,40 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case RequirementsPackage.RG_OBJECT__ID:
+			case RequirementsPackage.RG_WORD__ID:
 				setId(ID_EDEFAULT);
 				return;
-			case RequirementsPackage.RG_OBJECT__NAME:
+			case RequirementsPackage.RG_WORD__NAME:
 				setName(NAME_EDEFAULT);
 				return;
-			case RequirementsPackage.RG_OBJECT__DESCRIPTION:
+			case RequirementsPackage.RG_WORD__DESCRIPTION:
 				setDescription(DESCRIPTION_EDEFAULT);
 				return;
-			case RequirementsPackage.RG_OBJECT__RECYCLED:
+			case RequirementsPackage.RG_WORD__RECYCLED:
 				setRecycled(RECYCLED_EDEFAULT);
 				return;
-			case RequirementsPackage.RG_OBJECT__HAS_RECYCLED_CHILDREN:
+			case RequirementsPackage.RG_WORD__HAS_RECYCLED_CHILDREN:
 				setHasRecycledChildren(HAS_RECYCLED_CHILDREN_EDEFAULT);
 				return;
-			case RequirementsPackage.RG_OBJECT__ORIGINAL_TEXT:
+			case RequirementsPackage.RG_WORD__ORIGINAL_TEXT:
 				setOriginalText(ORIGINAL_TEXT_EDEFAULT);
 				return;
-			case RequirementsPackage.RG_OBJECT__PROCESSED_TEXT:
+			case RequirementsPackage.RG_WORD__PROCESSED_TEXT:
 				setProcessedText(PROCESSED_TEXT_EDEFAULT);
 				return;
-			case RequirementsPackage.RG_OBJECT__POS_TAG:
+			case RequirementsPackage.RG_WORD__POS_TAG:
 				setPosTag(POS_TAG_EDEFAULT);
 				return;
-			case RequirementsPackage.RG_OBJECT__NODE:
+			case RequirementsPackage.RG_WORD__NODE:
 				setNode((RGNode)null);
 				return;
-			case RequirementsPackage.RG_OBJECT__INCOMING:
+			case RequirementsPackage.RG_WORD__INCOMING:
 				getIncoming().clear();
 				return;
-			case RequirementsPackage.RG_OBJECT__OUTGOING:
+			case RequirementsPackage.RG_WORD__OUTGOING:
 				getOutgoing().clear();
 				return;
-			case RequirementsPackage.RG_OBJECT__REMOVED:
+			case RequirementsPackage.RG_WORD__REMOVED:
 				setRemoved(REMOVED_EDEFAULT);
 				return;
 		}
@@ -534,29 +538,29 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case RequirementsPackage.RG_OBJECT__ID:
+			case RequirementsPackage.RG_WORD__ID:
 				return ID_EDEFAULT == null ? getId() != null : !ID_EDEFAULT.equals(getId());
-			case RequirementsPackage.RG_OBJECT__NAME:
+			case RequirementsPackage.RG_WORD__NAME:
 				return NAME_EDEFAULT == null ? getName() != null : !NAME_EDEFAULT.equals(getName());
-			case RequirementsPackage.RG_OBJECT__DESCRIPTION:
+			case RequirementsPackage.RG_WORD__DESCRIPTION:
 				return DESCRIPTION_EDEFAULT == null ? getDescription() != null : !DESCRIPTION_EDEFAULT.equals(getDescription());
-			case RequirementsPackage.RG_OBJECT__RECYCLED:
+			case RequirementsPackage.RG_WORD__RECYCLED:
 				return isRecycled() != RECYCLED_EDEFAULT;
-			case RequirementsPackage.RG_OBJECT__HAS_RECYCLED_CHILDREN:
+			case RequirementsPackage.RG_WORD__HAS_RECYCLED_CHILDREN:
 				return isHasRecycledChildren() != HAS_RECYCLED_CHILDREN_EDEFAULT;
-			case RequirementsPackage.RG_OBJECT__ORIGINAL_TEXT:
+			case RequirementsPackage.RG_WORD__ORIGINAL_TEXT:
 				return ORIGINAL_TEXT_EDEFAULT == null ? getOriginalText() != null : !ORIGINAL_TEXT_EDEFAULT.equals(getOriginalText());
-			case RequirementsPackage.RG_OBJECT__PROCESSED_TEXT:
+			case RequirementsPackage.RG_WORD__PROCESSED_TEXT:
 				return PROCESSED_TEXT_EDEFAULT == null ? getProcessedText() != null : !PROCESSED_TEXT_EDEFAULT.equals(getProcessedText());
-			case RequirementsPackage.RG_OBJECT__POS_TAG:
+			case RequirementsPackage.RG_WORD__POS_TAG:
 				return POS_TAG_EDEFAULT == null ? getPosTag() != null : !POS_TAG_EDEFAULT.equals(getPosTag());
-			case RequirementsPackage.RG_OBJECT__NODE:
+			case RequirementsPackage.RG_WORD__NODE:
 				return basicGetNode() != null;
-			case RequirementsPackage.RG_OBJECT__INCOMING:
+			case RequirementsPackage.RG_WORD__INCOMING:
 				return !getIncoming().isEmpty();
-			case RequirementsPackage.RG_OBJECT__OUTGOING:
+			case RequirementsPackage.RG_WORD__OUTGOING:
 				return !getOutgoing().isEmpty();
-			case RequirementsPackage.RG_OBJECT__REMOVED:
+			case RequirementsPackage.RG_WORD__REMOVED:
 				return isRemoved() != REMOVED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
@@ -571,20 +575,20 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == INamed.class) {
 			switch (derivedFeatureID) {
-				case RequirementsPackage.RG_OBJECT__NAME: return BasePackage.INAMED__NAME;
+				case RequirementsPackage.RG_WORD__NAME: return BasePackage.INAMED__NAME;
 				default: return -1;
 			}
 		}
 		if (baseClass == IDescribed.class) {
 			switch (derivedFeatureID) {
-				case RequirementsPackage.RG_OBJECT__DESCRIPTION: return BasePackage.IDESCRIBED__DESCRIPTION;
+				case RequirementsPackage.RG_WORD__DESCRIPTION: return BasePackage.IDESCRIBED__DESCRIPTION;
 				default: return -1;
 			}
 		}
 		if (baseClass == IRecycled.class) {
 			switch (derivedFeatureID) {
-				case RequirementsPackage.RG_OBJECT__RECYCLED: return BasePackage.IRECYCLED__RECYCLED;
-				case RequirementsPackage.RG_OBJECT__HAS_RECYCLED_CHILDREN: return BasePackage.IRECYCLED__HAS_RECYCLED_CHILDREN;
+				case RequirementsPackage.RG_WORD__RECYCLED: return BasePackage.IRECYCLED__RECYCLED;
+				case RequirementsPackage.RG_WORD__HAS_RECYCLED_CHILDREN: return BasePackage.IRECYCLED__HAS_RECYCLED_CHILDREN;
 				default: return -1;
 			}
 		}
@@ -600,24 +604,24 @@ public class RGObjectImpl extends CDOObjectImpl implements RGWord {
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == INamed.class) {
 			switch (baseFeatureID) {
-				case BasePackage.INAMED__NAME: return RequirementsPackage.RG_OBJECT__NAME;
+				case BasePackage.INAMED__NAME: return RequirementsPackage.RG_WORD__NAME;
 				default: return -1;
 			}
 		}
 		if (baseClass == IDescribed.class) {
 			switch (baseFeatureID) {
-				case BasePackage.IDESCRIBED__DESCRIPTION: return RequirementsPackage.RG_OBJECT__DESCRIPTION;
+				case BasePackage.IDESCRIBED__DESCRIPTION: return RequirementsPackage.RG_WORD__DESCRIPTION;
 				default: return -1;
 			}
 		}
 		if (baseClass == IRecycled.class) {
 			switch (baseFeatureID) {
-				case BasePackage.IRECYCLED__RECYCLED: return RequirementsPackage.RG_OBJECT__RECYCLED;
-				case BasePackage.IRECYCLED__HAS_RECYCLED_CHILDREN: return RequirementsPackage.RG_OBJECT__HAS_RECYCLED_CHILDREN;
+				case BasePackage.IRECYCLED__RECYCLED: return RequirementsPackage.RG_WORD__RECYCLED;
+				case BasePackage.IRECYCLED__HAS_RECYCLED_CHILDREN: return RequirementsPackage.RG_WORD__HAS_RECYCLED_CHILDREN;
 				default: return -1;
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
-} //RGObjectImpl
+} //RGWordImpl

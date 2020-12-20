@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.EClass;
 import com.specmate.model.base.impl.IModelNodeImpl;
 import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RGNode;
-import com.specmate.model.requirements.RGObject;
+import com.specmate.model.requirements.RGWord;
 import com.specmate.model.requirements.RequirementsPackage;
 
 /**
@@ -23,7 +23,7 @@ import com.specmate.model.requirements.RequirementsPackage;
  * <ul>
  *   <li>{@link com.specmate.model.requirements.impl.RGNodeImpl#getType <em>Type</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGNodeImpl#getComponent <em>Component</em>}</li>
- *   <li>{@link com.specmate.model.requirements.impl.RGNodeImpl#getObjects <em>Objects</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGNodeImpl#getWords <em>Words</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGNodeImpl#isTemporary <em>Temporary</em>}</li>
  * </ul>
  *
@@ -126,8 +126,8 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public EList<RGObject> getObjects() {
-		return (EList<RGObject>)eDynamicGet(RequirementsPackage.RG_NODE__OBJECTS, RequirementsPackage.Literals.RG_NODE__OBJECTS, true, true);
+	public EList<RGWord> getWords() {
+		return (EList<RGWord>)eDynamicGet(RequirementsPackage.RG_NODE__WORDS, RequirementsPackage.Literals.RG_NODE__WORDS, true, true);
 	}
 
 	/**
@@ -162,8 +162,8 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 				return getType();
 			case RequirementsPackage.RG_NODE__COMPONENT:
 				return getComponent();
-			case RequirementsPackage.RG_NODE__OBJECTS:
-				return getObjects();
+			case RequirementsPackage.RG_NODE__WORDS:
+				return getWords();
 			case RequirementsPackage.RG_NODE__TEMPORARY:
 				return isTemporary();
 		}
@@ -185,9 +185,9 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 			case RequirementsPackage.RG_NODE__COMPONENT:
 				setComponent((String)newValue);
 				return;
-			case RequirementsPackage.RG_NODE__OBJECTS:
-				getObjects().clear();
-				getObjects().addAll((Collection<? extends RGObject>)newValue);
+			case RequirementsPackage.RG_NODE__WORDS:
+				getWords().clear();
+				getWords().addAll((Collection<? extends RGWord>)newValue);
 				return;
 			case RequirementsPackage.RG_NODE__TEMPORARY:
 				setTemporary((Boolean)newValue);
@@ -210,8 +210,8 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 			case RequirementsPackage.RG_NODE__COMPONENT:
 				setComponent(COMPONENT_EDEFAULT);
 				return;
-			case RequirementsPackage.RG_NODE__OBJECTS:
-				getObjects().clear();
+			case RequirementsPackage.RG_NODE__WORDS:
+				getWords().clear();
 				return;
 			case RequirementsPackage.RG_NODE__TEMPORARY:
 				setTemporary(TEMPORARY_EDEFAULT);
@@ -232,8 +232,8 @@ public class RGNodeImpl extends IModelNodeImpl implements RGNode {
 				return getType() != TYPE_EDEFAULT;
 			case RequirementsPackage.RG_NODE__COMPONENT:
 				return COMPONENT_EDEFAULT == null ? getComponent() != null : !COMPONENT_EDEFAULT.equals(getComponent());
-			case RequirementsPackage.RG_NODE__OBJECTS:
-				return !getObjects().isEmpty();
+			case RequirementsPackage.RG_NODE__WORDS:
+				return !getWords().isEmpty();
 			case RequirementsPackage.RG_NODE__TEMPORARY:
 				return isTemporary() != TEMPORARY_EDEFAULT;
 		}

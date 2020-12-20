@@ -88,7 +88,7 @@ public class GraphBuilder {
 						&& !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
 					continue;
 				}
-				p.connectTo(c, getConnectionType(node), true, label);// TODO MA hmmm flip?
+				p.connectTo(c, getConnectionType(node), true, label);
 			}
 			for (GraphNode c : child.negativeNodes) {
 				// sets child GraphNode type to child RGNode type
@@ -142,14 +142,6 @@ public class GraphBuilder {
 				return effect;
 			}
 
-//			case CONDITION_VARIABLE: {
-//				return buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
-//			}
-//			case VERB_OBJECT: {
-//				final NodeWrapper verb = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
-//				return verb;
-//			}
-
 			case LIMITED_CONDITION: {
 				final NodeWrapper limit = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
 				final NodeWrapper condition = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
@@ -158,11 +150,6 @@ public class GraphBuilder {
 				System.err.println("Handling for NodeType " + node.getType() + " not implemented yet");
 				break;
 			}
-//			case VERB_PREPOSITION: {
-//				System.err.println("Handling for NodeType " + node.getType() + " not implemented yet");
-//				break;
-//			}
-
 			case COMPOSITION:
 			case INHERITANCE: {
 				NodeWrapper first = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
@@ -328,29 +315,10 @@ public class GraphBuilder {
 		// if (node instanceof LeafTreeNode) {
 		String text = ((LeafTreeNode) node).getContent();
 
-		// TODO MA misc: maybe parse "no xx" and ¡°xx or yy¡±
-		/*
-		 * if (text.startsWith("no") && text.matches("no\\s(.*)")) { // ex: no items
-		 * final GraphNode n = currentGraph.createInnerNode(NodeType.AND);
-		 * n.setComponent(text.replaceAll("no\\s(.*)", "$1"));
-		 * 
-		 * return new RGNodes(n, n.getType(), true); } else if
-		 * (text.matches("(.*)\\sor\\s([^\\s]*)\\s(.*)")) { //ex: only one or two items
-		 * final GraphNode f = currentGraph.createInnerNode(NodeType.AND);
-		 * f.setComponent(text.replaceAll("(.*)\\sor\\s([^\\s]*)\\s(.*)", "$1 $3"));
-		 * RGNodes first = new RGNodes(f, NodeType.AND, false);
-		 * 
-		 * final GraphNode s = currentGraph.createInnerNode(NodeType.AND);
-		 * s.setComponent(text.replaceAll("(.*)\\sor\\s([^\\s]*)\\s(.*)", "$2 $3"));
-		 * RGNodes second = new RGNodes(s, NodeType.AND, false);
-		 * 
-		 * return new RGNodes(first, second, NodeType.OR); } else {
-		 */
 		final GraphNode n = currentGraph.createNode(text, NodeType.NONE);
 		n.setIds(((LeafTreeNode) node).getIds());
 		n.setExclusive(((LeafTreeNode) node).isVerb());
 		return new NodeWrapper(n, n.getType(), false);
-		// }
 	}
 
 	/**

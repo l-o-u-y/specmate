@@ -120,14 +120,14 @@ public class RequirementsSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case RequirementsPackage.RG_OBJECT: {
-				RGObject rgObject = (RGObject)theEObject;
-				T result = caseRGObject(rgObject);
-				if (result == null) result = caseIContentElement(rgObject);
-				if (result == null) result = caseIID(rgObject);
-				if (result == null) result = caseINamed(rgObject);
-				if (result == null) result = caseIDescribed(rgObject);
-				if (result == null) result = caseIRecycled(rgObject);
+			case RequirementsPackage.RG_WORD: {
+				RGWord rgWord = (RGWord)theEObject;
+				T result = caseRGWord(rgWord);
+				if (result == null) result = caseIContentElement(rgWord);
+				if (result == null) result = caseIID(rgWord);
+				if (result == null) result = caseINamed(rgWord);
+				if (result == null) result = caseIDescribed(rgWord);
+				if (result == null) result = caseIRecycled(rgWord);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -273,17 +273,17 @@ public class RequirementsSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>RG Object</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>RG Word</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>RG Object</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>RG Word</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseRGObject(RGObject object) {
+	public T caseRGWord(RGWord object) {
 		return null;
 	}
 

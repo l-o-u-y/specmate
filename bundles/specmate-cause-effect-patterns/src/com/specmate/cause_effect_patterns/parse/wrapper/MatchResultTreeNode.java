@@ -64,7 +64,6 @@ public abstract class MatchResultTreeNode {
 
 		public int getPriority() {
 			switch (this) {
-			// TODO MA subtree order
 			// smaller value = closer to root
 			// larger value = closer to leaf node
 			case LIMITED_CONDITION:

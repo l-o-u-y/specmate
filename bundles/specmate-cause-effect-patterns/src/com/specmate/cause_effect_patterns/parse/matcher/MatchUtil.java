@@ -23,19 +23,6 @@ public class MatchUtil {
 		List<MatchResult> result = new Vector<MatchResult>();
 		for (Token head : data.getHeads()) {
 			result.add(MatchUtil.evaluateRuleset(rules, data, head));
-			// TODO MA this does seem necessary, and it works
-			// TODO MA but we need to somehow make it work without this...
-//			if (matchAll) {
-//				if (data.getDependencyNode(head)==null) {
-//					return result;
-//				}
-//				for (Dependency d : data.getDependencyNode(head)) {
-//					List<MatchResult> subresult = MatchUtil.evaluateRuleset(rules, DependencyParsetree.getSubtree(data, d.getDependent()), matchAll);
-//					List<MatchResult> newList = Stream.concat(result.stream(), subresult.stream())
-//                    .collect(Collectors.toList());
-//					result = newList;
-//				}
-//			}
 		}
 		return result;
 	}

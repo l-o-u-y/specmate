@@ -10,7 +10,7 @@ import org.osgi.service.log.LogService;
 import com.specmate.model.requirements.RGConnection;
 import com.specmate.model.requirements.RGModel;
 import com.specmate.model.requirements.RGNode;
-import com.specmate.model.requirements.RGObject;
+import com.specmate.model.requirements.RGWord;
 import com.specmate.modelgeneration.RGCreation;
 import com.specmate.modelgeneration.stages.graph.Graph;
 import com.specmate.modelgeneration.stages.graph.GraphEdge;
@@ -56,34 +56,36 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 				}
 			}
 
-			// assign chunks based on chunk and node id (position)
-			for (RGObject m : model.getObjects()) {
-				if (node.getIds() == null && n.getComponent().contains("inner node")) { // inner nodes
+			// assign words based on word id and node id (position)
+			for (RGWord m : model.getWords()) {
+				if (node.getIds() == null && n.getComponent().contains("Inner Node")) { // inner nodes
 					// take any parent or child node of the inner node
 					List<GraphNode> connectedNodes = new ArrayList<GraphNode>();
 					connectedNodes.addAll(node.getParentEdges().stream().map(c -> (GraphNode)c.getFrom()).collect(Collectors.toList()));
 					connectedNodes.addAll(node.getChildEdges().stream().map(c -> (GraphNode)c.getTo()).collect(Collectors.toList()));
-					RGObject connectedObject = model.getObjects().stream().filter(o -> connectedNodes.get(0).getIds().get(0).equals(o.getId())).findFirst().get();
-					// find its index
-					int indexOfConnectedObject = model.getObjects().indexOf(connectedObject);
-					// and insert the inner node RGObject at the index -> inserts it before the "." and makes it part of the sentence 
-					RGObject tmp = rgCreation.createObject(model, n.getComponent(), indexOfConnectedObject);
+					// do it this way to get it sorted by input text order
+					List<String> connectedNodeIds = new ArrayList<String>();
+					for (GraphNode cn : connectedNodes) {
+						connectedNodeIds.addAll(cn.getIds());
+					}
+					RGWord connectedWord = model.getWords().stream().filter(o -> connectedNodeIds.contains(o.getId())).findFirst().get();
+					int indexOfConnectedWord = model.getWords().indexOf(connectedWord);
+					// and insert the inner node word at the index -> inserts it before the "." and makes it part of the sentence 
+					RGWord tmp = rgCreation.createWord(model, n.getComponent(), indexOfConnectedWord);
 					tmp.setNode(n);
-					n.getObjects().add(tmp);
+					n.getWords().add(tmp);
 					node.setIds(List.of(tmp.getId()));
 					break;
 				}
 				for (String id : node.getIds()) {
 					if (m.getId().equals(id)) {
 						if (m.getNode() == null) {
-//							System.out.println(m.getChunk().getText());
 							m.setNode(n);
-							n.getObjects().add(m);
+							n.getWords().add(m);
 						}
 					}
 				}
 			}
-			// TODO siblings
 			nodeMap.put(node, n);
 			positionTable[xIndex]++;
 		}
@@ -114,35 +116,35 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 			RGNode from = nodeMap.get(edge.getFrom());
 			RGNode to = nodeMap.get(edge.getTo());
 
-			// connect chunks
-			List<RGObject> fromChunks = new ArrayList<RGObject>();
-			List<RGObject> toChunks = new ArrayList<RGObject>();
-			for (RGObject c : from.getObjects()) {
+			// connect words
+			List<RGWord> fromWords = new ArrayList<RGWord>();
+			List<RGWord> toWords = new ArrayList<RGWord>();
+			for (RGWord c : from.getWords()) {
 				for (String id : edge.getFrom().getIds()) {
 					if (c.getId().equals(id)) {
-						fromChunks.add(c);
+						fromWords.add(c);
 					}
 				}
 			}
-			for (RGObject c : to.getObjects()) {
+			for (RGWord c : to.getWords()) {
 				for (String id : edge.getTo().getIds()) {
 					if (c.getId().equals(id)) {
-						toChunks.add(c);
+						toWords.add(c);
 					}
 				}
 			}
 
-			if (!fromChunks.isEmpty() && !toChunks.isEmpty()) {
-				for (RGObject toChunk : toChunks) {
-					for (RGObject fromChunk: fromChunks) {
-						fromChunk.getOutgoing().add(toChunk);
-						toChunk.getIncoming().add(fromChunk);
+			if (!fromWords.isEmpty() && !toWords.isEmpty()) {
+				for (RGWord toWord : toWords) {
+					for (RGWord fromWord: fromWords) {
+						fromWord.getOutgoing().add(toWord);
+						toWord.getIncoming().add(fromWord);
 					}
 				}
 			} else {
 				System.out.println("From content: " + from.getComponent());
 				System.out.println("From content: " + to.getComponent());
-				log.log(LogService.LOG_ERROR, "This case should never happen. Chunks not found");
+				log.log(LogService.LOG_ERROR, "This case should never happen. Words not found");
 				System.out.println();
 
 			}

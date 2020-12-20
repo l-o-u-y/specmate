@@ -90,8 +90,8 @@ public class RequirementsAdapterFactory extends AdapterFactoryImpl {
 				return createRGModelAdapter();
 			}
 			@Override
-			public Adapter caseRGObject(RGObject object) {
-				return createRGObjectAdapter();
+			public Adapter caseRGWord(RGWord object) {
+				return createRGWordAdapter();
 			}
 			@Override
 			public Adapter caseRGNode(RGNode object) {
@@ -249,16 +249,16 @@ public class RequirementsAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link com.specmate.model.requirements.RGObject <em>RG Object</em>}'.
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.requirements.RGWord <em>RG Word</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see com.specmate.model.requirements.RGObject
+	 * @see com.specmate.model.requirements.RGWord
 	 * @generated
 	 */
-	public Adapter createRGObjectAdapter() {
+	public Adapter createRGWordAdapter() {
 		return null;
 	}
 

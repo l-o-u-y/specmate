@@ -25,6 +25,7 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.glassfish.hk2.external.javax.inject,\
 	specmate-persistency-api;version=latest,\
 	specmate-model-gen;version=latest,\
+	specmate-model-generation;version=latest,\
 	specmate-common;version=latest,\
 	com.google.guava,\
 	specmate-config-api;version=latest,\

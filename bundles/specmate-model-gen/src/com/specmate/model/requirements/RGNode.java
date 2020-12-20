@@ -17,7 +17,7 @@ import com.specmate.model.base.IModelNode;
  * <ul>
  *   <li>{@link com.specmate.model.requirements.RGNode#getType <em>Type</em>}</li>
  *   <li>{@link com.specmate.model.requirements.RGNode#getComponent <em>Component</em>}</li>
- *   <li>{@link com.specmate.model.requirements.RGNode#getObjects <em>Objects</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.RGNode#getWords <em>Words</em>}</li>
  *   <li>{@link com.specmate.model.requirements.RGNode#isTemporary <em>Temporary</em>}</li>
  * </ul>
  *
@@ -74,16 +74,16 @@ public interface RGNode extends IModelNode {
 	void setComponent(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Objects</b></em>' reference list.
-	 * The list contents are of type {@link com.specmate.model.requirements.RGObject}.
+	 * Returns the value of the '<em><b>Words</b></em>' reference list.
+	 * The list contents are of type {@link com.specmate.model.requirements.RGWord}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Objects</em>' reference list.
-	 * @see com.specmate.model.requirements.RequirementsPackage#getRGNode_Objects()
+	 * @return the value of the '<em>Words</em>' reference list.
+	 * @see com.specmate.model.requirements.RequirementsPackage#getRGNode_Words()
 	 * @model
 	 * @generated
 	 */
-	EList<RGObject> getObjects();
+	EList<RGWord> getWords();
 
 	/**
 	 * Returns the value of the '<em><b>Temporary</b></em>' attribute.

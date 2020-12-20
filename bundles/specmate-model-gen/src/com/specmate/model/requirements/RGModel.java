@@ -16,7 +16,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  * <ul>
  *   <li>{@link com.specmate.model.requirements.RGModel#getModelRequirements <em>Model Requirements</em>}</li>
- *   <li>{@link com.specmate.model.requirements.RGModel#getObjects <em>Objects</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.RGModel#getWords <em>Words</em>}</li>
  * </ul>
  *
  * @see com.specmate.model.requirements.RequirementsPackage#getRGModel()
@@ -48,15 +48,15 @@ public interface RGModel extends ISpecmateModelObject, IContentElement {
 	void setModelRequirements(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Objects</b></em>' reference list.
-	 * The list contents are of type {@link com.specmate.model.requirements.RGObject}.
+	 * Returns the value of the '<em><b>Words</b></em>' reference list.
+	 * The list contents are of type {@link com.specmate.model.requirements.RGWord}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Objects</em>' reference list.
-	 * @see com.specmate.model.requirements.RequirementsPackage#getRGModel_Objects()
+	 * @return the value of the '<em>Words</em>' reference list.
+	 * @see com.specmate.model.requirements.RequirementsPackage#getRGModel_Words()
 	 * @model
 	 * @generated
 	 */
-	EList<RGObject> getObjects();
+	EList<RGWord> getWords();
 
 } // RGModel

@@ -57,7 +57,7 @@ public class RequirementsFactoryImpl extends EFactoryImpl implements Requirement
 			case RequirementsPackage.REQUIREMENT: return (EObject)createRequirement();
 			case RequirementsPackage.CEG_MODEL: return (EObject)createCEGModel();
 			case RequirementsPackage.RG_MODEL: return (EObject)createRGModel();
-			case RequirementsPackage.RG_OBJECT: return (EObject)createRGObject();
+			case RequirementsPackage.RG_WORD: return (EObject)createRGWord();
 			case RequirementsPackage.RG_NODE: return (EObject)createRGNode();
 			case RequirementsPackage.CEG_NODE: return (EObject)createCEGNode();
 			case RequirementsPackage.CEG_CONNECTION: return (EObject)createCEGConnection();
@@ -163,9 +163,9 @@ public class RequirementsFactoryImpl extends EFactoryImpl implements Requirement
 	 * @generated
 	 */
 	@Override
-	public RGObject createRGObject() {
-		RGObjectImpl rgObject = new RGObjectImpl();
-		return rgObject;
+	public RGWord createRGWord() {
+		RGWordImpl rgWord = new RGWordImpl();
+		return rgWord;
 	}
 
 	/**

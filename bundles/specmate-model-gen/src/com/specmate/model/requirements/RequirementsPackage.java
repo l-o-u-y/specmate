@@ -478,13 +478,13 @@ public interface RequirementsPackage extends EPackage {
 	int RG_MODEL__MODEL_REQUIREMENTS = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Objects</b></em>' reference list.
+	 * The feature id for the '<em><b>Words</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RG_MODEL__OBJECTS = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 1;
+	int RG_MODEL__WORDS = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>RG Model</em>' class.
@@ -505,24 +505,14 @@ public interface RequirementsPackage extends EPackage {
 	int RG_MODEL_OPERATION_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link com.specmate.model.requirements.impl.CEGNodeImpl <em>CEG Node</em>}' class.
+	 * The meta object id for the '{@link com.specmate.model.requirements.impl.RGWordImpl <em>RG Word</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see com.specmate.model.requirements.impl.CEGNodeImpl
-	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getCEGNode()
+	 * @see com.specmate.model.requirements.impl.RGWordImpl
+	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getRGWord()
 	 * @generated
 	 */
-	int CEG_NODE = 5;
-
-	/**
-	 * The meta object id for the '{@link com.specmate.model.requirements.impl.RGObjectImpl <em>RG Object</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see com.specmate.model.requirements.impl.RGObjectImpl
-	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getRGObject()
-	 * @generated
-	 */
-	int RG_OBJECT = 3;
+	int RG_WORD = 3;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -531,7 +521,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_OBJECT__ID = BasePackage.ICONTENT_ELEMENT__ID;
+	int RG_WORD__ID = BasePackage.ICONTENT_ELEMENT__ID;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -540,7 +530,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_OBJECT__NAME = BasePackage.ICONTENT_ELEMENT__NAME;
+	int RG_WORD__NAME = BasePackage.ICONTENT_ELEMENT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -549,7 +539,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_OBJECT__DESCRIPTION = BasePackage.ICONTENT_ELEMENT__DESCRIPTION;
+	int RG_WORD__DESCRIPTION = BasePackage.ICONTENT_ELEMENT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Recycled</b></em>' attribute.
@@ -558,7 +548,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_OBJECT__RECYCLED = BasePackage.ICONTENT_ELEMENT__RECYCLED;
+	int RG_WORD__RECYCLED = BasePackage.ICONTENT_ELEMENT__RECYCLED;
 
 	/**
 	 * The feature id for the '<em><b>Has Recycled Children</b></em>' attribute.
@@ -567,7 +557,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_OBJECT__HAS_RECYCLED_CHILDREN = BasePackage.ICONTENT_ELEMENT__HAS_RECYCLED_CHILDREN;
+	int RG_WORD__HAS_RECYCLED_CHILDREN = BasePackage.ICONTENT_ELEMENT__HAS_RECYCLED_CHILDREN;
 
 	/**
 	 * The feature id for the '<em><b>Original Text</b></em>' attribute.
@@ -576,7 +566,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_OBJECT__ORIGINAL_TEXT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 0;
+	int RG_WORD__ORIGINAL_TEXT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Processed Text</b></em>' attribute.
@@ -585,7 +575,16 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_OBJECT__PROCESSED_TEXT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 1;
+	int RG_WORD__PROCESSED_TEXT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Pos Tag</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_WORD__POS_TAG = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Node</b></em>' reference.
@@ -594,16 +593,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_OBJECT__NODE = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Siblings</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RG_OBJECT__SIBLINGS = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 3;
+	int RG_WORD__NODE = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Incoming</b></em>' reference list.
@@ -612,7 +602,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_OBJECT__INCOMING = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 4;
+	int RG_WORD__INCOMING = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Outgoing</b></em>' reference list.
@@ -621,7 +611,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_OBJECT__OUTGOING = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 5;
+	int RG_WORD__OUTGOING = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Removed</b></em>' attribute.
@@ -630,25 +620,35 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_OBJECT__REMOVED = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 6;
+	int RG_WORD__REMOVED = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
-	 * The number of structural features of the '<em>RG Object</em>' class.
+	 * The number of structural features of the '<em>RG Word</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RG_OBJECT_FEATURE_COUNT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 7;
+	int RG_WORD_FEATURE_COUNT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
-	 * The number of operations of the '<em>RG Object</em>' class.
+	 * The number of operations of the '<em>RG Word</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RG_OBJECT_OPERATION_COUNT = BasePackage.ICONTENT_ELEMENT_OPERATION_COUNT + 0;
+	int RG_WORD_OPERATION_COUNT = BasePackage.ICONTENT_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link com.specmate.model.requirements.impl.CEGNodeImpl <em>CEG Node</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.requirements.impl.CEGNodeImpl
+	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getCEGNode()
+	 * @generated
+	 */
+	int CEG_NODE = 5;
 
 	/**
 	 * The meta object id for the '{@link com.specmate.model.requirements.impl.RGNodeImpl <em>RG Node</em>}' class.
@@ -805,13 +805,13 @@ public interface RequirementsPackage extends EPackage {
 	int RG_NODE__COMPONENT = BasePackage.IMODEL_NODE_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Objects</b></em>' reference list.
+	 * The feature id for the '<em><b>Words</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RG_NODE__OBJECTS = BasePackage.IMODEL_NODE_FEATURE_COUNT + 2;
+	int RG_NODE__WORDS = BasePackage.IMODEL_NODE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Temporary</b></em>' attribute.
@@ -1500,102 +1500,102 @@ public interface RequirementsPackage extends EPackage {
 	EAttribute getRGModel_ModelRequirements();
 
 	/**
-	 * Returns the meta object for the reference list '{@link com.specmate.model.requirements.RGModel#getObjects <em>Objects</em>}'.
+	 * Returns the meta object for the reference list '{@link com.specmate.model.requirements.RGModel#getWords <em>Words</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Objects</em>'.
-	 * @see com.specmate.model.requirements.RGModel#getObjects()
+	 * @return the meta object for the reference list '<em>Words</em>'.
+	 * @see com.specmate.model.requirements.RGModel#getWords()
 	 * @see #getRGModel()
 	 * @generated
 	 */
-	EReference getRGModel_Objects();
+	EReference getRGModel_Words();
 
 	/**
-	 * Returns the meta object for class '{@link com.specmate.model.requirements.RGObject <em>RG Object</em>}'.
+	 * Returns the meta object for class '{@link com.specmate.model.requirements.RGWord <em>RG Word</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>RG Object</em>'.
-	 * @see com.specmate.model.requirements.RGObject
+	 * @return the meta object for class '<em>RG Word</em>'.
+	 * @see com.specmate.model.requirements.RGWord
 	 * @generated
 	 */
-	EClass getRGObject();
+	EClass getRGWord();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGObject#getOriginalText <em>Original Text</em>}'.
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGWord#getOriginalText <em>Original Text</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Original Text</em>'.
-	 * @see com.specmate.model.requirements.RGObject#getOriginalText()
-	 * @see #getRGObject()
+	 * @see com.specmate.model.requirements.RGWord#getOriginalText()
+	 * @see #getRGWord()
 	 * @generated
 	 */
-	EAttribute getRGObject_OriginalText();
+	EAttribute getRGWord_OriginalText();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGObject#getProcessedText <em>Processed Text</em>}'.
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGWord#getProcessedText <em>Processed Text</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Processed Text</em>'.
-	 * @see com.specmate.model.requirements.RGObject#getProcessedText()
-	 * @see #getRGObject()
+	 * @see com.specmate.model.requirements.RGWord#getProcessedText()
+	 * @see #getRGWord()
 	 * @generated
 	 */
-	EAttribute getRGObject_ProcessedText();
+	EAttribute getRGWord_ProcessedText();
 
 	/**
-	 * Returns the meta object for the reference '{@link com.specmate.model.requirements.RGObject#getNode <em>Node</em>}'.
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGWord#getPosTag <em>Pos Tag</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Pos Tag</em>'.
+	 * @see com.specmate.model.requirements.RGWord#getPosTag()
+	 * @see #getRGWord()
+	 * @generated
+	 */
+	EAttribute getRGWord_PosTag();
+
+	/**
+	 * Returns the meta object for the reference '{@link com.specmate.model.requirements.RGWord#getNode <em>Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Node</em>'.
-	 * @see com.specmate.model.requirements.RGObject#getNode()
-	 * @see #getRGObject()
+	 * @see com.specmate.model.requirements.RGWord#getNode()
+	 * @see #getRGWord()
 	 * @generated
 	 */
-	EReference getRGObject_Node();
+	EReference getRGWord_Node();
 
 	/**
-	 * Returns the meta object for the reference list '{@link com.specmate.model.requirements.RGObject#getSiblings <em>Siblings</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Siblings</em>'.
-	 * @see com.specmate.model.requirements.RGObject#getSiblings()
-	 * @see #getRGObject()
-	 * @generated
-	 */
-	EReference getRGObject_Siblings();
-
-	/**
-	 * Returns the meta object for the reference list '{@link com.specmate.model.requirements.RGObject#getIncoming <em>Incoming</em>}'.
+	 * Returns the meta object for the reference list '{@link com.specmate.model.requirements.RGWord#getIncoming <em>Incoming</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Incoming</em>'.
-	 * @see com.specmate.model.requirements.RGObject#getIncoming()
-	 * @see #getRGObject()
+	 * @see com.specmate.model.requirements.RGWord#getIncoming()
+	 * @see #getRGWord()
 	 * @generated
 	 */
-	EReference getRGObject_Incoming();
+	EReference getRGWord_Incoming();
 
 	/**
-	 * Returns the meta object for the reference list '{@link com.specmate.model.requirements.RGObject#getOutgoing <em>Outgoing</em>}'.
+	 * Returns the meta object for the reference list '{@link com.specmate.model.requirements.RGWord#getOutgoing <em>Outgoing</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Outgoing</em>'.
-	 * @see com.specmate.model.requirements.RGObject#getOutgoing()
-	 * @see #getRGObject()
+	 * @see com.specmate.model.requirements.RGWord#getOutgoing()
+	 * @see #getRGWord()
 	 * @generated
 	 */
-	EReference getRGObject_Outgoing();
+	EReference getRGWord_Outgoing();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGObject#isRemoved <em>Removed</em>}'.
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGWord#isRemoved <em>Removed</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Removed</em>'.
-	 * @see com.specmate.model.requirements.RGObject#isRemoved()
-	 * @see #getRGObject()
+	 * @see com.specmate.model.requirements.RGWord#isRemoved()
+	 * @see #getRGWord()
 	 * @generated
 	 */
-	EAttribute getRGObject_Removed();
+	EAttribute getRGWord_Removed();
 
 	/**
 	 * Returns the meta object for class '{@link com.specmate.model.requirements.RGNode <em>RG Node</em>}'.
@@ -1630,15 +1630,15 @@ public interface RequirementsPackage extends EPackage {
 	EAttribute getRGNode_Component();
 
 	/**
-	 * Returns the meta object for the reference list '{@link com.specmate.model.requirements.RGNode#getObjects <em>Objects</em>}'.
+	 * Returns the meta object for the reference list '{@link com.specmate.model.requirements.RGNode#getWords <em>Words</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Objects</em>'.
-	 * @see com.specmate.model.requirements.RGNode#getObjects()
+	 * @return the meta object for the reference list '<em>Words</em>'.
+	 * @see com.specmate.model.requirements.RGNode#getWords()
 	 * @see #getRGNode()
 	 * @generated
 	 */
-	EReference getRGNode_Objects();
+	EReference getRGNode_Words();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGNode#isTemporary <em>Temporary</em>}'.
@@ -1911,22 +1911,22 @@ public interface RequirementsPackage extends EPackage {
 		EAttribute RG_MODEL__MODEL_REQUIREMENTS = eINSTANCE.getRGModel_ModelRequirements();
 
 		/**
-		 * The meta object literal for the '<em><b>Objects</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Words</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference RG_MODEL__OBJECTS = eINSTANCE.getRGModel_Objects();
+		EReference RG_MODEL__WORDS = eINSTANCE.getRGModel_Words();
 
 		/**
-		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.RGObjectImpl <em>RG Object</em>}' class.
+		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.RGWordImpl <em>RG Word</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see com.specmate.model.requirements.impl.RGObjectImpl
-		 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getRGObject()
+		 * @see com.specmate.model.requirements.impl.RGWordImpl
+		 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getRGWord()
 		 * @generated
 		 */
-		EClass RG_OBJECT = eINSTANCE.getRGObject();
+		EClass RG_WORD = eINSTANCE.getRGWord();
 
 		/**
 		 * The meta object literal for the '<em><b>Original Text</b></em>' attribute feature.
@@ -1934,7 +1934,7 @@ public interface RequirementsPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute RG_OBJECT__ORIGINAL_TEXT = eINSTANCE.getRGObject_OriginalText();
+		EAttribute RG_WORD__ORIGINAL_TEXT = eINSTANCE.getRGWord_OriginalText();
 
 		/**
 		 * The meta object literal for the '<em><b>Processed Text</b></em>' attribute feature.
@@ -1942,7 +1942,15 @@ public interface RequirementsPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute RG_OBJECT__PROCESSED_TEXT = eINSTANCE.getRGObject_ProcessedText();
+		EAttribute RG_WORD__PROCESSED_TEXT = eINSTANCE.getRGWord_ProcessedText();
+
+		/**
+		 * The meta object literal for the '<em><b>Pos Tag</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RG_WORD__POS_TAG = eINSTANCE.getRGWord_PosTag();
 
 		/**
 		 * The meta object literal for the '<em><b>Node</b></em>' reference feature.
@@ -1950,15 +1958,7 @@ public interface RequirementsPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference RG_OBJECT__NODE = eINSTANCE.getRGObject_Node();
-
-		/**
-		 * The meta object literal for the '<em><b>Siblings</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference RG_OBJECT__SIBLINGS = eINSTANCE.getRGObject_Siblings();
+		EReference RG_WORD__NODE = eINSTANCE.getRGWord_Node();
 
 		/**
 		 * The meta object literal for the '<em><b>Incoming</b></em>' reference list feature.
@@ -1966,7 +1966,7 @@ public interface RequirementsPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference RG_OBJECT__INCOMING = eINSTANCE.getRGObject_Incoming();
+		EReference RG_WORD__INCOMING = eINSTANCE.getRGWord_Incoming();
 
 		/**
 		 * The meta object literal for the '<em><b>Outgoing</b></em>' reference list feature.
@@ -1974,7 +1974,7 @@ public interface RequirementsPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference RG_OBJECT__OUTGOING = eINSTANCE.getRGObject_Outgoing();
+		EReference RG_WORD__OUTGOING = eINSTANCE.getRGWord_Outgoing();
 
 		/**
 		 * The meta object literal for the '<em><b>Removed</b></em>' attribute feature.
@@ -1982,7 +1982,7 @@ public interface RequirementsPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute RG_OBJECT__REMOVED = eINSTANCE.getRGObject_Removed();
+		EAttribute RG_WORD__REMOVED = eINSTANCE.getRGWord_Removed();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.RGNodeImpl <em>RG Node</em>}' class.
@@ -2011,12 +2011,12 @@ public interface RequirementsPackage extends EPackage {
 		EAttribute RG_NODE__COMPONENT = eINSTANCE.getRGNode_Component();
 
 		/**
-		 * The meta object literal for the '<em><b>Objects</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Words</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference RG_NODE__OBJECTS = eINSTANCE.getRGNode_Objects();
+		EReference RG_NODE__WORDS = eINSTANCE.getRGNode_Words();
 
 		/**
 		 * The meta object literal for the '<em><b>Temporary</b></em>' attribute feature.

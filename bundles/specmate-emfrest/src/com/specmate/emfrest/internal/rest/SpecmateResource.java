@@ -3,7 +3,6 @@ package com.specmate.emfrest.internal.rest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -40,9 +39,9 @@ import com.specmate.metrics.ITimer;
 import com.specmate.model.administration.AdministrationFactory;
 import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.administration.ProblemDetail;
-import com.specmate.model.requirements.RGNode;
-import com.specmate.model.requirements.RGObject;
+import com.specmate.model.requirements.RGModel;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.modelgeneration.export.RGUtils;
 import com.specmate.objectif.internal.dSL.DSLFactory;
 import com.specmate.objectif.internal.dSL.impl.DSLFactoryImpl;
 import com.specmate.objectif.internal.dSL.impl.LiteralImpl;
@@ -242,52 +241,13 @@ public abstract class SpecmateResource {
 
 	@Path("/text")
 	public Object getText(@Context HttpServletRequest httpRequest) {
-		List<EObject> objects = doGetChildren();
-		List<RGObject> rgObjects = objects.stream()
-				.filter((o) -> o instanceof RGObject)
-				.map((o) -> (RGObject)o).collect(Collectors.toList());
-		String string = "";
-		for (int i = 0; i < rgObjects.size(); i++) {
-			RGObject prevObj = i > 0 ? rgObjects.get(i-1) : null;
-			RGObject obj = rgObjects.get(i);
-			String originalText = obj.getOriginalText();
-			String processedText = obj.getProcessedText();
-			RGNode node = obj.getNode();
-			
-			//TODO MA
-			boolean isVisited = originalText == null || (prevObj != null && obj == prevObj);
-			
-			if (obj.getProcessedText() != null) {
-				if (node != null) {
+		String s = RGUtils.generateText((RGModel)getResourceObject());
+				InstanceResource resource = resourceContext.getResource(InstanceResource.class);
 
-					// capitalize first word of sentence
-					if (string.trim().endsWith(".")) {
-						originalText = originalText.substring(0, 1).toUpperCase() + originalText.substring(1);
-					}
-				} else {
-				}
-					
-			}
-			if (!isVisited) {
-				if (originalText.matches("[\\.,\\:;\\!\\?]")) {
-					string = string + originalText;
-				} else {
-					string = string + ' ' + originalText;
-				}
-			}
-		}
-		InstanceResource resource = resourceContext.getResource(InstanceResource.class);
-
-//		RequirementsFactory factory = new RequirementsFactoryImpl();
-//		RGObject obj = factory.createRGObject();
-//		RGChunk ch = factory.createRGChunk();
-//		obj.setChunk(ch);
-//		ch.setChunkText(string);
-//		resource.setModelInstance(obj);
 		DSLFactory factory = new DSLFactoryImpl();
 		LiteralImpl literal = (LiteralImpl)factory.createLiteral();
 		List<String> collection = new ArrayList<String>();
-		collection.add(string);
+		collection.add(s);
 		literal.eSet(0, collection);
 		resource.setModelInstance(literal);
 		return resource;

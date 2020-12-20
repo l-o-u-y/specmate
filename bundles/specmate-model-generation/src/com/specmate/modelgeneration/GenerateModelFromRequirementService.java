@@ -64,38 +64,25 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 
 	@Override
 	public RestResult<?> post(Object parent, Object child, String token) {
-		// TODO MA misc: make CEG and RG Model inherit from Model then polymorph
 		ISpecmateModelObject model;
 		if (parent instanceof CEGModel) {
 			model = (CEGModel) parent;
-
 			model.getContents().clear(); // Delete Contents
-			try {
-				logService.log(LogService.LOG_INFO, "Model Generation STARTED");
-				model = generateModelFromDescription(model);
-				logService.log(LogService.LOG_INFO, "Model Generation FINISHED");
-				modelGenCounter.inc();
-			} catch (SpecmateException e) {
-				logService.log(LogService.LOG_ERROR,
-						"Model Generation failed with following error:\n" + e.getMessage());
-				return new RestResult<>(Response.Status.INTERNAL_SERVER_ERROR);
-			}
-		} else {
-			// if (parent instanceof RGModel) {
+		} else { // if (parent instanceof RGModel) {
 			model = (RGModel) parent;
-			((RGModel) model).getObjects().clear();
+			((RGModel) model).getWords().clear();
 			model.getContents().clear(); // Delete Contents
+		}
 
-			try {
-				logService.log(LogService.LOG_INFO, "Model Generation STARTED");
-				model = generateModelFromDescription(model);
-				logService.log(LogService.LOG_INFO, "Model Generation FINISHED");
-				modelGenCounter.inc();
-			} catch (SpecmateException e) {
-				logService.log(LogService.LOG_ERROR,
-						"Model Generation failed with following error:\n" + e.getMessage());
-				return new RestResult<>(Response.Status.INTERNAL_SERVER_ERROR);
-			}
+		try {
+			logService.log(LogService.LOG_INFO, "Model Generation STARTED");
+			model = generateModelFromDescription(model);
+			logService.log(LogService.LOG_INFO, "Model Generation FINISHED");
+			modelGenCounter.inc();
+		} catch (SpecmateException e) {
+			logService.log(LogService.LOG_ERROR,
+					"Model Generation failed with following error:\n" + e.getMessage());
+			return new RestResult<>(Response.Status.INTERNAL_SERVER_ERROR);
 		}
 
 		return new RestResult<>(Response.Status.OK);
@@ -152,7 +139,6 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 				generator.createModel((CEGModel) model, text);
 			}
 		} else { // if (parent instanceof RGModel) {
-					// TODO MA misc: ggf. just have a separate input field in FE
 			if (text.matches("(.*)https:\\/\\/github.com\\/(.*)\\/(.*)\\/issues\\/(\\d*)(.*)")) {
 				String apiUrl = text.replaceAll("(.*)https:\\/\\/github.com\\/(.*)\\/(.*)\\/issues\\/(\\d*)(.*)",
 						"https://api.github.com/repos/$2/$3/issues/$4");

@@ -33,37 +33,21 @@ public class TextPreProcessor {
 		text = generalProcessing(text);
 		List<String> t = new ArrayList<String>();
 		t.add(text);
-		return t; // unfolder.unfold(text);
+		return t;
+//		return unfolder.unfold(text);
 	}
 
 	public String generalGithubPreprocessing(String text) {
 		// https://regex101.com/
 		// remove "Describe your problem and - if possible - how to reproduce it"
 		// standard github issue text
-		text = text.replaceAll("#### Describe your problem and - if possible - how to reproduce it", "");
-//		text = text.replaceAll("#### (.*)\\n", "");
-		//TODO MA
+		text = text.replaceAll("#### (.*)\\n", "");
 
 		// remove () with content
 		text = text.replaceAll("\\([^\\)]*\\)", "");
 
 		// remove <!----> with content
 		text = text.replaceAll("<[ ]*!--[^\\)]*--[ ]*>", "");
-
-		// replace need/have/has/etc to with must
-		text = text.replaceAll("don't need to", "needn't");
-		text = text.replaceAll("doesn't need to", "needn't");
-		text = text.replaceAll("don't have to", "needn't");
-		text = text.replaceAll("doesn't to", "needn't");
-
-		text = text.replaceAll("need to", "must");
-		text = text.replaceAll("needs to", "must");
-		text = text.replaceAll("have to", "must");
-		text = text.replaceAll("has to", "must");
-
-		// replace : with .
-		// text = text.replaceAll(":", "."); // sometimes we need : for the appos
-		// relation
 
 		// This would mess with Action rule e.g. For instance, it comes in two shapes:
 		// rectangle and round.

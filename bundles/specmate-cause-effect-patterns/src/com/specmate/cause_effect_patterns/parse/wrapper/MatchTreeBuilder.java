@@ -176,7 +176,6 @@ public class MatchTreeBuilder {
 			return SubtreeNames.VERB;
 		}
 
-		// TODO MA subtree matchers
 		else if (isTmp(result)) {
 			return SubtreeNames.PART_A;
 		} else if (isInheritance(result)) {
@@ -217,7 +216,6 @@ public class MatchTreeBuilder {
 			return SubtreeNames.PREPOSITION;
 		}
 
-		// TODO MA subtree matchers
 		else if (isTmp(result)) {
 			return SubtreeNames.PART_B;
 		} else if (isInheritance(result)) {

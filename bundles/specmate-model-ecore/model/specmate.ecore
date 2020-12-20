@@ -128,28 +128,28 @@
         </eAnnotations>
       </eStructuralFeatures>
       
-      <eStructuralFeatures xsi:type="ecore:EReference" name="objects" upperBound="-1"
-      eType="#//requirements/RGObject"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="words" upperBound="-1"
+      eType="#//requirements/RGWord"/>
 	</eClassifiers>
 
-    <eClassifiers xsi:type="ecore:EClass" name="RGObject" eSuperTypes="#//base/IContentElement">
+    <eClassifiers xsi:type="ecore:EClass" name="RGWord" eSuperTypes="#//base/IContentElement">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="originalText"
       eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" />
 
 		<eStructuralFeatures xsi:type="ecore:EAttribute" name="processedText"
       eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" />
 
+		<eStructuralFeatures xsi:type="ecore:EAttribute" name="posTag"
+      eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" />
+
       <eStructuralFeatures xsi:type="ecore:EReference" name="node"
       eType="#//requirements/RGNode"/>
 
-      <eStructuralFeatures xsi:type="ecore:EReference" name="siblings" upperBound="-1"
-      eType="#//requirements/RGObject"/>
-
       <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
-      eType="#//requirements/RGObject"/>
+      eType="#//requirements/RGWord"/>
 
       <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
-      eType="#//requirements/RGObject"/>
+      eType="#//requirements/RGWord"/>
       
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="removed"
       eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" />
@@ -181,8 +181,8 @@
         </eAnnotations>
       </eStructuralFeatures>
 
-      <eStructuralFeatures xsi:type="ecore:EReference" name="objects" upperBound="-1"
-      eType="#//requirements/RGObject"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="words" upperBound="-1"
+      eType="#//requirements/RGWord"/>
 
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="temporary"
       eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" />

@@ -19,7 +19,7 @@ import com.specmate.model.requirements.RGConnection;
 import com.specmate.model.requirements.RGConnectionType;
 import com.specmate.model.requirements.RGModel;
 import com.specmate.model.requirements.RGNode;
-import com.specmate.model.requirements.RGObject;
+import com.specmate.model.requirements.RGWord;
 import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 
@@ -34,53 +34,54 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	/**
-	 * Create a new object and add it to the RGModel
+	 * Create a new word and add it to the RGModel
 	 *
 	 * @param model
 	 * @param originalText
-	 * @return the created object
+	 * @return the created word
 	 */
-	public RGObject createObject(RGModel model, String originalText) {
-		RGObject obj = RequirementsFactory.eINSTANCE.createRGObject();
-		obj.setId(SpecmateEcoreUtil.getIdForChild());
-		obj.setOriginalText(originalText);
-		model.getContents().add(obj);
-		model.getObjects().add(obj);
-		return obj;
+	public RGWord createWord(RGModel model, String originalText) {
+		RGWord w = RequirementsFactory.eINSTANCE.createRGWord();
+		w.setId(SpecmateEcoreUtil.getIdForChild());
+		w.setOriginalText(originalText);
+		model.getContents().add(w);
+		model.getWords().add(w);
+		return w;
 	}
 
 	/**
-	 * Create a new object and add it to a specific index of the RGModel
+	 * Create a new word and add it to a specific index of the RGModel
 	 *
 	 * @param model
 	 * @param processedText
 	 * @param index
-	 * @return the created object
+	 * @return the created word
 	 */
-	public RGObject createObject(RGModel model, String processedText, int index) {
-		RGObject obj = RequirementsFactory.eINSTANCE.createRGObject();
-		obj.setId(SpecmateEcoreUtil.getIdForChild());
-		obj.setProcessedText(processedText);
-		model.getContents().add(obj);
-		model.getObjects().add(index, obj);
-		return obj;
+	public RGWord createWord(RGModel model, String processedText, int index) {
+		RGWord w = RequirementsFactory.eINSTANCE.createRGWord();
+		w.setId(SpecmateEcoreUtil.getIdForChild());
+		w.setProcessedText(processedText);
+		w.setPosTag("");
+		model.getContents().add(w);
+		model.getWords().add(index, w);
+		return w;
 	}
 
 	/**
-	 * Find a chunk based on id and return it when found
+	 * Find a word based on id and return it when found
 	 *
 	 * @param model
 	 * @param id
-	 * @return the found chunk or null
+	 * @return the found word or null
 	 */
-	public RGObject findObject(RGModel model, String id) {
-		RGObject obj = null;
-		for (RGObject c : model.getObjects()) {
-				if (c.getId().equals(id)) {
-					obj = (RGObject) c;
+	public RGWord findWord(RGModel model, String id) {
+		RGWord word = null;
+		for (RGWord w : model.getWords()) {
+				if (w.getId().equals(id)) {
+					word = (RGWord) w;
 			}
 		}
-		return obj;
+		return word;
 	}
 
 	/**
@@ -99,9 +100,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		node.setId(SpecmateEcoreUtil.getIdForChild());
 		// node.setName("New RGNode " + dateFormat.format(new Date()));
 
-		component = this.processWord(component);
 		node.setName(component);
-		component = component.toLowerCase();
 		node.setComponent(component);
 		node.setTemporary(temporary);
 		node.setY(y);
@@ -142,21 +141,6 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		return con;
 	}
 
-	private String processWord(String string) {
-		if (string == null)
-			return "";
-		String s = string;
-		// remove a, the
-		if (string.startsWith("a ") || string.startsWith("A ")) {
-			s = string.substring(2);
-		} else if (string.startsWith("an ") || string.startsWith("An ")) {
-			s = string.substring(3);
-		} else if (string.startsWith("the ") || string.startsWith("The ")) {
-			s = string.substring(4);
-		}
-		return s.trim();
-	}
-
 	/**
 	 * Create a new node if it does not exist in the list. Otherwise return the
 	 * existing node. Nodes are only compared by name and type
@@ -169,16 +153,18 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 * @return new or existing node
 	 */
 	public RGNode createNodeIfNotExist(RGModel model, String component, int x, int y, NodeType type) {
-		component = this.processWord(component);
 		EList<IContentElement> list = model.getContents();
 
 		for (IContentElement rgNode : list) {
 			if (rgNode instanceof RGNode) {
-				if (((RGNode) rgNode).getComponent().equals(component.toLowerCase())
+				if (compare(((RGNode) rgNode).getComponent(), component)
 						&& (((RGNode) rgNode).getType().equals(NodeType.NONE)
 								|| ((RGNode) rgNode).getType().equals(type))
 						&& !((RGNode) rgNode).isTemporary()) {
 					((RGNode) rgNode).setType(type);
+					if (!((RGNode) rgNode).getComponent().substring(0, 1).equals(component.substring(0, 1))) {
+						((RGNode) rgNode).setComponent(component.substring(0, 1).toLowerCase() + component.substring(1));
+					}
 					return (RGNode) rgNode;
 				}
 			}
@@ -213,13 +199,12 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	public RGNode findOldNode(RGModel model, RGNode node) {
 		String component = node.getComponent();
 		NodeType type = node.getType();
-		component = this.processWord(component);
-		component = component.toLowerCase();
 		EList<IContentElement> list = model.getContents();
 
 		for (IContentElement rgNode : list) {
 			if (rgNode instanceof RGNode) {
-				if (((RGNode) rgNode).getComponent().equals(component) && ((RGNode) rgNode).getType().equals(type)
+				if (compare(((RGNode) rgNode).getComponent(), component)
+						&& ((RGNode) rgNode).getType().equals(type)
 						&& !((RGNode) rgNode).isTemporary()) {
 					return (RGNode) rgNode;
 				}
@@ -281,87 +266,67 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		}
 		// High lvl algorithm
 		/*
-		 * 1. find chunks c with o node 
-		 * 2. (optional) filter chunks c: p == x.incoming x == c.incoming 
-		 * 3.1 for chunk c: replace o node with n node/null 
-		 * 3.2 for chunk c: save connected p and x 
+		 * 1. find words w with o node 
+		 * 2. (optional) filter words w: p == x.incoming x == w.incoming 
+		 * 3.1 for words w: replace o node with n node/null 
+		 * 3.2 for words w: save connected p and x 
 		 * 4. for node o: replace p --> o connection with p --> n connection/remove 
 		 * 5. for node o: replace o --> x connection with n --> x connection/remove
 		 */
 
-		// 1. find chunks c with o node 
-		List<RGObject> objs = oldNode.getObjects().stream().collect(Collectors.toList());// model.getObjects().stream()
-				//.filter(c -> c.getNode() != null && c.getNode().equals(oldNode)).collect(Collectors.toList());
+		// 1. find words w with o node 
+		List<RGWord> words = oldNode.getWords().stream().collect(Collectors.toList());
 		List<RGConnection> incomingConnections = oldNode.getIncomingConnections().stream().map(c -> (RGConnection) c)
 				.collect(Collectors.toList());
 		List<RGConnection> outgoingConnections = oldNode.getOutgoingConnections().stream().map(c -> (RGConnection) c)
 				.collect(Collectors.toList());
 		boolean negateConnection = false;
-		if (r.isEmpty()) {// && incomingConnections.size() == 1 && outgoingConnections.size() == 0) {
+		if (r.isEmpty()) {
 			negateConnection = true;
 		}
 
-		// 2. (optional) filter chunks c: p == x.incoming x == c.incoming 
+		// 2. (optional) filter words w: p == x.incoming x == w.incoming 
 		if (actualParentNode != null) {
-			ArrayList<RGObject> aggregator = new ArrayList<RGObject>();
-			for (RGObject c : objs) {
+			ArrayList<RGWord> aggregator = new ArrayList<RGWord>();
+			for (RGWord w : words) {
 				boolean include = false;
-				for (RGObject x : c.getIncoming()) {
-					// TODO MA prob dont need this
-					if (x.getNode() != null) {
-						System.out.println(x.getNode().getComponent());
-						System.out.println(x.getNode().getId());
-					}
-					if (x.getNode() != null && x.getNode().equals(actualParentNode)) {
-						include = true;
-					}
-					//
-					for (RGObject p : x.getIncoming()) {
-						if (p.getNode() != null) {
-							System.out.println(p.getNode().getComponent());
-							System.out.println(p.getNode().getId());
-						}
+				for (RGWord x : w.getIncoming()) {
+					for (RGWord p : x.getIncoming()) {
 						if (p.getNode() != null && p.getNode().equals(actualParentNode)) {
 							include = true;
 						}
 					}
 				}
 				if (include) {
-					aggregator.add(c);
+					aggregator.add(w);
 				}
 
 			}
-			objs.retainAll(aggregator);
+			words.retainAll(aggregator);
 		}
-//		p == x.incoming ; x == c.incoming
+//		p == x.incoming ; x == w.incoming
 
 		Set<RGNode> parentNodes = new HashSet<RGNode>();
 		Set<RGNode> childNodes = new HashSet<RGNode>();
 
-		// 3.1 for chunk c: replace o node with n node/null 
-		// 3.2 for chunk c: save connected p and x 
-		for (RGObject obj : objs) {
-			// 1
-			obj.setNode(replacementNode);
-			replacementNode.getObjects().add(obj);
-			oldNode.getObjects().remove(obj);
-
-//			String m = "^(?i)((a )|(an )|(the ))?(?-i)(.*)";
-//			String ct = obj.getOriginalText().trim();
-//			String nt = replacementNode.getName();
-//			String tmp = ct.replaceAll(m, "$1" + nt);
-//			if (replacementCon == null) {
-//				tmp = tmp.replaceAll(m, "no $5");
-//			}
-//			obj.setOriginalText(tmp);
-
+		// 3.1 for words w: replace o node with n node/null 
+		// 3.2 for words w: save connected p and x 
+		for (RGWord word : words) {
 			// 2
-			for (RGObject parentChunk : obj.getIncoming()) {
-				parentNodes.add(parentChunk.getNode());
+			for (RGWord parentWord : word.getIncoming()) {
+				if (negateConnection && !parentNodes.contains(parentWord.getNode())) {
+					addNegationNode(model, parentWord.getNode(), oldNode, true);	
+				}
+				parentNodes.add(parentWord.getNode());
 			}
-			for (RGObject childChunk : obj.getOutgoing()) {
-				childNodes.add(childChunk.getNode());
+			for (RGWord childWord : word.getOutgoing()) {
+				childNodes.add(childWord.getNode());
 			}
+			
+			// 1
+			word.setNode(replacementNode);
+			replacementNode.getWords().add(word);
+			oldNode.getWords().remove(word);
 		}
 
 		// 4. for node o: replace p --> o connection with p --> n connection/remove
@@ -395,49 +360,41 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 			}
 		}
 
-		// assign chunk of tmp node to replacement node instead
-		for (RGObject c : tmpNode.getObjects()) {
-			c.setNode(replacementNode);
-			replacementNode.getObjects().add(c);
+		// assign word of tmp node to replacement node instead
+		for (RGWord w : tmpNode.getWords()) {
+			w.setNode(replacementNode);
+			replacementNode.getWords().add(w);
 			if (replacementCon == null) {
-				c.setRemoved(true);
+				w.setRemoved(true);
 			}
-			System.out.println(c.getOriginalText());
 		}
-		tmpNode.getObjects().retainAll(new ArrayList<>());
+		tmpNode.getWords().retainAll(new ArrayList<>());
 
 		// if delete operation
 		if (replacementCon == null) {
-			EList<RGObject> replacementChunks = replacementNode.getObjects();
-			for (RGObject c : replacementChunks) {
-				// set chunk as removed
-				System.out.println(c.getOriginalText());
-				c.setRemoved(true);
-				EList<RGObject> childChunks = c.getOutgoing();
-				EList<RGObject> parentChunks = c.getIncoming();
-				System.out.println("------------");
-				// set child chunks as removed
-				for (RGObject cc : childChunks) {
-					System.out.println(cc.getOriginalText());
-					cc.setRemoved(true);
+			EList<RGWord> replacementWords = replacementNode.getWords();
+			for (RGWord w : replacementWords) {
+				// set word as removed
+				w.setRemoved(true);
+				EList<RGWord> childWords = w.getOutgoing();
+				EList<RGWord> parentWords = w.getIncoming();
+				// set child words as removed
+				for (RGWord cw : childWords) {
+					cw.setRemoved(true);
 				}
-				System.out.println("------------");
-				for (RGObject pc : parentChunks) {
-					// if only 1 parent -> set parent chunk as removed
-					System.out.println(pc.getOriginalText());
-					if (pc.getOutgoing().size() == 1 && pc.getIncoming().size() == 0) {
-						System.out.println(pc.getOriginalText());
-						pc.setRemoved(true);
+				for (RGWord pw : parentWords) {
+					// if only 1 parent -> set parent words as removed
+					if (pw.getOutgoing().size() == 1 && pw.getIncoming().size() == 0) {
+						pw.setRemoved(true);
 					}
 				}
-				System.out.println("------------");
 			}
 		}
 
 		// remove new parentNode
 		if (parentNode != null) {
-			for (RGObject c : parentNode.getObjects()) {
-				c.setRemoved(true);
+			for (RGWord w : parentNode.getWords()) {
+				w.setRemoved(true);
 			}
 		}
 
@@ -450,17 +407,114 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	// TODO model update with contradictions -> take latter version
 	// TODO model update with same text -> don't duplicate label
 	
-	public void addNegationNode(RGModel model, RGNode negatedNode) {
-		// TODO add POS tags to RGObjects
-		// TODO switch negatedNode.parent
-		// case negative
-			// case verb -> negate verb + add objects
-			// default: add 'no' object before negated node
-		// case positive
-			// case verb -> find negation + change text to " "
-			// default -> find negation
+	public void addNegationNode(RGModel model, RGNode parentNode, RGNode negatedNode, boolean negated) {
+		RGWord verb = null;
+		RGWord det = null;
+		for (RGWord parentWord : parentNode.getWords()) {
+			if (parentWord.getPosTag().contains("VB")) {
+				verb = parentWord;
+				break;
+			}
+		}
+		int verbIndex = model.getWords().indexOf(verb);
+		// ex.) wants to do
+		if (verbIndex >= 2 && model.getWords().get(verbIndex - 2).getPosTag().contains("VB")) {
+			verb = model.getWords().get(verbIndex - 2);
+			verbIndex = model.getWords().indexOf(verb);
+		} else if (verbIndex >= 1 && model.getWords().get(verbIndex - 1).getPosTag().contains("MD")) {
+			verb = model.getWords().get(verbIndex - 1);
+		}
+
+		int nodeIndex = model.getWords().indexOf(negatedNode.getWords().get(0));
+		if (model.getWords().get(nodeIndex - 1).getPosTag().equals("DT")) {
+			det = model.getWords().get(nodeIndex - 1);
+		}
+
+		if (negated) {
+			if (verb != null) {
+				// TODO MA more advanced?
+				String text = verb.getProcessedText();
+				String negText = "do";
+				if (text.endsWith("s")) {
+					verb.setProcessedText(text.substring(0, text.length() - 1));
+					negText = "does";
+				}
+				RGWord not = createWord(model, "not", verbIndex);
+				not.setOriginalText("not");
+				not.setPosTag("RB");
+				if (!verb.getProcessedText().equals("will")) {
+					RGWord does = createWord(model, negText, verbIndex);
+					does.setOriginalText(negText);
+					does.setPosTag("VB");	
+				}
+				System.out.println("Replaced verb with 'do not' + verb");
+				return;
+			} else if (det != null) {
+				if (det.getProcessedText().equals("a") ||
+						det.getProcessedText().equals("an") ||
+						det.getProcessedText().equals("the")) {
+					det.setProcessedText("no");
+					det.setOriginalText("no");
+					System.out.println("Replaced determiner with 'no'");
+					return;
+				} else {
+					System.err.println("Determiner found but was " + det.getProcessedText());
+				}
+			} else {
+				RGWord neg = createWord(model, "no", model.getWords().indexOf(negatedNode.getWords().get(0)));
+				neg.setOriginalText("no");
+				neg.setPosTag("DT");
+				System.out.println("Added determiner with 'no'");
+				return;
+			}
+		} else {
+			if (verb != null) {
+				RGWord n = model.getWords().get(verbIndex - 1);
+				RGWord v = model.getWords().get(verbIndex - 2);
+				if (( n.getProcessedText().equals("n't") || n.getProcessedText().equals("not") ) && 
+						( v.getProcessedText().equals("does") || v.getProcessedText().equals("do") )) {
+					if (v.getProcessedText().equals("does")) {
+						verb.setProcessedText(verb.getProcessedText()+"s");
+						verb.setOriginalText(verb.getProcessedText()+"s");
+					}
+					model.getWords().remove(n);
+					model.getContents().remove(n);
+					model.getWords().remove(v);
+					model.getContents().remove(v);
+					System.out.println("Removed 'do not' from verb");
+					return;
+				}
+			}
+			// else
+			if (det != null) {
+				if (det.getProcessedText().equals("no")) {
+					det.setProcessedText("a");
+					det.setOriginalText("a");
+					System.out.println("Replaced determiner 'no' with 'a'");
+					return;
+				} else {
+					System.err.println("Determiner found but was " + det.getProcessedText());
+				}
+			}
+			System.err.println("Couldn't negate properly");
+		}
 	}
 
+	/**
+	 * Compares two Strings case sensitive except for the first letter
+	 * in case one of the words is at the beginning of a sentence
+	 *
+	 * @param a
+	 * @param b
+	 * @return boolean
+	 */
+	private boolean compare(String a, String b) {
+		String a2 = a.substring(0, 1).toLowerCase() + a.substring(1);
+		String b2 = b.substring(0, 1).toLowerCase() + b.substring(1);
+		return a2.equals(b2);
+	}
+
+	
 	@Override
 	@Deprecated
 	public RGNode createNode(RGModel model, String component, String condition, int x, int y, NodeType type) {

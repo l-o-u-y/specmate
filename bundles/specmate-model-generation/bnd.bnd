@@ -24,6 +24,8 @@
 	specmate-config-api;version=latest,\
 	specmate-xtext;version=latest,\
 	specmate-objectif
+Export-Package: \
+	com.specmate.modelgeneration.export
 Private-Package: \
 	com.specmate.modelgeneration,\
 	com.specmate.modelgeneration.legacy
