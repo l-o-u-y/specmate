@@ -258,7 +258,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		if (best2 != null) {
 			cutModelContents(originalModel, best2.getRight());
 		}
-//		printModelMapping(originalModel);
+		printModelMapping(originalModel);
 
 		cleanupText(originalModel);
 
@@ -354,7 +354,15 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 				delNodes.clear();
 				nodes.clear();
 			} else if (o.get(i).getNode() != null) {
+				System.out.println("------------------------------");
+				System.out.println(i);
+				System.out.println(o.get(i).getOriginalText());
+				System.out.println(o.get(i).getProcessedText());
 				if (o.get(i).isRemoved() && !delNodes.contains(o.get(i).getNode())) {
+					System.out.println(i);
+					System.out.println(o.get(i).getOriginalText());
+					System.out.println(o.get(i).getProcessedText());
+					System.out.println(o.get(i).getNode().getComponent());
 					delNodes.add(o.get(i).getNode());
 				}
 				if (!nodes.contains(o.get(i).getNode())) {
@@ -369,6 +377,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		// originalModel.getContents().removeAll(removeNodes);
 
 		for (RGNode node : removeNodes) {
+			System.out.println(node.getComponent());
 			// rmv from container
 			originalModel.getContents().remove(node);
 			originalModel.getContents().removeAll(node.getIncomingConnections());
@@ -436,9 +445,46 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			object.setProcessedText(o.getProcessedText());
 			object.setId(o.getId());
 		}
+
+		for (RGObject o : source.getObjects()) {
+			
+			RGObject object = creation.findObject(target, o.getId());
+			for (RGObject io : o.getIncoming()) {
+				RGObject incomingObject = creation.findObject(target, io.getId());
+				if (!object.getIncoming().contains(incomingObject)) {
+					object.getIncoming().add(incomingObject);
+				}
+				if (!incomingObject.getOutgoing().contains(object)) {
+					incomingObject.getOutgoing().add(object);
+				}
+			}
+
+			for (RGObject oo : o.getOutgoing()) {
+				RGObject outgoingObject = creation.findObject(target, oo.getId());
+				if (!object.getOutgoing().contains(outgoingObject)) {
+					object.getOutgoing().add(outgoingObject);
+				}
+				if (!outgoingObject.getIncoming().contains(object)) {
+					outgoingObject.getIncoming().add(object);
+				}
+			}
+
+			for (RGObject so : o.getSiblings()) {
+				RGObject siblingObject = creation.findObject(target, so.getId());
+				if (!object.getSiblings().contains(siblingObject)) {
+					object.getSiblings().add(siblingObject);
+				}
+				if (!siblingObject.getSiblings().contains(object)) {
+					siblingObject.getSiblings().add(object);
+				}
+			}
+		}
 		
 		for (IContentElement e : source.getContents()) {
 			if (e instanceof RGNode) {
+				if (((RGNode)e).getComponent().contains("inner")) {
+					System.out.println(1234);
+				}
 				RGNode node = creation.copyNodeToModel(target, ((RGNode) e));
 				node.setTemporary(((RGNode) e).isTemporary());
 

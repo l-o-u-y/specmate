@@ -3,6 +3,7 @@ package com.specmate.modelgeneration.stages;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.osgi.service.log.LogService;
 
@@ -58,12 +59,18 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 			// assign chunks based on chunk and node id (position)
 			for (RGObject m : model.getObjects()) {
 				if (node.getIds() == null && n.getComponent().contains("inner node")) { // inner nodes
-					RGObject tmp = rgCreation.createObject(model, n.getComponent());
+					// take any parent or child node of the inner node
+					List<GraphNode> connectedNodes = new ArrayList<GraphNode>();
+					connectedNodes.addAll(node.getParentEdges().stream().map(c -> (GraphNode)c.getFrom()).collect(Collectors.toList()));
+					connectedNodes.addAll(node.getChildEdges().stream().map(c -> (GraphNode)c.getTo()).collect(Collectors.toList()));
+					RGObject connectedObject = model.getObjects().stream().filter(o -> connectedNodes.get(0).getIds().get(0).equals(o.getId())).findFirst().get();
+					// find its index
+					int indexOfConnectedObject = model.getObjects().indexOf(connectedObject);
+					// and insert the inner node RGObject at the index -> inserts it before the "." and makes it part of the sentence 
+					RGObject tmp = rgCreation.createObject(model, n.getComponent(), indexOfConnectedObject);
 					tmp.setNode(n);
 					n.getObjects().add(tmp);
-					List<String> ids = new ArrayList<>();
-					ids.add(tmp.getId());
-					node.setIds(ids);
+					node.setIds(List.of(tmp.getId()));
 					break;
 				}
 				for (String id : node.getIds()) {
@@ -76,6 +83,7 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 					}
 				}
 			}
+			// TODO siblings
 			nodeMap.put(node, n);
 			positionTable[xIndex]++;
 		}
@@ -123,17 +131,6 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 					}
 				}
 			}
-
-//			if (from.getComponent().contains("inner node") && fromChunks.isEmpty()) {
-//				RGObject tmp = rgCreation.createObject(model, from.getComponent());
-//				tmp.setNode(from);
-//				fromChunks.add(tmp);
-//			}
-//			if (to.getComponent().contains("inner node") && toChunks.isEmpty()) {
-//				RGObject tmp = rgCreation.createObject(model, to.getComponent());
-//				tmp.setNode(to);
-//				toChunks.add(tmp);
-//			}
 
 			if (!fromChunks.isEmpty() && !toChunks.isEmpty()) {
 				for (RGObject toChunk : toChunks) {

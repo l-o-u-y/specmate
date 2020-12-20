@@ -281,16 +281,17 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		}
 		// High lvl algorithm
 		/*
-		 * 1. find chunks c with o node 2. (optional) filter chunks c: p == x.incoming x
-		 * == c.incoming 3.1 for chunk c: replace o node with n node/null 3.2 for chunk
-		 * c: save connected p and x 4. for node o: replace p --> o connection with p
-		 * --> n connection/remove 5. for node o: replace o --> x connection with n -->
-		 * x connection/remove
+		 * 1. find chunks c with o node 
+		 * 2. (optional) filter chunks c: p == x.incoming x == c.incoming 
+		 * 3.1 for chunk c: replace o node with n node/null 
+		 * 3.2 for chunk c: save connected p and x 
+		 * 4. for node o: replace p --> o connection with p --> n connection/remove 
+		 * 5. for node o: replace o --> x connection with n --> x connection/remove
 		 */
 
-		// 1
-		List<RGObject> objs = model.getObjects().stream()
-				.filter(c -> c.getNode() != null && c.getNode().equals(oldNode)).collect(Collectors.toList());
+		// 1. find chunks c with o node 
+		List<RGObject> objs = oldNode.getObjects().stream().collect(Collectors.toList());// model.getObjects().stream()
+				//.filter(c -> c.getNode() != null && c.getNode().equals(oldNode)).collect(Collectors.toList());
 		List<RGConnection> incomingConnections = oldNode.getIncomingConnections().stream().map(c -> (RGConnection) c)
 				.collect(Collectors.toList());
 		List<RGConnection> outgoingConnections = oldNode.getOutgoingConnections().stream().map(c -> (RGConnection) c)
@@ -300,7 +301,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 			negateConnection = true;
 		}
 
-		// 2
+		// 2. (optional) filter chunks c: p == x.incoming x == c.incoming 
 		if (actualParentNode != null) {
 			ArrayList<RGObject> aggregator = new ArrayList<RGObject>();
 			for (RGObject c : objs) {
@@ -337,21 +338,22 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		Set<RGNode> parentNodes = new HashSet<RGNode>();
 		Set<RGNode> childNodes = new HashSet<RGNode>();
 
-		// 3
+		// 3.1 for chunk c: replace o node with n node/null 
+		// 3.2 for chunk c: save connected p and x 
 		for (RGObject obj : objs) {
 			// 1
 			obj.setNode(replacementNode);
 			replacementNode.getObjects().add(obj);
 			oldNode.getObjects().remove(obj);
 
-			String m = "^(?i)((a )|(an )|(the ))?(?-i)(.*)";
-			String ct = obj.getOriginalText().trim();
-			String nt = replacementNode.getName();
-			String tmp = ct.replaceAll(m, "$1" + nt);
-			if (replacementCon == null) {
-				tmp = tmp.replaceAll(m, "no $5");
-			}
-			obj.setOriginalText(tmp);
+//			String m = "^(?i)((a )|(an )|(the ))?(?-i)(.*)";
+//			String ct = obj.getOriginalText().trim();
+//			String nt = replacementNode.getName();
+//			String tmp = ct.replaceAll(m, "$1" + nt);
+//			if (replacementCon == null) {
+//				tmp = tmp.replaceAll(m, "no $5");
+//			}
+//			obj.setOriginalText(tmp);
 
 			// 2
 			for (RGObject parentChunk : obj.getIncoming()) {
@@ -362,7 +364,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 			}
 		}
 
-		// 4
+		// 4. for node o: replace p --> o connection with p --> n connection/remove
 		for (RGConnection c : incomingConnections) {
 			if (replacementNode != null) {
 				if (parentNodes.contains(c.getSource())) {
@@ -379,7 +381,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 			}
 		}
 
-		// 5
+		// 5. for node o: replace o --> x connection with n --> x connection/remove
 		for (RGConnection c : outgoingConnections) {
 			if (replacementNode != null) {
 				if (childNodes.contains(c.getTarget())) {
@@ -444,7 +446,19 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		if (oldNode.getIncomingConnections().size() == 0 && oldNode.getOutgoingConnections().size() == 0) {
 			list.remove(oldNode);
 		}
-
+	}
+	// TODO model update with contradictions -> take latter version
+	// TODO model update with same text -> don't duplicate label
+	
+	public void addNegationNode(RGModel model, RGNode negatedNode) {
+		// TODO add POS tags to RGObjects
+		// TODO switch negatedNode.parent
+		// case negative
+			// case verb -> negate verb + add objects
+			// default: add 'no' object before negated node
+		// case positive
+			// case verb -> find negation + change text to " "
+			// default -> find negation
 	}
 
 	@Override
