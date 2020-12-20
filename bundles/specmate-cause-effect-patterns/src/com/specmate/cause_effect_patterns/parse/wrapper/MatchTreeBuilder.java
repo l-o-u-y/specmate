@@ -438,6 +438,7 @@ public class MatchTreeBuilder {
 		if (isConditionVariable(result) || isVerbObject(result) || isVerbPreposition(result) || isConjunction(result)
 				|| isCondition(result) || isLimitedCondition(result) || isComposition(result)
 				|| isInheritance(result)) {
+			// TODO MA subparts
 			MatchResultTreeNode left = getFirstArgument(result).get();
 			MatchResultTreeNode right = getSecondArgument(result).get();
 

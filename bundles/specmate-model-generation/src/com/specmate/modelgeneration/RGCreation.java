@@ -509,8 +509,8 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 * @return boolean
 	 */
 	private boolean compare(String a, String b) {
-		String a2 = a.substring(0, 1).toLowerCase() + a.substring(1);
-		String b2 = b.substring(0, 1).toLowerCase() + b.substring(1);
+		String a2 = a.isEmpty() ? "" : a.substring(0, 1).toLowerCase() + a.substring(1);
+		String b2 = b.isEmpty()? "" : b.substring(0, 1).toLowerCase() + b.substring(1);
 		return a2.equals(b2);
 	}
 

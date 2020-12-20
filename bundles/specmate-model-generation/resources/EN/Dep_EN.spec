@@ -133,6 +133,7 @@ def tagset dependencies EN.DEP.STANFORD {
 	neg
 	/* Noun compound modifier */
 	nn
+	nmod
 	/* Noun phrase as adverbial modifier */
 	npadvmod
 	/* Nominal subject */

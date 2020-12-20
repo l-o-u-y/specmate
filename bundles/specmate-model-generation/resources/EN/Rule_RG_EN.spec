@@ -337,7 +337,7 @@ def rule Update_Remove_1 {
 }
 
 def rule Composition_1 {
-	noun:[Child] - prep -> IN:'(on)|(of)|(inside)|(in)':[Label] - pobj -> noun:[Parent]
+	noun:[Child] - prep -> IN:'(at)|(on)|(of)|(inside)|(in)':[Label] - pobj -> noun:[Parent]
 }
 
 def rule Composition_2 {
@@ -426,14 +426,42 @@ def rule Conjunction_OR {
 	[PartA] - cc -> CC:'or'
 	[PartA] - conj -> [PartB]
 }
+def rule Action_IDK {
+	[Action] - ccomp -> [TMP] - nsubj -> [Target] 
+	[Action] - nsubj -> [Source]
+}
+def rule Action_IDK2 {
+	[Action] - nsubj -> [TMP] - conj -> [Source]
+	[Action] - dobj -> [Target]
+}
 
+def rule Conjunction_OR_2 {
+	[PartA] - ccomp -> [PartB]  - nsubj -> [TMP]
+	[TMP] - cc -> CC:'or'
+}
+
+def rule Conjunction_AND_3 {
+	[PartA] - ccomp -> [PartB]  - nsubj -> [TMP]
+	[TMP] - cc -> CC:'and'
+}
+def rule Action_IDK {
+	[Action] - ccomp -> [TMP] - nsubj -> [Target] 
+	[Action] - nsubj -> [Source]
+}
+def rule Action_IDK2 {
+	[Action] - nsubj -> [TMP] - conj -> [Source]
+	[Action] - dobj -> [Target]
+}
+/*
 def rule Conjunction_OR_2 {
 	[PartA] - ccomp -> [PartB]  - nsubj -> [PartA_SubA] - conj -> [PartB_SubA]
 	 [PartA_SubA] - cc -> CC:'or'
-}
+}*/
 
+// the spinner or loading effect
+// TODO id of TMP
 def rule Conjunction_OR_3 {
-	[PartB_SubA] - nmod -> [PartA] - conj -> [PartB]
+	[TMP] - nmod -> [PartA] - conj -> [PartB]
 	[PartA] - cc -> CC:'or'
 }
 
@@ -447,11 +475,11 @@ def rule Conjunction_AND_2 {
 	[PartA] - cc -> CC:'and'
 	[PartA] - conj -> [PartB]
 }
-
+/*
 def rule Conjunction_AND_3 {
 	[PartA] - ccomp -> [PartB]  - nsubj -> [PartA_SubA] - conj -> [PartB_SubA]
 	[PartA_SubA] - cc -> CC:'and'
-}
+}*/
 
 def rule Conjunction_AND_4 {
 	[PartA] - dobj -> [PartA_SubA]  - conj -> [PartB]
