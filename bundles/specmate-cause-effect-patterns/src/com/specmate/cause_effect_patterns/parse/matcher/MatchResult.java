@@ -106,6 +106,13 @@ public class MatchResult {
 					keys.remove(j);
 					this.submatch.remove(keyB);
 					j--;
+					
+					// Example: PartA_Child
+					// add subtree as key Child under tree PartA
+					String newKey = keyB.split("_")[1];
+					if (!newKey.contains("Sub")) {
+						resA.submatch.put(newKey, resB);
+					}
 				}
 			}
 		}

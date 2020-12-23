@@ -1,7 +1,6 @@
 package com.specmate.cause_effect_patterns.parse.wrapper;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,9 +25,6 @@ public class MatchTreeBuilder {
 		public static final String VERB = "Verb";
 		public static final String OBJECT = "Object";
 		public static final String PREPOSITION = "Preposition";
-		public static final String SOURCE = "Source";
-		public static final String TARGET = "Target";
-		public static final String ACTION = "Action";
 		public static final String PARENT = "Parent";
 		public static final String CHILD = "Child";
 		public static final String NEW = "New";
@@ -76,7 +72,7 @@ public class MatchTreeBuilder {
 
 	private boolean isAction(MatchResult result) {
 		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.ACTION);
-		boolean subMatches = result.hasSubmatch(SubtreeNames.TARGET) && result.hasSubmatch(SubtreeNames.ACTION);
+		boolean subMatches = result.hasSubmatch(SubtreeNames.CHILD) && result.hasSubmatch(SubtreeNames.LABEL);
 		return name && subMatches;
 	}
 
@@ -183,7 +179,7 @@ public class MatchTreeBuilder {
 		} else if (isComposition(result)) {
 			return SubtreeNames.CHILD;
 		} else if (isAction(result)) {
-			return SubtreeNames.SOURCE;
+			return SubtreeNames.PARENT;
 		} else if (isReplace(result)) {
 			return SubtreeNames.OLD;
 		} else if (isRemove(result)) {
@@ -223,7 +219,7 @@ public class MatchTreeBuilder {
 		} else if (isComposition(result)) {
 			return SubtreeNames.PARENT;
 		} else if (isAction(result)) {
-			return SubtreeNames.TARGET;
+			return SubtreeNames.CHILD;
 		} else if (isUpdate(result)) {
 			return SubtreeNames.NEW;
 		} else if (isReplace(result)) {
@@ -240,88 +236,12 @@ public class MatchTreeBuilder {
 		return Optional.empty();
 	}
 
-	private String getThirdArgumentName(MatchResult result) {
-		if (isAction(result)) {
-			return SubtreeNames.ACTION;
-		}
-
-		return SubtreeNames.LABEL;
-	}
-
-	public Optional<MatchResultTreeNode> getThirdArgument(MatchResult result) {
-		String name = getThirdArgumentName(result);
-		if (name != null && result.getSubmatch(name) != null) {
-			return buildTree(result.getSubmatch(name));
-		}
-		return Optional.empty();
-	}
-
 	public Optional<MatchResultTreeNode> getLabel(MatchResult result) {
 		if (result.getSubmatch(SubtreeNames.LABEL) != null) {
 			return buildTree(result.getSubmatch(SubtreeNames.LABEL));
 		}
 		return Optional.empty();
 	}
-
-//	public String getLabel(MatchResult result) {
-//		String name = getThirdArgumentName(result);
-//		String text = null;
-//		if (name != null && result.getSubmatch(name) != null) {
-//			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
-//			if (tokens.size() == 0) {
-//
-//			} else {
-//				for (Token t : tokens) {
-//					text = t.getCoveredText();
-//					break;
-//				}
-//			}
-//
-//		}
-//		name = SubtreeNames.LABEL;
-//
-//		if (result.getSubmatch(name) != null) {
-//			if (text == null) {
-//				text = "";
-//			} else {
-//				text = text + " ";
-//			}
-//
-//			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
-//			if (tokens.size() == 0) {
-//
-//			} else {
-//				for (Token t : tokens) {
-//					text = text + t.getCoveredText();
-//					break;
-//				}
-//			}
-//
-//		}
-//		return text + ";" + getLabelPosition(result);
-//	}
-//
-//	private int getLabelPosition(MatchResult result) {
-//		String name = getThirdArgumentName(result);
-//		if (name != null && result.getSubmatch(name) != null) {
-//			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
-//			if (tokens.size() != 0) {
-//				for (Token t : tokens) {
-//					return t.getEnd();
-//				}
-//			}
-//		}
-//		name = SubtreeNames.LABEL;
-//		if (result.getSubmatch(name) != null) {
-//			Collection<Token> tokens = result.getSubmatch(name).getMatchTree().getHeads();
-//			if (tokens.size() != 0) {
-//				for (Token t : tokens) {
-//					return t.getEnd();
-//				}
-//			}
-//		}
-//		return -1;
-//	}
 
 	public RuleType getType(MatchResult result) {
 		if (isLimitedCondition(result)) {
@@ -442,8 +362,7 @@ public class MatchTreeBuilder {
 			MatchResultTreeNode left = getFirstArgument(result).get();
 			MatchResultTreeNode right = getSecondArgument(result).get();
 
-			MatchResultTreeNode labelTree = getThirdArgument(result).isPresent() ? getThirdArgument(result).get()
-					: null;
+			MatchResultTreeNode labelTree = getLabel(result).isPresent()? getLabel(result).get() : null;
 			if (labelTree != null
 					&& (labelTree instanceof BinaryMatchResultTreeNode || labelTree instanceof NegationTreeNode)) {
 				BinaryMatchResultTreeNode tmp = new BinaryMatchResultTreeNode(left, right, getType(result));
@@ -456,10 +375,9 @@ public class MatchTreeBuilder {
 
 		if (isAction(result)) {
 			MatchResultTreeNode obj = getSecondArgument(result).get();
-			MatchResultTreeNode verb = getThirdArgument(result).get();
+			MatchResultTreeNode verb = getLabel(result).isPresent()? getLabel(result).get() : null;
 			MatchResultTreeNode subj = getFirstArgument(result).isPresent() ? getFirstArgument(result).get()
 					: new LeafTreeNode("", null, false);
-			MatchResultTreeNode label = getLabel(result).isPresent() ? getLabel(result).get() : null;
 			MatchResultTreeNode tmp2;
 			if (verb instanceof BinaryMatchResultTreeNode || verb instanceof NegationTreeNode) {
 				BinaryMatchResultTreeNode tmp = new BinaryMatchResultTreeNode(subj, obj, getType(result));
@@ -468,15 +386,6 @@ public class MatchTreeBuilder {
 				tmp2 = new BinaryMatchResultTreeNode(subj, obj, getType(result), ((LeafTreeNode) verb));
 			}
 			
-			// add label subtree if exists
-			if (label instanceof LeafTreeNode && tmp2 instanceof BinaryMatchResultTreeNode) {
-				if (((BinaryMatchResultTreeNode)tmp2).getLabel() instanceof LeafTreeNode) {
-					((LeafTreeNode)((BinaryMatchResultTreeNode)tmp2).getLabel()).setContent(
-							((LeafTreeNode)((BinaryMatchResultTreeNode)tmp2).getLabel()).getContent() + " " + 
-									((LeafTreeNode)label).getContent()
-							);
-				}
-			}
 			return Optional.of(tmp2);
 		}
 		if (isUpdate(result)) {
@@ -493,16 +402,20 @@ public class MatchTreeBuilder {
 		}
 
 		// Just Text
-		Collection<Token> tokens = result.getMatchTree().getHeads();
 		boolean hasVerb = false;
-
+		
 		List<String> ids = new ArrayList<String>();
-		for (Token t : tokens) {
+		for (Token t : result.getMatchTree().getHeads()) {
 			if (t.getPosValue().contains("VB") && !t.getPosValue().equals("VB")) {
 				hasVerb = true;
 			}
 			addIds(result, ids, t);
 		}
+
+		for (Token token: result.getMatchTree().getDependencies().keySet()) {
+			addIds(result, ids, token);
+		}
+	
 		LeafTreeNode leaf = new LeafTreeNode(result.getMatchTree().getRepresentationString(false),
 				ids, hasVerb);
 
@@ -513,7 +426,6 @@ public class MatchTreeBuilder {
 		ids.add(token.getEnd() + "");
 		if (result.getMatchTree().getDependencyNode(token)==null)
 			return;
-
 		for (Dependency d : result.getMatchTree().getDependencyNode(token)) {
 			addIds(result, ids, d.getDependent());
 		}

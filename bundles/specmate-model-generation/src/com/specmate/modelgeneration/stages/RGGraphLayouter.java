@@ -143,7 +143,7 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 				}
 			} else {
 				System.out.println("From content: " + from.getComponent());
-				System.out.println("From content: " + to.getComponent());
+				System.out.println("To content: " + to.getComponent());
 				log.log(LogService.LOG_ERROR, "This case should never happen. Words not found");
 				System.out.println();
 

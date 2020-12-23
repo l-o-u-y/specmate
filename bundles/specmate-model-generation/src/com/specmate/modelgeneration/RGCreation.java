@@ -98,9 +98,8 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	public RGNode createNode(RGModel model, String component, boolean temporary, int x, int y, NodeType type) {
 		RGNode node = RequirementsFactory.eINSTANCE.createRGNode();
 		node.setId(SpecmateEcoreUtil.getIdForChild());
-		// node.setName("New RGNode " + dateFormat.format(new Date()));
+		node.setName("New RGNode " + dateFormat.format(new Date()));
 
-		node.setName(component);
 		node.setComponent(component);
 		node.setTemporary(temporary);
 		node.setY(y);

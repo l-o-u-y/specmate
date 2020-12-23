@@ -122,6 +122,9 @@ public class DependencyParsetree {
 		this.addSubtree(subtree);
 	}
 
+	public Map<Token, DependencyNode> getDependencies() {
+		return dependencies;
+	}
 	public DependencyNode getDependencyNode(Token dependent) {
 		return dependencies.get(dependent);
 	}

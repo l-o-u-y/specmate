@@ -20,7 +20,7 @@ def rule LimitedCondition_2 {
 }
 
 
-def subtrees Cause, Effect, Head, TMP, Effect_SubA, Cause_SubA, Cause_SubB, Cause_SubC, Cause_SubD
+def subtrees Cause, Effect, Head, TMP, Effect_Child, Cause_SubA, Cause_SubB, Cause_SubC, Cause_SubD
 
 //  The button will display a spinning animation as soon as the user clicks the button.
 def rule Condition1_0 {
@@ -137,7 +137,7 @@ def rule Condition4_2 {
 
 // Specmate shows the error window as a result of invalid login data.
 def rule Condition4_3 {
-	[Effect] - dobj -> [Effect_SubA] - prep -> IN:'as' - pobj -> NN:'result':[TMP] - prep -> IN:'of' - pobj -> [Cause]
+	[Effect] - dobj -> [Effect_Child] - prep -> IN:'as' - pobj -> NN:'result':[TMP] - prep -> IN:'of' - pobj -> [Cause]
 }
 
 // Specmate shows the error window as a result of invalid login data.
@@ -177,7 +177,7 @@ def rule Condition7_1 {
 // Specmate saves the model provided that the model is correct.
 def rule Condition7_2 {
 	[Effect] -ccomp -> (VBD:'provided'|VBG:'supposing') -ccomp -> [Cause] - complm -> IN:'that' 
-	[Effect] -ccomp -> (VBD:'provided'|VBG:'supposing') -nsubj -> [Effect_SubA]
+	[Effect] -ccomp -> (VBD:'provided'|VBG:'supposing') -nsubj -> [Effect_Child]
 }
 // Supposing that the tool detected an error, the tool beeps .
 def rule Condition7_3 {
@@ -277,7 +277,7 @@ def rule Condition13_2 {
 	IN:'on' - pobj -> NN:'condition' - prep -> IN:'that' - pobj -> [Cause] - appos -> [Effect]
 }
 
-def subtrees Source, Action, Target, Parent, Child, Label, New, Old, TMP, TMP2
+def subtrees Parent, Child, Label, New, Old, TMP, TMP2, Label_Sub
 
 // ex: we want a rectangle instead of a square
 def rule Update_Replace_1_1 {
@@ -348,14 +348,8 @@ def rule Composition_3 {
 	noun:[Parent] - acl -> 'showing':[Label] - pobj -> noun:[Child]
 }
 
-// ex: QBtn also has the material ripple effect baked in
-/*def rule Composition_4_acl {
-	'has':[Label] - nsubj -> noun:[Parent]
-	[Label] - dobj -> noun:[Child] - acl -> [TMP]
-}*/
-
 def rule Composition_4 {
-	'has':[Label] - nsubj -> noun:[Parent]
+	'has|have':[Label] - nsubj -> noun:[Parent]
 	[Label] - dobj -> noun:[Child]
 }
 def rule Composition_5 {
@@ -380,29 +374,29 @@ def rule Inheritance_Colon { // it comes in two shapes: green and blue
 }
 
 def rule Action_Explicit_1 {
-	[Action] - nsubj -> noun:[Source]
-	[Action] - dobj -> noun:[Target]
+	[Label] - nsubj -> noun:[Parent]
+	[Label] - dobj -> noun:[Child]
 }
 
 def rule Action_1 {
-	[Action] - dobj -> noun:[Target]
+	[Label] - dobj -> noun:[Child]
 }
 
 def rule Action_Explicit_Prep_1 {
-	verb:[Action] - prep -> [Label] - pobj -> noun:[Target]
-	verb:[Action] - nsubj -> noun:[Source]
+	verb:[Label] - prep -> [Label_Sub] - pobj -> noun:[Child]
+	verb:[Label] - nsubj -> noun:[Parent]
 }
 
 def rule Action_Prep_1 {
-	verb:[Action] - prep -> [Label] - pobj -> noun:[Target]
+	verb:[Label] - prep -> [Label_Sub] - pobj -> noun:[Child]
 }
 
 def rule Action_Passive_1 {
-	verb:[Action] - nsubjpass -> noun:[Target]
+	verb:[Label] - nsubjpass -> noun:[Child]
 }
 
 def subtrees  PartA, PartB, Head, Head_tmp
-def subtrees  PartA_SubA, PartB_SubA
+def subtrees  PartA_Child, PartB_Parent
 
 def rule Conjunction_NOR_1 {
 	[PartA] - preconj -> CC:'neither'
@@ -426,37 +420,11 @@ def rule Conjunction_OR {
 	[PartA] - cc -> CC:'or'
 	[PartA] - conj -> [PartB]
 }
-def rule Action_IDK {
-	[Action] - ccomp -> [TMP] - nsubj -> [Target] 
-	[Action] - nsubj -> [Source]
-}
-def rule Action_IDK2 {
-	[Action] - nsubj -> [TMP] - conj -> [Source]
-	[Action] - dobj -> [Target]
-}
 
 def rule Conjunction_OR_2 {
-	[PartA] - ccomp -> [PartB]  - nsubj -> [TMP]
-	[TMP] - cc -> CC:'or'
+	[PartA] - ccomp -> [PartB]  - nsubj -> [PartA_Child] - conj -> [PartB_Parent]
+	[PartA_Child] - cc -> CC:'or'
 }
-
-def rule Conjunction_AND_3 {
-	[PartA] - ccomp -> [PartB]  - nsubj -> [TMP]
-	[TMP] - cc -> CC:'and'
-}
-def rule Action_IDK {
-	[Action] - ccomp -> [TMP] - nsubj -> [Target] 
-	[Action] - nsubj -> [Source]
-}
-def rule Action_IDK2 {
-	[Action] - nsubj -> [TMP] - conj -> [Source]
-	[Action] - dobj -> [Target]
-}
-/*
-def rule Conjunction_OR_2 {
-	[PartA] - ccomp -> [PartB]  - nsubj -> [PartA_SubA] - conj -> [PartB_SubA]
-	 [PartA_SubA] - cc -> CC:'or'
-}*/
 
 // the spinner or loading effect
 // TODO id of TMP
@@ -475,17 +443,28 @@ def rule Conjunction_AND_2 {
 	[PartA] - cc -> CC:'and'
 	[PartA] - conj -> [PartB]
 }
-/*
+// Specmate has the changes and Specmate opens a new window 
 def rule Conjunction_AND_3 {
-	[PartA] - ccomp -> [PartB]  - nsubj -> [PartA_SubA] - conj -> [PartB_SubA]
-	[PartA_SubA] - cc -> CC:'and'
-}*/
-
-def rule Conjunction_AND_4 {
-	[PartA] - dobj -> [PartA_SubA]  - conj -> [PartB]
-	[PartA_SubA] - cc -> CC:'and'
+	[PartA] - ccomp -> [PartB]  - nsubj -> [PartA_Child] - conj -> [PartB_Parent]
+	[PartA_Child] - cc -> CC:'and'
 }
 
+def rule Conjunction_AND_4 {
+	[PartA] - dobj -> [PartA_Child]  - conj -> [PartB]
+	[PartA_Child] - cc -> CC:'and'
+}
+
+def rule Action_Sub {
+	[Label] - nsubj -> [Parent]
+}
+
+def rule Composition_Sub {
+	'has|have':[Label] - nsubj -> [Parent]
+}
+
+def rule Inheritance_Sub {
+	'is':[Label] - nsubj -> [Parent]
+}
 
 def rule Negation {
 	[Head] - neg -> RB:*
@@ -498,6 +477,7 @@ def rule Negation_2 {
 def rule Negation_3 {
 	[Head] - det -> DT:'no'
 }
+
 
 
 /*
