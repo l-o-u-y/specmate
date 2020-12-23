@@ -3,6 +3,7 @@ package com.specmate.modelgeneration.stages;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.osgi.service.log.LogService;
@@ -50,7 +51,10 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 				n = rgCreation.createNode(model, component, node.isMarkedForDeletion(), x, y, node.getType());
 			} else {
 				if (node.isExclusive()) {
-					n = rgCreation.createNode(model, component, node.isMarkedForDeletion(), x, y, node.getType());
+					n = rgCreation.isNewGraphNode(model, node);
+					if (n == null) {
+						n = rgCreation.createNode(model, component, node.isMarkedForDeletion(), x, y, node.getType());
+					}
 				} else {
 					n = rgCreation.createNodeIfNotExist(model, component, x, y, node.getType());
 				}

@@ -50,9 +50,9 @@ public class GraphBuilder {
 				// sets child GraphNode type to child RGNode type
 				c.setType(parent.childType);
 				// do not connect verb to verb unless its a condition node
-				if (p.isExclusive() && c.isExclusive() && !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
-					continue;
-				}
+//				if (p.isExclusive() && c.isExclusive() && !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
+//					continue;
+//				}
 				if (p.isExclusive() && p.getChildEdges().size() > 0 
 						&& !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
 					continue;
@@ -70,10 +70,10 @@ public class GraphBuilder {
 				if (p.isExclusive() && c.isExclusive() && !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
 					continue;
 				}
-				if (p.isExclusive() && p.getChildEdges().size() > 0 
-						&& !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
-					continue;
-				}
+//				if (p.isExclusive() && p.getChildEdges().size() > 0 
+//						&& !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
+//					continue;
+//				}
 				if (c.isExclusive() && c.getParentEdges().size() > 0
 						&& !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
 					continue;

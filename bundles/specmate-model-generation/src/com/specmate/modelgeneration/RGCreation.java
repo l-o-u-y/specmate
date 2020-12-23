@@ -22,6 +22,8 @@ import com.specmate.model.requirements.RGNode;
 import com.specmate.model.requirements.RGWord;
 import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.modelgeneration.stages.graph.GraphEdge;
+import com.specmate.modelgeneration.stages.graph.GraphNode;
 
 /**
  * Class creates Node and Edges for a RG-Graphs
@@ -109,36 +111,6 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		return node;
 	}
 
-	/**
-	 * Create a new connection to the RGModel
-	 *
-	 * @param model
-	 * @param nodeFrom
-	 * @param nodeTo
-	 * @param type
-	 * @param negate
-	 * @param label
-	 * @return
-	 */
-	public RGConnection createConnection(RGModel model, RGNode nodeFrom, RGNode nodeTo, RGConnectionType type,
-			boolean negate, String label) {
-		Optional<IModelConnection> optCon = nodeFrom.getOutgoingConnections().stream()
-				.filter(conn -> conn.getTarget() == nodeTo).findFirst();
-		if (optCon.isPresent()) {
-			return (RGConnection) optCon.get();
-		}
-		RGConnection con = RequirementsFactory.eINSTANCE.createRGConnection();
-		con.setId(SpecmateEcoreUtil.getIdForChild());
-		con.setSource(nodeFrom);
-		con.setTarget(nodeTo);
-		con.setNegate(negate);
-		con.setName("New Connection " + dateFormat.format(new Date()));
-		con.setType(RGConnectionType.COMPOSITION);
-		con.setType(type);
-		con.setLabel(label);
-		model.getContents().add(con);
-		return con;
-	}
 
 	/**
 	 * Create a new node if it does not exist in the list. Otherwise return the
@@ -152,23 +124,34 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 * @return new or existing node
 	 */
 	public RGNode createNodeIfNotExist(RGModel model, String component, int x, int y, NodeType type) {
+		List<RGNode> nodes = findNodes(model, component, type);
+		RGNode node = null;
+		if (nodes.size() == 0) {
+			node = createNode(model, component, false, x, y, type);
+		} else {
+			node = nodes.get(0);
+		}
+		node.setType(type);
+		if (!node.getComponent().substring(0, 1).equals(component.substring(0, 1))) {
+			node.setComponent(component.substring(0, 1).toLowerCase() + component.substring(1));
+		}
+		return node;
+	}
+	
+	private List<RGNode> findNodes(RGModel model, String component, NodeType type) {
 		EList<IContentElement> list = model.getContents();
-
+		List<RGNode> nodes = new ArrayList<RGNode>();
 		for (IContentElement rgNode : list) {
 			if (rgNode instanceof RGNode) {
 				if (compare(((RGNode) rgNode).getComponent(), component)
 						&& (((RGNode) rgNode).getType().equals(NodeType.NONE)
 								|| ((RGNode) rgNode).getType().equals(type))
 						&& !((RGNode) rgNode).isTemporary()) {
-					((RGNode) rgNode).setType(type);
-					if (!((RGNode) rgNode).getComponent().substring(0, 1).equals(component.substring(0, 1))) {
-						((RGNode) rgNode).setComponent(component.substring(0, 1).toLowerCase() + component.substring(1));
-					}
-					return (RGNode) rgNode;
+					nodes.add((RGNode) rgNode);
 				}
 			}
 		}
-		return createNode(model, component, false, x, y, type);
+		return nodes;
 	}
 
 	public RGNode copyNodeToModel(RGModel model, RGNode node) {
@@ -210,6 +193,72 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 			}
 		}
 		return null;
+	}
+
+	public RGNode isNewGraphNode(RGModel model, GraphNode node) {
+		List<RGNode> rgNodes = findNodes(model, node.getPrimaryText(), node.getType());
+		for (RGNode rgNode : rgNodes) {
+			boolean empty = false;
+			for (GraphEdge e : node.getChildEdges()) {
+				String text = e.getTo().getPrimaryText();
+				Optional<RGConnection> connection = rgNode.getOutgoingConnections().stream().map(c -> (RGConnection)c)
+						.filter(c -> e.getType().equals(c.getType()) && 
+						compare( ((RGNode)c.getTarget()).getComponent(), text)
+						).findAny();
+				if (connection.isEmpty()) {
+					empty = true;
+					break;
+				}
+			}
+			for (GraphEdge e : node.getParentEdges()) {
+				String text = e.getFrom().getPrimaryText();
+				Optional<RGConnection> connection = rgNode.getIncomingConnections().stream().map(c -> (RGConnection)c)
+						.filter(c -> e.getType().equals(c.getType()) && 
+						compare( ((RGNode)c.getSource()).getComponent(), text)
+						).findAny();
+				if (connection.isEmpty()) {
+					empty = true;
+					break;
+				}
+			}
+			if (!empty) {
+				return rgNode;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Create a new connection to the RGModel
+	 *
+	 * @param model
+	 * @param nodeFrom
+	 * @param nodeTo
+	 * @param type
+	 * @param negate
+	 * @param label
+	 * @return
+	 */
+	public RGConnection createConnection(RGModel model, RGNode nodeFrom, RGNode nodeTo, RGConnectionType type,
+			boolean negate, String label) {
+		Optional<IModelConnection> optCon = nodeFrom.getOutgoingConnections().stream()
+				.filter(conn -> conn.getTarget() == nodeTo && ((RGConnection)conn).getType().equals(type)).findFirst();
+		if (optCon.isPresent()) {
+			((RGConnection) optCon.get()).setLabel(label);
+			((RGConnection) optCon.get()).setNegate(negate);
+			return (RGConnection) optCon.get();
+		}
+		RGConnection con = RequirementsFactory.eINSTANCE.createRGConnection();
+		con.setId(SpecmateEcoreUtil.getIdForChild());
+		con.setSource(nodeFrom);
+		con.setTarget(nodeTo);
+		con.setNegate(negate);
+		con.setName("New Connection " + dateFormat.format(new Date()));
+		con.setType(RGConnectionType.COMPOSITION);
+		con.setType(type);
+		con.setLabel(label);
+		model.getContents().add(con);
+		return con;
 	}
 
 	public void removeConnection(RGModel model, RGConnection connection) {
@@ -403,8 +452,6 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 			list.remove(oldNode);
 		}
 	}
-	// TODO model update with contradictions -> take latter version
-	// TODO model update with same text -> don't duplicate label
 	
 	public void addNegationNode(RGModel model, RGNode parentNode, RGNode negatedNode, boolean negated) {
 		RGWord verb = null;
