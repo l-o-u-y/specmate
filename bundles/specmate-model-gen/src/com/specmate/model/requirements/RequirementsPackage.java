@@ -560,13 +560,22 @@ public interface RequirementsPackage extends EPackage {
 	int RG_WORD__HAS_RECYCLED_CHILDREN = BasePackage.ICONTENT_ELEMENT__HAS_RECYCLED_CHILDREN;
 
 	/**
+	 * The feature id for the '<em><b>Position</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RG_WORD__POSITION = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Original Text</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RG_WORD__ORIGINAL_TEXT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 0;
+	int RG_WORD__ORIGINAL_TEXT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Processed Text</b></em>' attribute.
@@ -575,7 +584,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_WORD__PROCESSED_TEXT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 1;
+	int RG_WORD__PROCESSED_TEXT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Pos Tag</b></em>' attribute.
@@ -584,7 +593,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_WORD__POS_TAG = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 2;
+	int RG_WORD__POS_TAG = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Node</b></em>' reference.
@@ -593,7 +602,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_WORD__NODE = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 3;
+	int RG_WORD__NODE = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Incoming</b></em>' reference list.
@@ -602,7 +611,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_WORD__INCOMING = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 4;
+	int RG_WORD__INCOMING = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Outgoing</b></em>' reference list.
@@ -611,7 +620,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_WORD__OUTGOING = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 5;
+	int RG_WORD__OUTGOING = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Removed</b></em>' attribute.
@@ -620,7 +629,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_WORD__REMOVED = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 6;
+	int RG_WORD__REMOVED = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of structural features of the '<em>RG Word</em>' class.
@@ -629,7 +638,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RG_WORD_FEATURE_COUNT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 7;
+	int RG_WORD_FEATURE_COUNT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The number of operations of the '<em>RG Word</em>' class.
@@ -1257,22 +1266,13 @@ public interface RequirementsPackage extends EPackage {
 	int RG_CONNECTION__TYPE = BasePackage.IMODEL_CONNECTION_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Label</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RG_CONNECTION__LABEL = BasePackage.IMODEL_CONNECTION_FEATURE_COUNT + 2;
-
-	/**
 	 * The number of structural features of the '<em>RG Connection</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RG_CONNECTION_FEATURE_COUNT = BasePackage.IMODEL_CONNECTION_FEATURE_COUNT + 3;
+	int RG_CONNECTION_FEATURE_COUNT = BasePackage.IMODEL_CONNECTION_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>RG Connection</em>' class.
@@ -1521,6 +1521,17 @@ public interface RequirementsPackage extends EPackage {
 	EClass getRGWord();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGWord#getPosition <em>Position</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Position</em>'.
+	 * @see com.specmate.model.requirements.RGWord#getPosition()
+	 * @see #getRGWord()
+	 * @generated
+	 */
+	EAttribute getRGWord_Position();
+
+	/**
 	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGWord#getOriginalText <em>Original Text</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1703,17 +1714,6 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getRGConnection_Type();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.RGConnection#getLabel <em>Label</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Label</em>'.
-	 * @see com.specmate.model.requirements.RGConnection#getLabel()
-	 * @see #getRGConnection()
-	 * @generated
-	 */
-	EAttribute getRGConnection_Label();
 
 	/**
 	 * Returns the meta object for enum '{@link com.specmate.model.requirements.NodeType <em>Node Type</em>}'.
@@ -1929,6 +1929,14 @@ public interface RequirementsPackage extends EPackage {
 		EClass RG_WORD = eINSTANCE.getRGWord();
 
 		/**
+		 * The meta object literal for the '<em><b>Position</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RG_WORD__POSITION = eINSTANCE.getRGWord_Position();
+
+		/**
 		 * The meta object literal for the '<em><b>Original Text</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2069,14 +2077,6 @@ public interface RequirementsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute RG_CONNECTION__TYPE = eINSTANCE.getRGConnection_Type();
-
-		/**
-		 * The meta object literal for the '<em><b>Label</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute RG_CONNECTION__LABEL = eINSTANCE.getRGConnection_Label();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.requirements.NodeType <em>Node Type</em>}' enum.

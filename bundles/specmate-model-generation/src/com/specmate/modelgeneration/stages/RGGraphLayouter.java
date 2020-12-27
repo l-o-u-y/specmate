@@ -3,7 +3,6 @@ package com.specmate.modelgeneration.stages;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.osgi.service.log.LogService;
@@ -54,6 +53,7 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 					n = rgCreation.isNewGraphNode(model, node);
 					if (n == null) {
 						n = rgCreation.createNode(model, component, node.isMarkedForDeletion(), x, y, node.getType());
+					} else {
 					}
 				} else {
 					n = rgCreation.createNodeIfNotExist(model, component, x, y, node.getType());
@@ -62,27 +62,27 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 
 			// assign words based on word id and node id (position)
 			for (RGWord m : model.getWords()) {
-				if (node.getIds() == null && n.getComponent().contains("Inner Node")) { // inner nodes
+				if (node.getPositions() == null && n.getComponent().contains("Inner Node")) { // inner nodes
 					// take any parent or child node of the inner node
 					List<GraphNode> connectedNodes = new ArrayList<GraphNode>();
 					connectedNodes.addAll(node.getParentEdges().stream().map(c -> (GraphNode)c.getFrom()).collect(Collectors.toList()));
 					connectedNodes.addAll(node.getChildEdges().stream().map(c -> (GraphNode)c.getTo()).collect(Collectors.toList()));
 					// do it this way to get it sorted by input text order
-					List<String> connectedNodeIds = new ArrayList<String>();
+					List<Integer> connectedNodeIds = new ArrayList<Integer>();
 					for (GraphNode cn : connectedNodes) {
-						connectedNodeIds.addAll(cn.getIds());
+						connectedNodeIds.addAll(cn.getPositions());
 					}
-					RGWord connectedWord = model.getWords().stream().filter(o -> connectedNodeIds.contains(o.getId())).findFirst().get();
+					RGWord connectedWord = model.getWords().stream().filter(o -> connectedNodeIds.contains(o.getPosition())).findFirst().get();
 					int indexOfConnectedWord = model.getWords().indexOf(connectedWord);
 					// and insert the inner node word at the index -> inserts it before the "." and makes it part of the sentence 
 					RGWord tmp = rgCreation.createWord(model, n.getComponent(), indexOfConnectedWord);
 					tmp.setNode(n);
 					n.getWords().add(tmp);
-					node.setIds(List.of(tmp.getId()));
+					node.setPositions(List.of(tmp.getPosition()));
 					break;
 				}
-				for (String id : node.getIds()) {
-					if (m.getId().equals(id)) {
+				for (Integer pos : node.getPositions()) {
+					if (m.getPosition() == pos) {
 						if (m.getNode() == null) {
 							m.setNode(n);
 							n.getWords().add(m);
@@ -124,15 +124,15 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 			List<RGWord> fromWords = new ArrayList<RGWord>();
 			List<RGWord> toWords = new ArrayList<RGWord>();
 			for (RGWord c : from.getWords()) {
-				for (String id : edge.getFrom().getIds()) {
-					if (c.getId().equals(id)) {
+				for (Integer id : edge.getFrom().getPositions()) {
+					if (c.getPosition() == id) {
 						fromWords.add(c);
 					}
 				}
 			}
 			for (RGWord c : to.getWords()) {
-				for (String id : edge.getTo().getIds()) {
-					if (c.getId().equals(id)) {
+				for (Integer id : edge.getTo().getPositions()) {
+					if (c.getPosition() == id) {
 						toWords.add(c);
 					}
 				}
@@ -168,7 +168,7 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 					}
 				}
 			} else {
-				rgCreation.createConnection(model, from, to, edge.getType(), edge.isNegated(), edge.getLabel());
+				rgCreation.createConnection(model, from, to, edge.getType(), edge.isNegated());
 			}
 		}
 		return model;

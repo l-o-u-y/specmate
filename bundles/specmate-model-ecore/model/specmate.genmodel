@@ -104,6 +104,7 @@
             ecoreFeature="ecore:EReference specmate.ecore#//requirements/RGModel/words"/>
       </genClasses>
       <genClasses ecoreClass="specmate.ecore#//requirements/RGWord">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGWord/position"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGWord/originalText"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGWord/processedText"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGWord/posTag"/>
@@ -133,7 +134,6 @@
       <genClasses ecoreClass="specmate.ecore#//requirements/RGConnection">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGConnection/negate"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGConnection/type"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/RGConnection/label"/>
       </genClasses>
     </nestedGenPackages>
     <nestedGenPackages prefix="Testspecification" disposableProviderFactory="true"

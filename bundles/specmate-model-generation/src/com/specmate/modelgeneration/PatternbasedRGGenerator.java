@@ -150,7 +150,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 				i++;
 			}
 			if (i < rgWords.size() && rgWords.get(i).getProcessedText() != null && word.equals(rgWords.get(i).getProcessedText())) {
-				rgWords.get(i).setId(p.getEnd() + "");
+				rgWords.get(i).setPosition(p.getEnd());
 				rgWords.get(i).setPosTag(posTag);
 			}
 
@@ -215,8 +215,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		// since we already assigned nodes we can randomize the word.ids
 		// we also need to do that to ensure there won't be any duplicates
 		for (RGWord c : originalModel.getWords()) {
-			c.setId(SpecmateEcoreUtil.getIdForChild());
-			c.setName(SpecmateEcoreUtil.getIdForChild());
+			c.setPosition(-1);
 		}
 
 		return originalModel;
@@ -241,10 +240,8 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			try {
 				// TODO MA maybe we dont need to reorder
 				matchPostProcesser.process(tree);
-
 				while (tree.getType().isLimitedCondition()) {
 					tree = ((BinaryMatchResultTreeNode) tree).getSecondArgument();
-
 				}
 
 				if (tree.getType() == null) {
@@ -378,6 +375,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			RGWord word = creation.createWord(target, w.getOriginalText());
 			word.setProcessedText(w.getProcessedText());
 			word.setId(w.getId());
+			word.setPosition(w.getPosition());
 			word.setPosTag(w.getPosTag());
 		}
 
@@ -429,7 +427,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 				RGNode nodeFrom = creation.copyNodeToModel(target, (RGNode) ((RGConnection) e).getSource());
 				RGNode nodeTo = creation.copyNodeToModel(target, (RGNode) ((RGConnection) e).getTarget());
 				creation.createConnection(target, nodeFrom, nodeTo, ((RGConnection) e).getType(),
-						((RGConnection) e).isNegate(), ((RGConnection) e).getLabel());
+						((RGConnection) e).isNegate());
 			}
 		}
 

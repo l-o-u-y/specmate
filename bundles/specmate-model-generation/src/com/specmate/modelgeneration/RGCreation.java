@@ -45,6 +45,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	public RGWord createWord(RGModel model, String originalText) {
 		RGWord w = RequirementsFactory.eINSTANCE.createRGWord();
 		w.setId(SpecmateEcoreUtil.getIdForChild());
+		w.setName(SpecmateEcoreUtil.getIdForChild());
 		w.setOriginalText(originalText);
 		model.getContents().add(w);
 		model.getWords().add(w);
@@ -62,6 +63,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	public RGWord createWord(RGModel model, String processedText, int index) {
 		RGWord w = RequirementsFactory.eINSTANCE.createRGWord();
 		w.setId(SpecmateEcoreUtil.getIdForChild());
+		w.setName(SpecmateEcoreUtil.getIdForChild());
 		w.setProcessedText(processedText);
 		w.setPosTag("");
 		model.getContents().add(w);
@@ -240,12 +242,33 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	 * @return
 	 */
 	public RGConnection createConnection(RGModel model, RGNode nodeFrom, RGNode nodeTo, RGConnectionType type,
-			boolean negate, String label) {
+			boolean negate) {
 		Optional<IModelConnection> optCon = nodeFrom.getOutgoingConnections().stream()
 				.filter(conn -> conn.getTarget() == nodeTo && ((RGConnection)conn).getType().equals(type)).findFirst();
 		if (optCon.isPresent()) {
-			((RGConnection) optCon.get()).setLabel(label);
-			((RGConnection) optCon.get()).setNegate(negate);
+			List<RGWord> words = new ArrayList<RGWord>();
+			words.addAll(((RGNode)optCon.get().getSource()).getWords());
+			words.addAll(((RGNode)optCon.get().getTarget()).getWords());
+			for (RGWord w : words) {
+				// don't mark old words as removed
+				// mark new words as removed (with connections!)
+				System.out.println(w.getPosition());
+				if (w.getPosition() <= 0) {
+					continue;
+				}
+				w.setRemoved(true);
+				for (RGWord v : w.getIncoming()) {
+					v.setRemoved(true);
+				}
+				for (RGWord v : w.getOutgoing()) {
+					v.setRemoved(true);
+				}
+			}
+
+			if (((RGConnection) optCon.get()).isNegate() != negate) {
+				((RGConnection) optCon.get()).setNegate(negate);
+				addNegationWord(model, (RGNode)optCon.get().getSource(), (RGNode)optCon.get().getTarget(), ((RGConnection) optCon.get()).isNegate());
+			}
 			return (RGConnection) optCon.get();
 		}
 		RGConnection con = RequirementsFactory.eINSTANCE.createRGConnection();
@@ -256,7 +279,6 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		con.setName("New Connection " + dateFormat.format(new Date()));
 		con.setType(RGConnectionType.COMPOSITION);
 		con.setType(type);
-		con.setLabel(label);
 		model.getContents().add(con);
 		return con;
 	}
@@ -363,7 +385,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 			// 2
 			for (RGWord parentWord : word.getIncoming()) {
 				if (negateConnection && !parentNodes.contains(parentWord.getNode())) {
-					addNegationNode(model, parentWord.getNode(), oldNode, true);	
+					addNegationWord(model, parentWord.getNode(), oldNode, true);	
 				}
 				parentNodes.add(parentWord.getNode());
 			}
@@ -453,7 +475,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		}
 	}
 	
-	public void addNegationNode(RGModel model, RGNode parentNode, RGNode negatedNode, boolean negated) {
+	public void addNegationWord(RGModel model, RGNode parentNode, RGNode negatedNode, boolean negated) {
 		RGWord verb = null;
 		RGWord det = null;
 		for (RGWord parentWord : parentNode.getWords()) {
@@ -570,7 +592,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	@Override
 	@Deprecated
 	public RGConnection createConnection(RGModel model, RGNode nodeFrom, RGNode nodeTo, boolean negate) {
-		return createConnection(model, nodeFrom, nodeTo, RGConnectionType.COMPOSITION, false, "");
+		return createConnection(model, nodeFrom, nodeTo, RGConnectionType.COMPOSITION, false);
 	}
 
 	@Override

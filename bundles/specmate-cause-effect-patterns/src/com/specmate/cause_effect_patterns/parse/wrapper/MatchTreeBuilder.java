@@ -404,7 +404,7 @@ public class MatchTreeBuilder {
 		// Just Text
 		boolean hasVerb = false;
 		
-		List<String> ids = new ArrayList<String>();
+		List<Integer> ids = new ArrayList<Integer>();
 		for (Token t : result.getMatchTree().getHeads()) {
 			if (t.getPosValue().contains("VB") && !t.getPosValue().equals("VB")) {
 				hasVerb = true;
@@ -422,8 +422,8 @@ public class MatchTreeBuilder {
 		return Optional.of(leaf);
 	}
 	
-	private void addIds(MatchResult result, List<String> ids, Token token) {
-		ids.add(token.getEnd() + "");
+	private void addIds(MatchResult result, List<Integer> ids, Token token) {
+		ids.add(token.getEnd());
 		if (result.getMatchTree().getDependencyNode(token)==null)
 			return;
 		for (Dependency d : result.getMatchTree().getDependencyNode(token)) {

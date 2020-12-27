@@ -133,6 +133,9 @@
 	</eClassifiers>
 
     <eClassifiers xsi:type="ecore:EClass" name="RGWord" eSuperTypes="#//base/IContentElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="position"
+      eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" />
+      
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="originalText"
       eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" />
 
@@ -267,15 +270,6 @@
           <details key="type" value="singleSelection"/>
           <details key="values" value="[&quot;Inheritance&quot;, &quot;Composition&quot;, &quot;Action&quot;, &quot;Condition&quot;]"/>
           <details key="position" value="2"/>
-        </eAnnotations>
-      </eStructuralFeatures>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
-        <eAnnotations source="http://specmate.com/form_meta">
-          <details key="shortDesc" value="Label"/>
-          <details key="longDesc" value="The label of a connection"/>
-          <details key="required" value="false"/>
-          <details key="type" value="text"/>
-          <details key="position" value="3"/>
         </eAnnotations>
       </eStructuralFeatures>
     </eClassifiers>

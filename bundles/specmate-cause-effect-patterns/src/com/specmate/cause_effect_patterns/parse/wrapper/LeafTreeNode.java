@@ -6,16 +6,16 @@ import java.util.List;
 public class LeafTreeNode extends MatchResultTreeNode {
 
 	private String content;
-	private List<String> ids;
+	private List<Integer> positions;
 	private boolean isVerb;
 
 	public LeafTreeNode(String content) {
 		this.content = content;
 	}
 
-	public LeafTreeNode(String content, List<String> ids, boolean isVerb) {
+	public LeafTreeNode(String content, List<Integer> positions, boolean isVerb) {
 		this.content = content;
-		this.ids = ids == null ? new ArrayList<String>(): ids;
+		this.positions = positions == null ? new ArrayList<Integer>(): positions;
 		this.isVerb = isVerb;
 	}
 
@@ -28,8 +28,8 @@ public class LeafTreeNode extends MatchResultTreeNode {
 	}
 
 
-	public List<String> getIds() {
-		return this.ids;
+	public List<Integer> getPositions() {
+		return this.positions;
 	}
 
 	@Override

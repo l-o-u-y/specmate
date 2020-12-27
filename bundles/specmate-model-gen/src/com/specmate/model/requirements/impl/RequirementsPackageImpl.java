@@ -431,7 +431,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	@Override
-	public EAttribute getRGWord_OriginalText() {
+	public EAttribute getRGWord_Position() {
 		return (EAttribute)rgWordEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -441,7 +441,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	@Override
-	public EAttribute getRGWord_ProcessedText() {
+	public EAttribute getRGWord_OriginalText() {
 		return (EAttribute)rgWordEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -451,7 +451,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	@Override
-	public EAttribute getRGWord_PosTag() {
+	public EAttribute getRGWord_ProcessedText() {
 		return (EAttribute)rgWordEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -461,8 +461,8 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	@Override
-	public EReference getRGWord_Node() {
-		return (EReference)rgWordEClass.getEStructuralFeatures().get(3);
+	public EAttribute getRGWord_PosTag() {
+		return (EAttribute)rgWordEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -471,7 +471,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	@Override
-	public EReference getRGWord_Incoming() {
+	public EReference getRGWord_Node() {
 		return (EReference)rgWordEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -481,7 +481,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	@Override
-	public EReference getRGWord_Outgoing() {
+	public EReference getRGWord_Incoming() {
 		return (EReference)rgWordEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -491,8 +491,18 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	@Override
+	public EReference getRGWord_Outgoing() {
+		return (EReference)rgWordEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EAttribute getRGWord_Removed() {
-		return (EAttribute)rgWordEClass.getEStructuralFeatures().get(6);
+		return (EAttribute)rgWordEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -581,16 +591,6 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	@Override
-	public EAttribute getRGConnection_Label() {
-		return (EAttribute)rgConnectionEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public EEnum getNodeType() {
 		return nodeTypeEEnum;
 	}
@@ -653,6 +653,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		createEReference(rgModelEClass, RG_MODEL__WORDS);
 
 		rgWordEClass = createEClass(RG_WORD);
+		createEAttribute(rgWordEClass, RG_WORD__POSITION);
 		createEAttribute(rgWordEClass, RG_WORD__ORIGINAL_TEXT);
 		createEAttribute(rgWordEClass, RG_WORD__PROCESSED_TEXT);
 		createEAttribute(rgWordEClass, RG_WORD__POS_TAG);
@@ -678,7 +679,6 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		rgConnectionEClass = createEClass(RG_CONNECTION);
 		createEAttribute(rgConnectionEClass, RG_CONNECTION__NEGATE);
 		createEAttribute(rgConnectionEClass, RG_CONNECTION__TYPE);
-		createEAttribute(rgConnectionEClass, RG_CONNECTION__LABEL);
 
 		// Create enums
 		nodeTypeEEnum = createEEnum(NODE_TYPE);
@@ -747,6 +747,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		initEReference(getRGModel_Words(), this.getRGWord(), null, "words", null, 0, -1, RGModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(rgWordEClass, RGWord.class, "RGWord", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getRGWord_Position(), ecorePackage.getEInt(), "position", null, 0, 1, RGWord.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRGWord_OriginalText(), ecorePackage.getEString(), "originalText", null, 0, 1, RGWord.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRGWord_ProcessedText(), ecorePackage.getEString(), "processedText", null, 0, 1, RGWord.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRGWord_PosTag(), ecorePackage.getEString(), "posTag", null, 0, 1, RGWord.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -772,7 +773,6 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		initEClass(rgConnectionEClass, RGConnection.class, "RGConnection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRGConnection_Negate(), ecorePackage.getEBoolean(), "negate", null, 0, 1, RGConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRGConnection_Type(), this.getRGConnectionType(), "type", null, 0, 1, RGConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getRGConnection_Label(), ecorePackage.getEString(), "label", null, 0, 1, RGConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(nodeTypeEEnum, NodeType.class, "NodeType");
@@ -922,16 +922,6 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 			   "type", "singleSelection",
 			   "values", "[\"Inheritance\", \"Composition\", \"Action\", \"Condition\"]",
 			   "position", "2"
-		   });
-		addAnnotation
-		  (getRGConnection_Label(),
-		   source,
-		   new String[] {
-			   "shortDesc", "Label",
-			   "longDesc", "The label of a connection",
-			   "required", "false",
-			   "type", "text",
-			   "position", "3"
 		   });
 	}
 

@@ -32,6 +32,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.requirements.impl.RGWordImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGWordImpl#isRecycled <em>Recycled</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGWordImpl#isHasRecycledChildren <em>Has Recycled Children</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RGWordImpl#getPosition <em>Position</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGWordImpl#getOriginalText <em>Original Text</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGWordImpl#getProcessedText <em>Processed Text</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RGWordImpl#getPosTag <em>Pos Tag</em>}</li>
@@ -93,6 +94,16 @@ public class RGWordImpl extends CDOObjectImpl implements RGWord {
 	 * @ordered
 	 */
 	protected static final boolean HAS_RECYCLED_CHILDREN_EDEFAULT = false;
+
+	/**
+	 * The default value of the '{@link #getPosition() <em>Position</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPosition()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int POSITION_EDEFAULT = 0;
 
 	/**
 	 * The default value of the '{@link #getOriginalText() <em>Original Text</em>}' attribute.
@@ -269,6 +280,26 @@ public class RGWordImpl extends CDOObjectImpl implements RGWord {
 	 * @generated
 	 */
 	@Override
+	public int getPosition() {
+		return (Integer)eDynamicGet(RequirementsPackage.RG_WORD__POSITION, RequirementsPackage.Literals.RG_WORD__POSITION, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setPosition(int newPosition) {
+		eDynamicSet(RequirementsPackage.RG_WORD__POSITION, RequirementsPackage.Literals.RG_WORD__POSITION, newPosition);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public String getOriginalText() {
 		return (String)eDynamicGet(RequirementsPackage.RG_WORD__ORIGINAL_TEXT, RequirementsPackage.Literals.RG_WORD__ORIGINAL_TEXT, true, true);
 	}
@@ -412,6 +443,8 @@ public class RGWordImpl extends CDOObjectImpl implements RGWord {
 				return isRecycled();
 			case RequirementsPackage.RG_WORD__HAS_RECYCLED_CHILDREN:
 				return isHasRecycledChildren();
+			case RequirementsPackage.RG_WORD__POSITION:
+				return getPosition();
 			case RequirementsPackage.RG_WORD__ORIGINAL_TEXT:
 				return getOriginalText();
 			case RequirementsPackage.RG_WORD__PROCESSED_TEXT:
@@ -454,6 +487,9 @@ public class RGWordImpl extends CDOObjectImpl implements RGWord {
 				return;
 			case RequirementsPackage.RG_WORD__HAS_RECYCLED_CHILDREN:
 				setHasRecycledChildren((Boolean)newValue);
+				return;
+			case RequirementsPackage.RG_WORD__POSITION:
+				setPosition((Integer)newValue);
 				return;
 			case RequirementsPackage.RG_WORD__ORIGINAL_TEXT:
 				setOriginalText((String)newValue);
@@ -505,6 +541,9 @@ public class RGWordImpl extends CDOObjectImpl implements RGWord {
 			case RequirementsPackage.RG_WORD__HAS_RECYCLED_CHILDREN:
 				setHasRecycledChildren(HAS_RECYCLED_CHILDREN_EDEFAULT);
 				return;
+			case RequirementsPackage.RG_WORD__POSITION:
+				setPosition(POSITION_EDEFAULT);
+				return;
 			case RequirementsPackage.RG_WORD__ORIGINAL_TEXT:
 				setOriginalText(ORIGINAL_TEXT_EDEFAULT);
 				return;
@@ -548,6 +587,8 @@ public class RGWordImpl extends CDOObjectImpl implements RGWord {
 				return isRecycled() != RECYCLED_EDEFAULT;
 			case RequirementsPackage.RG_WORD__HAS_RECYCLED_CHILDREN:
 				return isHasRecycledChildren() != HAS_RECYCLED_CHILDREN_EDEFAULT;
+			case RequirementsPackage.RG_WORD__POSITION:
+				return getPosition() != POSITION_EDEFAULT;
 			case RequirementsPackage.RG_WORD__ORIGINAL_TEXT:
 				return ORIGINAL_TEXT_EDEFAULT == null ? getOriginalText() != null : !ORIGINAL_TEXT_EDEFAULT.equals(getOriginalText());
 			case RequirementsPackage.RG_WORD__PROCESSED_TEXT:

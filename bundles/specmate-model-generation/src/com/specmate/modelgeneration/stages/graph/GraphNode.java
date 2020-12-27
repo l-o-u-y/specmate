@@ -9,7 +9,7 @@ import com.specmate.model.requirements.RGConnectionType;
 public class GraphNode {
 	private String secondaryText;
 	private String primaryText;
-	private List<String> ids;
+	private List<Integer> positions;
 	private boolean markedForDeletion;
 	private NodeType type;
 	private Graph graph;
@@ -49,8 +49,8 @@ public class GraphNode {
 		graph.edges.add(edge);
 	}
 
-	public void connectTo(GraphNode node, RGConnectionType type, boolean negateEdge, String label) {
-		GraphEdge edge = new GraphEdge(this, node, type, negateEdge, label);
+	public void connectTo(GraphNode node, RGConnectionType type, boolean negateEdge) {
+		GraphEdge edge = new GraphEdge(this, node, type, negateEdge);
 		childEdges.add(edge);
 		node.parentEdges.add(edge);
 		graph.edges.add(edge);
@@ -115,12 +115,12 @@ public class GraphNode {
 		return minHeight - 1;
 	}
 
-	public List<String> getIds() {
-		return ids;
+	public List<Integer> getPositions() {
+		return positions;
 	}
 
-	public void setIds(List<String> ids) {
-		this.ids = ids;
+	public void setPositions(List<Integer> pos) {
+		this.positions = pos;
 	}
 
 	public boolean isMarkedForDeletion() {

@@ -427,9 +427,9 @@ def rule Conjunction_OR_2 {
 }
 
 // the spinner or loading effect
-// TODO id of TMP
+// TODO TMP
 def rule Conjunction_OR_3 {
-	[TMP] - nmod -> [PartA] - conj -> [PartB]
+	[PartB_Parent] - nmod -> [PartA] - conj -> [PartB]
 	[PartA] - cc -> CC:'or'
 }
 
@@ -455,15 +455,15 @@ def rule Conjunction_AND_4 {
 }
 
 def rule Action_Sub {
-	[Label] - nsubj -> [Parent]
+	[Label] - nsubj -> noun:[Parent]
 }
 
 def rule Composition_Sub {
-	'has|have':[Label] - nsubj -> [Parent]
+	'has|have':[Label] - nsubj -> noun:[Parent]
 }
 
 def rule Inheritance_Sub {
-	'is':[Label] - nsubj -> [Parent]
+	'is':[Label] - nsubj -> noun:[Parent]
 }
 
 def rule Negation {

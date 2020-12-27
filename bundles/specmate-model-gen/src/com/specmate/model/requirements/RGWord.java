@@ -14,6 +14,7 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
+ *   <li>{@link com.specmate.model.requirements.RGWord#getPosition <em>Position</em>}</li>
  *   <li>{@link com.specmate.model.requirements.RGWord#getOriginalText <em>Original Text</em>}</li>
  *   <li>{@link com.specmate.model.requirements.RGWord#getProcessedText <em>Processed Text</em>}</li>
  *   <li>{@link com.specmate.model.requirements.RGWord#getPosTag <em>Pos Tag</em>}</li>
@@ -28,6 +29,28 @@ import org.eclipse.emf.common.util.EList;
  * @generated
  */
 public interface RGWord extends IContentElement {
+	/**
+	 * Returns the value of the '<em><b>Position</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Position</em>' attribute.
+	 * @see #setPosition(int)
+	 * @see com.specmate.model.requirements.RequirementsPackage#getRGWord_Position()
+	 * @model
+	 * @generated
+	 */
+	int getPosition();
+
+	/**
+	 * Sets the value of the '{@link com.specmate.model.requirements.RGWord#getPosition <em>Position</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Position</em>' attribute.
+	 * @see #getPosition()
+	 * @generated
+	 */
+	void setPosition(int value);
+
 	/**
 	 * Returns the value of the '<em><b>Original Text</b></em>' attribute.
 	 * <!-- begin-user-doc -->

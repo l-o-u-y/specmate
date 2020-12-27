@@ -39,7 +39,7 @@ public class NodeBuilder {
 
 		@Override
 		public void visit(LeafTreeNode node) {
-			replacementNode = new LeafTreeNode(node.getContent(), node.getIds(), node.isVerb());
+			replacementNode = new LeafTreeNode(node.getContent(), node.getPositions(), node.isVerb());
 		}
 
 		@Override

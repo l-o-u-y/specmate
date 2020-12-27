@@ -45,44 +45,35 @@ public class GraphBuilder {
 
 	private synchronized void connectRGNodes(NodeWrapper parent, NodeWrapper child, MatchResultTreeNode node) {
 		for (GraphNode p : parent.positiveNodes) {
-			String label = null;
 			for (GraphNode c : child.positiveNodes) {
-				// sets child GraphNode type to child RGNode type
-				c.setType(parent.childType);
 				// do not connect verb to verb unless its a condition node
-//				if (p.isExclusive() && c.isExclusive() && !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
-//					continue;
-//				}
-				if (p.isExclusive() && p.getChildEdges().size() > 0 
-						&& !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
+				if (p.isExclusive() && c.isExclusive() && !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
 					continue;
 				}
+				// TODO MA // c.isExclusive() && 
 				if (c.isExclusive() && c.getParentEdges().size() > 0
 						&& !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
 					continue;
 				}
-				p.connectTo(c, getConnectionType(node), false, label);
+				// sets child GraphNode type to child RGNode type
+				c.setType(parent.childType);
+				p.connectTo(c, getConnectionType(node), false);
 
 			}
 			for (GraphNode c : child.negativeNodes) {
-				// sets child GraphNode type to child RGNode type
-				c.setType(parent.childType);
 				if (p.isExclusive() && c.isExclusive() && !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
 					continue;
 				}
-//				if (p.isExclusive() && p.getChildEdges().size() > 0 
-//						&& !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
-//					continue;
-//				}
 				if (c.isExclusive() && c.getParentEdges().size() > 0
 						&& !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
 					continue;
 				}
-				p.connectTo(c, getConnectionType(node), true, label);
+				// sets child GraphNode type to child RGNode type
+				c.setType(parent.childType);
+				p.connectTo(c, getConnectionType(node), true);
 			}
 		}
 		for (GraphNode p : parent.negativeNodes) {
-			String label = null;
 			for (GraphNode c : child.positiveNodes) {
 				// sets child GraphNode type to child RGNode type
 				c.setType(parent.childType);
@@ -93,7 +84,7 @@ public class GraphBuilder {
 						&& !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
 					continue;
 				}
-				p.connectTo(c, getConnectionType(node), true, label);
+				p.connectTo(c, getConnectionType(node), true);
 			}
 			for (GraphNode c : child.negativeNodes) {
 				// sets child GraphNode type to child RGNode type
@@ -105,7 +96,7 @@ public class GraphBuilder {
 						&& !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
 					continue;
 				}
-				p.connectTo(c, getConnectionType(node), false, label);
+				p.connectTo(c, getConnectionType(node), false);
 			}
 		}
 	}
@@ -209,7 +200,7 @@ public class GraphBuilder {
 				all.childType = obj.childType;
 				all.addLabelNodes(verb);
 
-				if (s instanceof LeafTreeNode && ((LeafTreeNode) s).getIds().isEmpty()) {
+				if (s instanceof LeafTreeNode && ((LeafTreeNode) s).getPositions().isEmpty()) {
 					connectRGNodes(verb, obj, node);
 
 				} else {
@@ -321,7 +312,7 @@ public class GraphBuilder {
 		String text = ((LeafTreeNode) node).getContent();
 
 		final GraphNode n = currentGraph.createNode(text, NodeType.NONE);
-		n.setIds(((LeafTreeNode) node).getIds());
+		n.setPositions(((LeafTreeNode) node).getPositions());
 		n.setExclusive(((LeafTreeNode) node).isVerb());
 		return new NodeWrapper(n, n.getType(), false);
 	}
@@ -609,7 +600,9 @@ public class GraphBuilder {
 					break;
 				case INHERITANCE:
 				case ACTION:
-					tmpPos.add(n.getChildEdges().get(0).getTo());
+					if (n.getChildEdges().size() > 0) {
+						tmpPos.add(n.getChildEdges().get(0).getTo());
+					}
 					break;
 
 				default:
@@ -630,7 +623,9 @@ public class GraphBuilder {
 					break;
 				case INHERITANCE:
 				case ACTION:
-					tmpNeg.add(n.getChildEdges().get(0).getTo());
+					if (n.getParentEdges().size() > 0) {
+						tmpNeg.add(n.getChildEdges().get(0).getTo());
+					}
 					break;
 
 				default:
