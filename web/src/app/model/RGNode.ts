@@ -28,7 +28,7 @@
 		public tracesFrom: Proxy[];
 		public outgoingConnections: Proxy[];
 		public incomingConnections: Proxy[];
-		public objects: Proxy[];
+		public words: Proxy[];
 
 		// Containment
 

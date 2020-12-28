@@ -594,9 +594,12 @@ public class GraphBuilder {
 				}
 				switch (type) {
 				case COMPOSITION:
-					if (n.getParentEdges().size() > 0) {
-						tmpPos.add(n.getParentEdges().get(0).getFrom());
+					if (n.getChildEdges().size() > 0) {
+						tmpPos.add(n.getChildEdges().get(0).getTo());
 					}
+//					if (n.getParentEdges().size() > 0) {
+//						tmpPos.add(n.getParentEdges().get(0).getFrom());
+//					}
 					break;
 				case INHERITANCE:
 				case ACTION:
@@ -618,8 +621,11 @@ public class GraphBuilder {
 				switch (type) {
 				case COMPOSITION:
 					if (n.getParentEdges().size() > 0) {
-						tmpPos.add(n.getParentEdges().get(0).getFrom());
+						tmpNeg.add(n.getChildEdges().get(0).getTo());
 					}
+//					if (n.getParentEdges().size() > 0) {
+//						tmpPos.add(n.getParentEdges().get(0).getFrom());
+//					}
 					break;
 				case INHERITANCE:
 				case ACTION:

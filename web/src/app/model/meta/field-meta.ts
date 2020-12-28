@@ -240,8 +240,16 @@ export class MetaInfo {
 			rows: '5',
 			position: '110'		
 		}	];
-	public static RGObject: FieldMetaItem[] = [
+	public static RGWord: FieldMetaItem[] = [
 			{
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: '',
+			required: true,
+			type: 'text',
+			position: '0',
+			allowedPattern: '^[^,;|]*$'		
+		},			{
 			name: "description",
 			shortDesc: 'Description',
 			longDesc: '',
@@ -348,13 +356,6 @@ export class MetaInfo {
 			type: 'singleSelection',
 			values: '["Inheritance", "Composition", "Action", "Condition"]',
 			position: '2'		
-		},			{
-			name: "label",
-			shortDesc: 'Label',
-			longDesc: 'The label of a connection',
-			required: false,
-			type: 'text',
-			position: '3'		
 		}	];
 	public static TestSpecification: FieldMetaItem[] = [
 			{

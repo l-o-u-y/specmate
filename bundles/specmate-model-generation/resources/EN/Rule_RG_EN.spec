@@ -277,6 +277,13 @@ def rule Condition13_2 {
 	IN:'on' - pobj -> NN:'condition' - prep -> IN:'that' - pobj -> [Cause] - appos -> [Effect]
 }
 
+// When the user selects the option to create a process model in the Process Models section of the Requirements Overview, an empty process model is displayed in the Process Model Editor.
+def rule Condition_To {
+	[Cause] - acl -> verb:[Effect]
+	[Effect] - aux -> TO:'to':[Label]
+}
+
+
 def subtrees Parent, Child, Label, New, Old, TMP, TMP2, Label_Sub
 
 // ex: we want a rectangle instead of a square
@@ -373,27 +380,33 @@ def rule Inheritance_Colon { // it comes in two shapes: green and blue
 	noun:[Parent] - appos -> [Child]
 }
 
+
+def rule Action_Passive_Prep_1 {
+	verb:[Label] - prep -> [Label_Sub] - pobj -> noun:[Parent]
+	[Label] - nsubjpass -> noun:[Child]
+}
+
+def rule Action_Passive_1 {
+	verb:[Label] - nsubjpass -> noun:[Child]
+}
+def rule Action_Explicit_Prep_1 {
+	verb:[Label] - prep -> [Label_Sub] - pobj -> noun:[Child]
+	[Label] - nsubj -> noun:[Parent]
+}
+
 def rule Action_Explicit_1 {
 	[Label] - nsubj -> noun:[Parent]
 	[Label] - dobj -> noun:[Child]
-}
-
-def rule Action_1 {
-	[Label] - dobj -> noun:[Child]
-}
-
-def rule Action_Explicit_Prep_1 {
-	verb:[Label] - prep -> [Label_Sub] - pobj -> noun:[Child]
-	verb:[Label] - nsubj -> noun:[Parent]
 }
 
 def rule Action_Prep_1 {
 	verb:[Label] - prep -> [Label_Sub] - pobj -> noun:[Child]
 }
 
-def rule Action_Passive_1 {
-	verb:[Label] - nsubjpass -> noun:[Child]
+def rule Action_1 {
+	[Label] - dobj -> noun:[Child]
 }
+
 
 def subtrees  PartA, PartB, Head, Head_tmp
 def subtrees  PartA_Child, PartB_Parent

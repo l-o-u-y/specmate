@@ -20,7 +20,7 @@
 		
 		public tracesTo: Proxy[];
 		public tracesFrom: Proxy[];
-		
+		public words: Proxy[];
 
 		// Containment
 
