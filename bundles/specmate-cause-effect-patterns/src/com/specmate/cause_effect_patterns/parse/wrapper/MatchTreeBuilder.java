@@ -72,7 +72,7 @@ public class MatchTreeBuilder {
 
 	private boolean isAction(MatchResult result) {
 		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.ACTION);
-		boolean subMatches = result.hasSubmatch(SubtreeNames.CHILD) && result.hasSubmatch(SubtreeNames.LABEL);
+		boolean subMatches = result.hasSubmatch(SubtreeNames.LABEL);
 		return name && subMatches;
 	}
 
@@ -192,7 +192,7 @@ public class MatchTreeBuilder {
 	public Optional<MatchResultTreeNode> getFirstArgument(MatchResult result) {
 		String name = getFirstArgumentName(result);
 		if (name != null && result.getSubmatch(name) != null) {
-			return buildTree(result.getSubmatch(name));
+			return buildTree(result.getSubmatch(name), false);
 		}
 		return Optional.empty();
 	}
@@ -231,14 +231,14 @@ public class MatchTreeBuilder {
 	public Optional<MatchResultTreeNode> getSecondArgument(MatchResult result) {
 		String name = getSecondArgumentName(result);
 		if (name != null && result.getSubmatch(name) != null) {
-			return buildTree(result.getSubmatch(name));
+			return buildTree(result.getSubmatch(name), false);
 		}
 		return Optional.empty();
 	}
 
 	public Optional<MatchResultTreeNode> getLabel(MatchResult result) {
 		if (result.getSubmatch(SubtreeNames.LABEL) != null) {
-			return buildTree(result.getSubmatch(SubtreeNames.LABEL));
+			return buildTree(result.getSubmatch(SubtreeNames.LABEL), true);
 		}
 		return Optional.empty();
 	}
@@ -333,8 +333,10 @@ public class MatchTreeBuilder {
 		System.err.println("Return node without doing anything");
 		return node;
 	}
-
 	public Optional<MatchResultTreeNode> buildTree(MatchResult result) {
+		return buildTree(result, false);
+	}
+	private Optional<MatchResultTreeNode> buildTree(MatchResult result, boolean isLabel) {
 		if (!result.isSuccessfulMatch()) {
 			return Optional.empty();
 		}
@@ -374,7 +376,8 @@ public class MatchTreeBuilder {
 		}
 
 		if (isAction(result)) {
-			MatchResultTreeNode obj = getSecondArgument(result).get();
+			MatchResultTreeNode obj = getSecondArgument(result).isPresent() ? getSecondArgument(result).get() 
+					: new LeafTreeNode("", null, false);
 			MatchResultTreeNode verb = getLabel(result).isPresent()? getLabel(result).get() : null;
 			MatchResultTreeNode subj = getFirstArgument(result).isPresent() ? getFirstArgument(result).get()
 					: new LeafTreeNode("", null, false);
@@ -402,13 +405,9 @@ public class MatchTreeBuilder {
 		}
 
 		// Just Text
-		boolean hasVerb = false;
 		
 		List<Integer> ids = new ArrayList<Integer>();
 		for (Token t : result.getMatchTree().getHeads()) {
-			if (t.getPosValue().contains("VB") && !t.getPosValue().equals("VB")) {
-				hasVerb = true;
-			}
 			addIds(result, ids, t);
 		}
 
@@ -417,7 +416,7 @@ public class MatchTreeBuilder {
 		}
 	
 		LeafTreeNode leaf = new LeafTreeNode(result.getMatchTree().getRepresentationString(false),
-				ids, hasVerb);
+				ids, isLabel);
 
 		return Optional.of(leaf);
 	}

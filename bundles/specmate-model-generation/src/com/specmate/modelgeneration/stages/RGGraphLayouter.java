@@ -45,6 +45,9 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 			RGNode n;
 			String component = node.getPrimaryText();
 
+			if (node.getPrimaryText().isBlank()) {
+				continue;
+			}
 			if (node.isMarkedForDeletion()) {
 				markedNodes.add(node);
 				n = rgCreation.createNode(model, component, node.isMarkedForDeletion(), x, y, node.getType());
@@ -120,6 +123,9 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 		for (GraphEdge edge : graph.edges) {
 			RGNode from = nodeMap.get(edge.getFrom());
 			RGNode to = nodeMap.get(edge.getTo());
+			if (from == null || to == null) {
+				continue;
+			}
 
 			// connect words
 			List<RGWord> fromWords = new ArrayList<RGWord>();

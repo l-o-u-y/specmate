@@ -364,12 +364,18 @@ def rule Composition_5 {
 }
 
 def rule Inheritance_1 {
-	'is':[Label] - nsubj -> noun:[Child]
+	'is|are':[Label] - nsubj -> noun:[Child]
 	[Label] - attr -> noun:[Parent]
 }
 
+// ex: If the user presses the button or the model is unsaved, Specmate saves the model.
+def rule Inheritance_Not_Really_1 {
+	[Label] - nsubj -> [Child]
+	[Label] - acomp -> [Parent]
+}
+
 def rule Inheritance_1_2 {
-	noun:[Child] - relcl -> 'is':[Label] - attr -> noun:[Parent]
+	noun:[Child] - relcl -> 'is|are':[Label] - attr -> noun:[Parent]
 }
 
 def rule Inheritance_2 { // a component -> called -> qbtn
@@ -389,13 +395,14 @@ def rule Action_Passive_Prep_1 {
 def rule Action_Passive_1 {
 	verb:[Label] - nsubjpass -> noun:[Child]
 }
+
 def rule Action_Explicit_Prep_1 {
 	verb:[Label] - prep -> [Label_Sub] - pobj -> noun:[Child]
-	[Label] - nsubj -> noun:[Parent]
+	[Label] - nsubj -> [Parent]
 }
 
 def rule Action_Explicit_1 {
-	[Label] - nsubj -> noun:[Parent]
+	[Label] - nsubj -> [Parent]
 	[Label] - dobj -> noun:[Child]
 }
 
@@ -468,7 +475,7 @@ def rule Conjunction_AND_4 {
 }
 
 def rule Action_Sub {
-	[Label] - nsubj -> noun:[Parent]
+	[Label] - nsubj -> [Parent]
 }
 
 def rule Composition_Sub {
@@ -476,7 +483,7 @@ def rule Composition_Sub {
 }
 
 def rule Inheritance_Sub {
-	'is':[Label] - nsubj -> noun:[Parent]
+	'is|are':[Label] - nsubj -> noun:[Parent]
 }
 
 def rule Negation {

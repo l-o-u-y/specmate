@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.specmate.cause_effect_patterns.parse.wrapper.BinaryMatchResultTreeNode;
 import com.specmate.cause_effect_patterns.parse.wrapper.LeafTreeNode;
@@ -14,6 +16,7 @@ import com.specmate.cause_effect_patterns.parse.wrapper.NegationTreeNode;
 import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RGConnectionType;
 import com.specmate.modelgeneration.stages.graph.Graph;
+import com.specmate.modelgeneration.stages.graph.GraphEdge;
 import com.specmate.modelgeneration.stages.graph.GraphNode;
 import com.specmate.modelgeneration.stages.processors.ConditionVariableNode;
 
@@ -157,12 +160,15 @@ public class GraphBuilder {
 				} else {
 					label = new NodeWrapper(currentGraph.createInnerNode(NodeType.NONE), NodeType.NONE, false);
 				}
-
 				label.setExclusive();
+
 				NodeWrapper all = new NodeWrapper();
 				all.childType = second.childType;
-				all.addLabelNodes(first);
-				all.addLabelNodes(second);
+				if (node.getType().equals(RuleType.INHERITANCE)) {
+					all.addLabelNodes(first);
+				} else {
+					all.addLabelNodes(second);	
+				}
 				all.addLabelNodes(label);
 				first.transform();
 				second.transform();
@@ -190,28 +196,21 @@ public class GraphBuilder {
 			}
 
 			case ACTION: {
-				MatchResultTreeNode s = ((BinaryMatchResultTreeNode) node).getFirstArgument();
+				final NodeWrapper subj = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
 				final NodeWrapper obj = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
 				final NodeWrapper verb = buildRGNode(((BinaryMatchResultTreeNode) node).getLabel());
 				verb.setExclusive();
-				verb.addLabelNodes(obj);
 
 				NodeWrapper all = new NodeWrapper();
 				all.childType = obj.childType;
+
+				connectRGNodes(verb, obj, node);
+				verb.addLabelNodes(obj);
+				connectRGNodes(subj, verb, node);
+				connectRGNodes(verb, verb, node);
+				
 				all.addLabelNodes(verb);
-
-				if (s instanceof LeafTreeNode && ((LeafTreeNode) s).getPositions().isEmpty()) {
-					connectRGNodes(verb, obj, node);
-
-				} else {
-					final NodeWrapper subj = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
-					verb.setExclusive();
-
-					connectRGNodes(subj, verb, node);
-					connectRGNodes(verb, obj, node);
-
-					all.addLabelNodes(subj);
-				}
+//				all.addLabelNodes(subj);
 				return all;
 			}
 
@@ -300,7 +299,19 @@ public class GraphBuilder {
 
 			case NEGATION: {
 				final NodeWrapper first = buildRGNode(((NegationTreeNode) node).getClause());
-				return first.swap();
+				first.swap();
+				for (GraphNode n : Stream.concat(
+						first.negativeNodes.stream(), first.positiveNodes.stream()
+						).collect(Collectors.toList()) ) {
+					for (GraphEdge e : Stream.concat(
+							n.getChildEdges().stream(), n.getParentEdges().stream()
+							).collect(Collectors.toList()) ) {
+						e.setNegated(!e.isNegated());
+					}
+					
+				}
+				
+				return first;
 			}
 
 			default:
@@ -310,6 +321,9 @@ public class GraphBuilder {
 
 		// if (node instanceof LeafTreeNode) {
 		String text = ((LeafTreeNode) node).getContent();
+//		if (text.isBlank()) {
+//			return new NodeWrapper();
+//		}
 
 		final GraphNode n = currentGraph.createNode(text, NodeType.NONE);
 		n.setPositions(((LeafTreeNode) node).getPositions());
