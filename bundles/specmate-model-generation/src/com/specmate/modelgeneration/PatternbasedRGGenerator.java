@@ -1,6 +1,7 @@
 package com.specmate.modelgeneration;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -91,7 +92,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		// iterate over differences
 		for (int i = 0; i < diffs.size(); i++) {
 			Diff diff = diffs.get(i);
-			String[] diffTextArray = trimSpace(diff.text).split(" ");
+			String[] diffTextArray = Arrays.stream(trimSpace(diff.text).split(" ")).filter(s -> !s.isEmpty()).toArray(String[]::new);
 			// if last RGWord / if input text doesnt end with .
 			if (rgWords.size() <= j) {
 				break;
@@ -107,7 +108,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 				}
 			} else if (diff.operation.equals(Operation.DELETE)) {
 				Diff next = diffs.get(i + 1);
-				String[] nextTextArray = trimSpace(next.text).split(" ");
+				String[] nextTextArray = Arrays.stream(trimSpace(next.text).split(" ")).filter(s -> !s.isEmpty()).toArray(String[]::new);
 
 				// delete + insert = replace
 				if (next.operation.equals(Operation.INSERT) && diffTextArray.length == nextTextArray.length) {
@@ -167,6 +168,16 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 	// TODO MA misc: multiple texts
 	private RGModel createModel(RGModel originalModel, EObject parent, String input) throws SpecmateException {
 
+		// hyphenated words are counted as 2 words in spacy
+		input = input.replaceAll("-", "- ");
+		// contracted words are counted separately too
+		// https://stackoverflow.com/questions/19790188/expanding-english-language-contractions-in-python
+		input = input.replaceAll("'ve\\b", " 've");
+		input = input.replaceAll("'re\\b", " 're");
+		input = input.replaceAll("'ll\\b", " 'll");
+		input = input.replaceAll("'d\\b", " 'd");
+		input = input.replaceAll("'s\\b", " 's");
+		input = input.replaceAll("n't\\b", " n't");
 		// Fixes some issues with the dkpro/spacy backoff.
 		input = input.replaceAll("[^,.!?: ](?=[,.!?:])", "$0 ");
 		input = input.replaceAll("\n", " \n ");

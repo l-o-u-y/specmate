@@ -164,11 +164,13 @@ public class GraphBuilder {
 
 				NodeWrapper all = new NodeWrapper();
 				all.childType = second.childType;
-				if (node.getType().equals(RuleType.INHERITANCE)) {
-					all.addLabelNodes(first);
-				} else {
-					all.addLabelNodes(second);	
-				}
+				all.addLabelNodes(first);
+				all.addLabelNodes(second);	
+//				if (node.getType().equals(RuleType.INHERITANCE)) {
+//					all.addLabelNodes(first);
+//				} else {
+//					all.addLabelNodes(second);	
+//				}
 				all.addLabelNodes(label);
 				first.transform();
 				second.transform();
@@ -319,11 +321,15 @@ public class GraphBuilder {
 			}
 		}
 
-		// if (node instanceof LeafTreeNode) {
+		// LeafTreeNode
 		String text = ((LeafTreeNode) node).getContent();
-//		if (text.isBlank()) {
-//			return new NodeWrapper();
-//		}
+		// if the text is null, return an empty wrapper (no node)
+		// if the text is empty, return a node with empty string
+		// empty text is a placeholder for subjects in passive action relationships
+		// the node with empty text will not get added to the model in the latter step
+		if (text == null) {
+			return new NodeWrapper();
+		}
 
 		final GraphNode n = currentGraph.createNode(text, NodeType.NONE);
 		n.setPositions(((LeafTreeNode) node).getPositions());

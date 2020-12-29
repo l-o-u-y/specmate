@@ -152,10 +152,23 @@ def rule Condition4_5 {
 def rule Condition5_1 {
 	[Cause] - prep -> 'due' - pcomp -> TO:'to' - pobj -> [Effect]
 }
+
+// The tool beeps due to the tool detecting an error.
+def rule Condition5_1_SPACY {
+	[Effect] - prep -> 'due':[TMP] - pcomp -> IN:'to'
+	[TMP] - pobj -> [Cause]
+}
+
 // Due to the tool detecting an error, the tool beeps.
 def rule Condition5_2 {
 	JJ:'due':[TMP] - prep -> TO:'to' - pobj -> [Cause]
 	[TMP] - dep -> [Effect]
+}
+
+// Due to the tool detecting an error, the tool beeps.
+def rule Condition5_2_SPACY {
+	IN:'due':[TMP] - pcomp -> [Cause] - aux -> IN:'to'
+	[TMP] - prep -> [Effect]
 }
 
 // The tool beeps owning to the tool detecting an error.
@@ -392,6 +405,11 @@ def rule Action_Passive_Prep_1 {
 	[Label] - nsubjpass -> noun:[Child]
 }
 
+def rule Action_Passive_With_Subject_1 {
+	verb:[Label] - nsubjpass -> noun:[Child]
+	[Label] - agent -> IN:'by':[Label_Sub] - pobj -> noun:[Parent]
+}
+
 def rule Action_Passive_1 {
 	verb:[Label] - nsubjpass -> noun:[Child]
 }
@@ -530,4 +548,8 @@ def rule TMP_6 {
 // will do
 def rule TMP_7 {
 	[PartA] - aux -> MD:[TMP]
+}
+// are saved
+def rule TMP_7 {
+	[PartA] - auxpass -> 'is|are':[TMP]
 }

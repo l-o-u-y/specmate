@@ -32,6 +32,9 @@ public class SubtreeMatcher extends MatcherBase {
 	public SubtreeMatcher(String subtreeName, String pattern) {
 		this(subtreeName);
 		if (pattern != null) {
+			if (!pattern.startsWith("(?i)")) {
+				pattern = "(?i)"+pattern;
+			}
 			this.pattern = Optional.of(pattern);
 		}
 	}

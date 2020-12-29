@@ -33,8 +33,8 @@ public class TextPreProcessor {
 		text = generalProcessing(text);
 		List<String> t = new ArrayList<String>();
 		t.add(text);
-		return t;
-//		return unfolder.unfold(text);
+//		return t;
+		return unfolder.unfold(text);
 	}
 
 	public String generalGithubPreprocessing(String text) {
@@ -76,7 +76,7 @@ public class TextPreProcessor {
 		// find word that starts with not alphanumeric or space (special char)
 		// remove special char and make all letters uppercase
 		// remove special char so that it will not be classified as punctuation (e.g.
-		// "/learn" = puncutation)
+		// "/learn" = punctuation)
 		// make all upper case so that it will not be classified as verb (e.g. "learn",
 		// "Learn" = verb)
 		// text = text.replaceAll("\\B[^a-zA-Z\\d\\s](\\w+)", "\\U$1\\E");

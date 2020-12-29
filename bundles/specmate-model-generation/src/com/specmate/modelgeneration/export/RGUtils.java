@@ -25,7 +25,12 @@ public class RGUtils {
 				String text = node.getComponent();
 				while (node.equals(nextNode)) {
 					i++;
-					originalText = originalText + " " + rgObjects.get(i).getOriginalText();
+					if (originalText.endsWith("-") || rgObjects.get(i).getOriginalText().startsWith("'") || rgObjects.get(i).getOriginalText().equals("n't")) {
+						
+					} else {
+						originalText = originalText + " ";
+					}
+					originalText = originalText + rgObjects.get(i).getOriginalText();
 					node = obj.getNode();
 					nextNode = i < rgObjects.size() - 1 ? rgObjects.get(i+1).getNode() : null;
 					
@@ -44,7 +49,7 @@ public class RGUtils {
 			}
 			
 			if (originalText != null) {
-				if (originalText.matches("[\\.,\\:;\\!\\?]")) {
+				if (originalText.matches("[\\.,\\:;\\!\\?]") || string.endsWith("-")) {
 					string = string + originalText;
 				} else {
 					string = string + ' ' + originalText;

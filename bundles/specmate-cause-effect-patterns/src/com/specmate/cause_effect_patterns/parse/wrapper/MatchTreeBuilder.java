@@ -37,6 +37,7 @@ public class MatchTreeBuilder {
 		public static final String INHERITANCE = "Inheritance";
 		public static final String COMPOSITION = "Composition";
 		public static final String ACTION = "Action";
+		public static final String PASSIVE = "Passive";
 		public static final String REPLACE = "Replace";
 		public static final String REMOVE = "Remove";
 		public static final String LIMITED_CONDITION = "LimitedCondition";
@@ -73,6 +74,13 @@ public class MatchTreeBuilder {
 	private boolean isAction(MatchResult result) {
 		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.ACTION);
 		boolean subMatches = result.hasSubmatch(SubtreeNames.LABEL);
+		return name && subMatches;
+	}
+
+	private boolean isPassiveAction(MatchResult result) {
+		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.ACTION) &&
+				result.hasRuleName() && result.getRuleName().contains(RuleNames.PASSIVE);
+		boolean subMatches = result.hasSubmatch(SubtreeNames.LABEL) && ! result.hasSubmatch(SubtreeNames.PARENT);
 		return name && subMatches;
 	}
 
@@ -377,10 +385,10 @@ public class MatchTreeBuilder {
 
 		if (isAction(result)) {
 			MatchResultTreeNode obj = getSecondArgument(result).isPresent() ? getSecondArgument(result).get() 
-					: new LeafTreeNode("", null, false);
+					: new LeafTreeNode(null, null, false);
 			MatchResultTreeNode verb = getLabel(result).isPresent()? getLabel(result).get() : null;
 			MatchResultTreeNode subj = getFirstArgument(result).isPresent() ? getFirstArgument(result).get()
-					: new LeafTreeNode("", null, false);
+					: isPassiveAction(result) ? new LeafTreeNode("", null, false) : new LeafTreeNode(null, null, false);
 			MatchResultTreeNode tmp2;
 			if (verb instanceof BinaryMatchResultTreeNode || verb instanceof NegationTreeNode) {
 				BinaryMatchResultTreeNode tmp = new BinaryMatchResultTreeNode(subj, obj, getType(result));
