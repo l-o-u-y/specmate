@@ -1,5 +1,6 @@
 package com.specmate.cause_effect_patterns.parse.matcher;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -14,9 +15,7 @@ import org.apache.uima.internal.util.IntHashSet;
 import com.google.common.collect.ArrayListMultimap;
 import com.specmate.cause_effect_patterns.parse.DependencyNode;
 import com.specmate.cause_effect_patterns.parse.DependencyParsetree;
-import com.specmate.cause_effect_patterns.parse.matcher.MatchResult;
 import com.specmate.cause_effect_patterns.parse.matcher.MatcherBase;
-import com.specmate.cause_effect_patterns.parse.matcher.MatcherException;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
@@ -135,7 +134,21 @@ public abstract class MatcherBase {
 		// Add remaining unmatched Subtrees
 		if (dependencies != null) {
 			Set<String> keys = dependencies.getKeySet();
-			keys.removeAll(this.arcs.keySet());
+			Set<String> arcKeys = this.arcs.keySet();
+			List<String> rmvKeys = new ArrayList<String>(); 
+			for (String arcKey : arcKeys) {
+				List<MatcherBase> subtrees = this.arcs.get(arcKey);
+				for (MatcherBase subTree : subtrees) {
+					if (subTree instanceof SubtreeMatcher) {
+						if (((SubtreeMatcher) subTree).getTreeName().contains("TMP")) {
+							// don't add if its connected to a TMP subtree
+							continue;
+						}
+					}
+					rmvKeys.add(arcKey);
+				}
+			}
+			keys.removeAll(rmvKeys);// this.arcs.keySet()
 			for (String key : keys) {
 				List<Dependency> deps = dependencies.getDependenciesFromTag(key);
 				for (Dependency dep : deps) {

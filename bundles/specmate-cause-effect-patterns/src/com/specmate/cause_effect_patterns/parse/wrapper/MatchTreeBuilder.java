@@ -300,9 +300,33 @@ public class MatchTreeBuilder {
 						.setFirstArgument(parseLabelTree(((BinaryMatchResultTreeNode) root).getFirstArgument(), node));
 				return root;
 			case ACTION:
+//				if (node.getType().equals(root.getType())) {
+//					MatchResultTreeNode firstFirst = ((BinaryMatchResultTreeNode) root).getFirstArgument();
+//					MatchResultTreeNode firstSecond = ((BinaryMatchResultTreeNode) node).getFirstArgument();
+//					MatchResultTreeNode secondFirst = ((BinaryMatchResultTreeNode) root).getSecondArgument();
+//					MatchResultTreeNode secondSecond = ((BinaryMatchResultTreeNode) node).getSecondArgument();
+//					if (firstFirst instanceof LeafTreeNode && ((LeafTreeNode) firstFirst).getContent() == null ||
+//							firstSecond instanceof LeafTreeNode && ((LeafTreeNode) firstSecond).getContent() == null) {
+//						if (secondFirst instanceof LeafTreeNode && ((LeafTreeNode) secondFirst).getContent() == null ||
+//								secondSecond instanceof LeafTreeNode && ((LeafTreeNode) secondSecond).getContent() == null) {
+//
+//							if (firstSecond instanceof LeafTreeNode && ((LeafTreeNode) firstSecond).getContent() == null) {
+//								node.setFirstArgument(firstFirst);
+//							}
+//							if (secondSecond instanceof LeafTreeNode && ((LeafTreeNode) secondSecond).getContent() == null) {
+//								node.setSecondArgument(secondFirst);
+//							}
+//							node.setLabel(((BinaryMatchResultTreeNode) root).getLabel());
+//							return node;
+//						}
+//					}
+//				}
+				
+				System.err.println("Found a action node while parsing label tree");
+				break;
 			case COMPOSITION:
 			case INHERITANCE:
-				System.err.println("Found a action/composition/inheritance node while parsing label tree");
+				System.err.println("Found a composition/inheritance node while parsing label tree");
 				break;
 			case LIMITED_CONDITION:
 				System.err.println("Found a limited condition node while parsing label tree");

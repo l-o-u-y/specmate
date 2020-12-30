@@ -135,6 +135,10 @@ public class GraphBuilder {
 				final NodeWrapper cause = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
 				final NodeWrapper effect = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
 
+				cause.positiveNodes.addAll(cause.negativeNodes);
+				cause.negativeNodes.clear();
+				effect.positiveNodes.addAll(effect.negativeNodes);
+				effect.negativeNodes.clear();
 				effect.childType = cause.childType;
 
 				connectRGNodes(cause, effect, node);
@@ -209,7 +213,6 @@ public class GraphBuilder {
 				connectRGNodes(verb, obj, node);
 				verb.addLabelNodes(obj);
 				connectRGNodes(subj, verb, node);
-				connectRGNodes(verb, verb, node);
 				
 				all.addLabelNodes(verb);
 //				all.addLabelNodes(subj);

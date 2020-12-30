@@ -205,8 +205,8 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			copyModelContents(model, prevModel);
 			copyModelContents(model, curModel);
 
-//			System.out.println(NLPUtil.printPOSTags(tagResult));
-//			System.out.println(NLPUtil.printDependencies(tagResult));
+			System.out.println(NLPUtil.printPOSTags(tagResult));
+			System.out.println(NLPUtil.printDependencies(tagResult));
 
 			createModelContent(text, model, candidates);
 
