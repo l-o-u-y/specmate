@@ -8,13 +8,18 @@ import java.util.Vector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.eclipse.emf.common.util.EList;
+
 import com.specmate.cause_effect_patterns.parse.wrapper.BinaryMatchResultTreeNode;
 import com.specmate.cause_effect_patterns.parse.wrapper.LeafTreeNode;
 import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultTreeNode;
 import com.specmate.cause_effect_patterns.parse.wrapper.MatchResultTreeNode.RuleType;
 import com.specmate.cause_effect_patterns.parse.wrapper.NegationTreeNode;
+import com.specmate.model.base.IContentElement;
 import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RGConnectionType;
+import com.specmate.model.requirements.RGModel;
+import com.specmate.model.requirements.RGNode;
 import com.specmate.modelgeneration.stages.graph.Graph;
 import com.specmate.modelgeneration.stages.graph.GraphEdge;
 import com.specmate.modelgeneration.stages.graph.GraphNode;
@@ -38,8 +43,17 @@ public class GraphBuilder {
 		return result;
 	}
 
-	public synchronized Graph buildRGGraph(BinaryMatchResultTreeNode root) {
-		currentGraph = new Graph();
+	public synchronized Graph buildRGGraph(BinaryMatchResultTreeNode root, RGModel model) {
+		EList<IContentElement> list = model.getContents();
+		List<Integer> ints = list.stream().filter(c -> c instanceof RGNode).map(n -> (RGNode) n)
+		.filter(n -> n.getComponent().contains("Inner Node "))
+		.map(n -> n.getComponent().split(" ")[3])
+		.map(s -> Integer.parseInt(s)).sorted().collect(Collectors.toList());
+		if (ints.size() == 0) {
+			currentGraph = new Graph();
+		} else {
+			currentGraph = new Graph(ints.get(ints.size() - 1));
+		}
 		buildRGNode(root);
 
 		Graph result = currentGraph;

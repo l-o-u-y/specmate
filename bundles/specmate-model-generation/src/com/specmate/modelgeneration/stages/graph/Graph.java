@@ -11,12 +11,18 @@ public class Graph {
 	public final List<GraphEdge> edges;
 	public final List<GraphNode> nodes;
 	private final Set<GraphNode> innerNodes;
-	int counter = 0;
+	private int counter = 0;
 
 	public Graph() {
 		edges = new Vector<>();
 		nodes = new Vector<>();
 		innerNodes = new HashSet<>();
+	}
+	public Graph(int i) {
+		edges = new Vector<>();
+		nodes = new Vector<>();
+		innerNodes = new HashSet<>();
+		counter = i;
 	}
 
 	public GraphNode createNode(String condition, String variable, NodeType type) {
