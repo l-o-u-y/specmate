@@ -44,6 +44,7 @@ public class GraphBuilder {
 	}
 
 	public synchronized Graph buildRGGraph(BinaryMatchResultTreeNode root, RGModel model) {
+		// Inner Node counter for consecutive models
 		EList<IContentElement> list = model.getContents();
 		List<Integer> ints = list.stream().filter(c -> c instanceof RGNode).map(n -> (RGNode) n)
 		.filter(n -> n.getComponent().contains("Inner Node "))
