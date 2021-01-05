@@ -280,7 +280,6 @@ public class MatchTreeBuilder {
 			return RuleType.VERB_PREPOSITION;
 		}
 
-		// TODO MA subtree matchers
 		else if (isTmp(result)) {
 			return RuleType.TMP;
 		} else if (isInheritance(result)) {
@@ -398,7 +397,6 @@ public class MatchTreeBuilder {
 		if (isConditionVariable(result) || isVerbObject(result) || isVerbPreposition(result) || isConjunction(result)
 				|| isCondition(result) || isLimitedCondition(result) || isComposition(result)
 				|| isInheritance(result)) {
-			// TODO MA subparts
 			boolean label = isConjunction(result) ? isLabel : false;
 			MatchResultTreeNode left = getFirstArgument(result, label).get();
 			MatchResultTreeNode right = getSecondArgument(result, label).get();

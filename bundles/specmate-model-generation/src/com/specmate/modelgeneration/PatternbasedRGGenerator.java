@@ -165,7 +165,6 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		return createModel(originalModel, parent, input);
 	}
 
-	// TODO MA misc: multiple texts
 	private RGModel createModel(RGModel originalModel, EObject parent, String input) throws SpecmateException {
 
 		// hyphenated words are counted as 2 words in spacy

@@ -68,7 +68,6 @@ public class GraphBuilder {
 				if (p.isExclusive() && c.isExclusive() && !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
 					continue;
 				}
-				// TODO MA // c.isExclusive() && 
 				if (c.isExclusive() && c.getParentEdges().size() > 0
 						&& !getConnectionType(node).equals(RGConnectionType.CONDITION)) {
 					continue;
@@ -164,7 +163,7 @@ public class GraphBuilder {
 				final NodeWrapper limit = buildRGNode(((BinaryMatchResultTreeNode) node).getFirstArgument());
 				final NodeWrapper condition = buildRGNode(((BinaryMatchResultTreeNode) node).getSecondArgument());
 
-				// TODO MA
+				// TODO MA limited condition
 				System.err.println("Handling for NodeType " + node.getType() + " not implemented yet");
 				break;
 			}
