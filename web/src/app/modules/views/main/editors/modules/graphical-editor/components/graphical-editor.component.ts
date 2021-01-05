@@ -448,11 +448,7 @@ export class GraphicalEditor {
                 const sourceVertex = vertexCache[connection.source.url];
                 const targetVertex = vertexCache[connection.target.url];
                 let value = this.nodeNameConverter ? this.nodeNameConverter.convertTo(connection) : connection.name;
-                if (Type.is(connection, RGConnection)) {
-                    if ((connection as RGConnection).label) {
-                        value = (connection as RGConnection).label;
-                    }
-                }
+
                 const style = this.shapeProvider.getStyle(connection);
                 let cell = this.graph.insertEdge(parent, connection.url, value, sourceVertex, targetVertex, style);
                 if (Type.is(connection, ProcessConnection)) {

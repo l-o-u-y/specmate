@@ -5,7 +5,6 @@ import { DuplicateNodeValidator as CEGDuplicateNodeValidator } from './ceg/dupli
 import { EmptyModelValidator as CEGEmptyModelValidator } from './ceg/empty-model-validator';
 import { NodeCycleValidator as CEGNodeCycleValidator } from './ceg/node-cycle-validator';
 import { SingleNodesValidator as CEGSingleNodesValidator } from './ceg/single-nodes-validator';
-import { DuplicateComponentValidator } from './rg/duplicate-component-validator';
 import { DuplicateNodeValidator as RGDuplicateNodeValidator } from './rg/duplicate-node-validator';
 import { EmptyModelValidator as RGEmptyModelValidator } from './rg/empty-model-validator';
 import { InvalidNodeComponentValidator } from './rg/invalid-node-component-validator';
@@ -37,10 +36,9 @@ import { InvalidConditionTextValidator } from './process/invalid-condition-text'
   ],
   providers: [
     // SERVICES (IN THIS CASE: VALIDATORS)
-    DuplicateComponentValidator,
     InvalidNodeComponentValidator,
     CEGDuplicateNodeValidator,
-    RGDuplicateNodeValidator,
+    // RGDuplicateNodeValidator,
     ContradictoryCondidionValidator,
     CEGNodeCycleValidator,
     RGNodeCycleValidator,

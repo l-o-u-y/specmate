@@ -516,11 +516,6 @@ export class ChangeTranslator {
     public retranslate(changedElement: IContainer, graph: mxgraph.mxGraph, cell: mxgraph.mxCell) {
         this.preventDataUpdates = true;
         let value = this.nodeNameConverter ? this.nodeNameConverter.convertTo(changedElement) : changedElement.name;
-        if (Type.is(changedElement, RGConnection)) {
-            if ((changedElement as RGConnection).label) {
-                value = (changedElement as RGConnection).label;
-            }
-        }
         if (value instanceof CEGmxModelNode || value instanceof RGmxModelNode) {
             for (const key in value) {
                 if (value.hasOwnProperty(key)) {

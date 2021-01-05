@@ -191,6 +191,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		List<Pair<String, RGModel>> candidates = new ArrayList<>();
 
 		for (String text : texts) {
+			text = text.replaceAll("  ", " ");
 
 			log.log(LogService.LOG_INFO, "Preprocessed Text: " + text);
 			JCas tagResult = this.tagger.processText(text, this.lang);
@@ -205,8 +206,8 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			copyModelContents(model, prevModel);
 			copyModelContents(model, curModel);
 
-			System.out.println(NLPUtil.printPOSTags(tagResult));
-			System.out.println(NLPUtil.printDependencies(tagResult));
+//			System.out.println(NLPUtil.printPOSTags(tagResult));
+//			System.out.println(NLPUtil.printDependencies(tagResult));
 
 			createModelContent(text, model, candidates);
 
@@ -218,7 +219,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			cutModelContents(originalModel, best.getRight());
 		}
 		
-//		printModelMapping(originalModel);
+		printModelMapping(originalModel);
 
 		cleanupText(originalModel);
 
@@ -426,7 +427,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 						word.setNode(node);
 					} else {
 						System.out.println(node.getComponent());
-						System.err.println("Attempted to set word  but no word was found");
+						System.err.println("Attempted to set word but no word was found");
 					}
 
 				}

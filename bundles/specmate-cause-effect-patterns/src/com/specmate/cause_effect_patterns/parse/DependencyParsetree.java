@@ -27,7 +27,7 @@ public class DependencyParsetree {
 	private static Set<String> ignoreDependency;
 	static {
 		DependencyParsetree.ignoreDependency = new HashSet<String>();
-		DependencyParsetree.ignoreDependency.add("punct");
+//		DependencyParsetree.ignoreDependency.add("punct");
 	}
 
 	private static String ROOT = "ROOT";
@@ -188,11 +188,12 @@ public class DependencyParsetree {
 	 * @return
 	 */
 	private static boolean filterCondition(String str) {
-		if (str.length() > 1) {
-			return true;
-		}
-		// Special Exception for operators.
-		return str.matches("[<>=]");
+		return true;
+//		if (str.length() > 1) {
+//			return true;
+//		}
+//		// Special Exception for operators.
+//		return str.matches("[<>=]");
 
 	}
 

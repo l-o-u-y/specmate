@@ -33,8 +33,8 @@ public class TextPreProcessor {
 		text = generalProcessing(text);
 		List<String> t = new ArrayList<String>();
 		t.add(text);
-//		return t;
-		return unfolder.unfold(text);
+		return t;
+//		return unfolder.unfold(text);
 	}
 
 	public String generalGithubPreprocessing(String text) {
@@ -51,10 +51,10 @@ public class TextPreProcessor {
 
 		// This would mess with Action rule e.g. For instance, it comes in two shapes:
 		// rectangle and round.
-		text = text.replace("For instance ,", "Example :");
-		text = text.replace("for instance ,", "example :");
-		text = text.replace("For example ,", "Example :");
-		text = text.replace("for example ,", "example :");
+//		text = text.replace("For instance ,", "Example :");
+//		text = text.replace("for instance ,", "example :");
+//		text = text.replace("For example ,", "Example :");
+//		text = text.replace("for example ,", "example :");
 
 		// remove bullet points (rows starting with - )
 		text = text.replaceAll("\\r\\n- ", "\r\n");

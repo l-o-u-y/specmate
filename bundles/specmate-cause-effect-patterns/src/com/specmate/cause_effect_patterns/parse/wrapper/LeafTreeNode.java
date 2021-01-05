@@ -50,4 +50,12 @@ public class LeafTreeNode extends MatchResultTreeNode {
 		this.isVerb = isVerb;
 	}
 
+	@Override
+	public String toString() {
+		String s = this.content + " - " + this.isVerb + " - ";
+		for (int i : this.getPositions()) {
+			s += i + "; ";
+		}
+		return s;
+	}
 }

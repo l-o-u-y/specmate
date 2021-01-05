@@ -2,18 +2,24 @@ import EN.DEP.STANFORD.*
 import EN.POS.PTB.*
 import EN.POS.LENA.*
 
-def subtrees Head, PartA
+def subtrees Keep, Remove, Keep2
 // we want (TMP, root) to do (Head) something
 def rule TMP_5 {
-	[Head] - xcomp -> [PartA]
-	[PartA] - aux -> TO:'to'
-}
-def rule TMP_10 {
-	'implement|implementing'[Head] - dobj -> [PartA]
+	[Remove] - xcomp -> [Keep] - aux -> TO:'to'
 }
 def rule TMP_11 {
-	'work|works|working'[Head] - prep -> IN:'on' - dobj -> [PartA]
+	'implement|implementing':[Remove] - dobj -> [Keep]
 }
+def rule TMP_12 {
+	'work|works|working':[Remove] - prep -> IN:'on' - dobj -> [Keep]
+}
+// for example, for instance
+def rule TMP_13 {
+	[Keep] - prep -> IN:'for' - pobj -> 'example|instance'
+	[Keep] - punct -> ','
+}
+
+/*---------------------------------------------------------------------------*/
 
 def subtrees Limit, Conditional
 
@@ -30,7 +36,6 @@ def rule LimitedCondition_SPACY {
 	[Conditional] - mark -> IN:'until'
 	[Conditional] - advcl -> [Limit]
 }
-
 
 def subtrees Cause, Effect, Head, TMP, Effect_Child, Cause_Parent, Cause_SubA, Cause_SubB, Cause_SubC, Cause_SubD
 
@@ -392,6 +397,8 @@ def rule Condition_Via_After {
 	[Effect] - prep -> IN:'via|after' - pcomp -> [Cause]
 }
 
+/*---------------------------------------------------------------------------*/
+
 def subtrees Parent, Child, Label, New, Old, TMP, TMP2, Label_Sub, Label_Sub2
 
 // ex: we want a rectangle instead of a square
@@ -451,6 +458,8 @@ def rule Update_Remove_1 {
 	'(remove)|(removes)|(removing)' - dobj -> [Old]
 }
 
+/*---------------------------------------------------------------------------*/
+
 def rule Composition_1 {
 	noun:[Child] - prep -> IN:'(at)|(on)|(of)|(inside)|(in)':[Label] - pobj -> noun:[Parent]
 }
@@ -479,6 +488,8 @@ def rule Composition_7 {
 	[Child] - dative -> noun:[Parent]
 }
 
+/*---------------------------------------------------------------------------*/
+
 def rule Inheritance_1 {
 	'is|are':[Label] - nsubj -> noun:[Child]
 	[Label] - attr -> noun:[Parent]
@@ -500,8 +511,10 @@ def rule Inheritance_2 { // a component -> called -> qbtn
 
 def rule Inheritance_Colon { // it comes in two shapes: green and blue
 	noun:[Parent] - appos -> [Child]
+	[Parent] - punct -> [Label]
 }
 
+/*---------------------------------------------------------------------------*/
 
 def rule Action_Passive_Prep_1 {
 	verb:[Label] - prep -> [Label_Sub] - pobj -> noun:[Parent]
@@ -521,10 +534,11 @@ def rule Action_ACL_1 {
 	[Parent] - acl -> verb:[Label] - dobj -> noun:[Child]
 }
 
+
 // Because symbol sets can assign different meaning to the same symbol, an application does not mix symbol sets on the same display.
 def rule Composition_Prep_Object_1 {
-	verb:[Parent] - prep -> [Label] - pobj -> noun:[Child]
-	[Parent] - dobj -> [TMP]
+	verb:[Parent] - dobj -> [TMP]
+	[Parent] - prep -> [Label] - pobj -> noun:[Child]
 }
 
 def rule Action_Explicit_Prep_1 {
@@ -545,8 +559,9 @@ def rule Action_1 {
 	[Label] - dobj -> noun:[Child]
 }
 
+/*---------------------------------------------------------------------------*/
 
-def subtrees  PartA, PartB, Head, Head_tmp
+def subtrees  PartA, PartB, Head
 def subtrees  PartA_Child, PartB_Parent
 
 def rule Conjunction_NOR_1 {
@@ -606,7 +621,7 @@ def rule Conjunction_AND_4 {
 }
 
 def rule Action_Sub {
-	[Label] - nsubj -> [Parent]
+	noun:[Label] - nsubj -> [Parent]
 }
 
 def rule Composition_Sub {
@@ -629,8 +644,7 @@ def rule Negation_3 {
 	[Head] - det -> DT:'no'
 }
 
-
-
+/*---------------------------------------------------------------------------*/
 /*
 TMP rules help in two ways:
 - removing parts of the dependency tree that should not be node contents
@@ -638,39 +652,43 @@ TMP rules help in two ways:
 */
 
 def rule TMP_1 {
-	[PartA] - acl -> [Head]
+	[Keep] - acl -> [Remove]
 }
 def rule TMP_2 {
-	[PartA] - advmod -> [Head]
+	[Keep] - advmod -> [Remove]
 }
 def rule TMP_3 {
-	[PartA] - advcl -> [PartB]
+	[Keep] - advcl -> [Keep2]
 }
 def rule TMP_4 {
-	[PartA] - mark -> [Head]
+	[Keep] - mark -> [Remove]
 }
 // we want (TMP, root) to do (Head) something
 def rule TMP_5 {
-	[Head] - xcomp -> [PartA]
-	[PartA] - aux -> TO:'to'
+	[Remove] - xcomp -> [Keep]
+	[Keep] - aux -> TO:'to'
 }
 // remove a, an, the
 def rule TMP_6 {
-	[PartA] - det -> [Head]
+	[Keep] - det -> [Remove]
 }
 // will do
 def rule TMP_7 {
-	[PartA] - aux -> MD:[Head]
+	[Keep] - aux -> MD:[Remove]
 }
 // is blowing
 def rule TMP_8 {
-	[PartA] - aux -> VBZ:[Head]
+	[Keep] - aux -> VBZ:[Remove]
 }
 // are saved
 def rule TMP_9 {
-	[PartA] - auxpass -> 'is|are':[Head]
+	[Keep] - auxpass -> 'is|are':[Remove]
 }
 // there is snow on the tree
 def rule TMP_10 {
-	'is' - attr -> [PartA]
+	'is' - attr -> [Keep]
+}
+// punctuation
+def rule TMP_99 {
+	[Keep] - punct -> [Remove]
 }

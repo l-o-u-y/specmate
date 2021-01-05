@@ -1,6 +1,7 @@
 package com.specmate.cause_effect_patterns.parse.matcher;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -104,6 +105,20 @@ public abstract class MatcherBase {
 		// Prefer candidates close after the position of interest (i.e. the position of
 		// our last match)
 		this.positionOfInterest = -1;
+
+		// Preliminary check if candidate size is OK
+		// because if not, return unsuccessful immediately
+		// we need this because its possible that the first depTag is successful
+		// and changes the dependencies of the result when matching children
+		// and the second depTag is unsuccessful
+		// but the changes to the dependencies is never reverted!
+		for (String depTag : this.arcs.keySet()) {
+			List<MatcherBase> matchers = this.arcs.get(depTag);
+			List<Dependency> candidates = dependencies.getDependenciesFromTag(depTag);
+			if (matchers.size() > candidates.size()) {
+				return MatchResult.unsuccessful();
+			}
+		}
 
 		for (String depTag : this.arcs.keySet()) {
 			List<MatcherBase> matchers = this.arcs.get(depTag);

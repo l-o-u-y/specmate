@@ -13,7 +13,7 @@ public class GraphNode {
 	private boolean markedForDeletion;
 	private NodeType type;
 	private Graph graph;
-	private boolean isExclusive = false;
+	private boolean exclusive = false;
 
 	private List<GraphEdge> parentEdges;
 	private List<GraphEdge> childEdges;
@@ -132,10 +132,18 @@ public class GraphNode {
 	}
 
 	public boolean isExclusive() {
-		return isExclusive;
+		return exclusive;
 	}
 
 	public void setExclusive(boolean isExclusive) {
-		this.isExclusive = isExclusive;
+		this.exclusive = isExclusive;
+	}
+	@Override
+	public String toString() {
+		String s = this.primaryText + " - " + this.exclusive + " - ";
+		for (int i : this.positions) {
+			s += i + "; ";
+		}
+		return s;
 	}
 }

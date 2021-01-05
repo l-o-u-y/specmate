@@ -8,6 +8,7 @@ import { ElementValidatorBase } from '../element-validator-base';
 import { ValidationMessage } from '../validation-message';
 import { ValidationResult } from '../validation-result';
 import { Validator } from '../validator-decorator';
+import {RGConnectionType} from '../../model/RGConnectionType';
 
 type Circle = RGConnection[];
 
@@ -26,8 +27,21 @@ export class NodeCycleValidator extends ElementValidatorBase<RGModel> {
         /**
          * Uses DFS to find all back-edges (=Circles)
          */
-        this.initValidation(contents);
+        this.initValidation(contents, true);
         let circles: Circle[] = [];
+        for (const startNode of this.nodes) {
+            if (this.closedSet.has(startNode)) {
+                continue; // Node has already been seen
+            }
+            let newCircles = this.depthFirstSearch(startNode);
+            circles = circles.concat(newCircles);
+        }
+        if (circles.length > 0) {
+            return new ValidationResult(ValidationMessage.ERROR_CIRCULAR_CAUSES, false, Arrays.flatten(circles));
+        }
+
+        this.initValidation(contents, false);
+        circles = [];
         for (const startNode of this.nodes) {
             if (this.closedSet.has(startNode)) {
                 continue; // Node has already been seen
@@ -41,7 +55,7 @@ export class NodeCycleValidator extends ElementValidatorBase<RGModel> {
         return ValidationResult.VALID;
     }
 
-    private initValidation(contents: IContainer[]): void {
+    private initValidation(contents: IContainer[], cegConnections: boolean): void {
         /**
          * Setup the search structure for DFS with a list of nodes
          * A Map of outgoing edges for each node and a closed set.
@@ -52,11 +66,15 @@ export class NodeCycleValidator extends ElementValidatorBase<RGModel> {
         for (const elem of contents) {
             if (Type.is(elem, RGConnection)) {
                 let edge = elem as RGConnection;
-                let fromURL = edge.source.url;
-                if (this.outgoingConnections[fromURL] === undefined) {
-                    this.outgoingConnections[fromURL] = [];
+                console.log(edge.type)
+                if ((cegConnections && edge.type === 'CONDITION') ||
+                    (!cegConnections && edge.type !== 'CONDITION')) {
+                    let fromURL = edge.source.url;
+                    if (this.outgoingConnections[fromURL] === undefined) {
+                        this.outgoingConnections[fromURL] = [];
+                    }
+                    this.outgoingConnections[fromURL].push(edge);
                 }
-                this.outgoingConnections[fromURL].push(edge);
             }
 
             if (Type.is(elem, RGNode)) {

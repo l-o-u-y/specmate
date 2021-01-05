@@ -18,7 +18,6 @@ public class MatchTreeBuilder {
 		public static final String EFFECT = "Effect";
 		public static final String PART_A = "PartA";
 		public static final String PART_B = "PartB";
-		// public static final String TMP = "TMP";
 		public static final String HEAD = "Head";
 		public static final String CONDITION = "Condition";
 		public static final String VARIABLE = "Variable";
@@ -30,6 +29,8 @@ public class MatchTreeBuilder {
 		public static final String NEW = "New";
 		public static final String OLD = "Old";
 		public static final String LABEL = "Label";
+		public static final String KEEP = "Keep";
+		public static final String KEEP2 = "Keep2";
 	}
 
 	private static class RuleNames {
@@ -55,7 +56,7 @@ public class MatchTreeBuilder {
 
 	private boolean isTmp(MatchResult result) {
 		boolean name = result.hasRuleName() && result.getRuleName().contains(RuleNames.TMP);
-		boolean subMatches = result.hasSubmatch(SubtreeNames.PART_A);
+		boolean subMatches = result.hasSubmatch(SubtreeNames.KEEP);
 		return name && subMatches;
 	}
 
@@ -181,7 +182,7 @@ public class MatchTreeBuilder {
 		}
 
 		else if (isTmp(result)) {
-			return SubtreeNames.PART_A;
+			return SubtreeNames.KEEP;
 		} else if (isInheritance(result)) {
 			return SubtreeNames.PARENT;
 		} else if (isComposition(result)) {
@@ -196,11 +197,13 @@ public class MatchTreeBuilder {
 
 		return null;
 	}
-
-	public Optional<MatchResultTreeNode> getFirstArgument(MatchResult result) {
+	private Optional<MatchResultTreeNode> getFirstArgument(MatchResult result) {
+		return getFirstArgument(result, false);
+	}
+	public Optional<MatchResultTreeNode> getFirstArgument(MatchResult result, boolean isLabel) {
 		String name = getFirstArgumentName(result);
 		if (name != null && result.getSubmatch(name) != null) {
-			return buildTree(result.getSubmatch(name), false);
+			return buildTree(result.getSubmatch(name), isLabel);
 		}
 		return Optional.empty();
 	}
@@ -221,7 +224,7 @@ public class MatchTreeBuilder {
 		}
 
 		else if (isTmp(result)) {
-			return SubtreeNames.PART_B;
+			return SubtreeNames.KEEP2;
 		} else if (isInheritance(result)) {
 			return SubtreeNames.CHILD;
 		} else if (isComposition(result)) {
@@ -236,10 +239,13 @@ public class MatchTreeBuilder {
 		return null;
 	}
 
-	public Optional<MatchResultTreeNode> getSecondArgument(MatchResult result) {
+	private Optional<MatchResultTreeNode> getSecondArgument(MatchResult result) {
+		return getSecondArgument(result, false);
+	}
+	public Optional<MatchResultTreeNode> getSecondArgument(MatchResult result, boolean isLabel) {
 		String name = getSecondArgumentName(result);
 		if (name != null && result.getSubmatch(name) != null) {
-			return buildTree(result.getSubmatch(name), false);
+			return buildTree(result.getSubmatch(name), isLabel);
 		}
 		return Optional.empty();
 	}
@@ -374,8 +380,8 @@ public class MatchTreeBuilder {
 		}
 
 		if (isTmp(result)) {
-			MatchResultTreeNode left = getFirstArgument(result).get();
-			MatchResultTreeNode right = getSecondArgument(result).isPresent() ? getSecondArgument(result).get() : null;
+			MatchResultTreeNode left = getFirstArgument(result, isLabel).get();
+			MatchResultTreeNode right = getSecondArgument(result, isLabel).isPresent() ? getSecondArgument(result, isLabel).get() : null;
 			if (right == null) {
 				return Optional.of(left);
 			}
@@ -393,8 +399,9 @@ public class MatchTreeBuilder {
 				|| isCondition(result) || isLimitedCondition(result) || isComposition(result)
 				|| isInheritance(result)) {
 			// TODO MA subparts
-			MatchResultTreeNode left = getFirstArgument(result).get();
-			MatchResultTreeNode right = getSecondArgument(result).get();
+			boolean label = isConjunction(result) ? isLabel : false;
+			MatchResultTreeNode left = getFirstArgument(result, label).get();
+			MatchResultTreeNode right = getSecondArgument(result, label).get();
 
 			MatchResultTreeNode labelTree = getLabel(result).isPresent()? getLabel(result).get() : null;
 			if (labelTree != null
