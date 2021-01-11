@@ -147,6 +147,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 			if (rgNode instanceof RGNode) {
 				if (compare(((RGNode) rgNode).getComponent(), component)
 						&& (((RGNode) rgNode).getType().equals(NodeType.NONE)
+								|| type.equals(NodeType.NONE)
 								|| ((RGNode) rgNode).getType().equals(type))
 						&& !((RGNode) rgNode).isTemporary()) {
 					nodes.add((RGNode) rgNode);
@@ -198,33 +199,52 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	}
 
 	public RGNode isNewGraphNode(RGModel model, GraphNode node) {
-		List<RGNode> rgNodes = findNodes(model, node.getPrimaryText(), node.getType());
-		for (RGNode rgNode : rgNodes) {
-			boolean empty = false;
-			for (GraphEdge e : node.getChildEdges()) {
-				String text = e.getTo().getPrimaryText();
-				Optional<RGConnection> connection = rgNode.getOutgoingConnections().stream().map(c -> (RGConnection)c)
-						.filter(c -> e.getType().equals(c.getType()) && 
-						compare( ((RGNode)c.getTarget()).getComponent(), text)
-						).findAny();
-				if (connection.isEmpty()) {
-					empty = true;
-					break;
+		EList<IContentElement> list = model.getContents();
+		for (IContentElement rgNode : list) {
+			if (rgNode instanceof RGNode) {
+				RGNode n = (RGNode)rgNode;
+				// don't match tmp nodes
+				if (n.isTemporary()) {
+					continue;
 				}
-			}
-			for (GraphEdge e : node.getParentEdges()) {
-				String text = e.getFrom().getPrimaryText();
-				Optional<RGConnection> connection = rgNode.getIncomingConnections().stream().map(c -> (RGConnection)c)
-						.filter(c -> e.getType().equals(c.getType()) && 
-						compare( ((RGNode)c.getSource()).getComponent(), text)
-						).findAny();
-				if (connection.isEmpty()) {
-					empty = true;
-					break;
+				// don't match if node type differs
+				if (n.getType() != NodeType.NONE && node.getType() != NodeType.NONE && !n.getType().equals(node.getType())) {
+					continue;
 				}
-			}
-			if (!empty) {
-				return rgNode;
+				
+				boolean matched = true;
+				// for each child edge
+				for (GraphEdge e : node.getChildEdges()) {
+					String text = e.getTo().getPrimaryText();
+					// check if n has an edge with same connection type & target
+					Optional<RGConnection> connection = n.getOutgoingConnections().stream().map(c -> (RGConnection)c)
+							.filter(c -> e.getType().equals(c.getType()) && 
+							compare( ((RGNode)c.getTarget()).getComponent(), text)
+							).findAny();
+					// if no, don't match
+					if (connection.isEmpty()) {
+						matched = false;
+						break;
+					}
+				}
+				// for each parent edge
+				for (GraphEdge e : node.getParentEdges()) {
+					String text = e.getFrom().getPrimaryText();
+					// check if n has an edge with same connection type & source
+					Optional<RGConnection> connection = n.getIncomingConnections().stream().map(c -> (RGConnection)c)
+							.filter(c -> e.getType().equals(c.getType()) && 
+							compare( ((RGNode)c.getSource()).getComponent(), text)
+							).findAny();
+					// if no, don't match
+					if (connection.isEmpty()) {
+						matched = false;
+						break;
+					}
+				}
+				// if matching return
+				if (matched) {
+					return n;
+				}
 			}
 		}
 		return null;
@@ -438,7 +458,7 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 				w.setRemoved(true);
 			}
 		}
-		tmpNode.getWords().retainAll(new ArrayList<>());
+		tmpNode.getWords().clear();
 
 		// if delete operation
 		if (replacementCon == null) {

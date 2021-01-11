@@ -476,6 +476,11 @@ def rule Composition_4 {
 	'has|have':[Label] - nsubj -> noun:[Parent]
 	[Label] - dobj -> noun:[Child]
 }
+
+def rule Composition_4_2 {
+	noun:[Parent] - relcl -> 'has|have':[Label] - dobj -> noun:[Child]
+}
+
 def rule Composition_5 {
 	[Child] - prep -> IN:'from':[Label] - pobj -> noun:[Parent]
 }

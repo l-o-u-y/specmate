@@ -53,7 +53,6 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 				n = rgCreation.createNode(model, component, node.isMarkedForDeletion(), x, y, node.getType());
 			} else {
 				if (node.isExclusive()) {
-					// TODO MA also with other node texts if connections same
 					n = rgCreation.isNewGraphNode(model, node);
 					if (n == null) {
 						n = rgCreation.createNode(model, component, node.isMarkedForDeletion(), x, y, node.getType());
