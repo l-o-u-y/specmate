@@ -496,22 +496,22 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 	}
 	
 	public void addNegationWord(RGModel model, RGNode parentNode, RGNode negatedNode, boolean negated) {
-		RGWord verb = null;
+//		RGWord verb = null;
 		RGWord det = null;
-		for (RGWord parentWord : parentNode.getWords()) {
-			if (parentWord.getPosTag().contains("VB")) {
-				verb = parentWord;
-				break;
-			}
-		}
-		int verbIndex = model.getWords().indexOf(verb);
-		// ex.) wants to do
-		if (verbIndex >= 2 && model.getWords().get(verbIndex - 2).getPosTag().contains("VB")) {
-			verb = model.getWords().get(verbIndex - 2);
-			verbIndex = model.getWords().indexOf(verb);
-		} else if (verbIndex >= 1 && model.getWords().get(verbIndex - 1).getPosTag().contains("MD")) {
-			verb = model.getWords().get(verbIndex - 1);
-		}
+//		for (RGWord parentWord : parentNode.getWords()) {
+//			if (parentWord.getPosTag().contains("VB")) {
+//				verb = parentWord;
+//				break;
+//			}
+//		}
+//		int verbIndex = model.getWords().indexOf(verb);
+//		// ex.) wants to do
+//		if (verbIndex >= 2 && model.getWords().get(verbIndex - 2).getPosTag().contains("VB")) {
+//			verb = model.getWords().get(verbIndex - 2);
+//			verbIndex = model.getWords().indexOf(verb);
+//		} else if (verbIndex >= 1 && model.getWords().get(verbIndex - 1).getPosTag().contains("MD")) {
+//			verb = model.getWords().get(verbIndex - 1);
+//		}
 
 		int nodeIndex = model.getWords().indexOf(negatedNode.getWords().get(0));
 		if (model.getWords().get(nodeIndex - 1).getPosTag().equals("DT")) {
@@ -519,25 +519,27 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 		}
 
 		if (negated) {
-			if (verb != null) {
-				// TODO MA more advanced?
-				String text = verb.getProcessedText();
-				String negText = "do";
-				if (text.endsWith("s")) {
-					verb.setProcessedText(text.substring(0, text.length() - 1));
-					negText = "does";
-				}
-				RGWord not = createWord(model, "not", verbIndex);
-				not.setOriginalText("not");
-				not.setPosTag("RB");
-				if (!verb.getProcessedText().equals("will")) {
-					RGWord does = createWord(model, negText, verbIndex);
-					does.setOriginalText(negText);
-					does.setPosTag("VB");	
-				}
-				System.out.println("Replaced verb with 'do not' + verb");
-				return;
-			} else if (det != null) {
+//			if (verb != null) {
+//				// TODO MA more advanced?
+//				String text = verb.getProcessedText();
+//				String negText = "do";
+//				if (text.endsWith("s")) {
+//					verb.setProcessedText(text.substring(0, text.length() - 1));
+//					verb.getNode().setComponent(text.substring(0, text.length() - 1));
+//					negText = "does";
+//				}
+//				RGWord not = createWord(model, "not", verbIndex);
+//				not.setOriginalText("not");
+//				not.setPosTag("RB");
+//				if (!verb.getProcessedText().equals("will")) {
+//					RGWord does = createWord(model, negText, verbIndex);
+//					does.setOriginalText(negText);
+//					does.setPosTag("VB");	
+//				}
+//				System.out.println("Replaced verb with 'do not' + verb");
+//				return;
+//			} else 
+			if (det != null) {
 				if (det.getProcessedText().equals("a") ||
 						det.getProcessedText().equals("an") ||
 						det.getProcessedText().equals("the")) {
@@ -556,23 +558,23 @@ public class RGCreation extends Creation<RGModel, RGNode, RGConnection> {
 				return;
 			}
 		} else {
-			if (verb != null) {
-				RGWord n = model.getWords().get(verbIndex - 1);
-				RGWord v = model.getWords().get(verbIndex - 2);
-				if (( n.getProcessedText().equals("n't") || n.getProcessedText().equals("not") ) && 
-						( v.getProcessedText().equals("does") || v.getProcessedText().equals("do") )) {
-					if (v.getProcessedText().equals("does")) {
-						verb.setProcessedText(verb.getProcessedText()+"s");
-						verb.setOriginalText(verb.getProcessedText()+"s");
-					}
-					model.getWords().remove(n);
-					model.getContents().remove(n);
-					model.getWords().remove(v);
-					model.getContents().remove(v);
-					System.out.println("Removed 'do not' from verb");
-					return;
-				}
-			}
+//			if (verb != null) {
+//				RGWord n = model.getWords().get(verbIndex - 1);
+//				RGWord v = model.getWords().get(verbIndex - 2);
+//				if (( n.getProcessedText().equals("n't") || n.getProcessedText().equals("not") ) && 
+//						( v.getProcessedText().equals("does") || v.getProcessedText().equals("do") )) {
+//					if (v.getProcessedText().equals("does")) {
+//						verb.setProcessedText(verb.getProcessedText()+"s");
+//						verb.setOriginalText(verb.getProcessedText()+"s");
+//					}
+//					model.getWords().remove(n);
+//					model.getContents().remove(n);
+//					model.getWords().remove(v);
+//					model.getContents().remove(v);
+//					System.out.println("Removed 'do not' from verb");
+//					return;
+//				}
+//			}
 			// else
 			if (det != null) {
 				if (det.getProcessedText().equals("no")) {
