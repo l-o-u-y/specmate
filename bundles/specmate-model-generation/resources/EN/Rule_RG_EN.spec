@@ -392,6 +392,9 @@ def rule Condition_To {
 def rule Condition_By {
 	[Effect] - dep -> IN:'by' - pcomp -> [Cause]
 }
+def rule Condition_By2 {
+	[Effect] - dep -> IN:'by' - pobj -> [Cause]
+}
 // The button is glows via hovering action.
 def rule Condition_Via_After {
 	[Effect] - prep -> IN:'via|after' - pcomp -> [Cause]

@@ -168,7 +168,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 	private RGModel createModel(RGModel originalModel, EObject parent, String input) throws SpecmateException {
 
 		// hyphenated words are counted as 2 words in spacy
-		input = input.replaceAll("-", "- ");
+		input = input.replaceAll("-", " - ");
 		// contracted words are counted separately too
 		// https://stackoverflow.com/questions/19790188/expanding-english-language-contractions-in-python
 		input = input.replaceAll("'ve\\b", " 've");
