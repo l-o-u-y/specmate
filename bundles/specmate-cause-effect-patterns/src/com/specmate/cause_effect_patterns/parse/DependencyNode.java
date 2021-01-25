@@ -1,5 +1,6 @@
 package com.specmate.cause_effect_patterns.parse;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -24,6 +25,9 @@ public class DependencyNode implements Iterable<Dependency> {
 	}
 
 	public void addDepenency(Dependency d) {
+		if (this.dependencies.containsEntry(d.getDependencyType(), d)) {
+			return;
+		}
 		this.dependencies.put(d.getDependencyType(), d);
 	}
 
@@ -36,6 +40,15 @@ public class DependencyNode implements Iterable<Dependency> {
 			}
 		}
 	}
+
+	public List<Dependency> getDependencies() {
+		List<Dependency> tmp = new ArrayList<Dependency>();
+		for(String key: this.dependencies.keySet()) {
+			tmp.addAll(this.dependencies.get(key));
+		}
+		return tmp;
+	}
+
 
 	public List<Dependency> getDependenciesFromTag(String dependencyTag) {
 		return this.dependencies.get(dependencyTag);

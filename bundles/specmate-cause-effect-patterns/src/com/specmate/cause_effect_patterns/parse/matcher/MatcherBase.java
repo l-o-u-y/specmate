@@ -114,7 +114,8 @@ public abstract class MatcherBase {
 		// but the changes to the dependencies is never reverted!
 		for (String depTag : this.arcs.keySet()) {
 			List<MatcherBase> matchers = this.arcs.get(depTag);
-			List<Dependency> candidates = dependencies.getDependenciesFromTag(depTag);
+			List<Dependency> candidates = depTag.equals("dep") ? 
+					dependencies.getDependencies() : dependencies.getDependenciesFromTag(depTag);
 			if (matchers.size() > candidates.size()) {
 				return MatchResult.unsuccessful();
 			}
@@ -122,7 +123,8 @@ public abstract class MatcherBase {
 
 		for (String depTag : this.arcs.keySet()) {
 			List<MatcherBase> matchers = this.arcs.get(depTag);
-			List<Dependency> candidates = dependencies.getDependenciesFromTag(depTag);
+			List<Dependency> candidates = depTag.equals("dep") ? 
+					dependencies.getDependencies() : dependencies.getDependenciesFromTag(depTag);
 
 			final int poI = this.positionOfInterest;
 			Collections.sort(candidates, (a, b) -> {
@@ -236,6 +238,13 @@ public abstract class MatcherBase {
 
 					if (result.matchResults[currentMatcherIndex][i].isSuccessfulMatch()) {
 						unmatched = false;
+						String key = candidates.get(i).getDependencyType();
+						if (!this.arcs.keySet().contains(key)) {
+							this.arcs.putAll(key, this.arcs.get("dep"));
+							this.arcs.removeAll("dep");
+
+							matchers.addAll(this.arcs.get(key));
+						}
 						result.setMatch(currentMatcherIndex, i);
 						currentMatcherIndex++;
 						int candidatePosition = candidates.get(i).getBegin();

@@ -388,7 +388,7 @@ def rule Condition_To {
 	[Effect] - aux -> TO:'to'
 }
 
-// The button is glows by hovering over the button.
+// The button glows by hovering over the button.
 def rule Condition_By {
 	[Effect] - dep -> IN:'by' - pcomp -> [Cause]
 }
@@ -539,6 +539,10 @@ def rule Action_ACL_1 {
 	[Parent] - acl -> verb:[Label] - dobj -> noun:[Child]
 }
 
+def rule Action_RELCL_1 {
+	[Parent] - relcl -> verb:[Label] - dobj -> noun:[Child]
+}
+
 
 // Because symbol sets can assign different meaning to the same symbol, an application does not mix symbol sets on the same display.
 def rule Composition_Prep_Object_1 {
@@ -625,9 +629,6 @@ def rule Conjunction_AND_4 {
 	[PartA_Child] - cc -> CC:'and|but'
 }
 
-def rule Action_Sub {
-	noun:[Label] - nsubj -> [Parent]
-}
 
 def rule Composition_Sub {
 	'has|have':[Label] - nsubj -> noun:[Parent]
@@ -635,6 +636,10 @@ def rule Composition_Sub {
 
 def rule Inheritance_Sub {
 	'is|are':[Label] - nsubj -> noun:[Parent]
+}
+
+def rule Action_Sub {
+	[Label] - nsubj -> [Parent]
 }
 
 def rule Negation {
