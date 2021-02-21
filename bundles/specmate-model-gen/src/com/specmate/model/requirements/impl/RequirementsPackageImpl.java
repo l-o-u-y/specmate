@@ -841,7 +841,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 			   "longDesc", "The type of a node",
 			   "required", "true",
 			   "type", "singleSelection",
-			   "values", "[\"AND\", \"OR\"]",
+			   "values", "[\"NONE\", \"AND\", \"OR\"]",
 			   "position", "3"
 		   });
 		addAnnotation

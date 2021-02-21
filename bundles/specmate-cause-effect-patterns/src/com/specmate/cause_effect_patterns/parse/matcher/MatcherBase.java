@@ -157,7 +157,7 @@ public abstract class MatcherBase {
 				List<MatcherBase> subtrees = this.arcs.get(arcKey);
 				for (MatcherBase subTree : subtrees) {
 					if (subTree instanceof SubtreeMatcher) {
-						if (((SubtreeMatcher) subTree).getTreeName().contains("TMP")) {
+						if (((SubtreeMatcher) subTree).getTreeName().equals("TMP")) {
 							// don't add if its connected to a TMP subtree
 							continue;
 						}

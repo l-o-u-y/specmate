@@ -249,6 +249,13 @@ public class MatchTreeBuilder {
 		}
 		return Optional.empty();
 	}
+	public Optional<MatchResultTreeNode> getThirdArgument(MatchResult result) {
+		String name = SubtreeNames.PARENT;
+		if (result.getSubmatch(name) != null) {
+			return buildTree(result.getSubmatch(name), false);
+		}
+		return Optional.empty();
+	}
 
 	public Optional<MatchResultTreeNode> getLabel(MatchResult result) {
 		if (result.getSubmatch(SubtreeNames.LABEL) != null) {
@@ -305,28 +312,6 @@ public class MatchTreeBuilder {
 						.setFirstArgument(parseLabelTree(((BinaryMatchResultTreeNode) root).getFirstArgument(), node));
 				return root;
 			case ACTION:
-//				if (node.getType().equals(root.getType())) {
-//					MatchResultTreeNode firstFirst = ((BinaryMatchResultTreeNode) root).getFirstArgument();
-//					MatchResultTreeNode firstSecond = ((BinaryMatchResultTreeNode) node).getFirstArgument();
-//					MatchResultTreeNode secondFirst = ((BinaryMatchResultTreeNode) root).getSecondArgument();
-//					MatchResultTreeNode secondSecond = ((BinaryMatchResultTreeNode) node).getSecondArgument();
-//					if (firstFirst instanceof LeafTreeNode && ((LeafTreeNode) firstFirst).getContent() == null ||
-//							firstSecond instanceof LeafTreeNode && ((LeafTreeNode) firstSecond).getContent() == null) {
-//						if (secondFirst instanceof LeafTreeNode && ((LeafTreeNode) secondFirst).getContent() == null ||
-//								secondSecond instanceof LeafTreeNode && ((LeafTreeNode) secondSecond).getContent() == null) {
-//
-//							if (firstSecond instanceof LeafTreeNode && ((LeafTreeNode) firstSecond).getContent() == null) {
-//								node.setFirstArgument(firstFirst);
-//							}
-//							if (secondSecond instanceof LeafTreeNode && ((LeafTreeNode) secondSecond).getContent() == null) {
-//								node.setSecondArgument(secondFirst);
-//							}
-//							node.setLabel(((BinaryMatchResultTreeNode) root).getLabel());
-//							return node;
-//						}
-//					}
-//				}
-				
 				System.err.println("Found a action node while parsing label tree");
 				break;
 			case COMPOSITION:
@@ -401,7 +386,7 @@ public class MatchTreeBuilder {
 			MatchResultTreeNode left = getFirstArgument(result, label).get();
 			MatchResultTreeNode right = getSecondArgument(result, label).get();
 
-			MatchResultTreeNode labelTree = getLabel(result).isPresent()? getLabel(result).get() : null;
+			MatchResultTreeNode labelTree = getLabel(result).isPresent() ? getLabel(result).get() : null;
 			if (labelTree != null
 					&& (labelTree instanceof BinaryMatchResultTreeNode || labelTree instanceof NegationTreeNode)) {
 				BinaryMatchResultTreeNode tmp = new BinaryMatchResultTreeNode(left, right, getType(result));
@@ -432,6 +417,13 @@ public class MatchTreeBuilder {
 			if (isReplace(result)) {
 				MatchResultTreeNode oldNode = getFirstArgument(result).get();
 				MatchResultTreeNode newNode = getSecondArgument(result).get();
+				
+				if (getThirdArgument(result).isPresent()) {
+					// if has parent subree, insert inheritance node
+					return Optional.of(new BinaryMatchResultTreeNode(getThirdArgument(result).get(), 
+							new BinaryMatchResultTreeNode(newNode, oldNode, getType(result))
+							, RuleType.INHERITANCE));
+				}
 
 				return Optional.of(new BinaryMatchResultTreeNode(newNode, oldNode, getType(result)));
 			} else if (isRemove(result)) {

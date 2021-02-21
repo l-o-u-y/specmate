@@ -18,7 +18,10 @@ def rule TMP_13 {
 	[Keep] - prep -> IN:'for' - pobj -> 'example|instance'
 	[Keep] - punct -> ','
 }
-
+// i think we should do this
+def rule TMP_15 {
+	'think|believe|suppose':[Remove] - ccomp -> [Keep]
+}
 /*---------------------------------------------------------------------------*/
 
 def subtrees Limit, Conditional
@@ -382,39 +385,58 @@ def rule Condition13_2 {
 	IN:'on' - pobj -> NN:'condition' - prep -> IN:'that' - pobj -> [Cause] - appos -> [Effect]
 }
 
-// When the user selects the option to create a process model in the Process Models section of the Requirements Overview, an empty process model is displayed in the Process Model Editor.
-def rule Condition_To {
-	[Cause] - acl -> verb:[Effect]
-	[Effect] - aux -> TO:'to'
-}
 
 // The button glows by hovering over the button.
 def rule Condition_By {
-	[Effect] - dep -> IN:'by' - pcomp -> [Cause]
+	VBG:[Effect] - dep -> IN:'by' - pcomp -> [Cause]
 }
 def rule Condition_By2 {
-	[Effect] - dep -> IN:'by' - pobj -> [Cause]
+	VBG:[Effect] - dep -> IN:'by' - pobj -> [Cause]
+}
+def rule Condition_By3 {
+	noun:[Effect] - dep -> IN:'by' - pcomp -> [Cause]
+}
+def rule Condition_By4 {
+	noun:[Effect] - dep -> IN:'by' - pobj -> [Cause]
 }
 // The button is glows via hovering action.
 def rule Condition_Via_After {
 	[Effect] - prep -> IN:'via|after' - pcomp -> [Cause]
 }
 
+def rule Condition_ADVCL {
+	[Effect] - advcl -> VBG:[Cause]
+}
+
+def rule Condition_XCOMP {
+	[Cause] - xcomp -> 'allowing' - ccomp -> [Effect]
+}
 /*---------------------------------------------------------------------------*/
 
 def subtrees Parent, Child, Label, New, Old, TMP, TMP2, Label_Sub, Label_Sub2
 
 // ex: we want a rectangle instead of a square
 def rule Update_Replace_1_1 {
-	[New] - cc -> IN:'of':[TMP] - advmod -> RB:'instead'
-	[TMP] - pobj -> [Old]
+	[New] - cc -> IN:'of':[TMP2] - advmod -> RB:'instead'
+	[TMP2] - pobj -> [Old]
 }
 
 // ex: instead of a square we want a rectangle, instead of an animation display a square
 def rule Update_Replace_With_1_2 {
-	[TMP] - dobj -> [New]
-	[TMP] - prep -> IN:'of':[TMP2] - advmod -> RB:'instead'
+	[New] - prep -> IN:'of':[TMP2] - advmod -> RB:'instead'
 	[TMP2] - pobj -> [Old]
+}
+def rule Update_Replace_With_1_3 {
+	[New] - prep -> IN:'of':[TMP2] - advmod -> RB:'instead'
+	[TMP2] - pcomp -> [Old]
+}
+def rule Update_Replace_With_1_4 {
+	[New] - cc -> IN:'of':[TMP2] - advmod -> RB:'instead'
+	[New] - conj -> [Old]
+}
+def rule Update_Replace_With_1_5 {
+	[New] - cc -> IN:'of':[TMP2] - advmod -> RB:'instead'
+	[New] - xcomp -> [Old]
 }
 // ex: display a rectangle instead of a square
 def rule Update_Replace_With_Verb_1_3 {
@@ -429,23 +451,38 @@ def rule Update_Replace_1_With_Verb_1_4 {
 	[TMP] - prep -> IN:'of':[TMP2] - advmod -> RB:'instead'
 }
 
-// ex: change the animation to white from green
+// ex: change the animation from green to white 
 def rule Update_Replace_2_1 {
+	'(change)|(changes)|(changing)' - dobj -> [Parent] - prep -> IN:'from':[TMP] - amod -> noun:[Old]
+	[TMP] - prep -> IN:'to' - pobj -> [New]
+}
+def rule Update_Replace_2_2 {
+	'(change)|(changes)|(changing)':[TMP] - dobj -> [Parent] - prep -> IN:'from' - pobj -> noun:[Old]
+	[TMP] - advcl -> [New] - aux -> IN:'to'
+}
+def rule Update_Replace_2_3 {
+	'(change)|(changes)|(changing)':[TMP] - dobj -> [Parent]
+	[TMP] - prep -> IN:'from' - pobj -> noun:[Old]
+	[TMP] - prep -> IN:'to' - pobj -> [New]
+}
+
+// ex: change the animation to white from green
+def rule Update_Replace_2_4 {
 	'(change)|(changes)|(changing)':[TMP] - prep -> IN:'to' - pobj -> [New]
 	[New] - prep -> IN:'from' - pobj -> [Old]
 }
 // ex: change from green to white 
-def rule Update_Replace_2_2 {
+def rule Update_Replace_2_5 {
 	'(change)|(changes)|(changing)':[TMP] - prep -> IN:'from':[TMP2] - pobj -> [Old]
 	[TMP2] - prep -> IN:'to' - pobj -> [New]
 }
 
 // ex: change the animation to a rectangle
-def rule Update_Replace_2_3 {
-	'(change)|(changes)|(changing)':[TMP] - prep -> IN:'to' - pobj -> [New]
+def rule Update_Replace_2_6 {
+	'(change)|(changes)|(changing)':[TMP] - prep -> IN:'to' - pobj -> noun:[New]
 	[TMP] - dobj -> [Old]
 }
-// TODO MA ex: change the animation from green to white 
+
 
 // ex: replacing the animation with a rectangle
 def rule Update_Replace_3 {
@@ -456,9 +493,18 @@ def rule Update_Replace_3 {
 def rule Update_Replace_3_2 {
 	'(replace)|(replaces)|(replacing)':[TMP] - dobj -> [Old]  - prep -> IN:'with' - pobj -> [New]
 }
+// is replaced with
+def rule Update_Replace_3_3 {
+	'(replaced)':[TMP] - prep -> IN:'with' - pobj -> [New]
+	[TMP] - nsubjpass -> [Old]
+}
 
-def rule Update_Remove_1 {
-	'(remove)|(removes)|(removing)' - dobj -> [Old]
+def rule Update_Remove_1_1 {
+	'(remove)|(removes)|(removed)|(removing)' - dobj -> [Old]
+}
+def rule Update_Remove_1_2 {
+	'removed':[TMP] - nsubjpass -> [Old]
+	[TMP] - auxpass -> '(was)|(is)'
 }
 
 /*---------------------------------------------------------------------------*/
@@ -496,11 +542,26 @@ def rule Composition_7 {
 	[Child] - dative -> noun:[Parent]
 }
 
+def rule Composition_8 {
+	noun:[Child] - prep -> IN:'to':[Label] - pobj -> noun:[Parent]
+}
+
+def rule Composition_9 {
+	[Child] - prep -> 'to':[Label] - pobj -> noun:[Parent]
+}
+
+def rule Composition_10 {
+	noun:[Child] - prep -> 'for':[Label] - pobj -> noun:[Parent]
+}
 /*---------------------------------------------------------------------------*/
 
 def rule Inheritance_1 {
 	'is|are':[Label] - nsubj -> noun:[Child]
 	[Label] - attr -> noun:[Parent]
+}
+def rule Inheritance__Adj_1 {
+	'is|are':[Label] - nsubj -> noun:[Child]
+	[Label] - acomp -> noun:[Parent]
 }
 
 // ex: If the user presses the button or the model is unsaved, Specmate saves the model.
@@ -524,16 +585,45 @@ def rule Inheritance_Colon { // it comes in two shapes: green and blue
 
 /*---------------------------------------------------------------------------*/
 
-def rule Action_Passive_Prep_1 {
-	verb:[Label] - prep -> [Label_Sub] - pobj -> noun:[Parent]
-	[Label] - nsubjpass -> noun:[Child]
+// ex: change the animation to do something
+def rule Action_Change_1 {
+	'(change)|(changes)|(changing)':[TMP2] - prep -> 'to' - pobj -> verb:[Label] - dobj -> [Child]
+	[TMP2] - dobj -> [Parent]
+}
+def rule Action_Change_2 {
+	'(change)|(changes)|(changing)':[TMP2] - prep -> 'to' - pobj -> verb:[Label]
+	[TMP2] - dobj -> [Parent]
+}
+def rule Action_Change_3 {
+	'(change)|(changes)|(changing)':[TMP2] - dobj -> [Parent]
+	[TMP2] - advcl -> verb:[Label] - dobj -> [Child]
+}
+def rule Action_Change_4 {
+	'(change)|(changes)|(changing)':[TMP2] - dobj -> [Parent]
+	[TMP2] - advcl -> verb:[Label] - aux -> 'to'
 }
 
+// When the user selects the option to create a process model in the Process Models section of the Requirements Overview, an empty process model is displayed in the Process Model Editor.
+def rule Condition_TO {
+	[Cause] - acl -> verb:[Effect]
+	[Effect] - aux -> TO:'to'
+}
+def rule Condition_TO_2 {
+	[Cause] - advcl -> verb:[Effect]
+	[Effect] - aux -> TO:'to'
+}
+def rule Condition_TO_3 {
+	verb:[Cause] - prep -> 'to' - pobj -> verb:[Effect]
+}
 def rule Action_Passive_With_Subject_1 {
 	verb:[Label] - nsubjpass -> noun:[Child]
 	[Label] - agent -> IN:'by':[Label_Sub] - pobj -> noun:[Parent]
 }
 
+def rule Action_Passive_Prep_1 {
+	verb:[Label] - prep -> [Label_Sub] - pobj -> noun:[Parent]
+	[Label] - nsubjpass -> noun:[Child]
+}
 def rule Action_Passive_1 {
 	verb:[Label] - nsubjpass -> noun:[Child]
 }
@@ -632,7 +722,6 @@ def rule Conjunction_AND_4 {
 	[PartA_Child] - cc -> CC:'and|but'
 }
 
-
 def rule Composition_Sub {
 	'has|have':[Label] - nsubj -> noun:[Parent]
 }
@@ -674,33 +763,51 @@ def rule TMP_3 {
 	[Keep] - advcl -> [Keep2]
 }
 def rule TMP_4 {
+	[Keep] - relcl -> [Remove]
+}
+def rule TMP_5 {
 	[Keep] - mark -> [Remove]
 }
 // we want (TMP, root) to do (Head) something
-def rule TMP_5 {
+def rule TMP_6 {
 	[Remove] - xcomp -> [Keep]
 	[Keep] - aux -> TO:'to'
 }
+
+def rule TMP_6_2 {
+	[Keep] - aux -> TO:'to'
+}
 // remove a, an, the
-def rule TMP_6 {
+def rule TMP_7 {
 	[Keep] - det -> [Remove]
 }
 // will do
-def rule TMP_7 {
+def rule TMP_8 {
 	[Keep] - aux -> MD:[Remove]
 }
 // is blowing
-def rule TMP_8 {
+def rule TMP_9 {
 	[Keep] - aux -> VBZ:[Remove]
 }
 // are saved
-def rule TMP_9 {
+def rule TMP_10 {
 	[Keep] - auxpass -> 'is|are':[Remove]
 }
 // there is snow on the tree
-def rule TMP_10 {
+def rule TMP_11 {
 	'is' - attr -> [Keep]
 }
+// or by doing this
+def rule TMP_12 {
+	'through|by' - pobj -> [Keep]
+}
+def rule TMP_13 {
+	'through|by' - pcomp -> [Keep]
+}
+def rule TMP_14 {
+	VBG:[Remove] - ccomp -> [Keep]
+}
+
 // punctuation
 def rule TMP_99 {
 	[Keep] - punct -> [Remove]

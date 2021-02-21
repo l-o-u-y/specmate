@@ -156,7 +156,7 @@ public class GraphBuilder {
 				effect.childType = cause.childType;
 
 				connectRGNodes(cause, effect, node);
-				return effect;
+				return cause;
 			}
 
 			case LIMITED_CONDITION: {

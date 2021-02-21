@@ -1,7 +1,7 @@
 // ex) When Specmate (VBP) detects (NNS) an error, Specmate shows a warning window.
 // TODO add some verb form to noun, and noun form to verb because of spacy wrongly categorizing
 def tagset parts-of-speech EN.POS.LENA {
-	noun = "NN|NNP|NNPS|NNS|NP|NPS"
+	noun = "NN|NNP|NNPS|NNS|NP|NPS|PRP|JJ"
 	verb = "VB|VBD|VBG|VBN|VBP|VBZ"
 }
 

@@ -44,6 +44,9 @@ public class TextPreProcessor {
 		text = text.replaceAll("#### (.*)\\n", "");
 
 		// remove () with content
+		// triple and double brackets https://stackoverflow.com/questions/17759004/how-to-match-string-within-parentheses-nested-in-java
+		text = text.replaceAll("\\(([^()]*|\\(([^()]*|\\([^()]*\\))*\\))*\\)", "");
+		text = text.replaceAll("\\(([^()]*|\\([^()]*\\))*\\)", "");
 		text = text.replaceAll("\\([^\\)]*\\)", "");
 
 		// remove <!----> with content
@@ -60,10 +63,10 @@ public class TextPreProcessor {
 		text = text.replaceAll("\\r\\n- ", "\r\n");
 
 		// replace and/or with or
-		text = text.replaceAll("and/or", "or");
+		text = text.replaceAll("and / or", "or");
 
 		// replace word1/word2 with word1 or word 2
-		text = text.replaceAll("(\\w+)\\/(\\w+)", "$1 or $2");
+		text = text.replaceAll("(\\w+) \\/ (\\w+)", "$1 or $2");
 
 		// add "." before new line if not exists (for lists)
 		text = text.replaceAll("(.+[^\\.\\s\\r\\n])(\\r?\\n|\\Z)", "$1.\n");
@@ -80,7 +83,7 @@ public class TextPreProcessor {
 		// make all upper case so that it will not be classified as verb (e.g. "learn",
 		// "Learn" = verb)
 		// text = text.replaceAll("\\B[^a-zA-Z\\d\\s](\\w+)", "\\U$1\\E");
-		Matcher m = Pattern.compile("\\B[^a-zA-Z\\d\\s](\\w+)").matcher(text);
+		Matcher m = Pattern.compile("\\B[^a-zA-Z\\d\\s\"'`](\\w+)").matcher(text);
 		StringBuilder sb = new StringBuilder();
 		int last = 0;
 		while (m.find()) {
@@ -92,36 +95,39 @@ public class TextPreProcessor {
 		text = sb.toString();
 
 		// replace space with _ inside ""
-		m = Pattern.compile("\"([^\"]*)\"").matcher(text);
+		m = Pattern.compile("\"([^\"]*)\"(\\W)").matcher(text);
 		sb = new StringBuilder();
 		last = 0;
 		while (m.find()) {
 			sb.append(text.substring(last, m.start()));
-			sb.append(m.group(0).replaceAll(" ", "_").replaceAll("\"", "").toUpperCase());
+			sb.append(m.group(1).replaceAll(" ", "_").replaceAll("\"", "").toUpperCase());
+			sb.append(m.group(2));
 			last = m.end();
 		}
 		sb.append(text.substring(last));
 		text = sb.toString();
 
 		// replace space with _ inside ''
-		m = Pattern.compile("'([^']*)'\\W").matcher(text);
+		m = Pattern.compile("'([^']*)'(\\W)").matcher(text);
 		sb = new StringBuilder();
 		last = 0;
 		while (m.find()) {
 			sb.append(text.substring(last, m.start()));
-			sb.append(m.group(0).replaceAll(" ", "_").replaceAll("'", "").toUpperCase());
+			sb.append(m.group(1).replaceAll(" ", "_").replaceAll("'", "").toUpperCase());
+			sb.append(m.group(2));
 			last = m.end();
 		}
 		sb.append(text.substring(last));
 		text = sb.toString();
 
 		// replace space with _ inside `` (code snippets)
-		m = Pattern.compile("`([^`]*)`").matcher(text);
+		m = Pattern.compile("`([^`]*)`(\\W)").matcher(text);
 		sb = new StringBuilder();
 		last = 0;
 		while (m.find()) {
 			sb.append(text.substring(last, m.start()));
-			sb.append(m.group(0).replaceAll(" ", "_").replaceAll("`", "").toUpperCase());
+			sb.append(m.group(1).replaceAll(" ", "_").replaceAll("`", "").toUpperCase());
+			sb.append(m.group(2));
 			last = m.end();
 		}
 		sb.append(text.substring(last));

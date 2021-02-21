@@ -169,7 +169,7 @@
           <details key="longDesc" value="The type of a node"/>
           <details key="required" value="true"/>
           <details key="type" value="singleSelection"/>
-          <details key="values" value="[&quot;AND&quot;, &quot;OR&quot;]"/>
+          <details key="values" value="[&quot;NONE&quot;, &quot;AND&quot;, &quot;OR&quot;]"/>
           <details key="position" value="3"/>
         </eAnnotations>
       </eStructuralFeatures>

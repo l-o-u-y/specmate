@@ -111,7 +111,7 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 				String[] nextTextArray = Arrays.stream(trimSpace(next.text).split(" ")).filter(s -> !s.isEmpty()).toArray(String[]::new);
 
 				// delete + insert = replace
-				if (next.operation.equals(Operation.INSERT) && diffTextArray.length == nextTextArray.length) {
+				if (next.operation.equals(Operation.INSERT) && diffTextArray.length <= nextTextArray.length) {
 					// replace words with new words
 					// only if #insertedWords == #deletedWords
 					for (int k = 0; k < diffTextArray.length; k++) {
@@ -121,6 +121,12 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 						}
 						// when all new words are added, skip
 						j++;
+					}
+					if (nextTextArray.length > diffTextArray.length) {
+						for (int k = diffTextArray.length; k < nextTextArray.length; k++) {
+							creation.createWord(model, nextTextArray[k], j);
+							j++;
+						}
 					}
 					i++;
 				} else {
@@ -177,6 +183,8 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 		input = input.replaceAll("'d\\b", " 'd");
 		input = input.replaceAll("'s\\b", " 's");
 		input = input.replaceAll("n't\\b", " n't");
+		input = input.replaceAll("(\\w+)\\/(\\w+)", "$1 / $2");
+
 		// Fixes some issues with the dkpro/spacy backoff.
 		input = input.replaceAll("[^,.!?: ](?=[,.!?:])", "$0 ");
 		input = input.replaceAll("\n", " \n ");
@@ -251,14 +259,17 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			try {
 				// TODO MA maybe we dont need to reorder
 				matchPostProcesser.process(tree);
-				while (tree.getType().isLimitedCondition()) {
-					tree = ((BinaryMatchResultTreeNode) tree).getSecondArgument();
-				}
+				if (tree.getType() != null) {
+					while (tree.getType().isLimitedCondition()) {
+						tree = ((BinaryMatchResultTreeNode) tree).getSecondArgument();
+					}
+				} 
 
 				if (tree.getType() == null) {
 				} else if (tree.getType().isComposition() || tree.getType().isInheritance() || tree.getType().isAction()
 						|| tree.getType().isUpdate() || tree.getType().isCondition()
-						|| tree.getType().isConjunction()) {
+						|| tree.getType().isConjunction()
+						|| tree.getType().isTmp()) {
 					Graph graph = graphBuilder.buildRGGraph((BinaryMatchResultTreeNode) tree, model);
 					model = (RGModel) graphLayouter.createModel(graph, model);
 					candidates.add(Pair.of(text, model));
