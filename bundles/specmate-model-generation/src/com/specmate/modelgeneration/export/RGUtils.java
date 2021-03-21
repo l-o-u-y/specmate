@@ -36,12 +36,6 @@ public class RGUtils {
 					
 				}
 
-				// replace node text with original text
-				// if we notice that node text = process(original text)
-				if (preProcessor.generalGithubPreprocessing(originalText).toLowerCase().equals(text.toLowerCase() + '.')) {
-					text = originalText;
-				}
-				
 				originalText = text;
 				if (string.trim().endsWith(".") || string.equals("")) {
 					originalText = originalText.substring(0, 1).toUpperCase() + originalText.substring(1);

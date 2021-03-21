@@ -93,6 +93,39 @@ public class RGGraphLayouter extends GraphLayouter<RGModel, RGNode, RGConnection
 					}
 				}
 			}
+			
+			// replace preprocessed text with original text in node
+			// this could be written more efficiently too
+			for (int i = 0; i < model.getWords().size(); i++) {
+				TextPreProcessor preProcessor = new TextPreProcessor(null, null);
+				RGWord word = model.getWords().get(i);
+				String originalText = word.getOriginalText();
+				
+				RGNode currNode = word.getNode();
+				RGNode nextNode = i < model.getWords().size() - 1 ? model.getWords().get(i+1).getNode() : null;
+				
+				if (originalText != null && currNode != null) {
+					String text = currNode.getComponent();
+					while (currNode.equals(nextNode)) {
+						i++;
+						if (originalText.endsWith("-") || model.getWords().get(i).getOriginalText().startsWith("'") || model.getWords().get(i).getOriginalText().equals("n't")) {
+							
+						} else {
+							originalText = originalText + " ";
+						}
+						originalText = originalText + model.getWords().get(i).getOriginalText();
+						currNode = word.getNode();
+						nextNode = i < model.getWords().size() - 1 ? model.getWords().get(i+1).getNode() : null;
+					}
+
+					// replace node text with original text
+					// if we notice that node text = process(original text)
+					if (preProcessor.generalGithubPreprocessing(originalText).toLowerCase().equals(text.toLowerCase() + '.')) {
+						word.getNode().setComponent(originalText);
+					}
+					
+				}
+			}
 			nodeMap.put(node, n);
 			positionTable[xIndex]++;
 		}

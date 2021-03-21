@@ -5,7 +5,10 @@ import EN.POS.LENA.*
 def subtrees Keep, Remove, Keep2
 // we want (TMP, root) to do (Head) something
 def rule TMP_5 {
-	[Remove] - xcomp -> [Keep] - aux -> TO:'to'
+	verb:[Remove] - xcomp -> verb:[Keep] - aux -> TO:'to'
+}
+def rule TMP_7 {
+	[Keep] - det -> 'the|a|an':[Remove]
 }
 def rule TMP_11 {
 	'implement|implementing':[Remove] - dobj -> [Keep]
@@ -465,6 +468,10 @@ def rule Update_Replace_2_3 {
 	[TMP] - prep -> IN:'from' - pobj -> noun:[Old]
 	[TMP] - prep -> IN:'to' - pobj -> [New]
 }
+def rule Update_Replace_2_4 {
+	'(change)|(changes)|(changing)':[TMP] - dobj -> [Old]
+	[TMP] - advcl -> [New] - aux -> IN:'to'
+}
 
 // ex: change the animation to white from green
 def rule Update_Replace_2_4 {
@@ -486,12 +493,12 @@ def rule Update_Replace_2_6 {
 
 // ex: replacing the animation with a rectangle
 def rule Update_Replace_3 {
-	'(replace)|(replaces)|(replacing)':[TMP] - dobj -> [Old]
+	'(Replace)|(replace)|(replaces)|(replacing)':[TMP] - dobj -> [Old]
 	[TMP] - prep -> IN:'with' - pobj -> [New]
 }
 // ex: replace the rectangle with a circle
 def rule Update_Replace_3_2 {
-	'(replace)|(replaces)|(replacing)':[TMP] - dobj -> [Old]  - prep -> IN:'with' - pobj -> [New]
+	'(Replace)|(replace)|(replaces)|(replacing)':[TMP] - dobj -> [Old]  - prep -> IN:'with' - pobj -> [New]
 }
 // is replaced with
 def rule Update_Replace_3_3 {
@@ -615,6 +622,15 @@ def rule Condition_TO_2 {
 def rule Condition_TO_3 {
 	verb:[Cause] - prep -> 'to' - pobj -> verb:[Effect]
 }
+def rule Condition_TO_4 {
+	VB:[Cause] - xcomp -> VB:[Effect]
+	[Effect] - aux -> TO:'to'
+}
+def rule Condition_TO_5 {
+	VBG:[Cause] - ccomp -> VB:[Effect]
+	[Effect] - aux -> TO:'to'
+}
+
 def rule Action_Passive_With_Subject_1 {
 	verb:[Label] - nsubjpass -> noun:[Child]
 	[Label] - agent -> IN:'by':[Label_Sub] - pobj -> noun:[Parent]
@@ -721,6 +737,10 @@ def rule Conjunction_AND_4 {
 	[PartA] - dobj -> [PartA_Child]  - conj -> [PartB]
 	[PartA_Child] - cc -> CC:'and|but'
 }
+def rule Conjunction_AND_5 {
+	[PartB_Parent] - nmod -> [PartA] - conj -> [PartB]
+	[PartA] - cc -> CC:'and'
+}
 
 def rule Composition_Sub {
 	'has|have':[Label] - nsubj -> noun:[Parent]
@@ -770,12 +790,14 @@ def rule TMP_5 {
 }
 // we want (TMP, root) to do (Head) something
 def rule TMP_6 {
-	[Remove] - xcomp -> [Keep]
-	[Keep] - aux -> TO:'to'
+	[Remove] - xcomp -> [Keep] - aux -> TO:'to'
 }
 
 def rule TMP_6_2 {
 	[Keep] - aux -> TO:'to'
+}
+def rule TMP_6_2 {
+	[Keep] - aux -> [Remove]
 }
 // remove a, an, the
 def rule TMP_7 {

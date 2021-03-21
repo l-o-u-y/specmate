@@ -292,7 +292,8 @@ public class PatternbasedRGGenerator implements IRGFromRequirementGenerator {
 			if (words.get(i).getOriginalText() != null
 					&& (words.get(i).getOriginalText().equals(".") || words.get(i).getOriginalText().equals(";"))) {
 				// sentence has nodes + all or all except 1 (+ 1 label) are deleted
-				if (nodes.size() > 0 && nodes.size() <= delNodes.size() + 1) {
+				if ((nodes.size() > 2 && nodes.size() <= delNodes.size() + 2) ||
+						(nodes.size() > 0 && nodes.size() <= delNodes.size() + 1)) {
 					for (int j = index; j < i + 1; j++) {
 						RGWord word = words.get(j);
 						// rmv from container
